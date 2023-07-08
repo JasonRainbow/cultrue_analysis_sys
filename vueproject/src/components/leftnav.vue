@@ -9,6 +9,10 @@
       <img class="logoimg" src="../assets/img/logo.jpg" alt="">
       <div style="color: white;vertical-align: top; height: 40px;font-size: 18px;display: inline-block;">后台管理系统</div>
     </div>
+    <el-menu-item index="/admin/home" key="0">
+      <i class="el-icon-s-home"></i>
+      <span>首页</span>
+    </el-menu-item>
     <el-submenu v-for="menu in allmenu" :key="menu.menuid" :index="menu.menuname">
       <template slot="title">
         <i :class="menu.icon"></i>
@@ -42,7 +46,7 @@ export default {
         {
           menuid: 1,
           icon: 'el-icon-s-marketing',
-          menuname: '基础管理',
+          menuname: '系统管理',
           hasThird: null,
           url: null,
           menus: [
@@ -60,6 +64,14 @@ export default {
               menuname: '管理员管理',
               hasThird: 'N',
               url: 'admin/admins',
+              menus: null
+            },
+            {
+              menuid: 4,
+              icon: 'el-icon-collection',
+              menuname: '热点文化作品管理',
+              hasThird: 'N',
+              url: 'admin/hotwork',
               menus: null
             },
           ]

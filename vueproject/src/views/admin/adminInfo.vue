@@ -32,14 +32,14 @@
       </el-table-column>
       <el-table-column sortable prop="name" label="管理员昵称" width="200">
       </el-table-column>
-      <el-table-column sortable prop="level" label="管理员级别" width="120">
+      <el-table-column prop="level" label="管理员级别" width="120">
         <template slot-scope="scope">
           <span>{{ scope.row.level === 1 ? '超级管理员' : '普通管理员'}}</span>
         </template>
       </el-table-column>
-      <el-table-column sortable prop="email" label="邮箱" width="150">
+      <el-table-column prop="email" label="邮箱" width="150">
       </el-table-column>
-      <el-table-column sortable prop="phone" label="电话号码" width="150">
+      <el-table-column prop="phone" label="电话号码" width="150">
       </el-table-column>
       <el-table-column align="center" label="操作" min-width="150">
         <template slot-scope="scope">
@@ -124,7 +124,6 @@
 </template>
 
 <script>
-import {deleteUser, getUserInfoByPage, resetUserPwd, updateUserInfo, userRegister} from "../../api/userAPI";
 import Pagination from "../../components/Pagination";
 import {adminGetByPage, adminRegister, adminUpdate, deleteAdmin, resetAdminPwd} from "../../api/adminAPI";
 

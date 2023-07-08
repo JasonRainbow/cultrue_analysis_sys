@@ -6,8 +6,10 @@
     <el-button class="buttonimg">
       <img class="showimg" :src="collapsed?imgsq:imgshow" @click="toggle(collapsed)">
     </el-button>
+    <screen-full id="screenfull" class="right-menu-item hover-effect" />
     <div class="avatar-wrapper">
-      <img :src="this.$store.state.admin.avatar" class="user-avatar">
+      <el-avatar size="medium" :src="avatar" class="user-avatar"></el-avatar>
+<!--      <img :src="avatar" class="user-avatar">-->
     </div>
     <el-submenu index="2" class="submenu">
       <!-- <template slot="title">{{user.userRealName}}</template> -->
@@ -22,14 +24,18 @@
 </template>
 <script>
 import { loginout } from '../api/userMG'
+import ScreenFull from './ScreenFull'
 export default {
   name: 'navcon',
+  components: { // 声明组件
+    ScreenFull
+  },
   data() {
     return {
       collapsed: true,
       imgshow: require('../assets/img/show.png'),
       imgsq: require('../assets/img/sq.png'),
-      avatar: require('../assets/img/avatar.jpeg'),
+      avatar: this.$store.state.admin.avatar,
       user: {}
     }
   },
@@ -95,7 +101,7 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style scoped lang="scss">
 .el-menu-vertical-demo:not(.el-menu--collapse) {
   border: none;
 }
@@ -124,11 +130,34 @@ export default {
   position: absolute;
   top: 10px;
   right: 140px;
-  border-radius: 10px;
+  /*border-radius: 10px;*/
 }
 
 .avatar-wrapper {
   display: inline;
 }
+
+.right-menu-item {
+  display: inline-block;
+  padding: 0 8px;
+  height: 100%;
+  font-size: 18px;
+  color: #5a5e66;
+  vertical-align: center;
+  position: absolute;
+  right: 190px;
+  top: 20px;
+
+  &.hover-effect {
+    cursor: pointer;
+    transition: background .3s;
+
+    &:hover {
+      background: rgba(0, 0, 0, .025)
+    }
+  }
+}
+
+
 
 </style>

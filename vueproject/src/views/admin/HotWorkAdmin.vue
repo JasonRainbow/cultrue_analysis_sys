@@ -3,15 +3,15 @@
     <!-- 面包屑导航 -->
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item>用户管理</el-breadcrumb-item>
+      <el-breadcrumb-item>热点文化作品管理</el-breadcrumb-item>
     </el-breadcrumb>
     <!-- 搜索筛选 -->
     <el-form :inline="true" :model="search_data" class="user-search">
       <el-form-item label="搜索：">
-        <el-input size="small" v-model="search_data.searchUsername" placeholder="输入用户名"></el-input>
+        <el-input size="small" v-model="search_data.searchName" placeholder="输入文化作品名"></el-input>
       </el-form-item>
       <el-form-item label="">
-        <el-input size="small" v-model="search_data.searchName" placeholder="输入用户昵称"></el-input>
+        <el-input size="small" v-model="search_data.searchCategory" placeholder="输入文化作品类别"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button size="small" type="primary" round icon="el-icon-search" @click="search">搜索</el-button>
@@ -26,23 +26,27 @@
               border element-loading-text="拼命加载中" @selection-change="handleSelectionChange" style="width: 100%;">
       <el-table-column align="center" type="selection" width="60">
       </el-table-column>
-      <el-table-column sortable prop="id" label="用户ID" width="100">
+      <el-table-column sortable prop="id" label="热点文化作品ID" width="100">
       </el-table-column>
-      <el-table-column sortable prop="username" label="用户名" width="120">
+      <el-table-column sortable prop="name" label="热点文化作品名" width="120">
       </el-table-column>
-      <el-table-column sortable prop="name" label="用户昵称" width="200">
+      <el-table-column sortable prop="category" label="作品类型" width="200">
       </el-table-column>
-      <el-table-column sortable prop="workUnit" label="工作单位" width="120">
+      <el-table-column sortable prop="title" label="作品介绍标题" width="120">
       </el-table-column>
-      <el-table-column prop="email" label="邮箱" width="150">
+      <el-table-column prop="content" label="作品介绍内容" width="150">
       </el-table-column>
-      <el-table-column prop="phone" label="电话号码" width="150">
+      <el-table-column align="center" sortable prop="postTime" label="作品介绍时间" min-width="120">
+        <template slot-scope="scope">
+          <div>{{scope.row.postTime|timestampToTime}}</div>
+        </template>
+      </el-table-column>
+      <el-table-column prop="imgUrl" label="作品介绍图片url" width="150">
       </el-table-column>
       <el-table-column align="center" label="操作" min-width="150">
         <template slot-scope="scope">
           <el-button size="small" round type="primary" icon="el-icon-edit" @click="handleEdit(scope.$index, scope.row)"></el-button>
           <el-button size="small" round icon="el-icon-delete" type="danger" @click="deleteRow(scope.row)"></el-button>
-          <el-button size="small" round type="success" @click="resetPwd(scope.$index, scope.row)">重置密码</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -51,25 +55,38 @@
     <!-- 编辑界面 -->
     <el-dialog :title="title" :visible.sync="editFormVisible" width="30%" @click="closeDialog">
       <el-form label-width="120px" :model="editForm" :rules="rules" ref="editForm">
-        <el-form-item label="用户名" prop="username">
-          <el-input :disabled="title === '编辑'" size="small" v-model="editForm.username"
-                    auto-complete="off" placeholder="请输入用户名"></el-input>
-        </el-form-item>
-        <el-form-item label="用户昵称" prop="name">
+        <el-form-item label="作品名" prop="name">
           <el-input size="small" v-model="editForm.name" auto-complete="off"
-                    placeholder="请输入用户昵称"></el-input>
+                    placeholder="请输入热点文化作品名"></el-input>
         </el-form-item>
-        <el-form-item label="工作单位" prop="workUnit">
-          <el-input size="small" v-model="editForm.workUnit" auto-complete="off"
-                    placeholder="请输入用户工作单位"></el-input>
+        <el-form-item label="作品类型" prop="category">
+          <el-input size="small" v-model="editForm.category" auto-complete="off"
+                    placeholder="请输入热点文化作品类型"></el-input>
         </el-form-item>
-        <el-form-item label="邮箱" prop="email">
-          <el-input size="small" v-model="editForm.email" auto-complete="off"
-                    placeholder="请输入用户邮箱"></el-input>
+        <el-form-item label="作品介绍标题" prop="title">
+          <el-input size="small" v-model="editForm.title" auto-complete="off"
+                    placeholder="请输入热点文化作品介绍标题"></el-input>
         </el-form-item>
-        <el-form-item label="手机号" prop="phone">
-          <el-input size="small" v-model="editForm.phone" auto-complete="off"
-                    placeholder="请输入用户手机号"></el-input>
+        <el-form-item label="作品介绍内容" prop="content">
+          <el-input size="small" v-model="editForm.content" auto-complete="off"
+                    placeholder="请输入热点文化作品介绍内容"></el-input>
+        </el-form-item>
+        <el-form-item label="作品介绍网址" prop="citeUrl">
+          <el-input size="small" v-model="editForm.citeUrl" auto-complete="off"
+                    placeholder="请输入作品介绍网址"></el-input>
+        </el-form-item>
+        <el-form-item label="作品介绍图片网址" prop="imgUrl">
+          <el-input size="small" v-model="editForm.imgUrl" auto-complete="off"
+                    placeholder="请输入作品介绍图片网址"></el-input>
+        </el-form-item>
+        <el-form-item label="作品介绍时间" prop="imgUrl">
+          <el-date-picker
+            v-model="editForm.postTime"
+            align="right"
+            type="date"
+            placeholder="选择日期"
+            :picker-options="pickerOptions">
+          </el-date-picker>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -112,9 +129,10 @@
 <script>
 import {deleteUser, getUserInfoByPage, resetUserPwd, updateUserInfo, userRegister} from "../../api/userAPI";
 import Pagination from "../../components/Pagination";
+import {addHotWork, deleteHotWorkById, getHotWorkByPage, updateHotWork} from "../../api/hotworkAPI";
 
 export default {
-  name: "userAdmin",
+  name: "HotWorkAdmin",
   // 注册组件
   components: {
     Pagination
@@ -142,52 +160,81 @@ export default {
         // 是否更新已经存在的用户数据
         updateSupport: 0,
         // 上传的地址
-        url: "http://localhost:9090" + "/api/user/import"
+        url: "http://localhost:9090" + "/api/hot-work/import"
       },
       editForm: {
-        id: '',
-        username: '',
+        id: 0,
         name: '',
-        workUnit: '',
-        email: '',
-        phone: '',
+        category: '',
+        title: '',
+        content: '',
+        citeUrl: '',
+        imgUrl: '',
+        postTime: ''
+      },
+      pickerOptions: { // 带快捷项的日期选择器的处理方法
+        disabledDate(time) {
+          return time.getTime() > Date.now();
+        },
+        shortcuts: [{
+          text: '今天',
+          onClick(picker) {
+            picker.$emit('pick', new Date());
+          }
+        }, {
+          text: '昨天',
+          onClick(picker) {
+            const date = new Date();
+            date.setTime(date.getTime() - 3600 * 1000 * 24);
+            picker.$emit('pick', date);
+          }
+        }, {
+          text: '一周前',
+          onClick(picker) {
+            const date = new Date();
+            date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+            picker.$emit('pick', date);
+          }
+        }]
       },
       search_data: {
-        searchUsername: "",
         searchName: "",
+        searchCategory: "",
         pageNum: 1,
         pageSize: 10  // 默认分页
       },
       list_data: [
         {
           id: 0,
-          username: "1231",
-          name: "用户xxx",
-          workUnit: "xxx公司",
-          email: "123123@qq.com",
-          phone: "123123"
+          name: '',
+          category: '',
+          title: '',
+          content: '',
+          citeUrl: '',
+          imgUrl: '',
+          postTime: ''
         }
       ],
       // rules表单验证
       rules: {
-        username: [
-          { required: true, message: '请输入用户昵称', trigger: 'blur' }
+        name: [ // 作品名校验
+          { required: true, message: '请输入热点文化作品名', trigger: 'blur' }
         ],
-        email: [ // 邮箱校验
+        category: [ // 作品类别校验
           { required: true, message: '请输入邮箱', trigger: 'blur' },
-          {
-            pattern: /^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/,
-            required: true,
-            message: '请输入正确的邮箱',
-            trigger: 'blur'
-          }
         ],
-        phone: [ // 手机号校验
-          { required: false, message: '请输入手机号', trigger: 'blur' },
+        title: [ // 标题校验
+          { required: true, message: '请输入作品介绍标题', trigger: 'blur' },
+        ],
+        content: [ // 内容校验
+          { required: true, message: '请输入作品介绍内容', trigger: 'blur' },
+        ],
+        citeUrl: [ // 网址校验
+          { required: true, message: '请输入作品介绍网址', trigger: 'blur' },
           {
-            pattern: /^1(3\d|47|5((?!4)\d)|7(0|1|[6-8])|8\d)\d{8,8}$/,
+            pattern: /^https?\/\/(.*?)$/,
             required: true,
-            message: '请输入正确的手机号',
+            message: '请输入正确的网址',
             trigger: 'blur'
           }
         ],
@@ -207,7 +254,7 @@ export default {
   methods: {
     get_data(param) {
       this.loading = true
-      getUserInfoByPage(param).then(res=>{
+      getHotWorkByPage(param).then(res=>{
         this.loading = false
         this.list_data = res.data.records
         this.pageparm.currentPage = res.data.current
@@ -228,7 +275,7 @@ export default {
       this.$refs[editData].validate(valid => {
         if (valid) {
           if (this.title === '添加') {
-            userRegister(this.editForm)
+            addHotWork(this.editForm)
               .then(res => {
                 this.editFormVisible = false
                 this.loading = false
@@ -236,7 +283,7 @@ export default {
                   this.get_data(this.search_data)
                   this.$message({
                     type: 'success',
-                    message: '添加用户成功！'
+                    message: '添加热点作品成功！'
                   })
                 } else {
                   this.$message({
@@ -248,11 +295,11 @@ export default {
               .catch(err => {
                 this.editFormVisible = false
                 this.loading = false
-                this.$message.error('添加用户失败，请稍后再试！')
+                this.$message.error('添加热点作品失败，请稍后再试！')
               })
           } else {
             console.log(this.editForm)
-            updateUserInfo(this.editForm)
+            updateHotWork(this.editForm)
               .then(res => {
                 this.editFormVisible = false
                 this.loading = false
@@ -260,7 +307,7 @@ export default {
                   this.get_data(this.search_data)
                   this.$message({
                     type: 'success',
-                    message: '修改用户信息成功！'
+                    message: '修改热点作品信息成功！'
                   })
                 } else {
                   this.$message({
@@ -272,7 +319,7 @@ export default {
               .catch(err => {
                 this.editFormVisible = false
                 this.loading = false
-                this.$message.error('修改用户信息失败，请稍后再试！')
+                this.$message.error('修改热点作品信息失败，请稍后再试！')
               })
           }
         } else {
@@ -288,12 +335,12 @@ export default {
         type: 'warning'
       })
         .then(() => {
-          deleteUser(userIds)
+          deleteHotWorkById(userIds)
             .then(res => {
               if (res.code === '0') {
                 this.$message({
                   type: 'success',
-                  message: '删除用户成功！'
+                  message: '删除热点作品成功！'
                 })
                 this.get_data(this.search_data)
               } else {
@@ -305,7 +352,7 @@ export default {
             })
             .catch(err => {
               this.loading = false
-              this.$message.error('用户删除失败，请稍后再试！')
+              this.$message.error('热点作品删除失败，请稍后再试！')
             })
         })
         .catch(() => {
@@ -343,55 +390,24 @@ export default {
       if (row != undefined && row != 'undefined') {
         this.title = '编辑'
         this.editForm.id = row.id
-        this.editForm.username = row.username
         this.editForm.name = row.name
-        this.editForm.workUnit = row.workUnit
-        this.editForm.email = row.email
-        this.editForm.phone = row.phone
+        this.editForm.category = row.category
+        this.editForm.title = row.title
+        this.editForm.content = row.content
+        this.editForm.citeUrl = row.citeUrl
+        this.editForm.imgUrl = row.imgUrl
+        this.editForm.postTime = row.postTime
       } else {
         this.title = '添加'
-        this.editForm.id = ''
-        this.editForm.username = ''
-        this.editForm.name = ''
-        this.editForm.workUnit = ''
-        this.editForm.email = ''
-        this.editForm.phone = ''
+        this.editForm.id = null
+        this.editForm.name = null
+        this.editForm.category = null
+        this.editForm.title = null
+        this.editForm.content = null
+        this.editForm.citeUrl = null
+        this.editForm.imgUrl = null
+        this.editForm.postTime = null
       }
-    },
-    // 重置用户的密码
-    resetPwd(index, row) {
-      this.$confirm('确定要重置该用户的密码吗?', '信息', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      })
-        .then(() => {
-          resetUserPwd(row.id)
-            .then(res => {
-              if (res.code === '0') {
-                this.$message({
-                  type: 'success',
-                  message: '用户的密码重置成功！'
-                })
-                this.get_data(this.search_data)
-              } else {
-                this.$message({
-                  type: 'info',
-                  message: res.msg
-                })
-              }
-            })
-            .catch(err => {
-              this.loading = false
-              this.$message.error('用户密码重置失败，请稍后再试！')
-            })
-        })
-        .catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消重置密码'
-          })
-        })
     },
     handleUploadSuccess(res) { // 处理文件上传
       if (res.code === "0") {
@@ -406,11 +422,11 @@ export default {
       this.upload.open = true;
     },
     handleExport() { // 处理数据导出
-      this.download('/user/export', {}, `用户信息表${new Date().getTime()}.xlsx`)
+      this.download('/hot-work/export', {}, `热点文化作品信息表${new Date().getTime()}.xlsx`)
     },
     handleExportTemplate() { // 处理导出模板
       // location.href = "http://" + "localhost" + ":9090/api/user/importTemplate";
-      this.download('/user/importTemplate', {}, `用户信息导入模板${new Date().getTime()}.xlsx`)
+      this.download('/hot-work/importTemplate', {}, `热点文化作品信息导入模板${new Date().getTime()}.xlsx`)
     },
     // 分页插件事件
     callFather(parm) {
