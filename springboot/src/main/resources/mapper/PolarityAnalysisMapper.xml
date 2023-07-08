@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.mapper.PolarityAnalysisMapper">
+    <!-- 分步查询 -->
+    <resultMap id="polarityByStep" type="com.example.demo.entity.PolarityAnalysis">
+        <id property="id" column="id" />
+        <result property="workId" column="workId" />
+        <result property="country" column="country" />
+        <result property="time" column="time" />
+        <result property="platform" column="platform" />
+        <result property="positive" column="positive" />
+        <result property="negative" column="negative" />
+        <result property="neutrality" column="neutrality" />
+        <association property="monitorWork"
+                     javaType="com.example.demo.entity.MonitorWork">
+            <id property="id" column="userId" />
+            <result property="name" column="name" />
+            <result property="category" column="category" />
+        </association>
+    </resultMap>
+
+    <select id="findPage" resultMap="polarityByStep">
+        select poa.*, mw.name, mw.category
+        from polarity_analy poa
+            inner join monitor_work mw
+            on (poa.workId = mw.id)
+        where mw.name like '%${workName}%'
+          and poa.country like '%${country}%'
+          and poa.platform like '%${platform}%'
+        <if test="time != null and time != ''">
+            and time = #{time}
+        </if>
+        order by poa.id
+    </select>
+
+    <select id="findAll" resultMap="polarityByStep">
+        select poa.*, mw.name, mw.category
+        from polarity_analy poa
+                 inner join monitor_work mw
+                 on (poa.workId = mw.id)
+        order by poa.id
+    </select>
+
+    <select id="selectDayInterval" resultType="com.example.demo.entity.dto.PolarityDto">
+        select time, sum(positive) as positive,
+          sum(negative) as negative, sum(neutrality) as neutrality
+        from polarity_analy
+        where workId = #{workId}
+            and country = #{country}
+            and TO_DAYS(time) - TO_DAYS(#{startTime}) between 0 and (#{interval} - 1)
+        group by time
+        order by time asc
+    </select>
+</mapper>

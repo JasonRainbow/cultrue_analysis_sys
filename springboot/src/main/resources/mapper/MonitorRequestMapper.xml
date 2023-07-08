@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.mapper.MonitorRequestMapper">
+    <!-- 分步查询 -->
+    <resultMap id="monitorRequestMapByStep" type="com.example.demo.entity.MonitorRequest">
+        <id property="id" column="id" />
+        <result property="createTime" column="createTime" />
+        <result property="checked" column="check" />
+        <result property="complete" column="complete" />
+        <result property="workId" column="workId" />
+        <result property="userId" column="userId" />
+        <association property="user"
+                     javaType="com.example.demo.entity.User">
+            <id property="id" column="userId" />
+            <result property="username" column="username" />
+        </association>
+        <association property="monitorWork"
+                     javaType="com.example.demo.entity.MonitorWork">
+            <id property="id" column="userId" />
+            <result property="name" column="workName" />
+        </association>
+    </resultMap>
+
+    <sql id="selectAllColEm">
+        select mr.*, mw.name as workName, us.username as username
+        from monitor_request mr
+                 inner join monitor_work mw
+                            on (mr.workId = mw.id)
+                 inner join user us
+                            on (mr.userId = us.id)
+    </sql>
+
+    <sql id="cond1">
+        where mw.name like '%${workName}%'
+          and us.username like '%${username}%'
+    </sql>
+    <sql id="cond2">
+        where mr.userId = #{userId}
+    </sql>
+
+    <select id="findPage" resultMap="monitorRequestMapByStep">
+        <include refid="selectAllColEm"></include>
+        <include refid="cond1"></include>
+    </select>
+
+    <select id="selectAll" resultMap="monitorRequestMapByStep">
+        <include refid="selectAllColEm"></include>
+        <include refid="cond1"></include>
+    </select>
+
+    <select id="selectByUserId" resultMap="monitorRequestMapByStep">
+        <include refid="selectAllColEm" />
+        <include refid="cond2"></include>
+    </select>
+</mapper>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.mapper.AdminMapper">
+    <!--<resultMap id="adminMap" type="com.example.demo.entity.Admin">
+        <result property="id" column="id" />
+        <result property="username" column="username" />
+        <result property="password" column="password" />
+        <result property="name" column="name" />
+        <result property="level" column="level" />
+    </resultMap>-->
+
+    <select id="selectByUsername" resultType="com.example.demo.entity.Admin">
+        select * from admin where username = #{username}
+    </select>
+
+    <select id="findByPage" resultType="com.example.demo.entity.Admin">
+        select * from admin where name like '%${name}%' and username like concat('%', #{username}, '%')
+    </select>
+
+    <update id="updatePass" parameterType="map">
+        update admin set password = #{newPwd} where id = #{id}
+    </update>
+</mapper>

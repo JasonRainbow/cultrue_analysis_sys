@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.mapper.SentimentAnalysisMapper">
+    <!-- 分步查询 -->
+    <resultMap id="sentimentByStep" type="com.example.demo.entity.SentimentAnalysis">
+        <id property="id" column="id" />
+        <result property="workId" column="workId" />
+        <result property="country" column="country" />
+        <result property="time" column="time" />
+        <result property="platform" column="platform" />
+        <result property="happy" column="happy" />
+        <result property="amazed" column="amazed" />
+        <result property="neutrality" column="neutrality" />
+        <result property="hate" column="hate" />
+        <result property="angry" column="angry" />
+        <result property="fear" column="fear" />
+        <association property="monitorWork"
+                     javaType="com.example.demo.entity.MonitorWork">
+            <id property="id" column="userId" />
+            <result property="name" column="name" />
+            <result property="category" column="category" />
+        </association>
+    </resultMap>
+
+    <select id="findPage" resultMap="sentimentByStep">
+        select senti.*, mw.name, mw.category
+        from sentiment_analy senti
+                 inner join monitor_work mw
+                            on (senti.workId = mw.id)
+        where mw.name like '%${workName}%'
+          and senti.country like '%${country}%'
+          and senti.platform like '%${platform}%'
+        <if test="time != null and time != ''">
+            and time = #{time}
+        </if>
+        order by senti.id
+    </select>
+
+    <select id="findAll" resultMap="sentimentByStep">
+        select senti.*, mw.name, mw.category
+        from sentiment_analy senti
+                 inner join monitor_work mw
+                            on (senti.workId = mw.id)
+        order by senti.id
+    </select>
+</mapper>

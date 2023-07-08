@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.mapper.WordFreqAnalysisMapper">
+    <!-- 分步查询 -->
+    <resultMap id="wordFreqByStep" type="com.example.demo.entity.WordFreqAnalysis">
+        <id property="id" column="id" />
+        <result property="workId" column="workId" />
+        <result property="country" column="country" />
+        <result property="time" column="time" />
+        <result property="platform" column="platform" />
+        <result property="polarity" column="polarity" />
+        <result property="keywords" column="keywords" />
+        <result property="frequency" column="frequency" />
+        <association property="monitorWork"
+                     javaType="com.example.demo.entity.MonitorWork"
+                     fetchType="lazy">
+            <id property="id" column="userId" />
+            <result property="name" column="name" />
+            <result property="category" column="category" />
+        </association>
+    </resultMap>
+
+    <select id="findAll" resultMap="wordFreqByStep">
+        select wfa.*, mw.name, mw.category
+        from word_freq_analy wfa
+                 inner join monitor_work mw
+                            on (wfa.workId = mw.id)
+        order by wfa.id
+    </select>
+
+    <select id="findPage" resultMap="wordFreqByStep">
+        select wfa.*, mw.name, mw.category
+        from word_freq_analy wfa
+                 inner join monitor_work mw
+                            on (wfa.workId = mw.id)
+        where mw.name like '%${workName}%'
+          and wfa.country like '%${country}%'
+          and wfa.platform like '%${platform}%'
+        <if test="time != null and time != ''">
+            and time = #{time}
+        </if>
+        order by wfa.id
+    </select>
+</mapper>

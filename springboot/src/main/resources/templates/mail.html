@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="xxxx">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>邮件通知</title>
+    <style type="text/css">
+        #tab {
+            width: 800px;height: 100%;
+            margin: 0px auto;
+            text-align: left;
+            position: relative;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+            border-bottom-right-radius: 5px;
+            border-bottom-left-radius: 5px;
+            font-size: 14px;
+            font-family:微软雅黑, 黑体;
+            line-height: 1.5;
+            box-shadow: rgb(153, 153, 153) 0px 0px 5px;
+            border-collapse: collapse;
+            background-position: initial;
+            background-repeat: initial;
+            background:#fff;
+        }
+
+        #title {
+            height: 25px;
+            line-height: 25px;
+            padding: 15px 35px;
+            border-bottom-width: 1px;
+            border-bottom-style: solid;
+            border-bottom-color: #42a3d3;
+            background-color: #49bcff;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+            border-bottom-right-radius: 0px;
+            border-bottom-left-radius: 0px;
+        }
+
+        #main {
+            padding:10px 10px 0;
+            border-top:1px solid #ccc;
+            color:#747474;
+            margin-bottom:20px;
+            line-height:1.3em;
+            font-size:12px;
+        }
+    </style>
+</head>
+<body>
+<div style="background-color:#ECECEC; padding: 35px;">
+    <table id="tab" cellpadding="0" align="center"
+           style="">
+        <tbody>
+        <tr>
+            <th valign="middle" id="title">
+                <font face="微软雅黑" size="5" style="color: rgb(255, 255, 255); ">邮件通知</font>
+            </th>
+        </tr>
+        <tr>
+            <td style="word-break:break-all">
+                <div style="padding:25px 35px 40px; background-color:#fff;">
+                    <h2 style="margin: 5px 0px; ">
+                        <font color="#333333" style="line-height: 20px; ">
+                            <font style="line-height: 22px; " size="4">
+                                尊敬的用户：</font>
+                        </font>
+                    </h2>
+                    <!-- 中文 -->
+                    <p>${user}，您申请的文化作品传播监测已经被处理并完成，
+                        您可以<a href="https://www.baidu.com">前往查看</a></p><br>
+                    <!-- 英文 -->
+                    <h2 style="margin: 5px 0px; ">
+                        <font color="#333333" style="line-height: 20px; ">
+                            <font style="line-height: 22px; " size="4">
+                                Dear user，</font>
+                        </font>
+                    </h2>
+                    <p>
+                        ${user}, Your request for the monitoring of the dissemination
+                        of cultural works has been processed and completed,
+                        and you can <a href="https://www.baidu.com">visit it</a>
+                    </p>
+                    <div style="width:700px;margin:0 auto;">
+                        <div id="main">
+                            <p>湖南师范大学</p>
+                            <p>办公电话：13283472322</p>
+                            <p>电子邮箱：<a href="mailto:hzx1966752024@163.com">hzx1966752024@163.com</a> </p>
+                            <p>通讯地址：湖南省长沙市岳麓区桔子洲街道</p><br>
+                            <p>此为系统邮件，请勿回复<br>
+                                Please do not reply to this system email
+                            </p>
+                            <!--<p>©***</p>-->
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
