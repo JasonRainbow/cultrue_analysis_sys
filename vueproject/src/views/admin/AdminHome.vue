@@ -1,18 +1,30 @@
 <template>
   <div>
-    <el-row>
-      <el-col :span="8" v-for="(o, index) in 2" :key="o" :offset="index > 0 ? 2 : 0">
-        <el-card :body-style="{ padding: '0px' }" shadow="hover">
-          <img src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png" class="image">
-          <div style="padding: 14px;">
-            <span>好吃的汉堡</span>
+    <el-row gutter="20">
+      <el-col :span="10">
+        <el-card :body-style="{ padding: '10px',backgroundColor: '#eceee9' }" shadow="hover">
+          <img src="../../assets/img/bg1.jpg" class="image">
+          <div style="padding: 14px;text-align: center">
+            <div style="color: #67C23A; font-size: 1.6em">欢迎进入</div>
+            <div style="color: #409EFF; font-size: 1.5em">中国语言文化作品国际传播效果分析系统</div>
+            <div style="color: #F56C6C; font-size: 1.6em">后台管理系统</div>
             <div class="bottom clearfix">
               <time class="time">{{ currentDate }}</time>
-              <el-button type="text" class="button">操作按钮</el-button>
             </div>
           </div>
         </el-card>
       </el-col>
+      <el-col :span="6" :offset="3">
+        <el-card :body-style="{ padding: '10px', backgroundColor: '#f6faf0' }" shadow="hover">
+          <div style="padding: 14px;">
+            <div style="color: #000000; font-weight: bold; font-size: large;margin-bottom: 20px">关于项目</div>
+            <div style="color: #a0a3b4; font-size: small; margin-bottom: 15px">基于Vue2 + ElementUI + SpringBoot、爬虫技术、
+              情感分析的中国语言文化作品国际传播效果分析系统，如果喜欢就点个星星支持一下。</div>
+            <div style="cursor: pointer"><a href="https://www.baidu.com" target="_blank"><i class="el-icon-star-off"></i></a></div>
+          </div>
+        </el-card>
+      </el-col>
+
     </el-row>
   </div>
 </template>

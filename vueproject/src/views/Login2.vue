@@ -2,36 +2,39 @@
   <div class="homepage-hero-module">
     <div class="video-container">
       <div :style="fixStyle" class="filter">
-        <div style="width: 400px; margin: 100px auto">
-          <div style="font-size: 30px; text-align: center; padding: 30px 0; color: #333">中国语言文化国际传播分析后台管理系统</div>
-          <el-form ref="form" :model="form" size="normal" :rules="rules">
-            <el-form-item prop="username">
-              <el-input prefix-icon="el-icon-user-solid" v-model="form.username" placeholder="请输入账号"></el-input>
-            </el-form-item>
-            <el-form-item prop="password">
-              <el-input prefix-icon="el-icon-lock" v-model="form.password" show-password placeholder="请输入密码"></el-input>
-            </el-form-item>
-            <el-form-item>
-              <div style="display: flex">
-                <el-input prefix-icon="el-icon-key" v-model="form.validCode" style="width: 50%;" placeholder="请输入验证码"></el-input>
-                <ValidCode @input="createValidCode" />
-              </div>
-            </el-form-item>
-<!--            <el-form-item>-->
-<!--              <el-radio v-model="form.role" :label="1" style="color: white">管理员</el-radio>-->
-<!--              <el-radio v-model="form.role" :label="2" style="color: white">普通用户</el-radio>-->
-<!--            </el-form-item>-->
-            <el-form-item>
-              <el-button style="width: 100%" type="primary" @click="login">登 录</el-button>
-            </el-form-item>
-            <el-form-item><el-button type="text" @click="$router.push('/register')">前往注册 >> </el-button></el-form-item>
-          </el-form>
-        </div>
+        <el-card class="box-card" shadow="hover">
+          <div style="width: 400px; margin: 60px auto">
+            <div style="font-size: 30px; text-align: center; padding: 30px 0; color: #333">中国语言文化作品国际传播分析后台管理系统</div>
+            <el-form ref="form" :model="form" size="normal" :rules="rules">
+              <el-form-item prop="username">
+                <el-input prefix-icon="el-icon-user-solid" v-model="form.username" placeholder="请输入账号"></el-input>
+              </el-form-item>
+              <el-form-item prop="password">
+                <el-input prefix-icon="el-icon-lock" v-model="form.password" show-password placeholder="请输入密码"></el-input>
+              </el-form-item>
+              <el-form-item>
+                <div style="display: flex">
+                  <el-input prefix-icon="el-icon-key" v-model="form.validCode" style="width: 50%;" placeholder="请输入验证码"></el-input>
+                  <ValidCode width="120px" style="margin-left: 40px; border: 1px solid #9d9d9d" @input="createValidCode" />
+                </div>
+              </el-form-item>
+              <!--            <el-form-item>-->
+              <!--              <el-radio v-model="form.role" :label="1" style="color: white">管理员</el-radio>-->
+              <!--              <el-radio v-model="form.role" :label="2" style="color: white">普通用户</el-radio>-->
+              <!--            </el-form-item>-->
+              <el-form-item>
+                <el-button style="width: 100%" type="primary" @click="login">登 录</el-button>
+              </el-form-item>
+              <el-form-item><el-button type="text" @click="$router.push('/register')">前往注册 >> </el-button></el-form-item>
+            </el-form>
+          </div>
+        </el-card>
       </div>
-      <video :style="fixStyle" autoplay loop muted class="fillWidth" v-on:canplay="canplay">
+<!--      <video :style="fixStyle" autoplay loop muted class="fillWidth" v-on:canplay="canplay">
         <source src="../assets/sea.mp4" type="video/mp4"/>
         浏览器不支持 video 标签，建议升级浏览器。
-      </video>
+      </video>-->
+
     </div>
   </div>
 
@@ -153,6 +156,7 @@ export default {
   position: relative;
   height: 100vh;
   overflow: hidden;
+  background: url("../assets/img/bg3.png") fixed left;
 }
 
 .video-container .poster img{
@@ -169,5 +173,13 @@ export default {
 
 .fillWidth {
   width: 100%;
+}
+.box-card {
+  width: 480px;
+  height: 570px;
+  margin: auto;
+  margin-top: 80px;
+  border-radius: 25px;
+  background: url("../assets/img/bg3.png");
 }
 </style>

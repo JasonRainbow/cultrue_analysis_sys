@@ -45,7 +45,7 @@ export default {
       data: [
         {
           menuid: 1,
-          icon: 'el-icon-s-marketing',
+          icon: 'el-icon-s-promotion',
           menuname: '系统管理',
           hasThird: null,
           url: null,
@@ -78,14 +78,14 @@ export default {
         },
         {
           menuid: 22,
-          icon: 'el-icon-s-marketing',
+          icon: 'el-icon-monitor',
           menuname: '传播监测管理',
           hasThird: null,
           url: null,
           menus: [
             {
               menuid: 23,
-              icon: 'el-icon-s-ticket',
+              icon: 'el-icon-files',
               menuname: '监测文化作品管理',
               hasThird: 'N',
               url: 'admin/monitor-work',
@@ -93,7 +93,7 @@ export default {
             },
             {
               menuid: 24,
-              icon: 'el-icon-s-ticket',
+              icon: 'el-icon-chat-dot-round',
               menuname: '作品评论管理',
               hasThird: 'N',
               url: 'admin/comments',
@@ -101,7 +101,7 @@ export default {
             },
             {
               menuid: 25,
-              icon: 'el-icon-s-ticket',
+              icon: 'el-icon-s-check',
               menuname: '监测申请管理',
               hasThird: 'N',
               url: 'admin/monitor-request',
@@ -118,7 +118,7 @@ export default {
           menus: [
             {
               menuid: 31,
-              icon: 'el-icon-s-ticket',
+              icon: 'el-icon-s-flag',
               menuname: '情感分析管理',
               hasThird: 'N',
               url: 'admin/sentiment',
@@ -126,7 +126,7 @@ export default {
             },
             {
               menuid: 32,
-              icon: 'el-icon-s-ticket',
+              icon: 'el-icon-coordinate',
               menuname: '情感极性分析管理',
               hasThird: 'N',
               url: 'admin/polarity',
@@ -134,7 +134,7 @@ export default {
             },
             {
               menuid: 33,
-              icon: 'el-icon-s-ticket',
+              icon: 'el-icon-coin',
               menuname: '词频统计管理',
               hasThird: 'N',
               url: 'admin/word-freq',
@@ -144,7 +144,7 @@ export default {
         },
         {
           menuid: 150,
-          icon: 'el-icon-data-analysis',
+          icon: 'el-icon-pie-chart',
           menuname: '图表',
           hasThird: null,
           url: null,
@@ -163,21 +163,6 @@ export default {
       msg: 'success'
     }
           this.allmenu = res.data
-
-    // menu(localStorage.getItem('logintoken'))
-    //   .then(res => {
-    //     console.log(JSON.stringify(res))
-    //     if (res.success) {
-    //       this.allmenu = res.data
-    //     } else {
-    //       this.$message.error(res.msg)
-    //       return false
-    //     }
-    //   })
-    //   .catch(err => {
-    //     this.$message.error('菜单加载失败，请稍后再试！')
-    //   })
-    // 监听
     this.$root.Bus.$on('toggle', value => {
       this.collapsed = !value
     })
