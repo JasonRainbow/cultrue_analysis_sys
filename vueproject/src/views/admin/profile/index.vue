@@ -81,6 +81,7 @@ export default {
     getAdmin() {
       getAdminProfile().then(res=>{
         this.admin = res.data;
+        console.log(this.admin)
       })
     }
   }

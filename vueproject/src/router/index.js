@@ -64,6 +64,7 @@ import CommentAdmin from "../views/admin/CommentAdmin";
 import login3 from "../views/login3";
 import SentimentAdmin from "../views/admin/SentimentAdmin";
 import PolarityAdmin from "../views/admin/PolarityAdmin";
+import WordFreqAdmin from "../views/admin/WordFreqAdmin";
 
 // 启用路由
 Vue.use(Router);
@@ -99,6 +100,10 @@ export default new Router({
     name: '后台管理系统',
     component: index,
     iconCls: 'el-icon-tickets',
+    redirect: '/admin/home',
+    meta: {
+      requireAuth: true,
+    },
     children: [
       {
         path: '/admin/home',
@@ -181,6 +186,14 @@ export default new Router({
         path: '/admin/polarity',
         name: '情感极性分析管理',
         component: PolarityAdmin,
+        meta: {
+          requireAuth: true
+        }
+      },
+      {
+        path: '/admin/word-freq',
+        name: '词频统计管理',
+        component: WordFreqAdmin,
         meta: {
           requireAuth: true
         }

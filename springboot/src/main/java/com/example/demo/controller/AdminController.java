@@ -51,6 +51,7 @@ public class AdminController {
         // 生成token
         String token = TokenUtils.genToken(admin);
         admin.setToken(token);
+//        System.out.println(token);
 
         return Result.success(admin); // 返回成功
     }
@@ -171,7 +172,13 @@ public class AdminController {
     // 获取当前登录的管理员的个人信息
     @GetMapping("/profile")
     public Result<?> getProfile() {
-        return Result.success(TokenUtils.getLoginAdmin());
+        String token = TokenUtils.getToken();
+        Admin loginAdmin = TokenUtils.getLoginAdmin();
+        if (loginAdmin == null) {
+            return Result.error("-1", "管理员不存在");
+        }
+        loginAdmin.setToken(token); // 设置token
+        return Result.success(loginAdmin);
     }
 
     /**

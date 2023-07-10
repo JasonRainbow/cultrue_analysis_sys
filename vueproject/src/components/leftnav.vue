@@ -102,7 +102,7 @@ export default {
             {
               menuid: 25,
               icon: 'el-icon-s-ticket',
-              menuname: '监测请求管理',
+              menuname: '监测申请管理',
               hasThird: 'N',
               url: 'admin/monitor-request',
               menus: null
@@ -125,120 +125,21 @@ export default {
               menus: null
             },
             {
-              menuid: 31,
+              menuid: 32,
               icon: 'el-icon-s-ticket',
               menuname: '情感极性分析管理',
               hasThird: 'N',
               url: 'admin/polarity',
               menus: null
             },
-          ]
-        },
-        {
-          menuid: 33,
-          icon: 'el-icon-s-data',
-          menuname: '订单管理',
-          hasThird: null,
-          url: null,
-          menus: [
             {
-              menuid: 34,
-              icon: 'el-icon-s-check',
-              menuname: '交易订单',
+              menuid: 33,
+              icon: 'el-icon-s-ticket',
+              menuname: '词频统计管理',
               hasThird: 'N',
-              url: 'pay/Order',
-              menus: null
-            }
-          ]
-        },
-        {
-          menuid: 71,
-          icon: 'el-icon-pie-chart',
-          menuname: '其他管理',
-          hasThird: null,
-          url: null,
-          menus: [
-            {
-              menuid: 2,
-              icon: 'el-icon-s-claim',
-              menuname: '商品管理',
-              hasThird: 'N',
-              url: 'goods/Goods',
+              url: 'admin/word-freq',
               menus: null
             },
-            {
-              menuid: 72,
-              icon: 'el-icon-chat-dot-round',
-              menuname: '用户管理',
-              hasThird: 'N',
-              url: 'system/user',
-              menus: null
-            },
-            {
-              menuid: 174,
-              icon: 'el-icon-date',
-              menuname: '菜单管理',
-              hasThird: 'N',
-              url: 'system/Module',
-              menus: null
-            },
-            {
-              menuid: 73,
-              icon: 'el-icon-position',
-              menuname: '角色管理',
-              hasThird: 'N',
-              url: 'system/Role',
-              menus: null
-            },
-            {
-              menuid: 74,
-              icon: 'el-icon-office-building',
-              menuname: '公司管理',
-              hasThird: 'N',
-              url: 'system/Dept',
-              menus: null
-            },
-            {
-              menuid: 75,
-              icon: 'el-icon-data-analysis',
-              menuname: '系统环境变量',
-              hasThird: 'N',
-              url: 'system/Variable',
-              menus: null
-            },
-            {
-              menuid: 76,
-              icon: 'el-icon-data-analysis',
-              menuname: '权限管理',
-              hasThird: 'N',
-              url: 'system/Permission',
-              menus: null
-            }
-          ]
-        },
-        {
-          menuid: 128,
-          icon: 'el-icon-data-analysis',
-          menuname: '支付管理',
-          hasThird: null,
-          url: null,
-          menus: [
-            {
-              menuid: 129,
-              icon: 'el-icon-data-analysis',
-              menuname: '支付配置信息',
-              hasThird: 'N',
-              url: 'machine/MachineConfig',
-              menus: null
-            },
-            {
-              menuid: 175,
-              icon: 'el-icon-data-analysis',
-              menuname: '支付配置',
-              hasThird: 'N',
-              url: 'pay/Config',
-              menus: null
-            }
           ]
         },
         {
