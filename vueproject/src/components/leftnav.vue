@@ -110,6 +110,31 @@ export default {
           ]
         },
         {
+          menuid: 30,
+          icon: 'el-icon-s-marketing',
+          menuname: '传播分析管理',
+          hasThird: null,
+          url: null,
+          menus: [
+            {
+              menuid: 31,
+              icon: 'el-icon-s-ticket',
+              menuname: '情感分析管理',
+              hasThird: 'N',
+              url: 'admin/sentiment',
+              menus: null
+            },
+            {
+              menuid: 31,
+              icon: 'el-icon-s-ticket',
+              menuname: '情感极性分析管理',
+              hasThird: 'N',
+              url: 'admin/polarity',
+              menus: null
+            },
+          ]
+        },
+        {
           menuid: 33,
           icon: 'el-icon-s-data',
           menuname: '订单管理',

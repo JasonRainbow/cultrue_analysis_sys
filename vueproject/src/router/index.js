@@ -61,6 +61,9 @@ import HotWorkAdmin from "../views/admin/HotWorkAdmin";
 import MonitorWorkAdmin from "../views/admin/MonitorWorkAdmin";
 import MonitorRequestAdmin from "../views/admin/MonitorRequestAdmin";
 import CommentAdmin from "../views/admin/CommentAdmin";
+import login3 from "../views/login3";
+import SentimentAdmin from "../views/admin/SentimentAdmin";
+import PolarityAdmin from "../views/admin/PolarityAdmin";
 
 // 启用路由
 Vue.use(Router);
@@ -84,6 +87,14 @@ export default new Router({
       requireAuth: false
     }
   }, {
+    path: '/admin/login3',
+    name: '登录3',
+    component: login3,
+    hidden: true,
+    meta: {
+      requireAuth: false
+    }
+  },{
     path: '/admin',
     name: '后台管理系统',
     component: index,
@@ -154,6 +165,22 @@ export default new Router({
         path: '/admin/comments',
         name: '作品评论管理',
         component: CommentAdmin,
+        meta: {
+          requireAuth: true
+        }
+      },
+      {
+        path: '/admin/sentiment',
+        name: '情感分析管理',
+        component: SentimentAdmin,
+        meta: {
+          requireAuth: true
+        }
+      },
+      {
+        path: '/admin/polarity',
+        name: '情感极性分析管理',
+        component: PolarityAdmin,
         meta: {
           requireAuth: true
         }

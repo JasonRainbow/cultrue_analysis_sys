@@ -68,7 +68,7 @@ export function parseTime(time, pattern) {
 // 更新存储在store中的管理员信息，头像
 export function updateAdminInfo() {
   getAdminProfile().then(res=>{
-    localStorage.setItem("admin", res.data)
+    localStorage.setItem("admin", JSON.stringify(res.data))
     console.log("更新本地存储的管理员个人信息")
     // console.log(this.$store.state)
   })

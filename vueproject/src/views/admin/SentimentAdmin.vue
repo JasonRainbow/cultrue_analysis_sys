@@ -3,15 +3,28 @@
     <!-- 面包屑导航 -->
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item>监测作品管理</el-breadcrumb-item>
+      <el-breadcrumb-item>情感分析管理</el-breadcrumb-item>
     </el-breadcrumb>
     <!-- 搜索筛选 -->
     <el-form :inline="true" :model="search_data" class="user-search">
       <el-form-item label="搜索：">
-        <el-input size="small" v-model="search_data.searchName" placeholder="输入监测文化作品名"></el-input>
+        <el-input size="small" v-model="search_data.searchWorkName" placeholder="请输入作品名"></el-input>
       </el-form-item>
       <el-form-item label="">
-        <el-input size="small" v-model="search_data.searchCategory" placeholder="输入监测文化作品类别"></el-input>
+        <el-input size="small" v-model="search_data.searchCountry" placeholder="请输入国家"></el-input>
+      </el-form-item>
+      <el-form-item label="">
+        <el-input size="small" v-model="search_data.searchPlatform" placeholder="请输入平台"></el-input>
+      </el-form-item>
+      <el-form-item label="">
+        <el-date-picker
+          v-model="search_data.searchTime"
+          align="right"
+          type="date"
+          placeholder="请选择日期"
+          value-format="yyyy-MM-dd"
+          :picker-options="pickerOptions">
+        </el-date-picker>
       </el-form-item>
       <el-form-item>
         <el-button size="small" type="primary" plain round icon="el-icon-search" @click="search">搜索</el-button>
@@ -30,66 +43,40 @@
       </el-table-column>
       <el-table-column sortable prop="id" label="ID" width="80">
       </el-table-column>
-      <el-table-column prop="name" label="监测文化作品名" width="140">
+      <el-table-column prop="workId" label="所属作品ID" width="100">
       </el-table-column>
-      <el-table-column prop="category" label="作品类型" width="80">
+      <el-table-column prop="monitorWork.name" label="所属作品名称" width="140">
       </el-table-column>
-      <el-table-column sortable prop="createTime" label="创建时间" width="140">
+      <el-table-column prop="monitorWork.category" label="所属作品类型" width="100">
+      </el-table-column>
+      <el-table-column prop="country" label="所属国家" width="100">
+      </el-table-column>
+      <el-table-column prop="platform" label="所属平台" width="100">
+      </el-table-column>
+      <el-table-column align="center" sortable prop="time" label="评论发布时间" min-width="130">
         <template slot-scope="scope">
-          <div>{{ parseTime(scope.row.createTime, '{y}-{m}-{d} {h}:{i}:{s}') }}</div>
+          <div>{{ parseTime(scope.row.time, '{y}-{m}-{d}') }}</div>
         </template>
       </el-table-column>
-      <el-table-column sortable prop="endTime" label="完成监测时间" width="140">
-        <template slot-scope="scope">
-          <div>{{ parseTime(scope.row.endTime, '{y}-{m}-{d} {h}:{i}:{s}') || '未完成' }}</div>
-        </template>
+      <el-table-column prop="happy" label="开心评论数" width="100">
       </el-table-column>
-      <el-table-column prop="crawlOk" label="是否完成数据爬取" width="150">
-        <template slot-scope="scope">
-          <div v-if="scope.row.crawlOk === 1" style="color: #67C23A">是</div>
-          <div v-else-if="scope.row.crawlOk === 0" style="color: #F56C6C">否</div>
-        </template>
+      <el-table-column prop="amazed" label="惊讶评论数" width="100">
       </el-table-column>
-      <el-table-column prop="sentimentOk" label="是否完成情感分析" width="150">
-        <template slot-scope="scope">
-          <div v-if="scope.row.sentimentOk === 1" style="color: #67C23A">是</div>
-          <div v-else-if="scope.row.sentimentOk === 0" style="color: #F56C6C">否</div>
-        </template>
+      <el-table-column prop="neutrality" label="中立评论数" width="100">
       </el-table-column>
-      <el-table-column prop="polarityOk" label="是否完成情感极性分析" width="170">
-        <template slot-scope="scope">
-          <div v-if="scope.row.polarityOk === 1" style="color: #67C23A">是</div>
-          <div v-else-if="scope.row.polarityOk === 0" style="color: #F56C6C">否</div>
-        </template>
+      <el-table-column prop="hate" label="厌恶评论数" width="100">
       </el-table-column>
-      <el-table-column prop="wordCloudOk" label="是否完成词云图分析" width="170">
-        <template slot-scope="scope">
-          <div v-if="scope.row.wordCloudOk === 1" style="color: #67C23A">是</div>
-          <div v-else-if="scope.row.wordCloudOk === 0" style="color: #F56C6C">否</div>
-        </template>
+      <el-table-column prop="angry" label="愤怒评论数" width="100">
       </el-table-column>
-      <el-table-column prop="gramNetOk" label="是否完成语义网络分析" width="170">
-        <template slot-scope="scope">
-          <div v-if="scope.row.gramNetOk === 1" style="color: #67C23A">是</div>
-          <div v-else-if="scope.row.gramNetOk === 0" style="color: #F56C6C">否</div>
-        </template>
+      <el-table-column prop="fear" label="恐惧评论数" width="100">
       </el-table-column>
-      <el-table-column prop="allDone" label="是否完成所有监测工作" width="170">
-        <template slot-scope="scope">
-          <div v-if="scope.row.allDone === 1" style="color: #67C23A">是</div>
-          <div v-else-if="scope.row.allDone === 0" style="color: #F56C6C">否</div>
-        </template>
-      </el-table-column>
-      <el-table-column fixed="right" align="center" label="操作" min-width="400">
+
+
+      <el-table-column fixed="right" align="center" label="操作" min-width="200">
         <template slot-scope="scope">
           <el-button size="small" round type="primary" icon="el-icon-edit"
                      @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
           <el-button size="small" round icon="el-icon-delete" type="danger" @click="deleteRow(scope.row)">删除</el-button>
-          <el-button size="small" type="success" round>爬取数据</el-button>
-          <el-button size="small" type="info" round>情感分析</el-button>
-          <el-button size="small" type="warning" round>情感极性分析</el-button>
-          <el-button size="small" type="info" round>生成词云图</el-button>
-          <el-button size="small" type="success" round>语义网络分析</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -98,19 +85,52 @@
     <!-- 编辑界面 -->
     <el-dialog :title="title" :visible.sync="editFormVisible" width="40%" @click="closeDialog">
       <el-form label-width="130px" :model="editForm" :rules="rules" ref="editForm">
-        <el-form-item label="作品名" prop="name">
-          <el-input size="small" v-model="editForm.name" auto-complete="off"
-                    placeholder="请输入文化作品名"></el-input>
+        <el-form-item label="作品ID" prop="workId">
+          <el-input :disabled="title === '编辑'" size="small" v-model="editForm.workId" auto-complete="off"
+                    placeholder="请输入作品ID"></el-input>
         </el-form-item>
-        <el-form-item label="作品类型" prop="category">
-          <el-select v-model="editForm.category" placeholder="请选择作品类型" clearable>
-            <el-option
-              v-for="cate in categories"
-              :key="cate.name"
-              :label="cate.name"
-              :value="cate.name"
-            />
-          </el-select>
+        <el-form-item label="所属国家" prop="country">
+          <el-input :disabled="title === '编辑'" size="small" v-model="editForm.country" auto-complete="off"
+                    placeholder="请输入所属国家"></el-input>
+        </el-form-item>
+        <el-form-item label="所属平台" prop="platform">
+          <el-input :disabled="title === '编辑'" size="small" v-model="editForm.platform" auto-complete="off"
+                    placeholder="请输入所属平台"></el-input>
+        </el-form-item>
+        <el-form-item label="评论发布日期" prop="time">
+          <el-date-picker
+            :disabled="title === '编辑'"
+            v-model="editForm.time"
+            align="right"
+            type="date"
+            placeholder="请选择评论发布的日期"
+            value-format="yyyy-MM-dd"
+            :picker-options="pickerOptions">
+          </el-date-picker>
+        </el-form-item>
+        <el-form-item label="开心评论数" prop="happy">
+          <el-input size="small" v-model="editForm.happy" auto-complete="off"
+                    placeholder="请输入开心评论数"></el-input>
+        </el-form-item>
+        <el-form-item label="惊讶评论数" prop="amazed">
+          <el-input size="small" v-model="editForm.amazed" auto-complete="off"
+                    placeholder="请输入惊讶评论数"></el-input>
+        </el-form-item>
+        <el-form-item label="中立评论数" prop="neutrality">
+          <el-input size="small" v-model="editForm.neutrality" auto-complete="off"
+                    placeholder="请输入中立评论数"></el-input>
+        </el-form-item>
+        <el-form-item label="厌恶评论数" prop="hate">
+          <el-input size="small" v-model="editForm.hate" auto-complete="off"
+                    placeholder="请输入厌恶评论数"></el-input>
+        </el-form-item>
+        <el-form-item label="愤怒评论数" prop="angry">
+          <el-input size="small" v-model="editForm.angry" auto-complete="off"
+                    placeholder="请输入愤怒评论数"></el-input>
+        </el-form-item>
+        <el-form-item label="恐惧评论数" prop="fear">
+          <el-input size="small" v-model="editForm.fear" auto-complete="off"
+                    placeholder="请输入恐惧评论数"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -138,7 +158,7 @@
         <div class="el-upload__tip text-center" slot="tip">
           <div class="el-upload__tip" slot="tip">
             <el-checkbox v-model="upload.updateSupport"/>
-            是否更新已经存在的用户数据
+            是否更新已经存在的数据
           </div>
           <span>仅允许导入xlsx格式文件。</span>
           <el-link type="primary" :underline="false" style="font-size:12px;vertical-align: baseline;"
@@ -156,10 +176,11 @@
 
 <script>
 import Pagination from "../../components/Pagination";
-import {addMonitorWork, deleteMonitorWork, getMonitorWorkByPage, updateMonitorWork} from "../../api/monitor_workAPI";
+
+import {addSentiment, deleteSentiment, getSentimentByPage, updateSentiment} from "../../api/sentimentAPI";
 
 export default {
-  name: "MonitorWorkAdmin",
+  name: "SentimentAdmin",
   // 注册组件
   components: {
     Pagination
@@ -176,6 +197,31 @@ export default {
       // 非多个禁用
       multiple: true,
       title: '添加',
+      pickerOptions: { // 带快捷项的日期选择器的处理方法
+        disabledDate(time) {
+          return time.getTime() > Date.now();
+        },
+        shortcuts: [{
+          text: '今天',
+          onClick(picker) {
+            picker.$emit('pick', new Date());
+          }
+        }, {
+          text: '昨天',
+          onClick(picker) {
+            const date = new Date();
+            date.setTime(date.getTime() - 3600 * 1000 * 24);
+            picker.$emit('pick', date);
+          }
+        }, {
+          text: '一周前',
+          onClick(picker) {
+            const date = new Date();
+            date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+            picker.$emit('pick', date);
+          }
+        }]
+      },
       // 数据导入参数
       upload: {
         // 是否显示弹出层（数据导入）
@@ -187,51 +233,59 @@ export default {
         // 是否更新已经存在的用户数据
         updateSupport: 0,
         // 上传的地址
-        url: "http://localhost:9090" + "/api/monitor-work/import"
+        url: "http://localhost:9090" + "/api/sentiment/import"
       },
       editForm: {
-        id: 0,
-        name: '',
-        category: '',
+        id: null,
+        workId: null,
+        country: "",
+        time: "",
+        platform: "",
+        happy: 0,
+        amazed: 0,
+        neutrality: 0,
+        hate: 0,
+        angry: 0,
+        fear: 0,
       },
-      categories: [
-        {
-          id: 1,
-          name: "影视"
-        },
-        {
-          id: 2,
-          name: "书籍"
-        },
-      ],
-      search_data: {
-        searchName: "",
-        searchCategory: "",
+      search_data: { // 搜索参数
+        searchWorkName: "",
+        searchCountry: "",
+        searchPlatform: "",
+        searchTime: "",
         pageNum: 1,
         pageSize: 10  // 默认分页
       },
       list_data: [
         {
-          id: 0,
-          name: '',
-          category: '',
-          createTime: '',
-          endTime: '',
-          crawlOk: 0,
-          sentimentOk: 0,
-          polarityOk: 0,
-          gramNetOk: 0,
-          wordCloudOk: 0,
-          allDone: 0,
+          id: null,
+          workId: null,
+          monitorWork: {},
+          country: "",
+          time: "",
+          platform: "",
+          happy: 0,
+          amazed: 0,
+          neutrality: 0,
+          hate: 0,
+          angry: 0,
+          fear: 0,
         }
       ],
       // rules表单验证
       rules: {
-        name: [ // 作品名校验
-          {required: true, message: '请输入文化作品名', trigger: 'blur'}
+        workId: [ // 作品ID校验
+          {required: true, message: '请输入评论所属的作品ID', trigger: 'blur'},
         ],
-        category: [ // 作品类别校验
-          {required: true, message: '请输入作品类型', trigger: 'blur'},
+        country: [ // 国家校验
+          {required: true, message: '请输入评论所属的国家', trigger: 'blur'},
+        ],
+        time: [ // 发布时间校验
+          {required: true, message: '请输入评论的发布时间', trigger: 'blur'},
+        ],
+
+        platform: [ // 平台校验
+          {required: true, message: '请输入评论所属的平台', trigger: 'blur'},
         ],
       },
       // 要删除的数据
@@ -249,7 +303,7 @@ export default {
   methods: {
     get_data(param) {
       this.loading = true
-      getMonitorWorkByPage(param).then(res => {
+      getSentimentByPage(param).then(res => {
         this.loading = false
         this.list_data = res.data.records
         this.pageparm.currentPage = res.data.current
@@ -271,7 +325,7 @@ export default {
       this.$refs[editData].validate(valid => {
         if (valid) {
           if (this.title === '添加') {
-            addMonitorWork(this.editForm)
+            addSentiment(this.editForm)
               .then(res => {
                 this.editFormVisible = false
                 this.loading = false
@@ -279,7 +333,7 @@ export default {
                   this.get_data(this.search_data)
                   this.$message({
                     type: 'success',
-                    message: '添加监测文化作品成功！'
+                    message: '添加情感分析成功！'
                   })
                 } else {
                   this.$message({
@@ -291,11 +345,11 @@ export default {
               .catch(err => {
                 this.editFormVisible = false
                 this.loading = false
-                this.$message.error('添加监测文化作品失败，请稍后再试！')
+                this.$message.error('添加情感分析失败，请稍后再试！')
               })
           } else {
             // console.log(this.editForm)
-            updateMonitorWork(this.editForm)
+            updateSentiment(this.editForm)
               .then(res => {
                 this.editFormVisible = false
                 this.loading = false
@@ -303,7 +357,7 @@ export default {
                   this.get_data(this.search_data)
                   this.$message({
                     type: 'success',
-                    message: '修改监测文化作品信息成功！'
+                    message: '修改情感分析成功！'
                   })
                 } else {
                   this.$message({
@@ -315,7 +369,7 @@ export default {
               .catch(err => {
                 this.editFormVisible = false
                 this.loading = false
-                this.$message.error('修改监测文化作品信息失败，请稍后再试！')
+                this.$message.error('修改情感分析失败，请稍后再试！')
               })
           }
         } else {
@@ -331,12 +385,12 @@ export default {
         type: 'warning'
       })
         .then(() => {
-          deleteMonitorWork(newIds)
+          deleteSentiment(newIds)
             .then(res => {
               if (res.code === '0') {
                 this.$message({
                   type: 'success',
-                  message: '删除监测文化作品成功！'
+                  message: '删除情感分析成功！'
                 })
                 this.get_data(this.search_data)
               } else {
@@ -348,7 +402,7 @@ export default {
             })
             .catch(err => {
               this.loading = false
-              this.$message.error('监测文化作品删除失败，请稍后再试！')
+              this.$message.error('删除情感分析失败，请稍后再试！')
             })
         })
         .catch(() => {
@@ -386,13 +440,31 @@ export default {
       if (row != undefined && row != 'undefined') {
         this.title = '编辑'
         this.editForm.id = row.id
-        this.editForm.name = row.name
-        this.editForm.category = row.category
+        this.editForm.platform = row.platform
+        this.editForm.country = row.country
+        this.editForm.workId = row.workId
+        this.editForm.time = row.time
+        this.editForm.happy = row.happy
+        this.editForm.amazed = row.amazed
+        this.editForm.neutrality = row.neutrality
+        this.editForm.hate = row.hate
+        this.editForm.angry = row.angry
+        this.editForm.fear = row.fear
+        console.log(this.editForm)
       } else {
         this.title = '添加'
         this.editForm.id = null
-        this.editForm.name = null
-        this.editForm.category = null
+        this.editForm.platform = null
+        this.editForm.country = null
+        this.editForm.workId = null
+        this.editForm.time = null
+        this.editForm.happy = null
+        this.editForm.amazed = null
+        this.editForm.neutrality = null
+        this.editForm.hate = null
+        this.editForm.angry = null
+        this.editForm.fear = null
+        console.log(this.editForm)
       }
     },
     handleUploadSuccess(res) { // 处理文件上传
@@ -404,15 +476,15 @@ export default {
       }
     },
     handleImport() {
-      this.upload.title = "监测作品导入";
+      this.upload.title = "情感分析导入";
       this.upload.open = true;
     },
     handleExport() { // 处理数据导出
-      this.download('/monitor-work/export', {}, `监测文化作品信息表${new Date().getTime()}.xlsx`)
+      this.download('/sentiment/export', {}, `情感分析信息表${new Date().getTime()}.xlsx`)
     },
     handleExportTemplate() { // 处理导出模板
       // location.href = "http://" + "localhost" + ":9090/api/user/importTemplate";
-      this.download('/monitor-work/importTemplate', {}, `监测文化作品信息导入模板${new Date().getTime()}.xlsx`)
+      this.download('/sentiment/importTemplate', {}, `情感分析信息导入模板${new Date().getTime()}.xlsx`)
     },
     // 分页插件事件
     callFather(parm) {
@@ -427,6 +499,7 @@ export default {
   },
   created() {
     this.get_data(this.search_data)
+    // console.log(this.list_data)
   }
 }
 </script>

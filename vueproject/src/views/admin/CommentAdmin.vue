@@ -46,15 +46,17 @@
       </el-table-column>
       <el-table-column sortable prop="id" label="ID" width="80">
       </el-table-column>
-      <el-table-column prop="workId" label="所属作品ID" width="120">
+      <el-table-column prop="workId" label="所属作品ID" width="100">
       </el-table-column>
       <el-table-column prop="monitorWork.name" label="所属作品名称" width="140">
       </el-table-column>
-      <el-table-column prop="monitorWork.category" label="所属作品类型" width="140">
+      <el-table-column prop="monitorWork.category" label="所属作品类型" width="120">
       </el-table-column>
-      <el-table-column prop="country" label="所属国家" width="140">
+      <el-table-column prop="country" label="所属国家" width="100">
       </el-table-column>
-      <el-table-column prop="platform" label="所属平台" width="140">
+      <el-table-column prop="platform" label="所属平台" width="100">
+      </el-table-column>
+      <el-table-column prop="content" label="评论内容" width="250">
       </el-table-column>
       <el-table-column align="center" sortable prop="postTime" label="评论发布时间" min-width="150">
         <template slot-scope="scope">
@@ -64,8 +66,6 @@
       <el-table-column prop="likes" label="点赞数" width="120">
       </el-table-column>
       <el-table-column prop="sentiment" label="情感倾向" width="140">
-      </el-table-column>
-      <el-table-column prop="content" label="评论内容" width="250">
       </el-table-column>
 
       <el-table-column fixed="right" align="center" label="操作" min-width="200">
