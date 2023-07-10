@@ -25,9 +25,17 @@ import 'element-ui/lib/theme-chalk/index.css'
 
 import SvgIcon from './components/SvgIcon' // svg component
 
+import {parseTime, timestampToTime, debounce} from "./utils/util";
+
+
+// 全局方法挂载
 // 引入文件下载的工具方法
 import {download} from "./utils/request";
 Vue.prototype.download = download
+
+Vue.prototype.parseTime = parseTime
+Vue.prototype.timestampToTime = timestampToTime
+Vue.prototype.debounce = debounce
 
 // 引入echarts
 import echarts from 'echarts'
@@ -53,17 +61,13 @@ router.beforeEach((to, from, next) => {
     if (to.matched.length !== 0) {
         if (to.meta.requireAuth) { // 判断该路由是否需要登录权限
             if (Boolean(localStorage.getItem("admin"))) { // 通过vuex state获取当前的user是否存在
-              getAdminProfile().then(res=>{
-                const admin = res.data;
-                console.log(admin)
-                if (admin.avatar == null || admin.avatar === "") {
-                  admin.avatar = require("./assets/img/avatar.jpeg")
-                }
-                store.state.admin = admin;
-                next();
-                // console.log(this.$store.state)
-              })
-
+              const admin = JSON.parse(localStorage.getItem("admin"));
+              console.log(admin)
+              if (admin.avatar == null || admin.avatar === "") {
+                admin.avatar = require("./assets/img/avatar.jpeg")
+              }
+              store.state.admin = admin;
+              next();
             } else {
                 next({
                     path: '/admin/login',
@@ -79,12 +83,13 @@ router.beforeEach((to, from, next) => {
                      * 防刷新，如果登录，修改路由跳转到登录页面，修改路由为登录后的首页
                      */
                     next({
-                        path: '/goods/Goods'
+                        path: '/admin/home'
                     })
                 }
             } else {
                 next();
             }
+
         }
     } else {
         next({

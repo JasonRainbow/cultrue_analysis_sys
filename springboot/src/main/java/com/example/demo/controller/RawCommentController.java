@@ -45,14 +45,14 @@ public class RawCommentController {
         return Result.success(rawComment);
     }
 
-    // 查询所有的国家信息列表
+    // 查询所有的国家列表
     @GetMapping("/countries")
     public Result<?> findAllCountry() {
         List<String> list = rawCommentMapper.selectAllCountry();
         return Result.success(list);
     }
 
-    // 查询所有的国家信息列表
+    // 查询所有的平台列表
     @GetMapping("/platforms")
     public Result<?> findAllPlatform() {
         List<String> list = rawCommentMapper.selectAllPlatform();
@@ -81,12 +81,27 @@ public class RawCommentController {
         return Result.success(rawCommentMapper.selectPage(new Page<>(pageNum, pageSize), queryWrapper));
     }
 
+    // 关联分页模糊查询
+    @GetMapping("/byPage2")
+    public Result<?> byPage2(@RequestParam(required = false, defaultValue = "") String searchWorkName,
+                             @RequestParam(required = false, defaultValue = "") String searchContent,
+                             @RequestParam(required = false, defaultValue = "") String searchCountry,
+                             @RequestParam(required = false, defaultValue = "") String searchPlatform,
+                             @RequestParam(required = false, defaultValue = "") String searchTime,
+                             @RequestParam(required = false, defaultValue = "1") Integer pageNum,
+                             @RequestParam(required = false, defaultValue = "10") Integer pageSize) {
+        Page<RawComment> res = rawCommentMapper.selectPage2(new Page<>(pageNum, pageSize),
+                searchWorkName, searchContent,
+                searchCountry, searchPlatform, searchTime);
+        return Result.success(res);
+    }
+
     // 根据id删除指定评论
-    @DeleteMapping("/delete/{id}")
-    public Result<?> deleteById(@PathVariable Long id) {
-        int res = rawCommentMapper.deleteById(id);
+    @DeleteMapping("/delete/{ids}")
+    public Result<?> deleteById(@PathVariable Long[] ids) {
+        int res = rawCommentMapper.deleteBatchIds(Arrays.asList(ids));
         if (res > 0) {
-            Result.success();
+            return Result.success();
         }
         return Result.error("-1", "该评论已经被删除了");
     }

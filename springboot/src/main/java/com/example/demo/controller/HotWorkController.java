@@ -57,11 +57,11 @@ public class HotWorkController {
     }
 
     // 根据id删除指定热点作品
-    @DeleteMapping("/delete/{id}")
-    public Result<?> deleteById(@PathVariable Long id) {
-        int res = hotWorkMapper.deleteById(id);
+    @DeleteMapping("/delete/{ids}")
+    public Result<?> deleteById(@PathVariable Long[] ids) {
+        int res = hotWorkMapper.deleteBatchIds(Arrays.asList(ids)); // 批量删除
         if (res > 0) {
-            Result.success();
+            return Result.success();
         }
         return Result.error("-1", "该热点作品已经被删除了");
     }

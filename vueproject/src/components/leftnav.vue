@@ -77,6 +77,39 @@ export default {
           ]
         },
         {
+          menuid: 22,
+          icon: 'el-icon-s-marketing',
+          menuname: '传播监测管理',
+          hasThird: null,
+          url: null,
+          menus: [
+            {
+              menuid: 23,
+              icon: 'el-icon-s-ticket',
+              menuname: '监测文化作品管理',
+              hasThird: 'N',
+              url: 'admin/monitor-work',
+              menus: null
+            },
+            {
+              menuid: 24,
+              icon: 'el-icon-s-ticket',
+              menuname: '作品评论管理',
+              hasThird: 'N',
+              url: 'admin/comments',
+              menus: null
+            },
+            {
+              menuid: 25,
+              icon: 'el-icon-s-ticket',
+              menuname: '监测请求管理',
+              hasThird: 'N',
+              url: 'admin/monitor-request',
+              menus: null
+            },
+          ]
+        },
+        {
           menuid: 33,
           icon: 'el-icon-s-data',
           menuname: '订单管理',

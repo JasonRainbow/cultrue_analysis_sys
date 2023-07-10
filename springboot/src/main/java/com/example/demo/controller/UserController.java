@@ -93,9 +93,9 @@ public class UserController extends BaseController {
     // 更新用户的信息  根据id
     @PutMapping("/update")
     public Result<?> update(@RequestBody User user) {
-        if (user.getPassword() == null) {
+        /*if (user.getPassword() == null) {
             user.setPassword(bCryptPasswordEncoder.encode(PwdEnum.PASSWORD.getPassword()));
-        }
+        }*/
         userMapper.updateById(user);
         return Result.success();
     }

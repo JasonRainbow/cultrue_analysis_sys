@@ -40,6 +40,7 @@
 <script>
 import ValidCode from "../components/ValidCode";
 import {adminLogin} from "../api/adminAPI";
+import {updateAdminInfo} from "../utils/util";
 
 export default {
   name: "Login",
@@ -126,11 +127,12 @@ export default {
               })
               localStorage.setItem("admin", JSON.stringify(res.data))  // 缓存用户信息
               this.$store.state.admin = res.data
-              console.log(res)
+              console.log(res);
+              updateAdminInfo();
               // 登录成功的时候更新当前路由
               // activeRouter()
               // this.$router.push("/")  //登录成功之后进行页面的跳转，跳转到主页
-              this.$router.push({ path: '/goods/Goods' })
+              this.$router.push({ path: '/admin/home' })
             } else {
               this.$message({
                 type: "error",

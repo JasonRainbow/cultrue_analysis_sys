@@ -5,13 +5,16 @@ import cn.hutool.core.io.IoUtil;
 import cn.hutool.poi.excel.ExcelUtil;
 import cn.hutool.poi.excel.ExcelWriter;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.common.Result;
 import com.example.demo.entity.MonitorRequest;
 import com.example.demo.entity.MonitorWork;
+import com.example.demo.entity.User;
 import com.example.demo.mapper.MonitorRequestMapper;
 import com.example.demo.mapper.MonitorWorkMapper;
+import com.example.demo.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,6 +33,9 @@ public class MonitorRequestController {
 
     @Autowired
     private MonitorWorkMapper monitorWorkMapper;
+
+    @Autowired
+    private UserMapper userMapper;
 
     // 查询所有的监测请求信息
     @GetMapping("/all")
@@ -68,11 +74,11 @@ public class MonitorRequestController {
     }
 
     // 根据id删除指定监测请求
-    @DeleteMapping("/delete/{id}")
-    public Result<?> deleteById(@PathVariable Long id) {
-        int res = monitorRequestMapper.deleteById(id);
+    @DeleteMapping("/delete/{ids}")
+    public Result<?> deleteById(@PathVariable Long[] ids) {
+        int res = monitorRequestMapper.deleteBatchIds(Arrays.asList(ids));
         if (res > 0) {
-            Result.success();
+            return Result.success();
         }
         return Result.error("-1", "该监测请求已经被删除了");
     }
@@ -80,6 +86,13 @@ public class MonitorRequestController {
     // 新增监测请求  首先把作品插入监测作品表（如果该作品原来不在监测作品表中）再插入监测请求表
     @PostMapping("/add")
     public Result<?> add(@RequestBody MonitorRequest monitorRequest) {
+        QueryWrapper<User> query1 = new QueryWrapper<>();
+        query1.eq("username", monitorRequest.getUser().getUsername());
+        List<User> users = userMapper.selectList(query1);
+        if (users == null || users.size() < 1) {
+            return Result.error("-1", "不存在的用户名");
+        }
+        monitorRequest.setUserId(users.get(0).getId()); // 获取用户的id
         MonitorWork monitorWork = monitorRequest.getMonitorWork();
         String workName = monitorWork.getName();
         LambdaQueryWrapper<MonitorWork> wrapper = Wrappers.<MonitorWork>lambdaQuery()

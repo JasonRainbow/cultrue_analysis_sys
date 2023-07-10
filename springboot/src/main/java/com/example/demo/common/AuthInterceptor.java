@@ -21,8 +21,20 @@ public class AuthInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-//        request.getLocalAddr();
-        String uri = request.getRequestURI();
+        /*String ip = request.getRemoteAddr();
+        System.out.println("访问客户端的ip地址为：" + ip);
+        String ipAddress = request.getHeader("X-Forwarded-For");
+        if (ipAddress == null || ipAddress.length() == 0 || "unknown".equalsIgnoreCase(ipAddress)) {
+            ipAddress = request.getHeader("Proxy-Client-IP");
+        }
+        if (ipAddress == null || ipAddress.length() == 0 || "unknown".equalsIgnoreCase(ipAddress)) {
+            ipAddress = request.getHeader("WL-Proxy-Client-IP");
+        }
+        if (ipAddress == null || ipAddress.length() == 0 || "unknown".equalsIgnoreCase(ipAddress)) {
+            ipAddress = request.getRemoteAddr();
+        }
+        System.out.println("Client IP address: " + ipAddress.split(",")[0]);*/
+        /*String uri = request.getRequestURI();
         System.out.println("request: " + uri);
         String token = null;
         try {
@@ -62,7 +74,7 @@ public class AuthInterceptor implements HandlerInterceptor {
             }
         } else {
             throw new CustomException("401", "token不合法");
-        }
+        }*/
 
         return true;
     }

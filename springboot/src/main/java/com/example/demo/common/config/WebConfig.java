@@ -17,6 +17,7 @@ public class WebConfig implements WebMvcConfigurer {
      */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(authInterceptor()).addPathPatterns("/**")
 //        registry.addInterceptor(authInterceptor())
 //                .addPathPatterns("/**/update", "/**/add", "/**/delete/**",
 //                        "/**/import", "/**/export", "/**/importTemplate") // 拦截请求

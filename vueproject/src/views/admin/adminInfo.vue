@@ -14,11 +14,11 @@
         <el-input size="small" v-model="search_data.searchName" placeholder="输入管理员昵称"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button size="small" type="primary" round icon="el-icon-search" @click="search">搜索</el-button>
-        <el-button size="small" type="primary" round icon="el-icon-plus" @click="handleEdit()">添加</el-button>
+        <el-button size="small" plain type="primary" round icon="el-icon-search" @click="search">搜索</el-button>
+        <el-button size="small" plain type="primary" round icon="el-icon-plus" @click="handleEdit()">添加</el-button>
         <el-button size="small" type="danger" :disabled="multiple" round icon="el-icon-delete" @click="deleteRow">删除</el-button>
-        <el-button size="small" icon="el-icon-upload" round type="success" @click="handleImport">导入数据</el-button>
-        <el-button size="small" icon="el-icon-download" round type="warning" @click="handleExport">导出数据</el-button>
+        <el-button size="small" plain icon="el-icon-upload" round type="success" @click="handleImport">导入数据</el-button>
+        <el-button size="small" plain icon="el-icon-download" round type="warning" @click="handleExport">导出数据</el-button>
       </el-form-item>
     </el-form>
     <!--列表-->
@@ -28,9 +28,9 @@
       </el-table-column>
       <el-table-column sortable prop="id" label="管理员ID" width="100">
       </el-table-column>
-      <el-table-column sortable prop="username" label="用户名" width="120">
+      <el-table-column prop="username" label="用户名" width="120">
       </el-table-column>
-      <el-table-column sortable prop="name" label="管理员昵称" width="200">
+      <el-table-column prop="name" label="管理员昵称" width="200">
       </el-table-column>
       <el-table-column prop="level" label="管理员级别" width="120">
         <template slot-scope="scope">
@@ -43,8 +43,8 @@
       </el-table-column>
       <el-table-column align="center" label="操作" min-width="150">
         <template slot-scope="scope">
-          <el-button size="small" round type="primary" icon="el-icon-edit" @click="handleEdit(scope.$index, scope.row)"></el-button>
-          <el-button size="small" round icon="el-icon-delete" type="danger" @click="deleteRow(scope.row)"></el-button>
+          <el-button size="small" round type="primary" icon="el-icon-edit" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+          <el-button size="small" round icon="el-icon-delete" type="danger" @click="deleteRow(scope.row)">删除</el-button>
           <el-button size="small" round type="success" @click="resetPwd(scope.$index, scope.row)">重置密码</el-button>
         </template>
       </el-table-column>

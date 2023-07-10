@@ -43,6 +43,7 @@ public class PolarityAnalysisController {
         return Result.success(polarityAnalyses);
     }
 
+    // 根据id查询情感极性分析结果
     @GetMapping("/id/{id}")
     public Result<?> findById(@PathVariable Long id) {
         PolarityAnalysis polarityAnalysis = polarityAnalysisMapper.selectById(id);
@@ -107,11 +108,11 @@ public class PolarityAnalysisController {
     }
 
     // 根据id删除指定情感极性分析结果
-    @DeleteMapping("/delete/{id}")
-    public Result<?> deleteById(@PathVariable Long id) {
-        int res = polarityAnalysisMapper.deleteById(id);
+    @DeleteMapping("/delete/{ids}")
+    public Result<?> deleteById(@PathVariable Long[] ids) {
+        int res = polarityAnalysisMapper.deleteBatchIds(Arrays.asList(ids));
         if (res > 0) {
-            Result.success();
+            return Result.success();
         }
         return Result.error("-1", "该情感极性分析结果已经被删除了");
     }

@@ -3,15 +3,31 @@
     <!-- 面包屑导航 -->
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item>热点文化作品管理</el-breadcrumb-item>
+      <el-breadcrumb-item>作品评论管理</el-breadcrumb-item>
     </el-breadcrumb>
     <!-- 搜索筛选 -->
     <el-form :inline="true" :model="search_data" class="user-search">
       <el-form-item label="搜索：">
-        <el-input size="small" v-model="search_data.searchName" placeholder="输入文化作品名"></el-input>
+        <el-input size="small" v-model="search_data.searchWorkName" placeholder="请输入作品名"></el-input>
       </el-form-item>
       <el-form-item label="">
-        <el-input size="small" v-model="search_data.searchCategory" placeholder="输入文化作品类别"></el-input>
+        <el-input size="small" v-model="search_data.searchCountry" placeholder="请输入评论所属的国家"></el-input>
+      </el-form-item>
+      <el-form-item label="">
+        <el-input size="small" v-model="search_data.searchPlatform" placeholder="请输入评论所属的平台"></el-input>
+      </el-form-item>
+      <el-form-item label="">
+        <el-input size="small" v-model="search_data.searchContent" placeholder="请输入评论的内容"></el-input>
+      </el-form-item>
+      <el-form-item label="">
+        <el-date-picker
+          v-model="search_data.searchTime"
+          align="right"
+          type="date"
+          placeholder="请选择评论发布的日期"
+          value-format="yyyy-MM-dd"
+          :picker-options="pickerOptions">
+        </el-date-picker>
       </el-form-item>
       <el-form-item>
         <el-button size="small" type="primary" plain round icon="el-icon-search" @click="search">搜索</el-button>
@@ -28,24 +44,31 @@
               border element-loading-text="拼命加载中" @selection-change="handleSelectionChange" style="width: 100%;">
       <el-table-column align="center" type="selection" width="60">
       </el-table-column>
-      <el-table-column sortable prop="id" label="ID" width="100">
+      <el-table-column sortable prop="id" label="ID" width="80">
       </el-table-column>
-      <el-table-column prop="name" label="热点文化作品名" width="140">
+      <el-table-column prop="workId" label="所属作品ID" width="120">
       </el-table-column>
-      <el-table-column prop="category" label="作品类型" width="100">
+      <el-table-column prop="monitorWork.name" label="所属作品名称" width="140">
       </el-table-column>
-      <el-table-column prop="title" label="作品介绍标题" width="140">
+      <el-table-column prop="monitorWork.category" label="所属作品类型" width="140">
       </el-table-column>
-      <el-table-column prop="content" label="作品介绍内容" width="150">
+      <el-table-column prop="country" label="所属国家" width="140">
       </el-table-column>
-      <el-table-column align="center" sortable prop="postTime" label="作品介绍时间" min-width="120">
+      <el-table-column prop="platform" label="所属平台" width="140">
+      </el-table-column>
+      <el-table-column align="center" sortable prop="postTime" label="评论发布时间" min-width="150">
         <template slot-scope="scope">
           <div>{{ parseTime(scope.row.postTime, '{y}-{m}-{d}') }}</div>
         </template>
       </el-table-column>
-      <el-table-column prop="imgUrl" label="作品介绍图片url" width="150">
+      <el-table-column prop="likes" label="点赞数" width="120">
       </el-table-column>
-      <el-table-column fixed="right" align="center" label="操作" min-width="150">
+      <el-table-column prop="sentiment" label="情感倾向" width="140">
+      </el-table-column>
+      <el-table-column prop="content" label="评论内容" width="250">
+      </el-table-column>
+
+      <el-table-column fixed="right" align="center" label="操作" min-width="200">
         <template slot-scope="scope">
           <el-button size="small" round type="primary" icon="el-icon-edit"
                      @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
@@ -58,57 +81,40 @@
     <!-- 编辑界面 -->
     <el-dialog :title="title" :visible.sync="editFormVisible" width="40%" @click="closeDialog">
       <el-form label-width="130px" :model="editForm" :rules="rules" ref="editForm">
-        <el-form-item label="作品名" prop="name">
-          <el-input size="small" v-model="editForm.name" auto-complete="off"
-                    placeholder="请输入热点文化作品名"></el-input>
+        <el-form-item label="作品ID" prop="workId">
+          <el-input :disabled="title === '编辑'" size="small" v-model="editForm.workId" auto-complete="off"
+                    placeholder="请输入作品ID"></el-input>
         </el-form-item>
-        <el-form-item label="作品类型" prop="category">
-          <el-select v-model="editForm.category" placeholder="请选择作品类型" clearable>
-            <el-option
-              v-for="cate in categories"
-              :key="cate.name"
-              :label="cate.name"
-              :value="cate.name"
-            />
-          </el-select>
+        <el-form-item label="所属国家" prop="country">
+          <el-input :disabled="title === '编辑'" size="small" v-model="editForm.country" auto-complete="off"
+                    placeholder="请输入所属国家"></el-input>
         </el-form-item>
-        <el-form-item label="作品介绍标题" prop="title">
-          <el-input size="small" v-model="editForm.title" auto-complete="off"
-                    placeholder="请输入热点文化作品介绍标题"></el-input>
+        <el-form-item label="所属平台" prop="platform">
+          <el-input :disabled="title === '编辑'" size="small" v-model="editForm.platform" auto-complete="off"
+                    placeholder="请输入所属平台"></el-input>
         </el-form-item>
-        <el-form-item label="作品介绍内容" prop="content">
-          <el-input size="small" v-model="editForm.content" auto-complete="off"
-                    placeholder="请输入热点文化作品介绍内容"></el-input>
-        </el-form-item>
-        <el-form-item label="作品介绍网址" prop="citeUrl">
-          <el-input size="small" v-model="editForm.citeUrl" auto-complete="off"
-                    placeholder="请输入作品介绍网址"></el-input>
-        </el-form-item>
-        <el-form-item label="作品介绍图片网址" prop="imgUrl">
-          <el-input size="small" v-model="editForm.imgUrl" auto-complete="off"
-                    placeholder="请输入作品介绍图片网址"></el-input>
-        </el-form-item>
-        <el-form-item :label="title === '添加'? '上传作品介绍图片': '更改作品介绍图片'" prop="imgUrl">
-          <el-upload
-            class="avatar-uploader"
-            action="http://127.0.0.1:9090/files/upload/oss"
-            list-type="picture-card"
-            :show-file-list="false"
-            :on-success="handleAvatarSuccess"
-            :before-upload="beforeAvatarUpload">
-            <img v-if="editForm.imgUrl" :src="editForm.imgUrl" class="avatar">
-            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-          </el-upload>
-        </el-form-item>
-        <el-form-item label="作品介绍时间" prop="imgUrl">
+        <el-form-item label="评论发布日期" prop="postTime">
           <el-date-picker
+            :disabled="title === '编辑'"
             v-model="editForm.postTime"
             align="right"
             type="date"
-            placeholder="选择日期"
+            placeholder="请选择评论发布的日期"
             value-format="yyyy-MM-dd"
             :picker-options="pickerOptions">
           </el-date-picker>
+        </el-form-item>
+        <el-form-item label="评论内容" prop="content">
+          <el-input size="small" v-model="editForm.content" auto-complete="off"
+                    placeholder="请输入评论的内容"></el-input>
+        </el-form-item>
+        <el-form-item label="点赞数" prop="likes">
+          <el-input size="small" v-model="editForm.likes" auto-complete="off"
+                    placeholder="请输入评论的点赞数"></el-input>
+        </el-form-item>
+        <el-form-item label="情感倾向" prop="sentiment">
+          <el-input size="small" v-model="editForm.sentiment" auto-complete="off"
+                    placeholder="请输入评论的情感倾向"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -136,7 +142,7 @@
         <div class="el-upload__tip text-center" slot="tip">
           <div class="el-upload__tip" slot="tip">
             <el-checkbox v-model="upload.updateSupport"/>
-            是否更新已经存在的用户数据
+            是否更新已经存在的数据
           </div>
           <span>仅允许导入xlsx格式文件。</span>
           <el-link type="primary" :underline="false" style="font-size:12px;vertical-align: baseline;"
@@ -154,10 +160,11 @@
 
 <script>
 import Pagination from "../../components/Pagination";
-import {addHotWork, deleteHotWorkById, getHotWorkByPage, updateHotWork} from "../../api/hotworkAPI";
+
+import {addComment, deleteComment, getCommentsByPage2, updateComment} from "../../api/commentAPI";
 
 export default {
-  name: "HotWorkAdmin",
+  name: "CommentAdmin",
   // 注册组件
   components: {
     Pagination
@@ -174,29 +181,6 @@ export default {
       // 非多个禁用
       multiple: true,
       title: '添加',
-      // 用户导入参数
-      upload: {
-        // 是否显示弹出层（用户导入）
-        open: false,
-        // 弹出层标题（用户导入）
-        title: "",
-        // 是否禁用上传
-        isUploading: false,
-        // 是否更新已经存在的用户数据
-        updateSupport: 0,
-        // 上传的地址
-        url: "http://localhost:9090" + "/api/hot-work/import"
-      },
-      editForm: {
-        id: 0,
-        name: '',
-        category: '',
-        title: '',
-        content: '',
-        citeUrl: '',
-        imgUrl: '',
-        postTime: ''
-      },
       pickerOptions: { // 带快捷项的日期选择器的处理方法
         disabledDate(time) {
           return time.getTime() > Date.now();
@@ -222,56 +206,67 @@ export default {
           }
         }]
       },
-      categories: [
-        {
-          id: 1,
-          name: "影视"
-        },
-        {
-          id: 2,
-          name: "书籍"
-        },
-      ],
+      // 数据导入参数
+      upload: {
+        // 是否显示弹出层（数据导入）
+        open: false,
+        // 弹出层标题（数据导入）
+        title: "",
+        // 是否禁用上传
+        isUploading: false,
+        // 是否更新已经存在的用户数据
+        updateSupport: 0,
+        // 上传的地址
+        url: "http://localhost:9090" + "/api/comment/import"
+      },
+      editForm: {
+        id: null,
+        content: "",
+        likes: 0,
+        workId: 0,
+        country: "",
+        platform: "",
+        sentiment: "",
+        postTime: ""
+      },
       search_data: {
-        searchName: "",
-        searchCategory: "",
+        searchWorkName: "",
+        searchContent: "",
+        searchCountry: "",
+        searchPlatform: "",
+        searchTime: "",
         pageNum: 1,
         pageSize: 10  // 默认分页
       },
       list_data: [
         {
           id: 0,
-          name: '',
-          category: '',
-          title: '',
-          content: '',
-          citeUrl: '',
-          imgUrl: '',
-          postTime: ''
+          content: "",
+          likes: 0,
+          workId: 0, // 用户ID
+          monitorWork: {}, // 作品实体对象
+          country: "",
+          platform: "",
+          postTime: '',
+          sentiment: 0,
         }
       ],
       // rules表单验证
       rules: {
-        name: [ // 作品名校验
-          {required: true, message: '请输入热点文化作品名', trigger: 'blur'}
+        content: [ // 用户名校验
+          {required: true, message: '请输入评论内容', trigger: 'blur'}
         ],
-        category: [ // 作品类别校验
-          {required: true, message: '请输入作品类型', trigger: 'blur'},
+        postTime: [ // 作品名校验
+          {required: true, message: '请输入评论的发布时间', trigger: 'blur'},
         ],
-        title: [ // 标题校验
-          {required: true, message: '请输入作品介绍标题', trigger: 'blur'},
+        country: [ // 国家校验
+          {required: true, message: '请输入评论所属的国家', trigger: 'blur'},
         ],
-        content: [ // 内容校验
-          {required: true, message: '请输入作品介绍内容', trigger: 'blur'},
+        platform: [ // 国家校验
+          {required: true, message: '请输入评论所属的平台', trigger: 'blur'},
         ],
-        citeUrl: [ // 网址校验
-          {required: true, message: '请输入作品介绍网址', trigger: 'blur'},
-          {
-            pattern: /^http(s)?:\/\/(.*?)$/,
-            required: true,
-            message: '请输入正确的网址',
-            trigger: 'blur'
-          }
+        workId: [
+          {required: true, message: '请输入评论所属的作品ID', trigger: 'blur'},
         ],
       },
       // 要删除的数据
@@ -287,36 +282,15 @@ export default {
     }
   },
   methods: {
-    handleAvatarSuccess(res, file) {
-      // console.log((res))
-      if (res.code === "0") {
-        this.editForm.imgUrl = res.data; // 保存图片上传的地址
-        this.$message.success("上传图片成功！");
-      } else {
-        this.$message.error("上传图片失败！");
-      }
-    },
-    beforeAvatarUpload(file) {
-      // const isJPG = file.type === 'image/jpeg';
-      const isLt2M = file.size / 1024 / 1024 < 2;
-
-      /*if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG 格式!');
-      }*/
-      if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 2MB!');
-      }
-      return /*isJPG && */isLt2M;
-    },
     get_data(param) {
       this.loading = true
-      getHotWorkByPage(param).then(res => {
+      getCommentsByPage2(param).then(res => {
         this.loading = false
         this.list_data = res.data.records
         this.pageparm.currentPage = res.data.current
         this.pageparm.pageSize = res.data.size
         this.pageparm.total = res.data.total
-        // console.log(this.list_data)
+        console.log(this.list_data)
       }).catch(err => {
         console.log(err)
         this.loading = false
@@ -332,7 +306,7 @@ export default {
       this.$refs[editData].validate(valid => {
         if (valid) {
           if (this.title === '添加') {
-            addHotWork(this.editForm)
+            addComment(this.editForm)
               .then(res => {
                 this.editFormVisible = false
                 this.loading = false
@@ -340,7 +314,7 @@ export default {
                   this.get_data(this.search_data)
                   this.$message({
                     type: 'success',
-                    message: '添加热点作品成功！'
+                    message: '添加评论成功！'
                   })
                 } else {
                   this.$message({
@@ -352,11 +326,11 @@ export default {
               .catch(err => {
                 this.editFormVisible = false
                 this.loading = false
-                this.$message.error('添加热点作品失败，请稍后再试！')
+                this.$message.error('添加评论失败，请稍后再试！')
               })
           } else {
             // console.log(this.editForm)
-            updateHotWork(this.editForm)
+            updateComment(this.editForm)
               .then(res => {
                 this.editFormVisible = false
                 this.loading = false
@@ -364,7 +338,7 @@ export default {
                   this.get_data(this.search_data)
                   this.$message({
                     type: 'success',
-                    message: '修改热点作品信息成功！'
+                    message: '修改评论成功！'
                   })
                 } else {
                   this.$message({
@@ -376,7 +350,7 @@ export default {
               .catch(err => {
                 this.editFormVisible = false
                 this.loading = false
-                this.$message.error('修改热点作品信息失败，请稍后再试！')
+                this.$message.error('修改评论失败，请稍后再试！')
               })
           }
         } else {
@@ -385,19 +359,19 @@ export default {
       })
     },
     deleteRow(row) {
-      const userIds = row.id || this.ids;
-      this.$confirm('是否确认删除编号为"' + userIds + '"的数据项？', '信息', {
+      const newIds = row.id || this.ids;
+      this.$confirm('是否确认删除编号为"' + newIds + '"的数据项？', '信息', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       })
         .then(() => {
-          deleteHotWorkById(userIds)
+          deleteComment(newIds)
             .then(res => {
               if (res.code === '0') {
                 this.$message({
                   type: 'success',
-                  message: '删除热点作品成功！'
+                  message: '删除评论成功！'
                 })
                 this.get_data(this.search_data)
               } else {
@@ -409,7 +383,7 @@ export default {
             })
             .catch(err => {
               this.loading = false
-              this.$message.error('热点作品删除失败，请稍后再试！')
+              this.$message.error('删除评论失败，请稍后再试！')
             })
         })
         .catch(() => {
@@ -447,23 +421,24 @@ export default {
       if (row != undefined && row != 'undefined') {
         this.title = '编辑'
         this.editForm.id = row.id
-        this.editForm.name = row.name
-        this.editForm.category = row.category
-        this.editForm.title = row.title
+        this.editForm.sentiment = row.sentiment
+        this.editForm.platform = row.platform
+        this.editForm.country = row.country
+        this.editForm.workId = row.workId
+        this.editForm.likes = row.likes
         this.editForm.content = row.content
-        this.editForm.citeUrl = row.citeUrl
-        this.editForm.imgUrl = row.imgUrl
         this.editForm.postTime = row.postTime
+        console.log(this.editForm)
       } else {
         this.title = '添加'
         this.editForm.id = null
-        this.editForm.name = null
-        this.editForm.category = null
-        this.editForm.title = null
+        this.editForm.sentiment = null
+        this.editForm.platform = null
+        this.editForm.country = null
+        this.editForm.workId = null
+        this.editForm.likes = null
         this.editForm.content = null
-        this.editForm.citeUrl = null
-        this.editForm.imgUrl = null
-        this.editForm.postTime = null
+        console.log(this.editForm)
       }
     },
     handleUploadSuccess(res) { // 处理文件上传
@@ -475,15 +450,15 @@ export default {
       }
     },
     handleImport() {
-      this.upload.title = "用户导入";
+      this.upload.title = "监测请求导入";
       this.upload.open = true;
     },
     handleExport() { // 处理数据导出
-      this.download('/hot-work/export', {}, `热点文化作品信息表${new Date().getTime()}.xlsx`)
+      this.download('/comment/export', {}, `监测请求信息表${new Date().getTime()}.xlsx`)
     },
     handleExportTemplate() { // 处理导出模板
       // location.href = "http://" + "localhost" + ":9090/api/user/importTemplate";
-      this.download('/hot-work/importTemplate', {}, `热点文化作品信息导入模板${new Date().getTime()}.xlsx`)
+      this.download('/comment/importTemplate', {}, `监测请求信息导入模板${new Date().getTime()}.xlsx`)
     },
     // 分页插件事件
     callFather(parm) {
@@ -498,14 +473,11 @@ export default {
   },
   created() {
     this.get_data(this.search_data)
+    // console.log(this.list_data)
   }
 }
 </script>
 
 <style scoped>
-.avatar {
-  width: 178px;
-  height: 178px;
-  display: block;
-}
+
 </style>

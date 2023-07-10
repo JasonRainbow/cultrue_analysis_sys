@@ -56,7 +56,7 @@
 <script>
 import { VueCropper } from 'vue-cropper'
 import {uploadAdminAvatar} from "../../../api/adminAPI";
-import {debounce} from "../../../utils/util";
+import {debounce, updateAdminInfo} from "../../../utils/util";
 
 export default {
   components: { VueCropper },
@@ -150,6 +150,7 @@ export default {
           this.$store.state.admin.avatar = this.options.img; // 设置头像
           this.$message.success("修改成功");
           this.visible = false;
+          updateAdminInfo();
         });
       });
     },

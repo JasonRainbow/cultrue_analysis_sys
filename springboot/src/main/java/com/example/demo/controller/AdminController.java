@@ -83,9 +83,9 @@ public class AdminController {
     // 保存（更新）管理员信息
     @PutMapping("/update")
     public Result<?> save(@RequestBody Admin admin) {
-        if (admin.getPassword() == null) {
+        /*if (admin.getPassword() == null) {
             admin.setPassword(bCryptPasswordEncoder.encode(PwdEnum.PASSWORD.getPassword()));
-        }
+        }*/
 
         adminMapper.updateById(admin); // 通过主键id更新
 

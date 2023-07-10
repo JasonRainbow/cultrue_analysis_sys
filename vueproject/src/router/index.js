@@ -53,11 +53,14 @@ import statistics from '../views/charts/statistics.vue';
 import Login2 from '../views/Login2.vue'
 import userAdmin from "../views/admin/userAdmin";
 
-// 管理员个人中心
+// 后台管理页面组件
 import AdminProfile from '../views/admin/profile/index'
 import adminInfo from "../views/admin/adminInfo";
 import AdminHome from "../views/admin/AdminHome";
 import HotWorkAdmin from "../views/admin/HotWorkAdmin";
+import MonitorWorkAdmin from "../views/admin/MonitorWorkAdmin";
+import MonitorRequestAdmin from "../views/admin/MonitorRequestAdmin";
+import CommentAdmin from "../views/admin/CommentAdmin";
 
 // 启用路由
 Vue.use(Router);
@@ -81,8 +84,8 @@ export default new Router({
       requireAuth: false
     }
   }, {
-    path: '/index',
-    name: '首页',
+    path: '/admin',
+    name: '后台管理系统',
     component: index,
     iconCls: 'el-icon-tickets',
     children: [
@@ -127,6 +130,30 @@ export default new Router({
         path: '/admin/hotwork',
         name: '热点文化作品管理',
         component: HotWorkAdmin,
+        meta: {
+          requireAuth: true
+        }
+      },
+      {
+        path: '/admin/monitor-work',
+        name: '监测文化作品管理',
+        component: MonitorWorkAdmin,
+        meta: {
+          requireAuth: true
+        }
+      },
+      {
+        path: '/admin/monitor-request',
+        name: '监测请求管理',
+        component: MonitorRequestAdmin,
+        meta: {
+          requireAuth: true
+        }
+      },
+      {
+        path: '/admin/comments',
+        name: '作品评论管理',
+        component: CommentAdmin,
         meta: {
           requireAuth: true
         }

@@ -86,11 +86,11 @@ public class SentimentAnalysisController {
     }
 
     // 根据id删除指定情感分析结果
-    @DeleteMapping("/delete/{id}")
-    public Result<?> deleteById(@PathVariable Long id) {
-        int res = sentimentAnalysisMapper.deleteById(id);
+    @DeleteMapping("/delete/{ids}")
+    public Result<?> deleteById(@PathVariable Long[] ids) {
+        int res = sentimentAnalysisMapper.deleteBatchIds(Arrays.asList(ids));
         if (res > 0) {
-            Result.success();
+            return Result.success();
         }
         return Result.error("-1", "该情感分析结果已经被删除了");
     }

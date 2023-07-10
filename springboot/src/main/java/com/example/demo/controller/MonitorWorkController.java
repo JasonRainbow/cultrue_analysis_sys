@@ -61,11 +61,11 @@ public class MonitorWorkController {
     }
 
     // 根据id删除指定监测作品
-    @DeleteMapping("/delete/{id}")
-    public Result<?> deleteById(@PathVariable Long id) {
-        int res = monitorWorkMapper.deleteById(id);
+    @DeleteMapping("/delete/{ids}")
+    public Result<?> deleteById(@PathVariable Long[] ids) {
+        int res = monitorWorkMapper.deleteBatchIds(Arrays.asList(ids));
         if (res > 0) {
-            Result.success();
+            return Result.success();
         }
         return Result.error("-1", "该监测作品已经被删除了");
     }

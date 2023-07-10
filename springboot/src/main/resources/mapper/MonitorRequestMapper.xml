@@ -5,7 +5,7 @@
     <resultMap id="monitorRequestMapByStep" type="com.example.demo.entity.MonitorRequest">
         <id property="id" column="id" />
         <result property="createTime" column="createTime" />
-        <result property="checked" column="check" />
+        <result property="checked" column="checked" />
         <result property="complete" column="complete" />
         <result property="workId" column="workId" />
         <result property="userId" column="userId" />

@@ -122,16 +122,16 @@ public class WordFreqAnalysisController {
     }
 
     // 根据id删除指定词频分析结果
-    @DeleteMapping("/delete/{id}")
-    public Result<?> deleteById(@PathVariable Long id) {
-        int res = wordFreqAnalysisMapper.deleteById(id);
+    @DeleteMapping("/delete/{ids}")
+    public Result<?> deleteById(@PathVariable Long[] ids) {
+        int res = wordFreqAnalysisMapper.deleteBatchIds(Arrays.asList(ids)); // 兼容批量删除
         if (res > 0) {
-            Result.success();
+            return Result.success();
         }
         return Result.error("-1", "该词频统计结果已经被删除了");
     }
 
-    // 新增词频分析结果
+    // 新增词频统计结果
     @PostMapping("/add")
     public Result<?> add(@RequestBody WordFreqAnalysis wordFreqAnalysis) {
         int res = wordFreqAnalysisMapper.insert(wordFreqAnalysis);
