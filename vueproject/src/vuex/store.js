@@ -12,20 +12,20 @@ export default new Vuex.Store({
     // 登录
     user_login(state, user) { // 用户登录
       state.user = user;
-      localStorage.setItem("user", user);
+      localStorage.setItem("user", JSON.stringify(user));
     },
     // 退出
     user_logout(state, user) { // 用户退出登录
       state.user = "";
-      localStorage.setItem("user", "");
+      localStorage.removeItem("user");
     },
     admin_login(state, admin) { // 管理员登录
       state.admin = admin;
-      localStorage.setItem("admin", admin)
+      localStorage.setItem("admin", JSON.stringify(admin))
     },
     admin_logout(state, admin) { // 管理员退出登录
       state.admin = "";
-      localStorage.setItem("admin", ""); // 清空本地缓存
+      localStorage.removeItem("admin"); // 清空本地缓存
     }
   }
 })

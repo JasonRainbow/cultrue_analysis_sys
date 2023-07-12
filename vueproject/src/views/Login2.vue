@@ -44,6 +44,7 @@
 import ValidCode from "../components/ValidCode";
 import {adminLogin} from "../api/adminAPI";
 import {updateAdminInfo} from "../utils/util";
+import store from "../vuex/store";
 
 export default {
   name: "Login",
@@ -128,10 +129,13 @@ export default {
                 type: "success",
                 message: "登录成功"
               })
-              localStorage.setItem("admin", JSON.stringify(res.data))  // 缓存用户信息
-              this.$store.state.admin = res.data
-              console.log(res);
-              updateAdminInfo();
+              /*localStorage.setItem("admin", JSON.stringify(res.data))  // 缓存用户信息
+              this.$store.state.admin = res.data*/
+              const admin = res.data;
+              this.$store.commit("admin_login", admin)  // 状态管理
+              console.log(admin)
+              // console.log(res);
+              // updateAdminInfo();
               // 登录成功的时候更新当前路由
               // activeRouter()
               // this.$router.push("/")  //登录成功之后进行页面的跳转，跳转到主页

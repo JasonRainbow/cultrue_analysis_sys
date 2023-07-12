@@ -91,7 +91,7 @@ public class PolarityAnalysisController {
     // 统计不同情感极性的评论数
     @GetMapping("/countDayInterval")
     public Result<?> countDayInterval(@RequestParam Integer workId,
-                                      @RequestParam String country,
+                                      @RequestParam(required = false, defaultValue = "") String country,
                                       @RequestParam String startTime,
                                       @RequestParam Integer dayInterval
     ) {

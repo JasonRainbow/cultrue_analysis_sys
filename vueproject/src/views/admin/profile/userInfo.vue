@@ -1,14 +1,26 @@
 <template>
   <el-form ref="form" :model="admin" :rules="rules" label-width="80px">
-    <el-form-item label="用户昵称" prop="name">
-      <el-input v-model="admin.name" maxlength="30" />
-    </el-form-item>
-    <el-form-item label="手机号码" prop="phone">
-      <el-input v-model="admin.phone" maxlength="11" />
-    </el-form-item>
-    <el-form-item label="邮箱" prop="email">
-      <el-input v-model="admin.email" maxlength="50" />
-    </el-form-item>
+    <el-row>
+      <el-col :span="15" :xs="24">
+        <el-form-item label="用户昵称" prop="name">
+          <el-input v-model="admin.name" maxlength="30" />
+        </el-form-item>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="15" :xs="24">
+        <el-form-item label="手机号码" prop="phone">
+          <el-input v-model="admin.phone" maxlength="11" />
+        </el-form-item>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="15" :xs="24">
+        <el-form-item label="邮箱" prop="email">
+          <el-input v-model="admin.email" maxlength="50" />
+        </el-form-item>
+      </el-col>
+    </el-row>
 <!--    <el-form-item label="性别">
       <el-radio-group v-model="admin.name">
         <el-radio label="0">男</el-radio>

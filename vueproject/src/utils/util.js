@@ -1,5 +1,6 @@
 import {getAdminProfile} from "../api/adminAPI";
 import store from "../vuex/store";
+import {getUserProfile} from "../api/userAPI";
 
 /**
  * 时间戳
@@ -23,6 +24,42 @@ const timestampToTime = (timestamp) => {
         date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds()
     return Y + M + D + h + m + s
 };
+
+/**
+ * @param {date} time 需要转换的时间
+ * @param {String} fmt 需要转换的格式 如 yyyy-MM-dd、yyyy-MM-dd HH:mm:ss
+ */
+export function formatTime(time, fmt) {
+  if (!time) return '';
+  else {
+    const date = new Date(time);
+    const o = {
+      'M+': date.getMonth() + 1,
+      'd+': date.getDate(),
+      'H+': date.getHours(),
+      'm+': date.getMinutes(),
+      's+': date.getSeconds(),
+      'q+': Math.floor((date.getMonth() + 3) / 3),
+      S: date.getMilliseconds(),
+    };
+    if (/(y+)/.test(fmt))
+      fmt = fmt.replace(
+        RegExp.$1,
+        (date.getFullYear() + '').substr(4 - RegExp.$1.length)
+      );
+    for (const k in o) {
+      if (new RegExp('(' + k + ')').test(fmt)) {
+        fmt = fmt.replace(
+          RegExp.$1,
+          RegExp.$1.length === 1
+            ? o[k]
+            : ('00' + o[k]).substr(('' + o[k]).length)
+        );
+      }
+    }
+    return fmt;
+  }
+}
 
 // 日期格式化
 export function parseTime(time, pattern) {
@@ -71,6 +108,14 @@ export function updateAdminInfo() {
     localStorage.setItem("admin", JSON.stringify(res.data))
     console.log("更新本地存储的管理员个人信息")
     // console.log(this.$store.state)
+  })
+}
+
+// 更新store中的用户信息
+export function updateUserInfo() {
+  getUserProfile().then((res)=>{
+    localStorage.setItem("user", JSON.stringify(res.data))
+    console.log("更新本地存储的用户个人信息")
   })
 }
 

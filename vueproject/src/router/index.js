@@ -2,7 +2,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 // 登录
-import login from '@/views/login';
+
 // 管理员首页
 import index from '@/views/index';
 
@@ -25,36 +25,46 @@ import SentimentAdmin from "../views/admin/SentimentAdmin";
 import PolarityAdmin from "../views/admin/PolarityAdmin";
 import WordFreqAdmin from "../views/admin/WordFreqAdmin";
 
+// 客户端界面
+import UserIndex from "../views/UserIndex";
+import BigScreen from "../components/user/BigScreen";
+import HomePage from "../views/user/HomePage";
+import UserLogin from "../views/user/UserLogin";
+import UserRegister from "../views/user/UserRegister";
+import PersonalCenter from "../views/user/PersonalCenter";
+import EffectPage from "../views/user/EffectPage";
+
 // 启用路由
 Vue.use(Router);
 
 // 导出路由
 export default new Router({
-  routes: [{
-    path: '/',
-    name: '首页',
-    component: login,
-    hidden: true,
-    meta: {
-      requireAuth: false
-    }
-  }, {
+  routes: [
+    {
     path: '/admin/login',
-    name: '登录',
+    name: '管理员登录',
     component: Login2,
     hidden: true,
     meta: {
       requireAuth: false
     }
   }, {
-    path: '/admin/login3',
-    name: '登录3',
-    component: login3,
+    path: '/login',
+    name: '用户登录',
+    component: UserLogin,
     hidden: true,
     meta: {
       requireAuth: false
     }
   },{
+      path: '/register',
+      name: '用户注册',
+      component: UserRegister,
+      hidden: true,
+      meta: {
+        requireAuth: false
+      }
+    },{
     path: '/admin',
     name: '后台管理系统',
     component: index,
@@ -158,5 +168,50 @@ export default new Router({
           requireAuth: true
         }
       }]
-  }]
+  },
+    {
+      path: "/big-screen",
+      name: "大屏模式",
+      component: BigScreen,
+      meta: {
+        requireAuth: false
+      }
+    },
+    {
+      path: "/",
+      name: "客户端", // 客户端网页的首页
+      component: UserIndex,
+      meta: {
+        requireAuth: false
+      },
+      redirect: "/home",
+      children: [ // 子路由
+        {
+          path: "/home",
+          name: "客户端首页",
+          component: HomePage,
+          meta: {
+            requireAuth: false
+          }
+        },
+        {
+          path: "/effect",
+          name: "传播效果评估",
+          component: EffectPage,
+          meta: {
+            requireAuth: false
+          }
+        },
+        {
+          path: "/personal",
+          name: "个人中心",
+          component: PersonalCenter,
+          meta: {
+            requireAuth: true
+          }
+        },
+
+      ]
+    }
+  ]
 })

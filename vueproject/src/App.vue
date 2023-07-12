@@ -10,7 +10,7 @@ export default {
 };
 </script>
 
-<style> 
+<style>
 html,
 body {
     width: 100%;
@@ -24,6 +24,7 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     color: #2c3e50;
+  background-color: white;
     widows: 100%;
     height: 100%;
 }

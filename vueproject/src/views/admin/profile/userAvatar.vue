@@ -151,6 +151,7 @@ export default {
           this.$message.success("修改成功");
           this.visible = false;
           updateAdminInfo();
+          this.$store.state.admin.avatar = this.options.img
         });
       });
     },

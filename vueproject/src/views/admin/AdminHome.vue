@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-row gutter="20">
+    <el-row :gutter="20">
       <el-col :span="10">
         <el-card :body-style="{ padding: '10px',backgroundColor: '#eceee9' }" shadow="hover">
           <img src="../../assets/img/bg1.jpg" class="image">
@@ -24,7 +24,6 @@
           </div>
         </el-card>
       </el-col>
-
     </el-row>
   </div>
 </template>
@@ -32,6 +31,9 @@
 <script>
 export default {
   name: "AdminHome",
+  components: {
+
+  },
   data() {
     return {
       currentDate: new Date()

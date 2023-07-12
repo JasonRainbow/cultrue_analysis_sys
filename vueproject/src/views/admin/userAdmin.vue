@@ -38,7 +38,7 @@
       </el-table-column>
       <el-table-column prop="phone" label="电话号码" width="150">
       </el-table-column>
-      <el-table-column align="center" label="操作" min-width="150">
+      <el-table-column align="center" fixed="right" label="操作" min-width="150">
         <template slot-scope="scope">
           <el-button size="small" round type="primary" icon="el-icon-edit" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
           <el-button size="small" round icon="el-icon-delete" type="danger" @click="deleteRow(scope.row)">删除</el-button>
@@ -110,7 +110,7 @@
 </template>
 
 <script>
-import {deleteUser, getUserInfoByPage, resetUserPwd, updateUserInfo, userRegister} from "../../api/userAPI";
+import {deleteUser, getUserInfoByPage, resetUserPwd, userRegister, userUpdate} from "../../api/userAPI";
 import Pagination from "../../components/Pagination";
 
 export default {
@@ -252,7 +252,7 @@ export default {
               })
           } else {
             console.log(this.editForm)
-            updateUserInfo(this.editForm)
+            userUpdate(this.editForm)
               .then(res => {
                 this.editFormVisible = false
                 this.loading = false

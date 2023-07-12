@@ -64,12 +64,14 @@ public class SentimentAnalysisController {
     // 统计不同情感倾向的评论数
     @GetMapping("/countDaily")
     public Result<?> countDaily(@RequestParam Integer workId,
-                                @RequestParam String country,
+                                @RequestParam(required = false, defaultValue = "") String country,
                                 @RequestParam String postTime
                                 ) {
         QueryWrapper<SentimentAnalysis> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("workId", workId);
-        queryWrapper.eq("country", country);
+        if (country.length() > 0) {
+            queryWrapper.eq("country", country);
+        }
         queryWrapper.eq("time", postTime);
         List<SentimentAnalysis> sentimentAnalyses
                 = sentimentAnalysisMapper.selectList(queryWrapper);

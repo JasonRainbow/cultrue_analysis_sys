@@ -7,7 +7,7 @@
            background-color="#334157" text-color="#fff" active-text-color="#ffd04b">
     <div class="logobox">
       <img class="logoimg" src="../assets/img/logo.jpg" alt="">
-      <div style="color: white;vertical-align: top; height: 40px;font-size: 18px;display: inline-block;">后台管理系统</div>
+      <div style="color: white;vertical-align: top;margin-top: 5px; height: 40px;font-size: 18px;display: inline-block;">后台管理系统</div>
     </div>
     <el-menu-item index="/admin/home" key="0">
       <i class="el-icon-s-home"></i>
@@ -28,7 +28,6 @@
   </el-menu>
 </template>
 <script>
-import { menu } from '../api/userMG'
 export default {
   name: 'leftnav',
   data() {

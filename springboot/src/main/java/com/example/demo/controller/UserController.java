@@ -143,24 +143,16 @@ public class UserController extends BaseController {
         return Result.success();
     }
 
-    // 上传管理员的头像接口
-    @PostMapping("/uploadAvatar")
-    public Result<?> uploadAvatar(MultipartFile file) {
-        if (!file.isEmpty()) {
-            User loginUser = TokenUtils.getLoginUser();
-            if (loginUser == null) {
-                return Result.error("401", "用户未登录");
-            }
-            String avatar = AliOssUtil.upload("images/", file); // 上传文件到阿里云OSS存储服务器
-            loginUser.setAvatar(avatar);
-            int res = userMapper.updateById(loginUser);
-            if (res > 0) {
-                return Result.success(avatar);
-            }
-            return Result.error("-1", "上传用户头像失败");
+    // 获取当前登录的用户个人信息
+    @GetMapping("/profile")
+    public Result<?> getProfile() {
+        String token = TokenUtils.getToken();
+        User loginUser = TokenUtils.getLoginUser();
+        if (loginUser == null) {
+            return Result.error("-1", "用户不存在");
         }
-
-        return Result.error("-1", "上传的文件为空");
+        loginUser.setToken(token); // 设置token
+        return Result.success(loginUser);
     }
 
     @GetMapping("/id/{id}")

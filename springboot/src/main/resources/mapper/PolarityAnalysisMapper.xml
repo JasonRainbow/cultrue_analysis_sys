@@ -46,7 +46,9 @@
           sum(negative) as negative, sum(neutrality) as neutrality
         from polarity_analy
         where workId = #{workId}
+        <if test="country != null and country != ''">
             and country = #{country}
+        </if>
             and TO_DAYS(time) - TO_DAYS(#{startTime}) between 0 and (#{interval} - 1)
         group by time
         order by time asc

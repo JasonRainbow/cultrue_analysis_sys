@@ -1,6 +1,6 @@
 /**
 * 图表界面
-*/ 
+*/
 <template>
   <!-- 组件主盒子 -->
   <div class="stbox">
@@ -81,14 +81,14 @@
   </div>
 </template>
 <script type="text/ecmascript-6">
-import Chart from 'echarts'
+
 export default {
   name: "welcome",
   data() {
     return {
       machineNo: '',
       type: 'day',
-      //  销售总笔数 
+      //  销售总笔数
       SCEoption: {
         tooltip: {
           trigger: 'item',
@@ -159,7 +159,7 @@ export default {
           barWidth: 10,
           itemStyle: {
             normal: {
-              color: new Chart.graphic.LinearGradient(
+              color: new this.$echarts.graphic.LinearGradient(
                 0, 0, 0, 1,
                 [
                   { offset: 0, color: '#83bff6' },
@@ -181,7 +181,7 @@ export default {
           }
         }]
       },
-      //  销售总金额 
+      //  销售总金额
       SUMoption: {
         tooltip: {
           trigger: 'item',
@@ -495,27 +495,27 @@ export default {
   methods: {
     // 交易总笔数
     getSCE() {
-      this.chart = Chart.init(this.$refs.SCEchart)
+      this.chart = this.$echarts.init(this.$refs.SCEchart)
       this.chart.setOption(this.SCEoption)
     },
     // 交易总金额
     getSUM() {
-      this.chart = Chart.init(this.$refs.SUMEchart)
+      this.chart = this.$echarts.init(this.$refs.SUMEchart)
       this.chart.setOption(this.SUMoption)
     },
     // 总点击量
     getClick() {
-      this.chart = Chart.init(this.$refs.ClickEchart)
+      this.chart = this.$echarts.init(this.$refs.ClickEchart)
       this.chart.setOption(this.Clickoption)
     },
     // 支付方式统计
     getpay() {
-      this.chart = Chart.init(this.$refs.payEchart)
+      this.chart = this.$echarts.init(this.$refs.payEchart)
       this.chart.setOption(this.payoption)
     },
     // 支付方式统计
     getpayNum() {
-      this.chart = Chart.init(this.$refs.payNumEchart)
+      this.chart = this.$echarts.init(this.$refs.payNumEchart)
       this.chart.setOption(this.payNumoption)
     }
 

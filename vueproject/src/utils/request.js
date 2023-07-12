@@ -18,6 +18,8 @@ const request = axios.create({
 // 请求白名单，如果请求在白名单里面，将不会被拦截校验权限
 const whiteUrls = ["/user/login", '/user/register', '/admin/login', '/admin/register']
 
+const userAuth = ["/user/pass", "/user/profile"]
+
 let downloadLoadingInstance;
 
 // request 拦截器
@@ -29,13 +31,21 @@ request.interceptors.request.use(config => {
     // 取出localStorage里面缓存的管理员信息
     let adminJson = localStorage.getItem("admin")
     // console.log(adminJson)
-    if (!whiteUrls.includes(config.url)) {  // 校验请求白名单
+    /*if (!whiteUrls.includes(config.url)) {  // 校验请求白名单
         if(!adminJson) {
             router.push("/admin/login")
         } else {
             let admin = JSON.parse(adminJson);
             config.headers['token'] = admin.token;  // 设置请求头  加上token凭证
         }
+    }*/
+    if(adminJson ) {
+      let admin = JSON.parse(adminJson);
+      config.headers['token'] = admin.token;  // 设置请求头  加上token凭证
+    }
+    if (userAuth.includes(config.url)) {
+      let user = JSON.parse(localStorage.getItem("user"))
+      config.headers['token'] = user.token
     }
     return config
 }, error => {

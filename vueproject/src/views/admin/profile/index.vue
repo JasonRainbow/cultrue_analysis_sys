@@ -16,7 +16,7 @@
                 <div class="pull-right">{{ admin.username }}</div>
               </li>
               <li class="list-group-item">
-                <i class="el-icon-help"></i>用户昵称
+                <i class="el-icon-postcard"></i>用户昵称
                 <div class="pull-right">{{ admin.name }}</div>
               </li>
               <li class="list-group-item">
@@ -24,7 +24,7 @@
                 <div class="pull-right">{{ admin.phone }}</div>
               </li>
               <li class="list-group-item">
-                <i class="el-icon-potato-strips"></i>用户邮箱
+                <i class="el-icon-message"></i>用户邮箱
                 <div class="pull-right">{{ admin.email }}</div>
               </li>
             </ul>

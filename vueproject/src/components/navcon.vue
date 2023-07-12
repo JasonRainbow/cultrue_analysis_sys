@@ -23,7 +23,7 @@
   </el-menu>
 </template>
 <script>
-import { loginout } from '../api/userMG'
+
 import ScreenFull from './ScreenFull'
 export default {
   name: 'navcon',

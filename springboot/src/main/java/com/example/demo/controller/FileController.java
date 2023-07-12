@@ -21,7 +21,7 @@ import java.net.URLEncoder;
 import java.util.List;
 
 @RestController
-@RequestMapping("/files")
+@RequestMapping("/api/files")
 public class FileController extends BaseController {
     @Value("${server.port}")
     private String port;
@@ -42,12 +42,16 @@ public class FileController extends BaseController {
         // 定义文件的唯一标识（前缀）
         String flag = IdUtil.fastSimpleUUID();
         String rootFilePath = System.getProperty("user.dir") + "/files/" + flag + "_" + originalFilename;  // 获取上传的路径
+        int lastIndex = originalFilename.lastIndexOf(".");
+        if (lastIndex == -1) {
+            rootFilePath += ".jpg";
+        }
         File rootFile = new File(rootFilePath);
         if (!rootFile.getParentFile().exists()) {
             rootFile.getParentFile().mkdirs();
         }
         FileUtil.writeBytes(file.getBytes(), rootFilePath);  // 把文件写入到上传的路径
-        return Result.success("http://" + ip + ":" + port + "/files/" + flag);  // 返回结果 url
+        return Result.success("http://" + ip + ":" + port + "/api/files/" + flag);  // 返回结果 url
     }
 
     /**

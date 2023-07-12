@@ -5,7 +5,7 @@ export const getUserInfoByPage = (params)=>{
   return req("get", "/user/byPage", params, null)
 };
 // 更新用户信息
-export const updateUserInfo = params=>{
+export const userUpdate = params=>{
   return req("put", "/user/update", null, params)
 };
 
@@ -28,6 +28,11 @@ export const updateUserPassword = params=>{
 export const userLogin = params=>{
   return req("post", "/user/login", null, params)
 };
+
+// 获取用户的个人信息的接口
+export const getUserProfile = (params)=>{
+  return req("get", "/user/profile", null, null)
+}
 
 // 用户注册的接口
 export const userRegister = params=>{
