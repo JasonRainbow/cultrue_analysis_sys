@@ -26,7 +26,6 @@
   </div>
 </template>
 <script type="text/ecmascript-6">
-import { login } from '../api/userMG'
 import { setCookie, getCookie, delCookie } from '../utils/util'
 import md5 from 'js-md5'
 export default {
@@ -63,7 +62,7 @@ export default {
     this.getcode()
     // 获取存在本地的用户名密码
     this.getuserpwd()
-    
+
   },
   // 里面的函数只有调用才会执行
   methods: {

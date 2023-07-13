@@ -104,8 +104,27 @@ export default {
       })
     },
     logout() {
-      this.$router.push("/home")
-      this.$store.commit("user_logout"); // 用户退出登录
+      this.$confirm('退出登录, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        .then(() => {
+          setTimeout(() => { // 管理员退出登录
+            this.$router.push("/home")
+            this.$store.commit("user_logout"); // 用户退出登录
+            this.$message({
+              type: 'success',
+              message: '已退出登录!'
+            })
+          }, 1000)
+        })
+        .catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消'
+          })
+        })
     }
   }
 };

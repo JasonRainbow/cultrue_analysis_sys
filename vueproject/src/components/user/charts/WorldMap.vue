@@ -6,7 +6,7 @@
       </h2>
     </div>
     <div style="margin-top: 1%;text-align: center" >
-      <el-select v-model="selectEmotion" placeholder="请选择情感" @change="updateChart">
+      <el-select size="small" v-model="selectEmotion" placeholder="请选择情感" @change="updateChart">
         <el-option
           v-for="item in emotionOptions"
           :key="item.value"
@@ -14,7 +14,7 @@
           :value="item.value">
         </el-option>
       </el-select>
-      <el-date-picker
+      <el-date-picker size="small"
         v-model="queryMapParam.searchTime"
         align="right"
         type="date"
@@ -25,23 +25,22 @@
       >
       </el-date-picker>
     </div>
-    <div id="worldMapChart" class="mapStyle" style="height: 90%;width: 100%;position: absolute"></div>
+    <div id="worldMapChart" class="mapStyle" style="margin: auto; height: 100%;width: 100%;position: absolute;"></div>
   </div>
 </template>
 <script>
 import worldJson from '../../../assets/map/world.json'
 import {getSentimentByPage} from "../../../api/sentimentAPI";
 export default {
-  name: "worldMap",
-  /*props: {
+  name: "WorldMap",
+  props: {
     workName: {
       type: String,
       require: true
     }
-  },*/
+  },
   data() {
     return {
-      workName: "",
       emotionEveryCountry: {},
       selectDate: "2023-07-01",
       worldMapChart: {},
@@ -1482,6 +1481,9 @@ export default {
           }
         },
         visualMap: {
+          textStyle: {
+            color: '#b5bb94',
+          },
           min: 0,
           max: 100,
           left: "65px",
@@ -1492,15 +1494,15 @@ export default {
             color: [
               // 地图的颜色 从最深 到最浅
               "#fff",
-              "#c7ddb5",
-              "#b3cf99",
-              "#a3c585",
-              "#95bb72",
-              "#87ab69", //绿色 最大
-              "#dcd2ee",
-              "#bfb6d6",
-              "#ac9ec5",
-              "#988ab2", //蓝色最大
+              "#c7b0d4",
+              "#a693be",
+              "#8b75a6",
+              "#6e5e8d",
+              "#663d74", //紫色 最大
+              "#f091a1",
+              "#e782a0",
+              "#e16c96",
+              "#eb3c70", //粉色最大
             ],
             //取值范围的颜色
           },
@@ -1513,7 +1515,7 @@ export default {
           label: {
             show: false,//是否在地图上显示国家名字
             fontSize: "10",
-            color: "rgba(0,0,0,0.7)",
+            color: "rgba(201,174,174,0.7)",
           },
           nameMap:{
             "Canada": "加拿大",
@@ -1790,11 +1792,29 @@ export default {
           this.hateData = this.duplicate(this.hateData)
           this.angryData = this.duplicate(this.angryData)
           this.fearData = this.duplicate(this.fearData)
+          //计算各国情感占比
+          this.happyData = this.calProportion(this.happyData)
+          this.amazedData = this.calProportion(this.amazedData)
+          this.neutralityData = this.calProportion(this.neutralityData)
+          this.hateData = this.calProportion(this.hateData)
+          this.angryData = this.calProportion(this.angryData)
+          this.fearData = this.calProportion(this.fearData)
           //根据所选情感值 将对应数组中的数据填充至worldMap中 更新图表
           this.updateChart();
         }
       })
    },
+    //计算各国情感占比
+    calProportion(emotionArray){
+      let sum = 0
+      emotionArray.forEach(item => {
+          sum += item.value;
+      })
+      emotionArray.forEach(item => {
+        item.value = (item.value/sum)*100;
+      })
+      return emotionArray
+    },
     //填充worldMap的数据
     fillWorldMapData(){
       switch (this.selectEmotion){
@@ -1870,7 +1890,6 @@ export default {
   beforeMount() {
     this.workName = this.$route.query.workName
     console.log(this.workName)
-
   }
 }
 </script>

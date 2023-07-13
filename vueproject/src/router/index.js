@@ -33,11 +33,11 @@ import UserRegister from "../views/user/UserRegister";
 import PersonalCenter from "../views/user/PersonalCenter";
 import EffectPage from "../views/user/EffectPage";
 import AssessmentDetailChart from "../components/user/charts/AssessmentDetailChart";
-import worldMap from "../components/user/charts/worldMap";
 import background from "../views/user/background";
 import HotComment from "../components/user/common/HotComment";
 import normalQuestion from "../components/user/common/normalQuestion";
 import NotLogin from "../views/user/NotLogin";
+import ShowWorldMap from "../views/user/ShowWorldMap";
 
 // 启用路由
 Vue.use(Router);
@@ -185,7 +185,7 @@ export default new Router({
     {
       path: "/worldMap",
       name: "情感世界分布",
-      component: worldMap,
+      component: ShowWorldMap,
       meta: {
         requireAuth: false
       }

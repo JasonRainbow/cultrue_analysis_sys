@@ -36,9 +36,9 @@
       </el-table-column>
       <el-table-column prop="title" label="作品介绍标题" width="140">
       </el-table-column>
-      <el-table-column prop="content" label="作品介绍内容" width="150">
+      <el-table-column prop="content" label="作品介绍内容" width="200">
       </el-table-column>
-      <el-table-column align="center" sortable prop="postTime" label="作品介绍时间" min-width="120">
+      <el-table-column align="center" sortable prop="postTime" label="作品介绍时间" min-width="100">
         <template slot-scope="scope">
           <div>{{ parseTime(scope.row.postTime, '{y}-{m}-{d}') }}</div>
         </template>

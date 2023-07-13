@@ -170,6 +170,7 @@ export default {
                   this.visible = false;
                   updateAdminInfo();
                   this.$store.state.admin.avatar = this.options.img
+                  location.reload()
                   // console.log(this.options.img)
                 } else {
                   this.$message.error("修改失败！" + res.msg)

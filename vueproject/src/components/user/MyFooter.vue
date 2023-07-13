@@ -146,7 +146,7 @@
         <div>
           <ul class="footer__nav">
             <li class="nav__item nav__item--extra">
-              <h2 class="nav__title">Links|友情链接</h2>
+              <h1 class="nav__title">Links|友情链接</h1>
               <ul class="nav__ul nav__ul--extra">
                 <li>
                   <a href="https://news.google.com/">Google News</a>
@@ -179,7 +179,13 @@
                   <a href="http://www.goodreads.com/">GoodReads</a>
                 </li>
                 <li>
-                  <a href="https://www.amazon.com">烂番茄</a>
+                  <a href="https://www.rottentomatoes.com/">烂番茄</a>
+                </li>
+                <li>
+                  <a href="https://www.imdb.com/">IMDb</a>
+                </li>
+                <li>
+                  <a href="https://haodoo.net/">好读</a>
                 </li>
               </ul>
             </li>

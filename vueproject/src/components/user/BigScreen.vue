@@ -128,14 +128,6 @@
 
 <script>
 import { formatTime } from '../../utils/util.js';
-import leftchart1 from "../../components/koi/left/chart1.vue";
-import leftchart2 from "../../components/koi/left/chart2data.vue";
-import centerchart1 from "../../components/koi/center/chart1.vue";
-import centerchart2 from "../../components/koi/center/chart2.vue";
-import centerchart3 from "../../components/koi/center/chart3.vue";
-import rightchart1 from "../../components/koi/right/chart1.vue";
-import rightchart2 from "../../components/koi/right/chart2.vue";
-import rightchart3 from "../../components/koi/right/chart3.vue";
 // 导入图表组件
 import SentimentScrollChart from "./charts/SentimentScrollChart";
 import PolarityCapsuleChart from "./charts/PolarityCapsuleChart";
@@ -148,14 +140,6 @@ import {getMonitorWorkByUserId} from "../../api/monitor_workAPI";
 export default {
   name: 'BigScreen',
   components: { // 注册组件
-    leftchart1,
-    leftchart2,
-    centerchart1,
-    centerchart2,
-    centerchart3,
-    rightchart1,
-    rightchart2,
-    rightchart3,
     SentimentScrollChart,
     PolarityCapsuleChart,
     WordCloud,
