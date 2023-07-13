@@ -141,7 +141,7 @@ export default {
             },
           ]
         },
-        {
+        /*{
           menuid: 150,
           icon: 'el-icon-pie-chart',
           menuname: '图表',
@@ -157,7 +157,7 @@ export default {
               menus: null
             }
           ]
-        }
+        }*/
       ],
       msg: 'success'
     }

@@ -161,6 +161,7 @@ export default {
   mounted() {
     this.getData()
     this.initLineChart()
+    console.log("line chart")
   },
   methods: {
     initLineChart() {

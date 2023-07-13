@@ -24,4 +24,11 @@ public interface RawCommentMapper extends BaseMapper<RawComment> {
                                  @Param("country") String country,
                                  @Param("platform") String platform,
                                  @Param("postTime") String postTime);
+
+    Page<RawComment> selectPage3(Page<RawComment> page,
+                                 @Param("workName") String workName,
+                                 @Param("content") String content,
+                                 @Param("country") String country,
+                                 @Param("platform") String platform,
+                                 @Param("postTime") String postTime);
 }

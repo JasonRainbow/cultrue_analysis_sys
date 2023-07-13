@@ -1,5 +1,8 @@
 <template>
-  <div id="platFormChart" style="height: 100%;width: 100%"></div>
+  <div style="">
+    <div style="margin-bottom: 20px">数据来源占比</div>
+    <div id="platFormChart" style="height: 450px;width: 100%"></div>
+  </div>
 </template>
 
 <script>
@@ -17,7 +20,11 @@ export default {
     return{
       option: {
         legend: {
-          top: 'bottom'
+          top: '5%',
+          left: 'center',
+          textStyle: {
+            color: '#fff'
+          },
         },
         tooltip: {
           trigger: 'item'
@@ -35,11 +42,12 @@ export default {
           {
             name: '数据来源占比图',
             type: 'pie',
-            radius: [50, 250],
-            center: ['50%', '50%'],
+            radius: ['40%', '70%'],
+            center: ['52%', '60%'],
             roseType: 'area',
             itemStyle: {
-              borderRadius: 8
+              borderRadius: 10,
+              borderColor: '#ece7e7',
             },
             data: [
               { value: 40, name: 'Youtube' },
@@ -73,19 +81,25 @@ export default {
           });
           console.log(this.option.series[0].data)
           this.updatePlatFormChart()
+          this.initPlatFormChart()
         }
       })
     },
     updatePlatFormChart(){
-      this.platFormChart.setOption(this.option)
+      // this.platFormChart.setOption(this.option)
+      let _this = this
+      window.addEventListener('resize',function(){
+        _this.platFormChart.resize();
+      })
     }
   },
   mounted(){
-    console.log("Data")
+    // console.log("Data")
+    // this.getPlatFormData()
     this.initPlatFormChart()
   },
   create() {
-    console.log("1111")
+    // console.log("1111")
   }
 }
 </script>

@@ -16,7 +16,15 @@ const request = axios.create({
 })
 
 // 请求白名单，如果请求在白名单里面，将不会被拦截校验权限
-const whiteUrls = ["/user/login", '/user/register', '/admin/login', '/admin/register']
+const whiteUrls = ["/user/login", '/user/register',
+  '/admin/login', '/admin/register', '/comment/all', '/comment/countries',
+  '/comment/platforms', '/comment/byPage', '/comment/byPage2', '/comment/getHotComment',
+  '/files/upload', '/hot-work/byPage', '/hot-work/id/', '/monitor-request/id/',
+  '/monitor-request/byUserId', '/monitor-request/byPage', '/monitor-request/add',
+  '/monitor-work/all', '/monitor-work/byUserId', '/monitor-work/countPlatform', '/polarity/all',
+  '/polarity/byPage', '/polarity/query-list', '/polarity/countDaily', '/polarity/countDayInterval',
+  '/sentiment/all', '/sentiment/byPage', '/sentiment/query-list', '/sentiment/countDaily',
+  '/user/update', '/word-freq/all', '/word-freq/byPage', '/word-freq/query-res', '']
 
 const userAuth = ["/user/pass", "/user/profile"]
 
@@ -27,25 +35,25 @@ let downloadLoadingInstance;
 // 比如统一加token，对请求参数统一加密
 request.interceptors.request.use(config => {
     config.headers['Content-Type'] = 'application/json;charset=utf-8';
-
-    // 取出localStorage里面缓存的管理员信息
-    let adminJson = localStorage.getItem("admin")
-    // console.log(adminJson)
-    /*if (!whiteUrls.includes(config.url)) {  // 校验请求白名单
-        if(!adminJson) {
-            router.push("/admin/login")
-        } else {
-            let admin = JSON.parse(adminJson);
-            config.headers['token'] = admin.token;  // 设置请求头  加上token凭证
-        }
-    }*/
-    if(adminJson ) {
+    /*if(adminJson ) {
       let admin = JSON.parse(adminJson);
       config.headers['token'] = admin.token;  // 设置请求头  加上token凭证
-    }
+    }*/
     if (userAuth.includes(config.url)) {
       let user = JSON.parse(localStorage.getItem("user"))
       config.headers['token'] = user.token
+    } else {
+      // 取出localStorage里面缓存的管理员信息
+      // console.log(adminJson)
+      if (!whiteUrls.includes(config.url)) {  // 校验请求白名单
+        let adminJson = localStorage.getItem("admin")
+          if(!adminJson) {
+              router.push("/admin/login")
+          } else {
+              let admin = JSON.parse(adminJson);
+              config.headers['token'] = admin.token;  // 设置请求头  加上token凭证
+          }
+      }
     }
     return config
 }, error => {

@@ -17,6 +17,11 @@ export const getPolarityByPage = (params)=>{
   return req("get", "/polarity/byPage", params, null);
 }
 
+// 精确查询
+export const queryPolarity = (params)=>{
+  return req("get", "/polarity/query-list", params, null);
+}
+
 // 统计不同情感极性的评论数  请求参数：workId、country、postTime
 export const polarityCountDaily = (params)=>{
   return req("get", "/polarity/countDaily", params, null);

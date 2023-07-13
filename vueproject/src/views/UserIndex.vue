@@ -25,7 +25,8 @@ export default {
 </script>
 
 <style scoped>
-.user-index{
+.user-index,el-main{
   background-color: #ecf5ff;
 }
+
 </style>

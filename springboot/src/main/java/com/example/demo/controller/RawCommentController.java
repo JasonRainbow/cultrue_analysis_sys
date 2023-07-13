@@ -96,6 +96,21 @@ public class RawCommentController {
         return Result.success(res);
     }
 
+    // 获取热点评论
+    @GetMapping("/getHotComment")
+    public Result<?> getHotComment(@RequestParam(required = false, defaultValue = "") String searchWorkName,
+                                   @RequestParam(required = false, defaultValue = "") String searchContent,
+                                   @RequestParam(required = false, defaultValue = "") String searchCountry,
+                                   @RequestParam(required = false, defaultValue = "") String searchPlatform,
+                                   @RequestParam(required = false, defaultValue = "") String searchTime,
+                                   @RequestParam(required = false, defaultValue = "1") Integer pageNum,
+                                   @RequestParam(required = false, defaultValue = "10") Integer pageSize) {
+        Page<RawComment> res = rawCommentMapper.selectPage3(new Page<>(pageNum, pageSize),
+                searchWorkName, searchContent,
+                searchCountry, searchPlatform, searchTime);
+        return Result.success(res);
+    }
+
     // 根据id删除指定评论
     @DeleteMapping("/delete/{ids}")
     public Result<?> deleteById(@PathVariable Long[] ids) {

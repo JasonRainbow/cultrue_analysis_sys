@@ -9,15 +9,15 @@
       },
       width: {
         type: String,
-        default: "580px"
+        default: "350px"
       },
       height: {
         type: String,
-        default: "580px"
+        default: "310px"
       },
       chartOptions: {
         type: Object,
-        required: true
+        required: false
       }
 
     },
@@ -27,7 +27,7 @@
     data() {
       return {
         selectCountry: '美国',
-        selectTime: null,
+        selectTime: '2023-07-01',
         searchParams: {
           workId: this.workId,
           country: '美国',  //this.selectCountry,
@@ -126,7 +126,7 @@
                   rotate: true,
                   show: true,
                   textStyle: {
-                    color: '#333',
+                    color: '#6acaea',
                     fontWeight: '400'
                   }
                 },
@@ -962,17 +962,18 @@
 </script>
 
 <template>
-    <div id="div1" style="text-align: center">
+    <div id="div1" style="text-align: center; width: 100%; height: 100%; color: white" >
       <div style="margin-top: 5px;text-align: center" >
-        <el-select v-model="selectCountry" placeholder="请选择国家">
+        <el-select size="small" style="width: 110px" v-model="selectCountry" placeholder="请选择国家">
           <el-option
-            v-for="item in countryOptions"z
+            v-for="item in countryOptions"
             :key="item.value"
             :label="item.label"
             :value="item.value">
           </el-option>
         </el-select>
-        <el-date-picker
+        <el-date-picker style="width: 130px"
+          size="small"
           v-model="selectTime"
           type="date"
           placeholder="请选择日期"
@@ -981,13 +982,13 @@
           value-format="yyyy-MM-dd">
         </el-date-picker>
       </div>
-      <div id="relationGraph" :style="{ width: width,height: height}"></div>
+      <div id="relationGraph" :style="{ width: width,height: height, 'margin-top': '20px'}"></div>
     </div>
 </template>
 
 <style scoped>
   #div1{
-    width:580px;
-    height:580px;
+    width:100%;
+    height:100%;
   }
 </style>

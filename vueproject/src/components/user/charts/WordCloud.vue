@@ -2,7 +2,7 @@
   <div>
     <div style="text-align:center;">
       <h2>{{selectCountry}}&nbsp;{{selectDate}}词云图</h2><br>
-      <el-select v-model="queryWordFreqParam.searchCountry" placeholder="请选择国家" @change="getWordData">
+      <el-select size="small" style="width: 110px" v-model="selectCountry" placeholder="请选择国家" @change="getWordData">
         <el-option
           v-for="item in countryOptions"
           :key="item.value"
@@ -10,7 +10,7 @@
           :value="item.value">
         </el-option>
       </el-select>
-      <el-select v-model="queryWordFreqParam.searchPlatform" placeholder="请选择平台" @change="getWordData">
+      <el-select size="small" style="width: 100px" v-model="queryWordFreqParam.searchPlatform" placeholder="请选择平台" @change="getWordData">
         <el-option
           v-for="item in platFormOptions"
           :key="item.value"
@@ -18,7 +18,8 @@
           :value="item.value">
         </el-option>
       </el-select>
-      <el-date-picker
+      <el-date-picker style="width: 130px"
+        size="small"
         v-model="queryWordFreqParam.searchTime"
         align="right"
         type="date"
@@ -28,12 +29,12 @@
         @change="getWordData">
       </el-date-picker>
     </div>
-    <div id="wordCloud" style="height: 100%;width: 100%"></div>
+    <div id="wordCloud" style="height: 100%;width: 100%; margin-top: 25px"></div>
   </div>
 </template>
 
 <script>
-import {getWordFreqRes} from "../../api/word_freq_anaAPI";
+import {getWordFreqRes} from "../../../api/word_freq_anaAPI";
 import 'echarts-wordcloud'
 export default {
   name: "WordCloud",
@@ -151,7 +152,7 @@ export default {
       queryWordFreqParam:{
         searchWorkId:this.workId,
         searchTime:"2023-07-01",
-        searchCountry:"美国",
+        searchCountry: this.selectCountry,
         searchPlatform:"Youtube"
       }
     }
@@ -164,7 +165,12 @@ export default {
       window.addEventListener("resize", () => {this.wordCloudChart.resize()})
     },
     getWordData(){//获取数据
-      console.log(this.queryWordFreqParam.searchTime)
+      if (this.selectCountry === "全球") {
+        this.queryWordFreqParam.searchCountry = ""
+      } else {
+        this.queryWordFreqParam.searchCountry = this.selectCountry
+      }
+      console.log(this.queryWordFreqParam)
       getWordFreqRes(this.queryWordFreqParam).then((res) => {
         if (res.code === "0") {
           console.log(res.data.keywords)

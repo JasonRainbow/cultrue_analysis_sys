@@ -54,7 +54,7 @@
           <div class="card-title">传播效果展示</div>
           <div style="margin-bottom: 15px">
             <span style="margin-right: 15px" class="font-bold">监测作品切换：</span>
-            <el-select v-model="workId" placeholder="请选择作品类型" @change="updateData">
+            <el-select v-model="workId" placeholder="请选择作品类型">
               <el-option
                 v-for="work in works"
                 :key="work.id"
@@ -72,6 +72,12 @@
           </div>
         </el-card>
       </el-col>
+      <el-col :span="17" :xs="24" :sm="24" :lg="17" :offset="3" style="margin-top: 20px">
+        <el-card class="box-card grid-content" shadow="always">
+          <div class="card-title">热点评论</div>
+          <HotComment></HotComment>
+        </el-card>
+      </el-col>
     </el-row>
   </div>
 </template>
@@ -82,13 +88,15 @@ import {getHotWorkByPage} from "../../api/hotworkAPI";
 import pie from "../../components/user/charts/pie";
 import {getMonitorWorkByUserId} from "../../api/monitor_workAPI";
 import HomePageLineChart from "../../components/user/charts/HomePageLineChart";
+import HotComment from "../../components/user/common/HotComment";
 
 export default {
   name: "HomePage",
   components: {
     SlideShow,
     pie,
-    HomePageLineChart
+    HomePageLineChart,
+    HotComment
   },
   data() {
     return {
@@ -157,9 +165,6 @@ export default {
           })
       }
     },
-    updateData() {
-      console.log(this.workId)
-    },
     handleSizeChange(val) {
 
     },
@@ -179,6 +184,7 @@ export default {
           this.works = res.data.map((item)=>{
             return {id: item.id, name: item.name}
           })
+          this.workId = this.works[0].id // 默认选中第一个作品
         } else {
           console.log(res.msg)
         }

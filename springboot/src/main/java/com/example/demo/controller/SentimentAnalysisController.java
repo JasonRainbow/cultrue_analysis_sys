@@ -5,6 +5,7 @@ import cn.hutool.core.io.IoUtil;
 import cn.hutool.poi.excel.ExcelUtil;
 import cn.hutool.poi.excel.ExcelWriter;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.common.Result;
 import com.example.demo.entity.SentimentAnalysis;
@@ -44,7 +45,7 @@ public class SentimentAnalysisController {
         return Result.success(sentimentAnalysis);
     }
 
-    // 分页 搜索查询
+    // 分页 模糊查询
     @GetMapping("/byPage")
     public Result<?> findPage(@RequestParam(required = false, defaultValue = "") String searchWorkName,
                               @RequestParam(required = false, defaultValue = "") String searchCountry,
@@ -60,6 +61,32 @@ public class SentimentAnalysisController {
                         searchTime);
         return Result.success(mapperPage);
     }
+    // 精确多条件兼容查询
+    @GetMapping("/query-list")
+    public Result<?> findAllQuery(@RequestParam Integer searchWorkId,
+                                  @RequestParam(required = false, defaultValue = "") String searchCountry,
+                                  @RequestParam(required = false, defaultValue = "") String searchPlatform,
+                                  @RequestParam(required = false, defaultValue = "") String searchTime) {
+        QueryWrapper<SentimentAnalysis> query = new QueryWrapper<>();
+        if (searchWorkId != null) {
+            query.eq("workId", searchWorkId);
+        }
+        if (StringUtils.isNotBlank(searchCountry)) {
+            query.eq("country", searchCountry);
+        }
+        if (StringUtils.isNotBlank(searchPlatform)) {
+            query.eq("platform", searchPlatform);
+        }
+        if (StringUtils.isNotBlank(searchTime)) {
+            query.eq("time", searchTime);
+        }
+
+        return Result.success(sentimentAnalysisMapper.selectList(query));
+    }
+
+
+    // 精确查询
+
 
     // 统计不同情感倾向的评论数
     @GetMapping("/countDaily")

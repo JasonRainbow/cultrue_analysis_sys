@@ -46,4 +46,17 @@
         </if>
         order by cmt.id
     </select>
+
+    <select id="selectPage3" resultMap="commentsByPage">
+        select cmt.*, mw.name name, mw.category category
+        from raw_comment cmt
+        inner join monitor_work mw on(cmt.workId = mw.id)
+        where mw.name like '%${workName}%'
+        and cmt.content like '%${content}%'
+        and cmt.country like '%${country}%' and cmt.platform like '%${platform}%'
+        <if test="postTime != null and postTime != ''">
+            and cmt.postTime = #{postTime}
+        </if>
+        order by cmt.likes desc
+    </select>
 </mapper>

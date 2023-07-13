@@ -39,6 +39,7 @@
         <el-card class="box-card">
           <div slot="header" class="clearfix">
             <span>个人信息</span>
+            <el-button style="float: right" type="danger" size="mini" @click="logout">退出登录</el-button>
           </div>
           <el-tabs v-model="activeTab">
             <el-tab-pane label="基本资料" name="userinfo">
@@ -48,10 +49,10 @@
               <resetPwd />
             </el-tab-pane>
             <el-tab-pane label="监测作品列表" name="monitor-works">
-
+              <monitor-list user-id=""></monitor-list>
             </el-tab-pane>
             <el-tab-pane label="申请监测" name="monitor-request">
-
+              <apply-monitor></apply-monitor>
             </el-tab-pane>
           </el-tabs>
         </el-card>
@@ -65,6 +66,8 @@ import userAvatar from "./userAvatar";
 import userInfo from "./userInfo";
 import resetPwd from "./resetPwd";
 import {getUserProfile} from "../../../api/userAPI";
+import monitorList from "../../../components/user/common/monitorList";
+import applyMonitor from "../../../components/user/common/applyMonitor";
 
 export default {
   name: "Profile",
@@ -72,6 +75,8 @@ export default {
     userAvatar,
     userInfo,
     resetPwd,
+    monitorList,
+    applyMonitor
   },
   data() {
     return {
@@ -97,6 +102,10 @@ export default {
           console.log(res.msg)
         }
       })
+    },
+    logout() {
+      this.$router.push("/home")
+      this.$store.commit("user_logout"); // 用户退出登录
     }
   }
 };

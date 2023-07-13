@@ -5,10 +5,12 @@ import cn.hutool.core.io.IoUtil;
 import cn.hutool.poi.excel.ExcelUtil;
 import cn.hutool.poi.excel.ExcelWriter;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.common.Result;
 import com.example.demo.entity.MonitorWork;
 import com.example.demo.entity.PolarityAnalysis;
+import com.example.demo.entity.SentimentAnalysis;
 import com.example.demo.entity.dto.PolarityDto;
 import com.example.demo.entity.dto.PolarityStatisticsDto;
 import com.example.demo.mapper.MonitorWorkMapper;
@@ -65,6 +67,29 @@ public class PolarityAnalysisController {
                         searchPlatform,
                         searchTime);
         return Result.success(mapperPage);
+    }
+
+    // 精确多条件兼容查询
+    @GetMapping("/query-list")
+    public Result<?> findAllQuery(@RequestParam(required = false, defaultValue = "0") Integer searchWorkId,
+                                  @RequestParam(required = false, defaultValue = "") String searchCountry,
+                                  @RequestParam(required = false, defaultValue = "") String searchPlatform,
+                                  @RequestParam(required = false, defaultValue = "") String searchTime) {
+        QueryWrapper<PolarityAnalysis> query = new QueryWrapper<>();
+        if (searchWorkId != 0) {
+            query.eq("workId", searchWorkId);
+        }
+        if (StringUtils.isNotBlank(searchCountry)) {
+            query.eq("country", searchCountry);
+        }
+        if (StringUtils.isNotBlank(searchPlatform)) {
+            query.eq("platform", searchPlatform);
+        }
+        if (StringUtils.isNotBlank(searchTime)) {
+            query.eq("time", searchTime);
+        }
+
+        return Result.success(polarityAnalysisMapper.selectList(query));
     }
 
     // 统计不同情感极性的评论数

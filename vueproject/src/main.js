@@ -71,15 +71,22 @@ Object.keys(custom).forEach(key => {
 router.beforeEach((to, from, next) => {
     if (to.matched.length !== 0) { // 路由能够匹配
         if (to.meta.requireAuth) { // 判断该路由是否需要登录权限
-          if (to.path === "/personal" && Boolean(localStorage.getItem("user"))) {
-            let user = JSON.parse(localStorage.getItem("user"));
-            if (user.avatar == null || user.avatar === "") {
-              user.avatar = require("./assets/img/avatar.jpeg")
+          if (to.path === "/personal") { // 访问个人中心页面
+            if (Boolean(localStorage.getItem("user"))) {
+              let user = JSON.parse(localStorage.getItem("user"));
+              if (user.avatar == null || user.avatar === "") {
+                user.avatar = require("./assets/img/avatar.jpeg")
+              }
+              store.state.user = user
+              next()
+            } else {
+              next({
+                path: "/not-login",
+                query: { redirect: to.fullPath }
+              })
             }
-            store.state.user = user
-            next()
           }
-            if (Boolean(localStorage.getItem("admin"))) { // 通过vuex state获取当前的user是否存在
+           else if (Boolean(localStorage.getItem("admin"))) { // 通过vuex state获取当前的user是否存在
               const admin = JSON.parse(localStorage.getItem("admin"));
               console.log(admin)
               if (admin.avatar == null || admin.avatar === "") {

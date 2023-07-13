@@ -22,7 +22,7 @@ public class SentimentAnalysis {
 
     private String country; // 所属国家
 
-    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "UTC")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date time; // 情感极性分析的评论发布时间
 
     private String platform; // 平台

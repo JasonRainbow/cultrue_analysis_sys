@@ -30,6 +30,11 @@ export const getCommentsByPage2 = (params)=>{
   return req("get", "/comment/byPage2", params, null);
 }
 
+// 查询热点评论 分页
+export const getHotCommentsByPage = (params)=>{
+  return req("get", "/comment/getHotComment", params, null);
+}
+
 // 根据id删除指定评论
 export const deleteComment = (params)=>{
   return req("delete", "/comment/delete/" + params, null, null);

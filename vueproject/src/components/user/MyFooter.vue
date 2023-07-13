@@ -173,22 +173,13 @@
                 </li>
 
                 <li>
-                  <a href="https://www.reutersagency.com/zh-hans/">Reuters News Agency</a>
+                  <a href="https://www.amazon.com">Amazon</a>
                 </li>
                 <li>
-                  <a href="http://www.afp.com">AFP News</a>
+                  <a href="http://www.goodreads.com/">GoodReads</a>
                 </li>
                 <li>
-                  <a href="https://tass.com">TASS Russian News Agency</a>
-                </li>
-                <li>
-                  <a href="http://www.xinhuanet.com/english/special/qmttt/index.htm">XinHua HeadLines</a>
-                </li>
-                <li>
-                  <a href="https://www.dpa.com/en">dpa German Press Agency</a>
-                </li>
-                <li>
-                  <a href="https://www.ansa.it">ANSA</a>
+                  <a href="https://www.amazon.com">烂番茄</a>
                 </li>
               </ul>
             </li>

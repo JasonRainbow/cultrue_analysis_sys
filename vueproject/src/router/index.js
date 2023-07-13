@@ -20,7 +20,6 @@ import HotWorkAdmin from "../views/admin/HotWorkAdmin";
 import MonitorWorkAdmin from "../views/admin/MonitorWorkAdmin";
 import MonitorRequestAdmin from "../views/admin/MonitorRequestAdmin";
 import CommentAdmin from "../views/admin/CommentAdmin";
-import login3 from "../views/login3";
 import SentimentAdmin from "../views/admin/SentimentAdmin";
 import PolarityAdmin from "../views/admin/PolarityAdmin";
 import WordFreqAdmin from "../views/admin/WordFreqAdmin";
@@ -33,6 +32,12 @@ import UserLogin from "../views/user/UserLogin";
 import UserRegister from "../views/user/UserRegister";
 import PersonalCenter from "../views/user/PersonalCenter";
 import EffectPage from "../views/user/EffectPage";
+import AssessmentDetailChart from "../components/user/charts/AssessmentDetailChart";
+import worldMap from "../components/user/charts/worldMap";
+import background from "../views/user/background";
+import HotComment from "../components/user/common/HotComment";
+import normalQuestion from "../components/user/common/normalQuestion";
+import NotLogin from "../views/user/NotLogin";
 
 // 启用路由
 Vue.use(Router);
@@ -178,6 +183,14 @@ export default new Router({
       }
     },
     {
+      path: "/worldMap",
+      name: "情感世界分布",
+      component: worldMap,
+      meta: {
+        requireAuth: false
+      }
+    },
+    {
       path: "/",
       name: "客户端", // 客户端网页的首页
       component: UserIndex,
@@ -210,7 +223,46 @@ export default new Router({
             requireAuth: true
           }
         },
-
+        {
+          path: "/sentiment-assessment",
+          name: "国际传播效果评估",
+          component: AssessmentDetailChart,
+          meta: {
+            requireAuth: false
+          }
+        },
+        {
+          path: "/background",
+          name: "背景介绍",
+          component: background,
+          meta: {
+            requireAuth: false
+          }
+        },
+        {
+          path: "/question",
+          name: "常见问题",
+          component: normalQuestion,
+          meta: {
+            requireAuth: false
+          }
+        },
+        {
+          path: "/hotcomment",
+          name: "热点评论",
+          component: HotComment,
+          meta: {
+            requireAuth: false
+          }
+        },
+        {
+          path: "/not-login",
+          name: "未登录",
+          component: NotLogin,
+          meta: {
+            requireAuth: false
+          }
+        },
       ]
     }
   ]

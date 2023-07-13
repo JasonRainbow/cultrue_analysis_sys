@@ -8,7 +8,7 @@
       <!-- 第一部分-头部-start -->
       <div class="header">
         <!-- 首页 -->
-        <a class="homePage font-bold colorDeepskyblue" :style="{'font-size': Math.round(this.screenWidth/100) + 'px'}" href="https://gitee.com/BigCatHome/koi-screen" target="_self">Gitee</a>
+        <span class="homePage font-bold colorDeepskyblue" :style="{'font-size': Math.round(this.screenWidth/100) + 'px', 'cursor': 'pointer'}" @click="goback">返回首页</span>
         <!-- 时间 -->
         <div class="localTime colorPink" :style="{'font-size': Math.round(this.screenWidth/100) + 'px'}">{{ dateYear }} {{ dateWeek }} {{ dateDay }}</div>
         <!-- 装饰10 -->
@@ -16,7 +16,8 @@
         <!-- 装饰8 -->
         <dv-decoration-8 class="dv-dec-8-left" :color="decorationColor"/>
         <!-- 标题 -->
-        <span class="title font-bold colorText" :style="{'font-size': Math.round(this.screenWidth/100) + 'px'}">分布式储能平台</span>
+        <dv-decoration-7 class="title font-bold colorText" style="width: 220px;height: 30px;margin-left: -47px;font-size: 20px">传播效果大屏展示</dv-decoration-7>
+<!--        <span class="title font-bold colorText" :style="{'font-size': Math.round(this.screenWidth/100) + 'px'}">传播效果大屏展示</span>-->
         <!-- 装饰8 -->
         <dv-decoration-8 class="dv-dec-8-right" :reverse="true" :color="decorationColor" />
         <!-- 装饰10 -->
@@ -47,53 +48,73 @@
       <!-- Element-UI Layout布局 -->
       <div class="layoutHome">
         <el-row>
-          <el-col :span="6" :xs="24">
+<!--         左侧部分-->
+          <el-col :span="6">
             <div :style="{ height: kHOne + 'px'}">
               <dv-border-box-12 style="padding:12px">
-                <leftchart1></leftchart1>
+                <WordCloud :work-id="workId" :key="workId"></WordCloud>
               </dv-border-box-12>
             </div>
 
             <div :style="{ height: kHTwo + 'px'}">
               <!-- style="padding:12px" -->
               <dv-border-box-12 style="padding:12px">
-                <leftchart2></leftchart2>
+                <RelationGraph></RelationGraph>
               </dv-border-box-12>
             </div>
           </el-col>
 
-          <el-col :span="9" :xs="24">
+<!--          中间部分-->
+          <el-col :span="10">
             <div :style="{ height: kHThree + 'px'}">
               <dv-border-box-12 style="padding:12px">
-                <centerchart1></centerchart1>
+                <div style="margin-bottom: 15px">
+                  <span style="margin-right: 8px" class="font-bold">监测作品切换：</span>
+                  <el-select v-model="workId" placeholder="请选择作品类型">
+                    <el-option
+                      v-for="work in works"
+                      :key="work.id"
+                      :label="work.name"
+                      :value="work.id"
+                    />
+                  </el-select><br><br>
+<!--                  <el-button type="success" plain>世界情感分布图</el-button>-->
+                  <div @click="sentimentMap">
+                    <router-link :to="{path: '/worldMap', query: {workName: '西游记'}}">
+                      <dv-border-box-8 id="btn-world"
+
+                                       style="color: white;cursor: pointer; width: 250px; border-radius: 10px; height: 50px; margin: auto auto; font-size: 20px; text-align: center; line-height: 50px" :reverse="true">
+                        查看世界情感分布图
+                      </dv-border-box-8>
+                    </router-link>
+
+                  </div>
+                </div>
               </dv-border-box-12>
             </div>
             <div :style="{ height: kHFour + 'px'}">
               <dv-border-box-12 style="padding:12px">
-                <centerchart2></centerchart2>
-              </dv-border-box-12>
-            </div>
-            <div :style="{ height: kHFive + 'px'}">
-              <dv-border-box-12 style="padding:12px">
-                <centerchart3></centerchart3>
+                <DataSourcePieChart :work-id="workId" :key="workId"></DataSourcePieChart>
               </dv-border-box-12>
             </div>
           </el-col>
 
-          <el-col :span="9" :xs="24">
+<!--          右侧部分-->
+          <el-col :span="8">
             <div :style="{ height: kHSix + 'px'}">
-              <dv-border-box-12 style="padding:12px">
-                <rightchart1></rightchart1>
+              <dv-border-box-12 style="padding-top:8px; padding-left: 10px;padding-right: 10px">
+                各国整体情感排名
+                <SentimentScrollChart :work-id="workId" :key="workId"></SentimentScrollChart>
               </dv-border-box-12>
             </div>
             <div :style="{ height: kHSeven + 'px'}">
-              <dv-border-box-12 style="padding:12px">
-                <rightchart2></rightchart2>
+              <dv-border-box-12 style="padding:12px; ">
+                <PolarityCapsuleChart :work-id="workId" :key="workId"></PolarityCapsuleChart>
               </dv-border-box-12>
             </div>
             <div :style="{ height: kHEight + 'px'}">
               <dv-border-box-12 style="padding:12px">
-                <rightchart3></rightchart3>
+                <MessageChart :work-id="workId" :key="workId"></MessageChart>
               </dv-border-box-12>
             </div>
           </el-col>
@@ -115,9 +136,18 @@ import centerchart3 from "../../components/koi/center/chart3.vue";
 import rightchart1 from "../../components/koi/right/chart1.vue";
 import rightchart2 from "../../components/koi/right/chart2.vue";
 import rightchart3 from "../../components/koi/right/chart3.vue";
+// 导入图表组件
+import SentimentScrollChart from "./charts/SentimentScrollChart";
+import PolarityCapsuleChart from "./charts/PolarityCapsuleChart";
+import WordCloud from "./charts/WordCloud";
+import RelationGraph from "./charts/RelationGraph";
+import DataSourcePieChart from "./charts/DataSourcePieChart";
+import MessageChart from "./charts/MessageChart";
+
+import {getMonitorWorkByUserId} from "../../api/monitor_workAPI";
 export default {
   name: 'BigScreen',
-  components: {
+  components: { // 注册组件
     leftchart1,
     leftchart2,
     centerchart1,
@@ -125,7 +155,13 @@ export default {
     centerchart3,
     rightchart1,
     rightchart2,
-    rightchart3
+    rightchart3,
+    SentimentScrollChart,
+    PolarityCapsuleChart,
+    WordCloud,
+    RelationGraph,
+    DataSourcePieChart,
+    MessageChart
   },
   data () {
     return {
@@ -149,16 +185,23 @@ export default {
       screenWidth: window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
       kHOne: 200,
       kHTwo: 500,
-      kHThree: 300,
+      kHThree: 250,
       kHFour: 500,
       kHFive: 450,
-      kHSix: 300,
+      kHSix: 400,
       kHSeven: 400,
-      kHEight: 400
+      kHEight: 400,
+      workId: 1, // 选中的作品
+      works: [ // 所有的作品
+        {
+          id: 1,
+          name: "流浪地球"
+        }
+      ]
     }
   },
   created () {
-
+    this.getWorkData()
   },
   mounted(){
     // 页面大小改变时触发
@@ -210,6 +253,24 @@ export default {
     }
   },
   methods: {
+    getWorkData: function () {
+      let userId = null;
+      let loginUser = localStorage.getItem("user");
+      if (loginUser) {
+        loginUser = JSON.parse(loginUser) // 解析存储在浏览器中的用户数据
+        userId = loginUser.id
+      }
+      getMonitorWorkByUserId(userId).then((res)=>{ // 获取监测作品
+        if (res.code === "0") {
+          this.works = res.data.map((item)=>{
+            return {id: item.id, name: item.name}
+          })
+          this.workId = this.works[0].id // 默认选中第一个作品
+        } else {
+          console.log(res.msg)
+        }
+      })
+    },
     timeInterval() {
       this.timer = setInterval(() => {
         this.dateDay = formatTime(new Date(), 'HH: mm: ss')
@@ -232,24 +293,32 @@ export default {
     getScreenHeight() {
       this.screenHeight = window.innerHeight || document.documentElement.innerHeight || document.body.clientHeight;
       // 四舍五入取整数
-      this.kHOne = Math.round(this.screenHeight * 0.47);
-      this.kHTwo = Math.round(this.screenHeight * 0.475);
+      this.kHOne = Math.round(this.screenHeight * 0.4);
+      this.kHTwo = Math.round(this.screenHeight * 0.5397);
       this.kHThree = Math.round(this.screenHeight * 0.18);
-      this.kHFour = Math.round(this.screenHeight * 0.38);
-      this.kHFive = Math.round(this.screenHeight * 0.385);
+      this.kHFour = Math.round(this.screenHeight * 0.76);
+      // this.kHFive = Math.round(this.screenHeight * 0.385);
       this.kHSix = Math.round(this.screenHeight * 0.3);
-      this.kHSeven = Math.round(this.screenHeight * 0.32);
-      this.kHEight = Math.round(this.screenHeight * 0.325);
+      this.kHSeven = Math.round(this.screenHeight * 0.3);
+      this.kHEight = Math.round(this.screenHeight * 0.34);
       //console.log(this.screenHeight +"-"+ Math.round(this.percentHThirty) +"-"+ Math.round(this.percentHForty));
     },
     // 字体大小根据宽度自适应
     getScreenWidth(){
       this.screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
       //console.log("hh-"+this.screenWidth+"-"+this.screenHeight);
+    },
+    sentimentMap() {
+      console.log("世界情感分布图")
+    },
+    goback() {
+      console.log("返回")
+      this.$router.push({path: "/home"})
     }
   }
 }
 </script>
 
 <style lang="less" scoped>
+
 </style>
