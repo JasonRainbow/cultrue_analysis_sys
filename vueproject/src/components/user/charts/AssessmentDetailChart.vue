@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-row align="center" justify="center" style="display: flex; justify-content: center">
-      <el-col :span="16" :xs="24" :md="16" align="center">
+      <el-col :span="14" :xs="24" :md="13" align="center">
         <el-card class="box-card grid-content" shadow="always">
           <h2 style="text-align: center" >{{country}} </h2>
           <div id="assessChart" style="width: 100%;height: 800px; margin-top: 20px"></div>
@@ -34,7 +34,7 @@ export default {
         grid: {
           top: '4%',
           left: '1%',
-          right: '3%',
+          right: '4%',
           bottom: '6%',
           containLabel: true
         },
@@ -49,9 +49,9 @@ export default {
           {
             type: 'value',
             min: 0,
-            max: 5000,
+            max: 3200,
             nameTextStyle: {
-              fontWeight: 600,
+              fontWeight: 500,
               fontSize: 12,
               fontFamily: 'Times New Roman'
             }

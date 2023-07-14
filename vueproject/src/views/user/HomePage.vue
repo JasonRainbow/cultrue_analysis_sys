@@ -64,7 +64,7 @@
             </el-select>
           </div>
           <div class="show-chart1">
-            <pie :work-id="workId" width="500px" height="500px" :key="workId"></pie>
+            <pie :work-id="workId" width="540px" height="500px" :key="workId"></pie>
           </div>
           <div class="show-chart1" style="display: flex; justify-content: center">
 <!--            引入子组件-->

@@ -30,7 +30,7 @@
           <el-col :span="24">
             <div :style="{ height: kHOne + 'px'}">
               <dv-border-box-12 style="padding:12px">
-                <WorldMap></WorldMap>
+                <WorldMap :work-name="workName" :work-id="workId"></WorldMap>
               </dv-border-box-12>
             </div>
           </el-col>
@@ -72,6 +72,8 @@ export default {
       screenHeight: window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight,
       screenWidth: window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
       kHOne: 1000,
+      workId: 1,
+      workName: ''
     }
   },
   created () {
@@ -165,6 +167,8 @@ export default {
   },
   beforeMount() {
     this.workName = this.$route.query.workName
+    this.workId = this.$route.query.workId
+    console.log(this.workId)
     console.log(this.workName)
   }
 }

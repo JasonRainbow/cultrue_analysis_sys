@@ -30,11 +30,15 @@
 </template>
 <script>
 import worldJson from '../../../assets/map/world.json'
-import {getSentimentByPage} from "../../../api/sentimentAPI";
+import {querySentiment} from "../../../api/sentimentAPI";
 export default {
   name: "WorldMap",
   props: {
     workName: {
+      type: String,
+      require: true
+    },
+    workId: {
       type: String,
       require: true
     }
@@ -1419,7 +1423,7 @@ export default {
       option: {},
       //请求参数
       queryMapParam: {
-        searchWorkName: this.workName,
+        searchWorkId: this.workId,
         searchTime: '2023-07-01'
       },
       //happy 从返回的json数据中提取出的开心情感值
@@ -1763,26 +1767,26 @@ export default {
     //获取数据
     getWorldMapData(){
       //调用接口
-      getSentimentByPage(this.queryMapParam).then((res) => {
+      querySentiment(this.queryMapParam).then((res) => {
         if (res.code === "0") {
           console.log("2222")
           //提取各情感值原始数据
-          this.happyData = res.data.records.map((item) => {
+          this.happyData = res.data.map((item) => {
             return {country: item.country, value: item.happy}
           });
-          this.amazedData = res.data.records.map((item) => {
+          this.amazedData = res.data.map((item) => {
             return {country: item.country, value: item.amazed}
           });
-          this.neutralityData = res.data.records.map((item) => {
+          this.neutralityData = res.data.map((item) => {
             return {country: item.country, value: item.neutrality}
           });
-          this.hateData = res.data.records.map((item) => {
+          this.hateData = res.data.map((item) => {
             return {country: item.country, value: item.hate}
           });
-          this.angryData = res.data.records.map((item) => {
+          this.angryData = res.data.map((item) => {
             return {country: item.country, value: item.angry}
           });
-          this.fearData = res.data.records.map((item) => {
+          this.fearData = res.data.map((item) => {
             return {country: item.country, value: item.fear}
           });
           //去重之后的数据
@@ -1888,8 +1892,8 @@ export default {
     }
   },
   beforeMount() {
-    this.workName = this.$route.query.workName
-    console.log(this.workName)
+    // this.workName = this.$route.query.workName
+    // console.log(this.workName)
   }
 }
 </script>

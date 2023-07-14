@@ -91,7 +91,7 @@
         <el-form-item :label="title === '添加'? '上传作品介绍图片': '更改作品介绍图片'" prop="imgUrl">
           <el-upload
             class="avatar-uploader"
-            action="http://127.0.0.1:9090/files/upload/oss"
+            action="http://127.0.0.1:9090/api/files/upload/oss"
             list-type="picture-card"
             :show-file-list="false"
             :on-success="handleAvatarSuccess"

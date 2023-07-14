@@ -80,7 +80,7 @@
                   </el-select><br><br>
 <!--                  <el-button type="success" plain>世界情感分布图</el-button>-->
                   <div @click="sentimentMap">
-                    <router-link :to="{path: '/worldMap', query: {workName: '西游记'}}">
+                    <router-link :to="{path: '/worldMap', query: {workId: workId, workName: getWorkName(workId)}}">
                       <dv-border-box-8 id="btn-world"
 
                                        style="color: white;cursor: pointer; width: 250px; border-radius: 10px; height: 50px; margin: auto auto; font-size: 20px; text-align: center; line-height: 50px" :reverse="true">
@@ -237,6 +237,12 @@ export default {
     }
   },
   methods: {
+    getWorkName(id) {
+      let idx = this.works.map((item)=>{
+        return item.id
+      }).indexOf(id)
+      return this.works[idx].name
+    },
     getWorkData: function () {
       let userId = null;
       let loginUser = localStorage.getItem("user");

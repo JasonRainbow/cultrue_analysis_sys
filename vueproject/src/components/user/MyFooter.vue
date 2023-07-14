@@ -193,7 +193,7 @@
         </div>
         <div>
           <a class="image" href="" target="_blank"><i style="font-size: 24px" class="iconfont icon-global-fill"></i></a>
-          <p>&copy; 2023 AIBDPOAS. All rights reserved.</p>
+          <p>&copy; 2023 ASLCCICE. All rights reserved.</p>
         </div>
       </div>
     </div>

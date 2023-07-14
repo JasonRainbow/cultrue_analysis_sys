@@ -149,12 +149,12 @@ export default {
                   show: false
                 },
                 data: [
-                  {value: this.res_data.happy, name: 'happy'},
-                  {value: this.res_data.amazed, name: 'amazed'},
-                  {value: this.res_data.neutrality, name: 'neutrality'},
-                  {value: this.res_data.hate, name: 'hate'},
-                  {value: this.res_data.angry, name: 'angry'},
-                  {value: this.res_data.happy, fear: 'fear'}
+                  {value: this.res_data.happy, name: '开心'},
+                  {value: this.res_data.amazed, name: '惊讶'},
+                  {value: this.res_data.neutrality, name: '中立'},
+                  {value: this.res_data.hate, name: '厌恶'},
+                  {value: this.res_data.angry, name: '愤怒'},
+                  {value: this.res_data.fear, name: '恐惧'}
                 ]
               }
             ]
@@ -215,7 +215,7 @@ export default {
 
 <style>
    #div1{
-     width:450px;
+     width:500px;
       height:450px;
    }
 </style>

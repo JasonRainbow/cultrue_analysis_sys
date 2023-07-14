@@ -9,6 +9,8 @@ let errorCode = {
   '404': '访问资源不存在',
   'default': '系统未知错误，请反馈给管理员'
 }
+// axios.defaults.baseURL =
+//   process.env.NODE_ENV === "development" ? "" : "http://120.79.225.116:9090";
 
 const request = axios.create({
     baseURL: "/api",
