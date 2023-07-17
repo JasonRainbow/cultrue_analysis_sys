@@ -12,6 +12,9 @@ import com.example.demo.entity.dto.CommentPlatformDto;
 import com.example.demo.entity.MonitorWork;
 import com.example.demo.mapper.MonitorWorkMapper;
 import com.example.demo.mapper.RawCommentMapper;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,6 +29,7 @@ import java.util.*;
 // 监测文化作品信息
 @RequestMapping("/api/monitor-work")
 @RestController
+@Api(tags = "监测作品控制器")
 public class MonitorWorkController {
     @Autowired
     private MonitorWorkMapper monitorWorkMapper;
@@ -35,6 +39,7 @@ public class MonitorWorkController {
 
     // 查询所有的监测作品信息
     @GetMapping("/all")
+    @ApiOperation(value = "查询所有监测作品信息")
     public Result<?> findAll() {
         List<MonitorWork> monitorWorks = monitorWorkMapper.selectList(null);
         return Result.success(monitorWorks);
@@ -42,6 +47,7 @@ public class MonitorWorkController {
 
     // 根据作品id查询指定的文化作品
     @GetMapping("/id/{id}")
+    @ApiOperation(value = "根据ID查询指定文化作品信息")
     public Result<?> findById(@PathVariable Long id) {
         MonitorWork monitorWork = monitorWorkMapper.selectById(id);
         return Result.success(monitorWork);
@@ -49,6 +55,7 @@ public class MonitorWorkController {
 
     // 分页 搜索查询
     @GetMapping("/byPage")
+    @ApiOperation(value = "分页查询监测作品信息")
     public Result<?> findPage(@RequestParam(required = false, defaultValue = "") String searchName,
                               @RequestParam(required = false, defaultValue = "") String searchCategory,
                               @RequestParam(required = false, defaultValue = "1") Integer pageNum,
@@ -62,6 +69,8 @@ public class MonitorWorkController {
 
     // 根据id删除指定监测作品
     @DeleteMapping("/delete/{ids}")
+    @ApiOperation(value = "根据ID删除指定监测作品")
+    @ApiImplicitParam(name = "ids", value = "监测作品ID数组")
     public Result<?> deleteById(@PathVariable Long[] ids) {
         int res = monitorWorkMapper.deleteBatchIds(Arrays.asList(ids));
         if (res > 0) {
@@ -72,6 +81,7 @@ public class MonitorWorkController {
 
     // 新增监测文化作品
     @PostMapping("/add")
+    @ApiOperation(value = "新增监测作品")
     public Result<?> add(@RequestBody MonitorWork monitorWork) {
         monitorWork.setCreateTime(new Date());
         int res = monitorWorkMapper.insert(monitorWork);
@@ -81,8 +91,9 @@ public class MonitorWorkController {
         return Result.error("-1", "插入监测作品失败");
     }
 
-    // 修改热点文化作品信息
+    // 修改监测作品信息
     @PutMapping("/update")
+    @ApiOperation(value = "修改监测作品信息")
     public Result<?> update(@RequestBody MonitorWork monitorWork) {
         int res = monitorWorkMapper.updateById(monitorWork);
         if (res > 0) {
@@ -93,6 +104,7 @@ public class MonitorWorkController {
 
     // 通过用户的id获取用户申请的监测作品信息
     @GetMapping("/byUserId")
+    @ApiOperation(value = "根据用户ID查询用户申请的监测作品信息")
     public Result<?> findAllByUserId(@RequestParam(required = false, defaultValue = "-1") Integer userId) {
         List<MonitorWork> monitorWorks = monitorWorkMapper.selectByUserId(userId);
         return Result.success(monitorWorks);
@@ -100,6 +112,7 @@ public class MonitorWorkController {
 
     // 获取指定文化作品的平台来源统计信息
     @GetMapping("/countPlatform")
+    @ApiOperation(value = "根据作品ID查询平台来源统计信息")
     public Result<?> countPlatform(@RequestParam Integer workId) {
         List<CommentPlatformDto> platformDtos = rawCommentMapper.countPlatformByWorkId(workId);
         return Result.success(platformDtos);
@@ -111,7 +124,8 @@ public class MonitorWorkController {
      * @param response 响应对象
      * @throws IOException
      */
-    @RequestMapping("/export")
+    @RequestMapping(value = "/export", method = {RequestMethod.GET, RequestMethod.POST})
+    @ApiOperation(value = "导出所有监测作品信息")
     public void export(HttpServletResponse response) throws IOException {
 
         List<Map<String, Object>> list = CollUtil.newArrayList();
@@ -152,7 +166,8 @@ public class MonitorWorkController {
      * @param response 响应对象
      * @throws IOException IO异常
      */
-    @RequestMapping("/importTemplate")
+    @RequestMapping(value = "/importTemplate", method = {RequestMethod.GET, RequestMethod.POST})
+    @ApiOperation(value = "导出监测作品信息导入模板")
     public void importTemplate(HttpServletResponse response) throws IOException {
 
         List<Map<String, Object>> list = CollUtil.newArrayList();
@@ -184,6 +199,7 @@ public class MonitorWorkController {
      * @throws IOException
      */
     @PostMapping("/import")
+    @ApiOperation(value = "导入监测作品信息")
     public Result<?> upload(MultipartFile file) throws IOException {
         InputStream inputStream = file.getInputStream();
         // 获取excel表中的每一行数据

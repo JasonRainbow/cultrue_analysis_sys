@@ -11,6 +11,9 @@ import com.example.demo.common.Result;
 import com.example.demo.entity.SentimentAnalysis;
 import com.example.demo.entity.dto.SentimentDto;
 import com.example.demo.mapper.SentimentAnalysisMapper;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,12 +30,14 @@ import java.util.*;
 // 监测作品的细腻情感分析
 @RequestMapping("/api/sentiment")
 @RestController
+@Api(tags = "情感分析控制器")
 public class SentimentAnalysisController {
     @Autowired
     private SentimentAnalysisMapper sentimentAnalysisMapper;
 
     // 查询所有的情感分析结果
     @GetMapping("/all")
+    @ApiOperation(value = "查询所有情感分析结果")
     public Result<?> findAll() {
         List<SentimentAnalysis> sentimentAnalyses = sentimentAnalysisMapper.findAll();
         return Result.success(sentimentAnalyses);
@@ -40,6 +45,7 @@ public class SentimentAnalysisController {
 
     // 根据情感分析id查询情感分析结果
     @GetMapping("/id/{id}")
+    @ApiOperation(value = "根据ID查询情感分析结果")
     public Result<?> findById(@PathVariable Long id) {
         SentimentAnalysis sentimentAnalysis = sentimentAnalysisMapper.selectById(id);
         return Result.success(sentimentAnalysis);
@@ -47,6 +53,7 @@ public class SentimentAnalysisController {
 
     // 分页 模糊查询
     @GetMapping("/byPage")
+    @ApiOperation(value = "分页模糊查询情感分析结果")
     public Result<?> findPage(@RequestParam(required = false, defaultValue = "") String searchWorkName,
                               @RequestParam(required = false, defaultValue = "") String searchCountry,
                               @RequestParam(required = false, defaultValue = "") String searchPlatform,
@@ -63,6 +70,7 @@ public class SentimentAnalysisController {
     }
     // 精确多条件兼容查询
     @GetMapping("/query-list")
+    @ApiOperation(value = "多条件精确查询情感分析结果")
     public Result<?> findAllQuery(@RequestParam Integer searchWorkId,
                                   @RequestParam(required = false, defaultValue = "") String searchCountry,
                                   @RequestParam(required = false, defaultValue = "") String searchPlatform,
@@ -90,6 +98,7 @@ public class SentimentAnalysisController {
 
     // 统计不同情感倾向的评论数
     @GetMapping("/countDaily")
+    @ApiOperation(value = "统计不同情感倾向的评论数")
     public Result<?> countDaily(@RequestParam Integer workId,
                                 @RequestParam(required = false, defaultValue = "") String country,
                                 @RequestParam String postTime
@@ -116,6 +125,8 @@ public class SentimentAnalysisController {
 
     // 根据id删除指定情感分析结果
     @DeleteMapping("/delete/{ids}")
+    @ApiOperation(value = "根据ID删除指定情感分析结果")
+    @ApiImplicitParam(name = "ids", value = "情感分析ID数组")
     public Result<?> deleteById(@PathVariable Long[] ids) {
         int res = sentimentAnalysisMapper.deleteBatchIds(Arrays.asList(ids));
         if (res > 0) {
@@ -126,6 +137,7 @@ public class SentimentAnalysisController {
 
     // 新增情感分析结果
     @PostMapping("/add")
+    @ApiOperation(value = "新增情感分析结果")
     public Result<?> add(@RequestBody SentimentAnalysis sentimentAnalysis) {
         int res = sentimentAnalysisMapper.insert(sentimentAnalysis);
         if (res > 0) {
@@ -136,6 +148,7 @@ public class SentimentAnalysisController {
 
     // 修改情感分析结果
     @PutMapping("/update")
+    @ApiOperation(value = "修改情感分析结果")
     public Result<?> update(@RequestBody SentimentAnalysis sentimentAnalysis) {
         int res = sentimentAnalysisMapper.updateById(sentimentAnalysis);
         if (res > 0) {
@@ -150,7 +163,8 @@ public class SentimentAnalysisController {
      * @param response 响应对象
      * @throws IOException
      */
-    @RequestMapping("/export")
+    @RequestMapping(value = "/export", method = {RequestMethod.GET, RequestMethod.POST})
+    @ApiOperation(value = "导出所有情感分析结果")
     public void export(HttpServletResponse response) throws IOException {
 
         List<Map<String, Object>> list = CollUtil.newArrayList();
@@ -194,7 +208,8 @@ public class SentimentAnalysisController {
      * @param response 响应对象
      * @throws IOException IO异常
      */
-    @RequestMapping("/importTemplate")
+    @RequestMapping(value = "/importTemplate", method = {RequestMethod.GET, RequestMethod.POST})
+    @ApiOperation(value = "导出情感分析结果导入模板")
     public void importTemplate(HttpServletResponse response) throws IOException {
 
         List<Map<String, Object>> list = CollUtil.newArrayList();
@@ -234,6 +249,7 @@ public class SentimentAnalysisController {
      * @throws IOException
      */
     @PostMapping("/import")
+    @ApiOperation(value = "导入情感分析结果")
     public Result<?> upload(MultipartFile file) throws IOException, ParseException {
         InputStream inputStream = file.getInputStream();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");

@@ -1,8 +1,15 @@
 package com.example.demo.common;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel(value = "响应结果实体", description = "响应结果实体")
 public class Result<T> {
+    @ApiModelProperty(value = "响应提示码")
     private String code;
+    @ApiModelProperty(value = "提示信息")
     private String msg;
+    @ApiModelProperty(value = "响应数据")
     private T data;
 
     public String getCode() {

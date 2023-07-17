@@ -17,6 +17,7 @@ import com.example.demo.mapper.AdminMapper;
 import com.example.demo.utils.AdminTokenUtils;
 import com.example.demo.utils.AliOssUtil;
 import com.example.demo.utils.TokenUtils;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +32,7 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/api/admin")
+@Api(tags = "管理员控制器")
 public class AdminController {
     @Autowired
     AdminMapper adminMapper;
@@ -39,6 +41,7 @@ public class AdminController {
     BCryptPasswordEncoder bCryptPasswordEncoder; // crypt加密器
 
     @PostMapping("/login")
+    @ApiOperation(value = "管理员登录", notes = "管理员登录的接口")
     public Result<?> login(@RequestBody Admin adminParam) {
         Admin admin = adminMapper.selectByUsername(adminParam.getUsername()); // 通过管理员账号username查询
         if (admin == null) {
@@ -58,6 +61,7 @@ public class AdminController {
 
     // 注册
     @PostMapping("/register")
+    @ApiOperation(value = "管理员注册", notes = "管理员注册的接口")
     public Result<?> register(@RequestBody Admin admin) {
         // 双冒号 lambda表达式
         Admin res = adminMapper.selectOne(Wrappers.<Admin>lambdaQuery().eq(Admin::getUsername, admin.getUsername()));
@@ -82,6 +86,7 @@ public class AdminController {
     }
 
     // 保存（更新）管理员信息
+    @ApiOperation(value = "修改管理员信息", notes = "修改管理员信息")
     @PutMapping("/update")
     public Result<?> save(@RequestBody Admin admin) {
         /*if (admin.getPassword() == null) {
@@ -95,7 +100,8 @@ public class AdminController {
 
     // 重置管理员的密码
     @PutMapping("/resetPwd")
-    public Result<?> resetPwd(@RequestParam Integer adminId) {
+    @ApiOperation(value = "重置管理员密码", notes = "重置管理员密码的接口")
+    public Result<?> resetPwd(@RequestParam(name = "管理员ID") Integer adminId) {
         Admin admin = adminMapper.selectById(adminId);
         if (admin == null) {
             return Result.error("-1", "未找到用户");
@@ -108,6 +114,7 @@ public class AdminController {
 
     // 上传管理员的头像接口
     @PostMapping("/uploadAvatar")
+    @ApiOperation(value = "上传管理员头像", notes = "上传管理员头像到OSS")
     public Result<?> uploadAvatar(MultipartFile file) {
         if (!file.isEmpty()) {
             Admin loginAdmin = TokenUtils.getLoginAdmin();
@@ -128,6 +135,7 @@ public class AdminController {
 
     // 更改管理员密码
     @PutMapping("/pass")
+    @ApiOperation(value = "更改管理员密码", notes = "更改管理员密码的接口")
     public Result<?> pass(@RequestBody Map<String, Object> map) {
         Admin loginAdmin = TokenUtils.getLoginAdmin();
         if (loginAdmin == null) {
@@ -151,7 +159,9 @@ public class AdminController {
 
     // 删除指定管理员
     @DeleteMapping("/delete/{ids}")
-    public Result<?> delete(@PathVariable Long[] ids) {
+    @ApiOperation(value = "删除管理员", notes = "删除指定管理员的接口")
+    @ApiImplicitParam(name = "ids", value = "管理员ID数组", type = "Integer[]")
+    public Result<?> delete(@PathVariable Integer[] ids) {
         int res = adminMapper.deleteBatchIds(Arrays.asList(ids));
         if (res > 0) {
             return Result.success();
@@ -160,17 +170,21 @@ public class AdminController {
     }
 
     @GetMapping("/id/{id}") // 查询指定id的管理员
-    public Result<?> getById(@PathVariable Long id) {
+    @ApiOperation(value = "根据ID查询管理员", notes = "根据ID查询管理员的接口")
+    @ApiImplicitParam(name = "id", value = "管理员ID", type = "Integer")
+    public Result<?> getById(@PathVariable Integer id) {
         return Result.success(adminMapper.selectById(id));
     }
 
     @GetMapping("/all") // 查询所有
+    @ApiOperation(value = "查询所有管理员", notes = "查询所有管理员的接口")
     public Result<?> findAll() {
         return Result.success(adminMapper.selectList(null));
     }
 
     // 获取当前登录的管理员的个人信息
     @GetMapping("/profile")
+    @ApiOperation(value = "获取登录的管理员的个人信息", notes = "获取登录的管理员的个人信息的接口")
     public Result<?> getProfile() {
         String token = TokenUtils.getToken();
         Admin loginAdmin = TokenUtils.getLoginAdmin();
@@ -190,6 +204,7 @@ public class AdminController {
      * @return 分页列表
      */
     @GetMapping("/byPage")
+    @ApiOperation(value = "分页模糊查询所有管理员信息", notes = "分页查询所有管理员的接口")
     public Result<?> findPage(@RequestParam(defaultValue = "1") Integer pageNum,
                               @RequestParam(defaultValue = "10") Integer pageSize,
                               @RequestParam(defaultValue = "") String searchUsername,
@@ -206,7 +221,8 @@ public class AdminController {
      * @param response 响应对象
      * @throws IOException IO异常
      */
-    @RequestMapping("/export")
+    @RequestMapping(value = "/export", method = {RequestMethod.GET, RequestMethod.POST})
+    @ApiOperation(value = "导出所有管理员信息", notes = "导出所有管理员信息的接口")
     public void export(HttpServletResponse response) throws IOException {
 
         List<Map<String, Object>> list = CollUtil.newArrayList();
@@ -241,7 +257,8 @@ public class AdminController {
      * @param response 响应对象
      * @throws IOException IO异常
      */
-    @RequestMapping("/importTemplate")
+    @RequestMapping(value = "/importTemplate", method = {RequestMethod.GET, RequestMethod.POST})
+    @ApiOperation(value = "导出管理员信息导入模板", notes = "导出管理员信息模板的接口")
     public void importTemplate(HttpServletResponse response) throws IOException {
 
         List<Map<String, Object>> list = CollUtil.newArrayList();
@@ -276,6 +293,7 @@ public class AdminController {
      * @throws IOException IO异常
      */
     @PostMapping("/import")
+    @ApiOperation(value = "导入管理员信息", notes = "管理员信息导入的接口")
     public Result<?> upload(MultipartFile file) throws IOException {
         InputStream inputStream = file.getInputStream();
         List<List<Object>> lists = ExcelUtil.getReader(inputStream).read(1);

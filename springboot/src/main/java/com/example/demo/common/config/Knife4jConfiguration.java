@@ -1,5 +1,15 @@
 package com.example.demo.common.config;
 
+import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.BeanFactoryAware;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -9,44 +19,135 @@ import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+
+/**
+ * Knife4j配置类
+ * 接口文档地址 ip:port/doc.html
+ */
 @Configuration
-public class Knife4jConfiguration {
+@EnableConfigurationProperties(SwaggerProperties.class)
+@EnableSwagger2
+@ConditionalOnProperty(name = "my.swagger.enabled", havingValue = "true", matchIfMissing = true)
+public class Knife4jConfiguration implements BeanFactoryAware {
 
-    // 地址 ip:port/doc
-    @Bean(value = "SpringBoot-Vue-Demo-Api")
-    public Docket cloudMallApi() {
-        Docket docket = new Docket(DocumentationType.SWAGGER_2)
-                .apiInfo(new ApiInfoBuilder()
-                        .title("接口文档列表")
-                        .description("接口文档")
-                        .termsOfServiceUrl("http://www.springboot.vue.com")
-                        .version("1.0")
-                        .build())
-                //分组名称
-                .groupName("2.X版本")
-                .select()
-                //这里指定Controller扫描包路径
-                .apis(RequestHandlerSelectors.basePackage("com.example.demo.controller"))
-                .paths(PathSelectors.any())
-                .build();
-        return docket;
+
+    private BeanFactory beanFactory;
+    @Override
+    public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
+        this.beanFactory = beanFactory;
     }
 
-    // 基本信息设置
-    private ApiInfo apiInfo() {
-        Contact contact = new Contact(
-                "米大傻", // 作者姓名
-                "https://blog.csdn.net/xhmico?type=blog", // 作者网址
-                "777777777@163.com"); // 作者邮箱
+    @Autowired
+    SwaggerProperties swaggerProperties;
+
+    @Bean
+    @ConditionalOnMissingBean
+    public List<Docket> createRestApi(){
+        ConfigurableBeanFactory configurableBeanFactory =
+                (ConfigurableBeanFactory) beanFactory;
+        List<Docket> docketList = new LinkedList<>();
+        if(swaggerProperties.getDocket().isEmpty()){
+            //没有分组
+            Docket docket = createDocket(swaggerProperties);
+            configurableBeanFactory.registerSingleton(swaggerProperties.getTitle(),docket);
+            docketList.add(docket);
+        }else{
+            //存在分组
+            Set<String> keySet = swaggerProperties.getDocket().keySet();
+            for (String key : keySet) {
+                SwaggerProperties.DocketInfo docketInfo = swaggerProperties.getDocket().get(key);
+                ApiInfo apiInfo = new ApiInfoBuilder()
+                        //页面标题
+                        .title(docketInfo.getTitle())
+                        //创建人
+                        .contact(new Contact(docketInfo.getContact().getName(),
+                                docketInfo.getContact().getUrl(),
+                                docketInfo.getContact().getEmail()))
+                        //版本号
+                        .version(docketInfo.getVersion())
+                        //描述
+                        .description(docketInfo.getDescription())
+                        .build();
+                // base-path处理
+                // 当没有配置任何path的时候，解析/**
+                if (docketInfo.getBasePath().isEmpty()) {
+                    docketInfo.getBasePath().add("/**");
+                }
+                List<Predicate<String>> basePath = new ArrayList<>();
+                for (String path : docketInfo.getBasePath()) {
+                    basePath.add(PathSelectors.ant(path));
+                }
+
+                // exclude-path处理
+                List<Predicate<String>> excludePath = new ArrayList<>();
+                for (String path : docketInfo.getExcludePath()) {
+                    excludePath.add(PathSelectors.ant(path));
+                }
+
+                Docket docket = new Docket(DocumentationType.SWAGGER_2)
+                        .apiInfo(apiInfo)
+                        .groupName(docketInfo.getGroup())
+                        .select()
+                        //为当前包路径
+                        .apis(RequestHandlerSelectors.basePackage(docketInfo.getBasePackage()))
+                        .paths(Predicates.and(Predicates.not(Predicates.or(excludePath)),Predicates.or(basePath)))
+                        .build();
+                configurableBeanFactory.registerSingleton(key, docket);
+                docketList.add(docket);
+            }
+        }
+        return docketList;
+    }
+
+    //构建 api文档的详细信息
+    private ApiInfo apiInfo(SwaggerProperties swaggerProperties) {
         return new ApiInfoBuilder()
-                .title("多加辣-接口文档") // 标题
-                .description("众里寻他千百度，慕然回首那人却在灯火阑珊处") // 描述
-                .termsOfServiceUrl("https://www.baidu.com") // 跳转连接
-                .version("1.0") // 版本
-                .license("Swagger-的使用(详细教程)")
-                .licenseUrl("https://blog.csdn.net/xhmico/article/details/125353535")
-                .contact(contact)
+                //页面标题
+                .title(swaggerProperties.getTitle())
+                //创建人
+                .contact(new Contact(swaggerProperties.getContact().getName(),
+                        swaggerProperties.getContact().getUrl(),
+                        swaggerProperties.getContact().getEmail()))
+                //版本号
+                .version(swaggerProperties.getVersion())
+                //描述
+                .description(swaggerProperties.getDescription())
+                .build();
+    }
+
+    //创建接口文档对象
+    private Docket createDocket(SwaggerProperties swaggerProperties) {
+        //API 基础信息
+        ApiInfo apiInfo = apiInfo(swaggerProperties);
+
+        // base-path处理
+        // 当没有配置任何path的时候，解析/**
+        if (swaggerProperties.getBasePath().isEmpty()) {
+            swaggerProperties.getBasePath().add("/**");
+        }
+        List<Predicate<String>> basePath = new ArrayList<>();
+        for (String path : swaggerProperties.getBasePath()) {
+            basePath.add(PathSelectors.ant(path));
+        }
+
+        // exclude-path处理
+        List<Predicate<String>> excludePath = new ArrayList<>();
+        for (String path : swaggerProperties.getExcludePath()) {
+            excludePath.add(PathSelectors.ant(path));
+        }
+
+        return new Docket(DocumentationType.SWAGGER_2)
+                .apiInfo(apiInfo)
+                .groupName(swaggerProperties.getGroup())
+                .select()
+                .apis(RequestHandlerSelectors.basePackage(swaggerProperties.getBasePackage()))
+                .paths(Predicates.and(Predicates.not(Predicates.or(excludePath)),Predicates.or(basePath)))
                 .build();
     }
 }

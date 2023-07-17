@@ -25,8 +25,6 @@ import './assets/less/style.less'
 // 引入element-ui图标
 import 'element-ui/lib/theme-chalk/index.css'
 
-import SvgIcon from './components/SvgIcon' // svg component
-
 import {parseTime, timestampToTime, debounce} from "./utils/util";
 
 

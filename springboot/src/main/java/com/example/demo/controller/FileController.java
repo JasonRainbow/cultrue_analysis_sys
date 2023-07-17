@@ -9,6 +9,8 @@ import cn.hutool.json.JSONObject;
 import com.example.demo.common.Result;
 import com.example.demo.entity.dto.FileVO;
 import com.example.demo.utils.AliOssUtil;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,6 +24,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/files")
+@Api(tags = "文件上传下载控制器")
 public class FileController extends BaseController {
     @Value("${server.port}")
     private String port;
@@ -37,6 +40,7 @@ public class FileController extends BaseController {
      * @throws IOException
      */
     @PostMapping("/upload")
+    @ApiOperation(value = "上传文件到本地接口")
     public Result<?> upload(MultipartFile file) throws IOException {
         String originalFilename = file.getOriginalFilename();  // 获取源文件的名称
         // 定义文件的唯一标识（前缀）
@@ -61,6 +65,7 @@ public class FileController extends BaseController {
      * @throws IOException
      */
     @PostMapping("/editor/upload")
+    @ApiOperation(value = "富文本文件上传接口")
     public JSON editorUpload(MultipartFile file) throws IOException {
         String originalFilename = file.getOriginalFilename();  // 获取源文件的名称
         // 定义文件的唯一标识（前缀）
@@ -88,6 +93,7 @@ public class FileController extends BaseController {
      * @param response
      */
     @GetMapping("/{flag}")
+    @ApiOperation(value = "文件下载接口")
     public void getFiles(@PathVariable String flag, HttpServletResponse response) {
         OutputStream os;  // 新建一个输出流对象
         String basePath = System.getProperty("user.dir") + "/files/";  // 定于文件上传的根路径
@@ -114,6 +120,7 @@ public class FileController extends BaseController {
      * @return
      */
     @PostMapping("/upload/oss")
+    @ApiOperation(value = "上传文件到OSS接口")
     public Result<?> ossUpload(MultipartFile file) {
         return Result.success(AliOssUtil.upload("images/", file));  // 返回结果 url
     }
@@ -124,6 +131,7 @@ public class FileController extends BaseController {
      * @return
      */
     @DeleteMapping("/delete/oss")
+    @ApiOperation(value = "从OSS删除文件接口")
     public Result<?> ossUpload(@RequestBody FileVO fileVO) {
         AliOssUtil.delete(fileVO.getFilekey());
         return Result.success();

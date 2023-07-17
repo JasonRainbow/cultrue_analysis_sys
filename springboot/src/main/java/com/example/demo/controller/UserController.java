@@ -13,6 +13,9 @@ import com.example.demo.enums.PwdEnum;
 import com.example.demo.mapper.UserMapper;
 import com.example.demo.utils.AliOssUtil;
 import com.example.demo.utils.TokenUtils;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +31,7 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/api/user")
+@Api(tags = "用户控制器")
 public class UserController extends BaseController {
 
     @Resource
@@ -37,6 +41,7 @@ public class UserController extends BaseController {
     private BCryptPasswordEncoder bCryptPasswordEncoder; //注入bcryct加密
 
     @PostMapping("/login")
+    @ApiOperation(value = "用户登录")
     public Result<?> login(@RequestBody User userParam) {
         User res = userMapper.selectByUsername(userParam.getUsername());
         /*QueryWrapper<User> queryWrapper = new QueryWrapper<>();
@@ -60,6 +65,7 @@ public class UserController extends BaseController {
     }
 
     @PostMapping("/register")
+    @ApiOperation(value = "用户注册")
     public Result<?> register(@RequestBody User user) {
         User res = userMapper.selectOne(Wrappers.<User>lambdaQuery().eq(User::getUsername, user.getUsername()));
         if (res != null) {
@@ -92,6 +98,7 @@ public class UserController extends BaseController {
 
     // 更新用户的信息  根据id
     @PutMapping("/update")
+    @ApiOperation(value = "修改用户信息")
     public Result<?> update(@RequestBody User user) {
         /*if (user.getPassword() == null) {
             user.setPassword(bCryptPasswordEncoder.encode(PwdEnum.PASSWORD.getPassword()));
@@ -102,6 +109,8 @@ public class UserController extends BaseController {
 
     // 删除用户
     @DeleteMapping("/delete/{ids}")
+    @ApiOperation(value = "根据ID删除用户")
+    @ApiImplicitParam(name = "ids", value = "用户ID数组")
     public Result<?> delete(@PathVariable Integer[] ids) {
         int res = userMapper.deleteBatchIds(Arrays.asList(ids));
         if (res > 0) {
@@ -112,6 +121,7 @@ public class UserController extends BaseController {
 
     // 更改用户密码
     @PutMapping("/pass")
+    @ApiOperation(value = "更改用户密码")
     public Result<?> pass(@RequestBody Map<String, Object> map) {
         User loginUser = TokenUtils.getLoginUser();
         if (loginUser == null) {
@@ -132,6 +142,7 @@ public class UserController extends BaseController {
 
     // 重置用户的密码
     @PutMapping("/resetPwd")
+    @ApiOperation(value = "重置用户密码")
     public Result<?> resetPwd(@RequestParam Integer userId) {
         User user = userMapper.selectById(userId);
         if (user == null) {
@@ -145,6 +156,7 @@ public class UserController extends BaseController {
 
     // 获取当前登录的用户个人信息
     @GetMapping("/profile")
+    @ApiOperation(value = "查询当前登录的用户个人信息")
     public Result<?> getProfile() {
         String token = TokenUtils.getToken();
         User loginUser = TokenUtils.getLoginUser();
@@ -156,11 +168,13 @@ public class UserController extends BaseController {
     }
 
     @GetMapping("/id/{id}")
+    @ApiOperation(value = "根据ID查询用户信息")
     public Result<?> getById(@PathVariable Long id) {
         return Result.success(userMapper.selectById(id));
     }
 
     @GetMapping("/all")
+    @ApiOperation(value = "查询所有用户信息")
     public Result<?> findAll() {
         return Result.success(userMapper.selectList(null));
     }
@@ -171,6 +185,7 @@ public class UserController extends BaseController {
      * @return
      */
     @GetMapping("/countWorkUnit")
+    @ApiOperation(value = "统计用户部门分布信息")
     public Result<?> count() {
 //        User user = getUser(); // 当前登录的用户信息
         return Result.success(userMapper.countWorkUnit());
@@ -186,6 +201,7 @@ public class UserController extends BaseController {
      * @return 结果
      */
     @GetMapping("/byPage")
+    @ApiOperation(value = "分页模糊查询用户信息")
     public Result<?> findPage(@RequestParam(defaultValue = "1") Integer pageNum,
                               @RequestParam(defaultValue = "10") Integer pageSize,
                               @RequestParam(defaultValue = "") String searchUsername,
@@ -202,7 +218,8 @@ public class UserController extends BaseController {
      * @param response 响应对象
      * @throws IOException
      */
-    @RequestMapping("/export")
+    @RequestMapping(value = "/export", method = {RequestMethod.GET, RequestMethod.POST})
+    @ApiOperation(value = "导出所有用户信息")
     public void export(HttpServletResponse response) throws IOException {
 
         List<Map<String, Object>> list = CollUtil.newArrayList();
@@ -238,7 +255,8 @@ public class UserController extends BaseController {
      * @param response 响应对象
      * @throws IOException IO异常
      */
-    @RequestMapping("/importTemplate")
+    @RequestMapping(value = "/importTemplate", method = {RequestMethod.GET, RequestMethod.POST})
+    @ApiOperation(value = "导出用户信息导入模板")
     public void importTemplate(HttpServletResponse response) throws IOException {
 
         List<Map<String, Object>> list = CollUtil.newArrayList();
@@ -273,6 +291,7 @@ public class UserController extends BaseController {
      * @throws IOException
      */
     @PostMapping("/import")
+    @ApiOperation(value = "导入用户信息")
     public Result<?> upload(MultipartFile file) throws IOException {
         InputStream inputStream = file.getInputStream();
         List<List<Object>> lists = ExcelUtil.getReader(inputStream).read(1);

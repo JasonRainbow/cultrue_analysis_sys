@@ -11,6 +11,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.common.Result;
 import com.example.demo.entity.RawComment;
 import com.example.demo.mapper.RawCommentMapper;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,12 +30,14 @@ import java.util.*;
 // 监测文化作品信息
 @RequestMapping("/api/comment")
 @RestController
+@Api(tags = "作品评论控制器")
 public class RawCommentController {
     @Autowired
     private RawCommentMapper rawCommentMapper;
 
     // 查询所有的评论信息
     @GetMapping("/all")
+    @ApiOperation(value = "查询所有评论信息")
     public Result<?> findAll() {
         List<RawComment> rawComments = rawCommentMapper.selectList(null);
         return Result.success(rawComments);
@@ -40,6 +45,7 @@ public class RawCommentController {
 
     // 根据评论id查询评论信息
     @GetMapping("/id/{id}")
+    @ApiOperation(value = "根据评论ID查询评论信息")
     public Result<?> findById(@PathVariable Long id) {
         RawComment rawComment = rawCommentMapper.selectById(id);
         return Result.success(rawComment);
@@ -47,6 +53,7 @@ public class RawCommentController {
 
     // 查询所有的国家列表
     @GetMapping("/countries")
+    @ApiOperation(value = "查询所有的国家列表")
     public Result<?> findAllCountry() {
         List<String> list = rawCommentMapper.selectAllCountry();
         return Result.success(list);
@@ -54,6 +61,7 @@ public class RawCommentController {
 
     // 查询所有的平台列表
     @GetMapping("/platforms")
+    @ApiOperation(value = "查询所有的平台列表")
     public Result<?> findAllPlatform() {
         List<String> list = rawCommentMapper.selectAllPlatform();
         return Result.success(list);
@@ -61,6 +69,7 @@ public class RawCommentController {
 
     // 带搜索关键词的分页查询评论信息
     @GetMapping("/byPage")
+    @ApiOperation(value = "分页查询所有评论信息")
     public Result<?> findPage(@RequestParam(required = false, defaultValue = "-1") Integer workId,
                               @RequestParam(required = false, defaultValue = "") String searchContent,
                               @RequestParam(required = false, defaultValue = "") String searchCountry,
@@ -83,6 +92,7 @@ public class RawCommentController {
 
     // 关联分页模糊查询
     @GetMapping("/byPage2")
+    @ApiOperation(value = "分页关联查询所有评论信息")
     public Result<?> byPage2(@RequestParam(required = false, defaultValue = "") String searchWorkName,
                              @RequestParam(required = false, defaultValue = "") String searchContent,
                              @RequestParam(required = false, defaultValue = "") String searchCountry,
@@ -98,6 +108,7 @@ public class RawCommentController {
 
     // 获取热点评论
     @GetMapping("/getHotComment")
+    @ApiOperation(value = "查询热点评论")
     public Result<?> getHotComment(@RequestParam(required = false, defaultValue = "") String searchWorkName,
                                    @RequestParam(required = false, defaultValue = "") String searchContent,
                                    @RequestParam(required = false, defaultValue = "") String searchCountry,
@@ -113,6 +124,8 @@ public class RawCommentController {
 
     // 根据id删除指定评论
     @DeleteMapping("/delete/{ids}")
+    @ApiOperation(value = "根据ID删除指定评论")
+    @ApiImplicitParam(name = "ids", value = "评论ID数组")
     public Result<?> deleteById(@PathVariable Long[] ids) {
         int res = rawCommentMapper.deleteBatchIds(Arrays.asList(ids));
         if (res > 0) {
@@ -123,6 +136,7 @@ public class RawCommentController {
 
     // 新增评论信息
     @PostMapping("/add")
+    @ApiOperation(value = "新增评论信息")
     public Result<?> add(@RequestBody RawComment rawComment) {
         int res = rawCommentMapper.insert(rawComment);
         if (res > 0) {
@@ -131,8 +145,9 @@ public class RawCommentController {
         return Result.error("-1", "插入评论失败");
     }
 
-    // 修改热点文化作品信息
+    // 修改评论信息
     @PutMapping("/update")
+    @ApiOperation(value = "修改评论信息")
     public Result<?> update(@RequestBody RawComment rawComment) {
         int res = rawCommentMapper.updateById(rawComment);
         if (res > 0) {
@@ -147,7 +162,8 @@ public class RawCommentController {
      * @param response 响应对象
      * @throws IOException
      */
-    @RequestMapping("/export")
+    @RequestMapping(value = "/export", method = {RequestMethod.GET, RequestMethod.POST})
+    @ApiOperation(value = "导出所有评论信息")
     public void export(HttpServletResponse response) throws IOException {
 
         List<Map<String, Object>> list = CollUtil.newArrayList();
@@ -184,7 +200,8 @@ public class RawCommentController {
      * @param response 响应对象
      * @throws IOException IO异常
      */
-    @RequestMapping("/importTemplate")
+    @RequestMapping(value = "/importTemplate", method = {RequestMethod.GET, RequestMethod.POST})
+    @ApiOperation(value = "导出评论信息导入模板")
     public void importTemplate(HttpServletResponse response) throws IOException {
 
         List<Map<String, Object>> list = CollUtil.newArrayList();
@@ -221,6 +238,7 @@ public class RawCommentController {
      * @throws IOException
      */
     @PostMapping("/import")
+    @ApiOperation(value = "导入评论信息")
     public Result<?> upload(MultipartFile file) throws IOException, ParseException {
         InputStream inputStream = file.getInputStream();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");

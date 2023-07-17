@@ -15,6 +15,9 @@ import com.example.demo.entity.User;
 import com.example.demo.mapper.MonitorRequestMapper;
 import com.example.demo.mapper.MonitorWorkMapper;
 import com.example.demo.mapper.UserMapper;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,6 +30,7 @@ import java.util.*;
 // 监测请求信息
 @RequestMapping("/api/monitor-request")
 @RestController
+@Api(tags = "监测请求控制器")
 public class MonitorRequestController {
     @Autowired
     private MonitorRequestMapper monitorRequestMapper;
@@ -39,6 +43,7 @@ public class MonitorRequestController {
 
     // 查询所有的监测请求信息
     @GetMapping("/all")
+    @ApiOperation(value = "查询所有的监测请求信息")
     public Result<?> findAll() {
         List<MonitorRequest> monitorRequests = monitorRequestMapper.selectAll("", "");
         return Result.success(monitorRequests);
@@ -46,6 +51,7 @@ public class MonitorRequestController {
 
     // 根据监测请求id查询监测请求信息
     @GetMapping("/id/{id}")
+    @ApiOperation(value = "根据ID查询监测请求信息")
     public Result<?> findById(@PathVariable Long id) {
         MonitorRequest monitorRequest = monitorRequestMapper.selectById(id);
         return Result.success(monitorRequest);
@@ -53,6 +59,7 @@ public class MonitorRequestController {
 
     // 根据用户id查询监测请求信息
     @GetMapping("/byUserId")
+    @ApiOperation(value = "根据用户ID查询监测请求信息")
     public Result<?> findByUserId(@RequestParam(required = true) Integer userId,
                                   @RequestParam(required = false, defaultValue = "1") Integer pageNum,
                                   @RequestParam(required = false, defaultValue = "10") Integer pageSize
@@ -64,6 +71,7 @@ public class MonitorRequestController {
 
     // 分页 搜索查询 搜索关键词：用户名、作品名
     @GetMapping("/byPage")
+    @ApiOperation(value = "分页查询监测请求信息")
     public Result<?> findPage(@RequestParam(required = false, defaultValue = "") String searchUsername,
                               @RequestParam(required = false, defaultValue = "") String searchWorkName,
                               @RequestParam(required = false, defaultValue = "1") Integer pageNum,
@@ -75,6 +83,8 @@ public class MonitorRequestController {
 
     // 根据id删除指定监测请求
     @DeleteMapping("/delete/{ids}")
+    @ApiOperation(value = "根据ID删除监测请求")
+    @ApiImplicitParam(name = "ids", value = "监测请求ID数组")
     public Result<?> deleteById(@PathVariable Long[] ids) {
         int res = monitorRequestMapper.deleteBatchIds(Arrays.asList(ids));
         if (res > 0) {
@@ -85,6 +95,7 @@ public class MonitorRequestController {
 
     // 新增监测请求  首先把作品插入监测作品表（如果该作品原来不在监测作品表中）再插入监测请求表
     @PostMapping("/add")
+    @ApiOperation(value = "新增监测请求")
     public Result<?> add(@RequestBody MonitorRequest monitorRequest) {
         QueryWrapper<User> query1 = new QueryWrapper<>();
         query1.eq("username", monitorRequest.getUser().getUsername());
@@ -116,6 +127,7 @@ public class MonitorRequestController {
 
     // 修改监测请求信息
     @PutMapping("/update")
+    @ApiOperation(value = "修改监测请求信息")
     public Result<?> update(@RequestBody MonitorRequest monitorRequest) {
         int res = monitorRequestMapper.updateById(monitorRequest);
         if (res > 0) {
@@ -130,7 +142,8 @@ public class MonitorRequestController {
      * @param response 响应对象
      * @throws IOException
      */
-    @RequestMapping("/export")
+    @RequestMapping(value = "/export", method = {RequestMethod.GET, RequestMethod.POST})
+    @ApiOperation(value = "导出所有监测请求信息")
     public void export(HttpServletResponse response) throws IOException {
 
         List<Map<String, Object>> list = CollUtil.newArrayList();

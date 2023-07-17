@@ -10,6 +10,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.common.Result;
 import com.example.demo.entity.HotWork;
 import com.example.demo.mapper.HotWorkMapper;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,18 +29,21 @@ import java.util.*;
 // 热点文化作品信息
 @RequestMapping("/api/hot-work")
 @RestController
+@Api(tags = "热点文化作品控制器")
 public class HotWorkController {
     @Autowired
     private HotWorkMapper hotWorkMapper;
 
     // 查询所有的热点作品信息
     @GetMapping("/all")
+    @ApiOperation(value = "查询所有热点文化作品信息")
     public Result<?> findAll() {
         List<HotWork> hotWorks = hotWorkMapper.selectList(null);
         return Result.success(hotWorks);
     }
 
     @GetMapping("/id/{id}")
+    @ApiOperation(value = "根据ID查询热点文化作品信息")
     public Result<?> findById(@PathVariable Long id) {
         HotWork hotWork = hotWorkMapper.selectById(id);
         return Result.success(hotWork);
@@ -45,6 +51,7 @@ public class HotWorkController {
 
     // 分页 搜索查询
     @GetMapping("/byPage")
+    @ApiOperation(value = "分页查询热点文化作品信息")
     public Result<?> findPage(@RequestParam(required = false, defaultValue = "") String searchName,
                               @RequestParam(required = false, defaultValue = "") String searchCategory,
                               @RequestParam(required = false, defaultValue = "1") Integer pageNum,
@@ -58,6 +65,8 @@ public class HotWorkController {
 
     // 根据id删除指定热点作品
     @DeleteMapping("/delete/{ids}")
+    @ApiOperation(value = "根据ID删除热点文化作品")
+    @ApiImplicitParam(name = "ids", value = "热点文化作品ID数组")
     public Result<?> deleteById(@PathVariable Long[] ids) {
         int res = hotWorkMapper.deleteBatchIds(Arrays.asList(ids)); // 批量删除
         if (res > 0) {
@@ -68,6 +77,7 @@ public class HotWorkController {
 
     // 新增热点文化作品
     @PostMapping("/add")
+    @ApiOperation(value = "新增热点文化作品信息")
     public Result<?> add(@RequestBody HotWork hotWork) {
         int res = hotWorkMapper.insert(hotWork);
         if (res > 0) {
@@ -78,6 +88,7 @@ public class HotWorkController {
 
     // 修改热点文化作品信息
     @PutMapping("/update")
+    @ApiOperation(value = "修改热点文化作品信息")
     public Result<?> update(@RequestBody HotWork hotWork) {
         int res = hotWorkMapper.updateById(hotWork);
         if (res > 0) {
@@ -92,7 +103,8 @@ public class HotWorkController {
      * @param response 响应对象
      * @throws IOException
      */
-    @RequestMapping("/export")
+    @RequestMapping(value = "/export", method = {RequestMethod.GET, RequestMethod.POST})
+    @ApiOperation(value = "导出热点文化作品信息")
     public void export(HttpServletResponse response) throws IOException {
 
         List<Map<String, Object>> list = CollUtil.newArrayList();
@@ -130,7 +142,8 @@ public class HotWorkController {
      * @param response 响应对象
      * @throws IOException IO异常
      */
-    @RequestMapping("/importTemplate")
+    @RequestMapping(value = "/importTemplate", method = {RequestMethod.GET, RequestMethod.POST})
+    @ApiOperation(value = "导出热点文化作品信息导入模板")
     public void importTemplate(HttpServletResponse response) throws IOException {
 
         List<Map<String, Object>> list = CollUtil.newArrayList();
@@ -167,6 +180,7 @@ public class HotWorkController {
      * @throws IOException
      */
     @PostMapping("/import")
+    @ApiOperation(value = "导入热点文化作品信息")
     public Result<?> upload(MultipartFile file) throws IOException, ParseException {
         InputStream inputStream = file.getInputStream();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");

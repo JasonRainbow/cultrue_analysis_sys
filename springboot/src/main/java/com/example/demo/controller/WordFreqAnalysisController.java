@@ -15,6 +15,9 @@ import com.example.demo.entity.WordFreqAnalysis;
 import com.example.demo.entity.dto.WordFreqDto;
 import com.example.demo.mapper.MonitorWorkMapper;
 import com.example.demo.mapper.WordFreqAnalysisMapper;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,6 +34,7 @@ import java.util.*;
 // 关于监测作品的评论的词频分析
 @RequestMapping("/api/word-freq")
 @RestController
+@Api(tags = "词频统计控制器")
 public class WordFreqAnalysisController {
     @Autowired
     private WordFreqAnalysisMapper wordFreqAnalysisMapper;
@@ -42,6 +46,7 @@ public class WordFreqAnalysisController {
 
     // 查询所有的词频统计结果
     @GetMapping("/all")
+    @ApiOperation(value = "查询所有词频统计结果")
     public Result<?> findAll() {
         List<WordFreqAnalysis> wordFreqAnalyses = wordFreqAnalysisMapper.selectList(null);
         return Result.success(wordFreqAnalyses);
@@ -49,6 +54,7 @@ public class WordFreqAnalysisController {
 
     // 根据词频统计id查询词频统计结果
     @GetMapping("/id/{id}")
+    @ApiOperation(value = "根据ID查询词频统计结果")
     public Result<?> findById(@PathVariable Long id) {
         WordFreqAnalysis wordFreqAnalysis = wordFreqAnalysisMapper.selectById(id);
         return Result.success(wordFreqAnalysis);
@@ -56,6 +62,7 @@ public class WordFreqAnalysisController {
 
     // 分页 搜索查询
     @GetMapping("/byPage")
+    @ApiOperation(value = "分页模糊查询词频统计结果")
     public Result<?> findPage(@RequestParam(required = false, defaultValue = "") String searchWorkName,
                               @RequestParam(required = false, defaultValue = "") String searchCountry,
                               @RequestParam(required = false, defaultValue = "") String searchPlatform,
@@ -73,6 +80,7 @@ public class WordFreqAnalysisController {
 
     // 查询指定作品的词频统计结果
     @GetMapping("/query-res")
+    @ApiOperation(value = "多条件精确查询词频统计结果")
     public Result<?> getWordFreq(@RequestParam Integer searchWorkId,
                                  @RequestParam(required = false, defaultValue = "") String searchTime,
                                  @RequestParam(required = false, defaultValue = "") String searchCountry,
@@ -123,6 +131,8 @@ public class WordFreqAnalysisController {
 
     // 根据id删除指定词频分析结果
     @DeleteMapping("/delete/{ids}")
+    @ApiOperation(value = "根据ID删除词频统计结果")
+    @ApiImplicitParam(name = "ids", value = "词频统计ID数组")
     public Result<?> deleteById(@PathVariable Long[] ids) {
         int res = wordFreqAnalysisMapper.deleteBatchIds(Arrays.asList(ids)); // 兼容批量删除
         if (res > 0) {
@@ -133,6 +143,7 @@ public class WordFreqAnalysisController {
 
     // 新增词频统计结果
     @PostMapping("/add")
+    @ApiOperation(value = "新增词频统计结果")
     public Result<?> add(@RequestBody WordFreqAnalysis wordFreqAnalysis) {
         int res = wordFreqAnalysisMapper.insert(wordFreqAnalysis);
         if (res > 0) {
@@ -143,6 +154,7 @@ public class WordFreqAnalysisController {
 
     // 修改词频统计结果
     @PutMapping("/update")
+    @ApiOperation(value = "修改词频统计结果")
     public Result<?> update(@RequestBody WordFreqAnalysis wordFreqAnalysis) {
         int res = wordFreqAnalysisMapper.updateById(wordFreqAnalysis);
         if (res > 0) {
@@ -157,7 +169,8 @@ public class WordFreqAnalysisController {
      * @param response 响应对象
      * @throws IOException
      */
-    @GetMapping("/export")
+    @RequestMapping(value = "/export", method = {RequestMethod.GET, RequestMethod.POST})
+    @ApiOperation(value = "导出所有词频统计结果")
     public void export(HttpServletResponse response) throws IOException {
 
         List<Map<String, Object>> list = CollUtil.newArrayList();
@@ -198,7 +211,8 @@ public class WordFreqAnalysisController {
      * @param response 响应对象
      * @throws IOException IO异常
      */
-    @GetMapping("/importTemplate")
+    @RequestMapping(value = "/importTemplate", method = {RequestMethod.GET, RequestMethod.POST})
+    @ApiOperation(value = "导出词频统计结果导入模板")
     public void importTemplate(HttpServletResponse response) throws IOException {
 
         List<Map<String, Object>> list = CollUtil.newArrayList();
@@ -235,6 +249,7 @@ public class WordFreqAnalysisController {
      * @throws IOException
      */
     @PostMapping("/import")
+    @ApiOperation(value = "导入词频统计结果")
     public Result<?> upload(MultipartFile file) throws IOException, ParseException {
         InputStream inputStream = file.getInputStream();
         // 获取excel表中的每一行数据
