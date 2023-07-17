@@ -102,7 +102,7 @@
 			<version>2.2.0</version>
 		</dependency>
 -->
-		<!-- knife4j -->
+		<!-- knife4j 包含swagger -->
 		<dependency>
 			<groupId>com.github.xiaoymin</groupId>
 			<artifactId>knife4j-spring-boot-starter</artifactId>

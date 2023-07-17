@@ -59,7 +59,7 @@
             <div :style="{ height: kHTwo + 'px'}">
               <!-- style="padding:12px" -->
               <dv-border-box-12 style="padding:12px">
-                <RelationGraph></RelationGraph>
+                <RelationGraph :work-id="workId" :key="workId"></RelationGraph>
               </dv-border-box-12>
             </div>
           </el-col>

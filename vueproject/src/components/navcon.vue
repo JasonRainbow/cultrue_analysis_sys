@@ -13,7 +13,7 @@
     </div>
     <el-submenu index="2" class="submenu">
       <!-- <template slot="title">{{user.userRealName}}</template> -->
-      <template slot="title">超级管理员</template>
+      <template slot="title">{{this.$store.state.admin.name}}</template>
 <!--      <el-menu-item index="2-1">设置</el-menu-item>-->
       <el-menu-item index="/admin/profile">
         个人中心

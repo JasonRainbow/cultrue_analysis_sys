@@ -1,6 +1,6 @@
 <template>
   <div>
-    <i :class="isFullscreen?'el-icon-switch-button':'el-icon-full-screen'" style="color: white" @click="click"></i>
+    <i :class="isFullscreen?'iconfont icon-fullscreen-shrink':'iconfont icon-fullscreen-expand'" style="color: white" @click="click"></i>
 <!--    <svg-icon :icon-class="isFullscreen?'exit-fullscreen':'fullscreen'" @click="click" />-->
   </div>
 </template>
@@ -47,12 +47,14 @@ export default {
 </script>
 
 <style scoped>
-.screenfull-svg {
+.iconfont {
   display: inline-block;
   cursor: pointer;
   fill: #5a5e66;;
-  width: 20px;
-  height: 20px;
+  /*width: 25px;
+  height: 25px;*/
+  font-size: 22px;
   vertical-align: 10px;
+  margin-right: 20px;
 }
 </style>

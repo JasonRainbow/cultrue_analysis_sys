@@ -927,7 +927,11 @@
             ]
           }]
         };
-        relationChart.setOption(option);
+        // 特殊处理
+        if (this.workId===2) {
+          relationChart.setOption(option);
+        }
+        // relationChart.setOption(option);
         window.addEventListener('resize',function(){
           relationChart.resize();
         })
