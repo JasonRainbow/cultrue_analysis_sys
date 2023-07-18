@@ -107,6 +107,7 @@ export function updateAdminInfo() {
   getAdminProfile().then(res=>{
     localStorage.setItem("admin", JSON.stringify(res.data))
     console.log("更新本地存储的管理员个人信息")
+    location.reload()
     // console.log(this.$store.state)
   })
 }

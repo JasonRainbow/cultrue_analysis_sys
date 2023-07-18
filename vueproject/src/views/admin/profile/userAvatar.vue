@@ -168,9 +168,11 @@ export default {
                 if (res.code === "0") {
                   this.$message.success("修改成功");
                   this.visible = false;
-                  updateAdminInfo();
                   this.$store.state.admin.avatar = this.options.img
-                  location.reload()
+                  updateAdminInfo();
+                  // console.log("刷新前")
+                  // location.reload()
+                  // console.log("刷新后")
                   // console.log(this.options.img)
                 } else {
                   this.$message.error("修改失败！" + res.msg)

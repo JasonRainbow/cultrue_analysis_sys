@@ -55,7 +55,8 @@ public class FileController extends BaseController {
             rootFile.getParentFile().mkdirs();
         }
         FileUtil.writeBytes(file.getBytes(), rootFilePath);  // 把文件写入到上传的路径
-        return Result.success("http://" + ip + ":" + port + "/api/files/" + flag);  // 返回结果 url
+//        return Result.success("http://" + ip + ":" + port + "/api/files/" + flag);  // 返回结果 url
+        return Result.success("/api/files/" + flag);  // 返回结果 url
     }
 
     /**
