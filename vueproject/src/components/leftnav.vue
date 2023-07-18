@@ -2,12 +2,12 @@
 * 左边菜单
 */
 <template>
-  <el-menu default-active="2" :collapse="collapsed" collapse-transition router
+  <el-menu style="border: none" default-active="2" :collapse="collapsed" collapse-transition router
            :default-active="$route.path" unique-opened class="el-menu-vertical-demo"
            background-color="#334157" text-color="#fff" active-text-color="#ffd04b">
     <div class="logobox">
       <img class="logoimg" src="../assets/img/logo.jpg" alt="">
-      <div style="color: white;vertical-align: top;margin-top: 5px; height: 40px;font-size: 18px;display: inline-block;">后台管理系统</div>
+      <div style="color: white;vertical-align: top;margin-top: 6px; height: 40px;font-size: 18px;display: inline-block;">后台管理系统</div>
     </div>
     <el-menu-item index="/admin/home" key="0">
       <i class="el-icon-s-home"></i>
@@ -193,6 +193,7 @@ export default {
   font-size: 20px;
   text-align: center;
   padding: 20px 0px;
+  border: none;
 }
 .logoimg {
   height: 40px;

@@ -3,15 +3,15 @@
 */
 <template>
   <el-menu class="el-menu-demo" mode="horizontal" router background-color="#334157" text-color="#fff" active-text-color="#fff">
-    <el-button class="buttonimg">
+    <div class="buttonimg">
       <img class="showimg" :src="collapsed?imgsq:imgshow" @click="toggle(collapsed)">
-    </el-button>
+    </div>
     <screen-full id="screenfull" class="right-menu-item hover-effect" />
     <div class="avatar-wrapper">
       <el-avatar size="medium" :src="avatar" class="user-avatar"></el-avatar>
 <!--      <img :src="avatar" class="user-avatar">-->
     </div>
-    <el-submenu index="2" class="submenu">
+    <el-submenu index="2" style="float: right">
       <!-- <template slot="title">{{user.userRealName}}</template> -->
       <template slot="title">{{this.$store.state.admin.name}}</template>
 <!--      <el-menu-item index="2-1">设置</el-menu-item>-->
@@ -105,13 +105,13 @@ export default {
 .el-menu-vertical-demo:not(.el-menu--collapse) {
   border: none;
 }
-.submenu {
-  float: right;
-}
+
 .buttonimg {
-  height: 60px;
+  //height: 60px;
   background-color: transparent;
   border: none;
+  display: inline-block;
+  cursor: pointer;
 }
 .showimg {
   width: 26px;

@@ -9,7 +9,6 @@ import router from './router';
 import store from './vuex/store';
 // 引入icon
 import './assets/icon/iconfont.css'
-import './assets/icons' // icon
 
 import './assets/icons2/iconfont.css'
 

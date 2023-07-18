@@ -15,15 +15,15 @@
     </el-container>
   </el-container> -->
 
-  <el-container class="index-con">
+  <el-container id="index-con">
     <el-aside :class="showclass">
       <leftnav></leftnav>
     </el-aside>
-    <el-container class="main-con">
-      <el-header class="index-header">
+    <el-container id="main-con">
+      <el-header id="index-header">
         <navcon></navcon>
       </el-header>
-      <el-main clss="index-main">
+      <el-main id="index-main">
         <router-view></router-view>
       </el-main>
     </el-container>
@@ -71,7 +71,7 @@ export default {
 }
 </script>
 <style >
-.index-con {
+#index-con {
   height: 100%;
   width: 100%;
   box-sizing: border-box;
@@ -89,8 +89,8 @@ export default {
   background-color: #334157;
   margin: 0px;
 }
-.index-header,
-.index-main {
+#index-header,
+#index-main {
   padding: 0px;
   border-left: 2px solid #333;
 }

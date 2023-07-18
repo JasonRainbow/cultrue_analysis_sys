@@ -19,10 +19,12 @@ export default {
   },
   methods: {
     createList() {
-      getMonitorWorkByUserId(this.userId).then((res) => {
+      let queryParam = {userId: this.userId}
+      console.log(queryParam)
+      getMonitorWorkByUserId(queryParam).then((res) => {
         if (res.code === '0') {
           this.monitorList = res.data;
-          //console.log(this.monitorList);
+          console.log(this.monitorList);
           console.log(this.userId);
         }
       })
@@ -35,9 +37,16 @@ export default {
 
     }
   },
-  mounted() {
-    this.createList();
+  created() {
+    // this.createList();
   },
+  watch: {
+    userId(newUserId, oldUserId) {
+      // console.log(oldUserId)
+      // console.log(newUserId)
+      this.createList()
+    }
+  }
 }
 </script>
 

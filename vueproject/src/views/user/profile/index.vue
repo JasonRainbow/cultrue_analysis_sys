@@ -49,7 +49,7 @@
               <resetPwd />
             </el-tab-pane>
             <el-tab-pane label="监测作品列表" name="monitor-works">
-              <monitor-list user-id=""></monitor-list>
+              <monitor-list :user-id="user.id"></monitor-list>
             </el-tab-pane>
             <el-tab-pane label="申请监测" name="monitor-request">
               <apply-monitor></apply-monitor>
