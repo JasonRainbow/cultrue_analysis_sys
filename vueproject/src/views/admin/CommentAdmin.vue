@@ -56,7 +56,9 @@
       </el-table-column>
       <el-table-column prop="platform" label="所属平台" width="100">
       </el-table-column>
-      <el-table-column prop="content" label="评论内容" width="250">
+      <el-table-column prop="content" label="原始评论内容" width="250">
+      </el-table-column>
+      <el-table-column prop="translated" label="翻译后的评论内容" width="250">
       </el-table-column>
       <el-table-column align="center" sortable prop="postTime" label="评论发布时间" min-width="150">
         <template slot-scope="scope">
@@ -107,6 +109,10 @@
         <el-form-item label="评论内容" prop="content">
           <el-input size="small" v-model="editForm.content" auto-complete="off"
                     placeholder="请输入评论的内容"></el-input>
+        </el-form-item>
+        <el-form-item label="翻译后的评论" prop="content">
+          <el-input size="small" v-model="editForm.translated" auto-complete="off"
+                    placeholder="请输入翻译后的评论内容"></el-input>
         </el-form-item>
         <el-form-item label="点赞数" prop="likes">
           <el-input size="small" v-model="editForm.likes" auto-complete="off"
@@ -222,6 +228,7 @@ export default {
       editForm: {
         id: null,
         content: "",
+        translated: "",
         likes: 0,
         workId: 0,
         country: "",
@@ -242,6 +249,7 @@ export default {
         {
           id: 0,
           content: "",
+          translated: "",
           likes: 0,
           workId: 0, // 用户ID
           monitorWork: {}, // 作品实体对象
@@ -255,6 +263,9 @@ export default {
       rules: {
         content: [ // 用户名校验
           {required: true, message: '请输入评论内容', trigger: 'blur'}
+        ],
+        translated: [ // 用户名校验
+          {required: true, message: '请输入翻译后的评论内容', trigger: 'blur'}
         ],
         postTime: [ // 作品名校验
           {required: true, message: '请输入评论的发布时间', trigger: 'blur'},
@@ -427,6 +438,7 @@ export default {
         this.editForm.workId = row.workId
         this.editForm.likes = row.likes
         this.editForm.content = row.content
+        this.editForm.translated = row.translated
         this.editForm.postTime = row.postTime
         console.log(this.editForm)
       } else {
@@ -438,6 +450,7 @@ export default {
         this.editForm.workId = null
         this.editForm.likes = null
         this.editForm.content = null
+        this.editForm.translated = null
         console.log(this.editForm)
       }
     },
@@ -450,15 +463,15 @@ export default {
       }
     },
     handleImport() {
-      this.upload.title = "监测请求导入";
+      this.upload.title = "评论信息导入";
       this.upload.open = true;
     },
     handleExport() { // 处理数据导出
-      this.download('/comment/export', {}, `监测请求信息表${new Date().getTime()}.xlsx`)
+      this.download('/comment/export', {}, `作品评论信息表${new Date().getTime()}.xlsx`)
     },
     handleExportTemplate() { // 处理导出模板
       // location.href = "http://" + "localhost" + ":9090/api/user/importTemplate";
-      this.download('/comment/importTemplate', {}, `监测请求信息导入模板${new Date().getTime()}.xlsx`)
+      this.download('/comment/importTemplate', {}, `作品评论信息导入模板${new Date().getTime()}.xlsx`)
     },
     // 分页插件事件
     callFather(parm) {

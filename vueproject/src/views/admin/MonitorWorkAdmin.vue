@@ -86,10 +86,9 @@
                      @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
           <el-button size="small" round icon="el-icon-delete" type="danger" @click="deleteRow(scope.row)">删除</el-button>
           <el-button size="small" type="success" round>爬取数据</el-button>
+          <el-button size="small" type="danger" round>词频统计</el-button>
           <el-button size="small" type="info" round>情感分析</el-button>
           <el-button size="small" type="warning" round>情感极性分析</el-button>
-          <el-button size="small" type="info" round>生成词云图</el-button>
-          <el-button size="small" type="success" round>语义网络分析</el-button>
         </template>
       </el-table-column>
     </el-table>

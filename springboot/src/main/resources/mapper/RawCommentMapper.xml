@@ -11,6 +11,7 @@
         <result property="postTime" column="postTime" />
         <result property="likes" column="likes" />
         <result property="content" column="content" />
+        <result property="translated" column="translated" />
         <association property="monitorWork"
                      javaType="com.example.demo.entity.MonitorWork">
             <id property="id" column="workId" />
