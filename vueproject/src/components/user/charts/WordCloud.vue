@@ -20,7 +20,7 @@
       </el-select>
       <el-date-picker style="width: 130px"
         size="small"
-        v-model="queryWordFreqParam.searchTime"
+        v-model="selectDate"
         align="right"
         type="date"
         placeholder="选择日期"
@@ -47,7 +47,8 @@ export default {
   data() {
     return {
       selectCountry:"美国",
-      selectDate:"2023-07-01",
+      // selectDate:"2023-07-01",
+      selectDate: "",
       selectPlatForm:"Youtube",
       pickerOptions: {
         disabledDate(time) {
@@ -100,11 +101,23 @@ export default {
           value: 'Twitter',
           label: 'Twitter'
         }, {
+          value: 'Facebook',
+          label: 'Facebook'
+        }, {
+          value: 'IMDb',
+          label: 'IMDb'
+        }, {
           value: 'Amazon',
           label: 'Amazon'
         }, {
+          value: 'GoodReads',
+          label: 'GoodReads'
+        }, {
           value: '豆瓣',
           label: '豆瓣'
+        }, {
+          value: '烂番茄',
+          label: '烂番茄'
         }
       ],
       wordCloud:{},
@@ -151,7 +164,7 @@ export default {
       //请求参数 键值对
       queryWordFreqParam:{
         searchWorkId:this.workId,
-        searchTime:"2023-07-01",
+        searchTime: this.selectDate,
         searchCountry: this.selectCountry,
         searchPlatform:"Youtube"
       }
@@ -170,6 +183,7 @@ export default {
       } else {
         this.queryWordFreqParam.searchCountry = this.selectCountry
       }
+      this.queryWordFreqParam.searchTime = this.selectDate
       console.log(this.queryWordFreqParam)
       getWordFreqRes(this.queryWordFreqParam).then((res) => {
         if (res.code === "0") {

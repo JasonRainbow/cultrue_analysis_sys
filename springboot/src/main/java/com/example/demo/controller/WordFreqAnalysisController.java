@@ -109,9 +109,9 @@ public class WordFreqAnalysisController {
             String[] keywords = wordFreqAnalysis.getKeywords().split("\\s+");
             String[] polarity = wordFreqAnalysis.getPolarity().split("\\s+");
             String[] frequency = wordFreqAnalysis.getFrequency().split("\\s+");
-            System.out.println(Arrays.toString(keywords));
-            System.out.println(Arrays.toString(polarity));
-            System.out.println(Arrays.toString(frequency));
+//            System.out.println(Arrays.toString(keywords));
+//            System.out.println(Arrays.toString(polarity));
+//            System.out.println(Arrays.toString(frequency));
             for (int i = 0; i < keywords.length; i++) {
                 if (!words.contains(keywords[i])) { // 保证关键词不重复
                     words.add(keywords[i]);

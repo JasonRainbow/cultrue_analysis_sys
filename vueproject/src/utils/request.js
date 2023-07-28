@@ -17,6 +17,11 @@ const request = axios.create({
     timeout: 5000,
 })
 
+const request2 = axios.create({
+  baseURL: "/algo",
+  timeout: 20000,
+})
+
 // 请求白名单，如果请求在白名单里面，将不会被拦截校验权限
 const whiteUrls = ["/user/login", '/user/register',
   '/admin/login', '/admin/register', '/comment/all', '/comment/countries',
@@ -120,6 +125,35 @@ const req = (method, url, params, reqBody) => {
   });
 };
 
+
+const req2 = (method, url, params, reqBody) => {
+  return request2({
+    method: method,
+    url: url,
+    headers: {
+      'Content-Type': "application/x-www-form-urlencoded",
+      // token: localStorage.getItem('token')
+    },
+    params: params,
+    data: reqBody,
+    traditional: true,
+    // transformRequest: [
+    //   function(data) {
+    //     let ret = ''
+    //     for (let it in data) {
+    //       ret +=
+    //         encodeURIComponent(it) +
+    //         '=' +
+    //         encodeURIComponent(data[it]) +
+    //         '&'
+    //     }
+    //     return ret
+    //   }
+    // ]
+  });
+};
+
+
 /**
  * 参数处理
  * @param {*} params  参数
@@ -175,6 +209,8 @@ export function download(url, params, filename, config) {
 
 export {
   request,
-  req
+  req,
+  req2,
+  request2
 }
 

@@ -69,9 +69,7 @@ export default {
   },
   methods: {
     initPlatFormChart(){//初始化图表
-      this.platFormChart = this.$echarts.init(document.getElementById('platFormChart'))
-      //this.getPlatFormData()
-      this.platFormChart.setOption(this.option)
+      this.getPlatFormData()
     },
     getPlatFormData(){//异步请求 获取平台数据
       countMonitorWorkPlatform(this.queryPlatFormParams).then((res)=>{
@@ -80,8 +78,11 @@ export default {
             return {value: item.count, name: item.platform}
           });
           console.log(this.option.series[0].data)
-          this.updatePlatFormChart()
-          this.initPlatFormChart()
+          this.platFormChart = this.$echarts.init(document.getElementById('platFormChart'))
+
+          this.platFormChart.setOption(this.option)
+          // this.updatePlatFormChart()
+          // this.initPlatFormChart()
         }
       })
     },

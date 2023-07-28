@@ -109,9 +109,10 @@ export default {
           obj [item.country] = item.positiveValue
         }
       })
+      obj = this.sortMap(obj) //传入Object 返回一个Object
       //获取键和值 得到国家和情感值数组
-      let countryArr = Object.keys(obj)
-      let positiveValueArr = Object.values(obj)
+      let countryArr = Object.keys(obj).slice(0,6) //只取前6位
+      let positiveValueArr = Object.values(obj).slice(0,6)
       //将countryArr和positiveValueArr合并成一个数组对象
       let newArr = countryArr.map((item, index) => {
         return {
@@ -138,9 +139,10 @@ export default {
           obj [item.country] = item.negativeValue
         }
       })
+      obj = this.sortMap(obj) //传入Object 返回一个object
       //获取键和值 得到国家和情感值数组
-      let countryArr = Object.keys(obj)
-      let negativeValueArr = Object.values(obj)
+      let countryArr = Object.keys(obj).slice(0,6) //只取前6位
+      let negativeValueArr = Object.values(obj).slice(0,6)
       //将countryArr和negativeValueArr合并成一个数组对象
       let newArr = countryArr.map((item, index) => {
         return {
@@ -166,9 +168,10 @@ export default {
           obj [item.country] = item.neutralityValue
         }
       })
+      obj = this.sortMap(obj) //传入Object 返回一个Object
       //获取键和值 得到国家和情感值数组
-      let countryArr = Object.keys(obj)
-      let neutralityValueArr = Object.values(obj)
+      let countryArr = Object.keys(obj).slice(0,6) //只取前6位
+      let neutralityValueArr = Object.values(obj).slice(0,6)
       //将countryArr和neutralityValueArr合并成一个数组对象
       let newArr = countryArr.map((item, index) => {
         return {
@@ -181,6 +184,35 @@ export default {
         return {name: item.country, value: item.emotionValue}
       });
       this.config = {...this.config}
+    },
+    //将object按value从大至小排序
+    sortMap(obj){
+      console.log("obj")
+      // let aa = Object.values(map).sort((a,b)=>{
+      //   return b-a
+      // })
+      // console.log(aa);
+      // // let arrayObj=Array.from(Object.values(map),x=>x);//将Object转换成数组
+      // // console.log(arrayObj)
+      // // arrayObj.sort(function(a,b){return b[1]-a[1]})//排序
+      // // console.log(arrayObj)
+      // // let result = new Map(arrayObj.map(i => [i[0], i[1]]))//转换成map对象
+      // return aa
+      // 获取属性值并按从大到小排序
+      let result = Object.values(obj).sort((a, b) => {
+        return b - a;
+      });
+      let new_obj = {};
+      for (let i = 0; i < result.length; i++) {
+        // 将原对象中的键值对按照属性值的排序顺序写入新对象
+        Object.keys(obj).map((item, index) => {
+          if (obj[item] === result[i]) {
+            new_obj[item] = result[i];
+          }
+        });
+      }
+      console.log(new_obj)
+      return new_obj
     },
     //绘制胶囊柱图
     showCapsuleChart(){

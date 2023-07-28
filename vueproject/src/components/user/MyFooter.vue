@@ -182,10 +182,10 @@
                   <a href="https://www.rottentomatoes.com/">烂番茄</a>
                 </li>
                 <li>
-                  <a href="https://www.imdb.com/">IMDb</a>
+                  <a href="https://www.douban.com">豆瓣</a>
                 </li>
                 <li>
-                  <a href="https://haodoo.net/">好读</a>
+                  <a href="https://www.imdb.com/">IMDb</a>
                 </li>
               </ul>
             </li>

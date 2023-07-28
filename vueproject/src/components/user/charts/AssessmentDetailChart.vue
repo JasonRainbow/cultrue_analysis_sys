@@ -49,7 +49,7 @@ export default {
           {
             type: 'value',
             min: 0,
-            max: 3200,
+            max: 3800,
             nameTextStyle: {
               fontWeight: 500,
               fontSize: 12,
