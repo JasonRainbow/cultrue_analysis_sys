@@ -11,8 +11,8 @@ export const getCommentById = (params)=>{
 }
 
 // 查询所有的国家列表
-export const getCountries = ()=>{
-  return req("get", "/comment/countries", null, null);
+export const getCountries = (params)=>{
+  return req("get", "/comment/countries", params, null);
 }
 
 // 查询所有的平台列表

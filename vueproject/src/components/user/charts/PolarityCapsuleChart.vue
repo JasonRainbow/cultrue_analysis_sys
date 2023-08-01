@@ -1,8 +1,8 @@
 <template>
   <div style="text-align:center;">
-    <h3>{{selectEmotion}}情感分布</h3>
+    <h3>{{queryParam.selectEmotion}}情感分布</h3>
     <div style="margin-top: 10px" >
-      <el-select size="small" style="width: 30%" v-model="selectEmotion" placeholder="请选择情感" @change="showCapsuleChart()">
+      <el-select size="small" style="width: 30%" v-model="queryParam.selectEmotion" placeholder="请选择情感" @change="getPolarityData">
         <el-option
           v-for="item in emotionOptions"
           :key="item.value"
@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import {queryPolarity} from "../../../api/polarityAPI";
+import {queryPolarity, queryPolarityDistribute} from "../../../api/polarityAPI";
 export default {
   name: "PolarityCapsuleChart",
   props: {//用于组件通信
@@ -27,7 +27,6 @@ export default {
   },
   data() {
     return {
-      selectEmotion: "积极",
       emotionOptions:[
         {
           value: '积极',
@@ -46,7 +45,9 @@ export default {
         colors: ['#e062ae', '#fb7293', '#e690d1', '#32c5e9', '#96bfff']
       },
       queryParam:{
-        searchWorkId: this.workId
+        searchWorkId: this.workId,
+        selectEmotion: "积极",
+        offset: 6
       },
       positiveEmotion: {
         country:null,
@@ -59,7 +60,10 @@ export default {
       neutralityEmotion:{
         country:null,
         neutralityValue:null
-      }
+      },
+      polarityData: [
+
+      ]
     }
   },
   mounted() {
@@ -70,7 +74,13 @@ export default {
     //发送异步请求 得到返回数据
     getPolarityData(){
       //调用接口
-      queryPolarity(this.queryParam).then((res) => {
+      queryPolarityDistribute(this.queryParam).then((res)=>{
+        if (res.code === "0") {
+          this.polarityData = res.data
+          this.configChart()
+        }
+      })
+      /*queryPolarity(this.queryParam).then((res) => {
         if (res.code === "0") {
           this.positiveEmotion = res.data.map((item) => {
             return {
@@ -94,7 +104,7 @@ export default {
           });
           this.showCapsuleChart()
         }
-      })
+      })*/
     },
     //获取积极情感胶囊柱图的数据并将数据赋值给DataV的胶囊柱图
     getPositiveData(){
@@ -213,6 +223,13 @@ export default {
       }
       console.log(new_obj)
       return new_obj
+    },
+    configChart(){
+      //获取胶囊柱图的数据
+      this.config.data = this.polarityData.map((item) => {
+        return {name: item.country, value: item.cnt}
+      });
+      this.config = {...this.config}
     },
     //绘制胶囊柱图
     showCapsuleChart(){

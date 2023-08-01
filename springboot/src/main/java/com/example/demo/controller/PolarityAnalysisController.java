@@ -100,6 +100,15 @@ public class PolarityAnalysisController {
         return Result.success(polarityAnalysisMapper.selectList(query));
     }
 
+    // 统计指定极性情感在各个国家的分布情况
+    @GetMapping("/getDistribute")
+    @ApiOperation(value = "统计指定极性情感在各个国家的分布情况")
+    public Result<?> getPolarityDistribute(@RequestParam Integer searchWorkId,
+                                           @RequestParam(defaultValue = "积极", required = false) String selectEmotion,
+                                           @RequestParam(defaultValue = "6", required = false) Integer offset) {
+        return Result.success(polarityAnalysisMapper.findPolarityDis(searchWorkId, selectEmotion, offset));
+    }
+
     // 统计不同情感极性的评论数
     @GetMapping("/countDaily")
     @ApiOperation(value = "统计不同情感极性的评论数")
@@ -128,18 +137,35 @@ public class PolarityAnalysisController {
     public Result<?> countDayInterval(@RequestParam Integer workId,
                                       @RequestParam(required = false, defaultValue = "") String country,
                                       @RequestParam String startTime,
-                                      @RequestParam Integer dayInterval
+                                      @RequestParam(required = false, defaultValue = "7") Integer dayInterval
     ) {
         MonitorWork monitorWork = monitorWorkMapper.selectById(workId);
         String workName = monitorWork.getName();
+        List<Integer> offsets = new ArrayList<>();
+        for (int i = 1; i < dayInterval; i++) {
+            offsets.add(i);
+        }
         PolarityStatisticsDto polarityStatisticsDto = new PolarityStatisticsDto();
         List<PolarityDto> polarityAnalyses
-                = polarityAnalysisMapper.selectDayInterval(workId, country, startTime, dayInterval);
+                = polarityAnalysisMapper.selectDayInterval(workId, country, startTime, offsets);
         polarityStatisticsDto.setWorkId(workId);
         polarityStatisticsDto.setWorkName(workName);
         polarityStatisticsDto.setCountry(country);
         polarityStatisticsDto.setStatisticsInfo(polarityAnalyses);
         return Result.success(polarityStatisticsDto);
+    }
+
+    // 统计最近一年的极性情感分析结果
+    @GetMapping("/countMonthInterval")
+    @ApiOperation(value = "统计最近一年的极性情感分析结果")
+    public Result<?> countMonthInterval(@RequestParam(required = false, defaultValue = "") String searchCountry,
+                                      @RequestParam(required = false, defaultValue = "12") Integer offset
+    ) {
+        List<Integer> offsets = new ArrayList<>();
+        for (int i = 1; i < offset; i++) {
+            offsets.add(i);
+        }
+        return Result.success(polarityAnalysisMapper.selectMonthInterval(searchCountry, offsets));
     }
 
     // 根据id删除指定情感极性分析结果

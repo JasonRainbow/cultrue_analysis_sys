@@ -29,6 +29,9 @@
 
     <select id="selectAllCountry" resultType="java.lang.String">
         select distinct country from raw_comment
+        <if test="workId != null and workId != ''">
+            where workId = #{workId}
+        </if>
     </select>
 
     <select id="selectAllPlatform" resultType="java.lang.String">

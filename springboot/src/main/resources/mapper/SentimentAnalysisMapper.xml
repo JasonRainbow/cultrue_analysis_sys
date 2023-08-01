@@ -43,4 +43,19 @@
                             on (senti.workId = mw.id)
         order by senti.id
     </select>
+    <select id="findByWorkIdAndTime" resultType="com.example.demo.entity.SentimentAnalysis">
+        SELECT workId, country
+        <if test="time != null and time != ''">
+            , time
+        </if>
+               , sum(happy) as happy, sum(amazed) as amazed,
+            sum(neutrality) as neutrality, sum(hate) as hate,
+            sum(angry) as angry, sum(fear) as fear
+        FROM `sentiment_analy`
+        where workId = #{workId}
+        <if test="time != null and time != ''">
+            and time = #{time}
+        </if>
+        group by country;
+    </select>
 </mapper>

@@ -36,6 +36,7 @@
 <script>
 import {getWordFreqRes} from "../../../api/word_freq_anaAPI";
 import 'echarts-wordcloud'
+import {getCountries} from "../../../api/commentAPI";
 export default {
   name: "WordCloud",
   props: {//声明 用于父组件和子组件通信
@@ -171,6 +172,16 @@ export default {
     }
   },
   methods: {
+    getAllCountries() {
+      getCountries({workId: this.workId}).then((res)=>{
+        // alert("hello");
+        this.countryOptions = res.data.map((item)=>{
+          return {label: item, value: item}
+        })
+        this.countryOptions.push({label: "全球", value: "全球"})
+        this.countryOptions.reverse()
+      })
+    },
     initWordCloud() {
       this.wordCloudChart = this.$echarts.init(document.getElementById('wordCloud'))
       this.wordCloudChart.setOption(this.wordCloudOption)
@@ -200,7 +211,8 @@ export default {
       this.wordCloudChart.setOption(this.wordCloudOption)
     }
   },
-  mounted() {
+  async mounted() {
+    await this.getAllCountries()
     this.getWordData()
     this.initWordCloud()
   }

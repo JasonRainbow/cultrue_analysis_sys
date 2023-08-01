@@ -250,7 +250,7 @@ export default {
         loginUser = JSON.parse(loginUser) // 解析存储在浏览器中的用户数据
         userId = loginUser.id
       }
-      getMonitorWorkByUserId(userId).then((res)=>{ // 获取监测作品
+      getMonitorWorkByUserId({userId: userId}).then((res)=>{ // 获取监测作品
         if (res.code === "0") {
           this.works = res.data.map((item)=>{
             return {id: item.id, name: item.name}

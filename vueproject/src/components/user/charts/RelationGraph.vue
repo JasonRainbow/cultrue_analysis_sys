@@ -1,6 +1,7 @@
 <script>
 
 import {get_gram_net} from "../../../api/otherAPI";
+import {getCountries} from "../../../api/commentAPI";
 
 export default {
   name: "RelationGraph",
@@ -23,7 +24,8 @@ export default {
     }
 
   },
-  mounted() {
+  async mounted() {
+    await this.getAllCountries()
     this.createGraph()
   },
   data() {
@@ -289,6 +291,16 @@ export default {
     }
   },
   methods: {
+    getAllCountries() {
+      getCountries({workId: this.workId}).then((res)=>{
+        // alert("hello");
+        this.countryOptions = res.data.map((item)=>{
+          return {label: item, value: item}
+        })
+        this.countryOptions.push({label: "全球", value: "全球"})
+        this.countryOptions.reverse()
+      })
+    },
     createGraph() {
 
       //这里写发送请求， selectCountry绑定的国家，selectTime绑定的日期，workId绑定的作品id

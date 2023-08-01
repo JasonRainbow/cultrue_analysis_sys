@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.entity.PolarityAnalysis;
 import com.example.demo.entity.dto.PolarityDto;
+import com.example.demo.entity.vo.PolarityDistribution;
+import com.example.demo.entity.vo.PolarityMonthlyVO;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -18,9 +20,17 @@ public interface PolarityAnalysisMapper extends BaseMapper<PolarityAnalysis> {
 
     List<PolarityAnalysis> findAll();
 
-    // 查询一个日期区间的情感记性分析统计信息
+    // 查询一个日期区间的情感极性分析统计信息
     List<PolarityDto> selectDayInterval(@Param("workId") Integer workId,
                                         @Param("country") String country,
                                         @Param("startTime") String startTime,
-                                        @Param("interval") Integer interval);
+                                        @Param("offsets") List<Integer> offsets);
+
+    List<PolarityDistribution> findPolarityDis(@Param("workId") Integer workId,
+                                               @Param("type") String type,
+                                               @Param("offset") Integer offset);
+
+    // 查询一个月份区间的情感极性分析统计信息
+    List<PolarityMonthlyVO> selectMonthInterval(@Param("country") String country,
+                                                @Param("offsets") List<Integer> offsets);
 }

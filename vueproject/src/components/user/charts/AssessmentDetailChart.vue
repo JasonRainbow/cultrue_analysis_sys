@@ -11,7 +11,8 @@
   </div>
 </template>
 <script>
-import {queryPolarity} from "../../../api/polarityAPI";
+import {polarityCountMonthInterval} from "../../../api/polarityAPI";
+
 export default {
   name: "AssessmentDetailChart",
   data() {
@@ -49,7 +50,7 @@ export default {
           {
             type: 'value',
             min: 0,
-            max: 3800,
+            // max: 3800,
             nameTextStyle: {
               fontWeight: 500,
               fontSize: 12,
@@ -111,7 +112,8 @@ export default {
         ]
       },
       queryAssessmentParam: {
-        searchCountry: this.country
+        searchCountry: this.country,
+        offset: 12
       },
       positiveEmotion: {
         date:null,
@@ -152,7 +154,32 @@ export default {
     },
     //调用接口 获取极性情感数据
     getAssessData() {
-      queryPolarity(this.queryAssessmentParam).then((res) => {
+      console.log(this.queryAssessmentParam)
+      // 改进的方法  直接从后台获取数据
+      polarityCountMonthInterval(this.queryAssessmentParam).then((res)=>{
+        if (res.code === "0") {
+          let res_data = res.data
+          console.log(res_data)
+          // 通入时间数据
+          this.option.xAxis[0].data = res_data.map((item)=>{
+            return item.postTime
+          })
+          // 填入积极情感数据
+          this.option.series[0].data = res_data.map((item)=>{
+            return item.positive
+          })
+          // 填入消极情感数据
+          this.option.series[1].data = res_data.map((item)=>{
+            return item.negative
+          })
+          // 填入中立情感数据
+          this.option.series[2].data = res_data.map((item)=>{
+            return item.neutrality
+          })
+          this.updateAssessChart()
+        }
+      })
+      /*queryPolarity(this.queryAssessmentParam).then((res) => {
         if (res.code === "0") {
             //提取出原始积极情感数据并去重
             this.positiveEmotion = res.data.map((item) => {
@@ -183,11 +210,12 @@ export default {
             this.option.series[2].data = this.neutralityEmotion.map((item) => {
               return item.emotionValue
             })
+          console.log(this.option.series[2].data)
             this.updateAssessChart()
           }
-      })
+      })*/
     },
-    //对数组进行去重
+    /*//对数组进行去重
     duplicate(emotionArray){
       let obj = {};
       emotionArray.forEach(item => {
@@ -208,7 +236,7 @@ export default {
         }
       })
       return newArr
-    },
+    },*/
     //更新图表
     updateAssessChart() {
       this.assessChart.setOption(this.option);

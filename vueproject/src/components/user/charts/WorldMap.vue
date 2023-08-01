@@ -30,7 +30,7 @@
 </template>
 <script>
 import worldJson from '../../../assets/map/world.json'
-import {querySentiment} from "../../../api/sentimentAPI";
+import {querySentiment, querySentimentByWorkIdAndTime} from "../../../api/sentimentAPI";
 export default {
   name: "WorldMap",
   props: {
@@ -1766,7 +1766,41 @@ export default {
     },
     //获取数据
     getWorldMapData(){
-      //调用接口
+      querySentimentByWorkIdAndTime(this.queryMapParam).then((res)=>{
+        if (res.code === "0") {
+          //提取各情感值原始数据
+          this.happyData = res.data.map((item) => {
+            return {country: item.country, value: item.happy}
+          });
+          // console.log(res.data)
+          this.amazedData = res.data.map((item) => {
+            return {country: item.country, value: item.amazed}
+          });
+          this.neutralityData = res.data.map((item) => {
+            return {country: item.country, value: item.neutrality}
+          });
+          this.hateData = res.data.map((item) => {
+            return {country: item.country, value: item.hate}
+          });
+          this.angryData = res.data.map((item) => {
+            return {country: item.country, value: item.angry}
+          });
+          this.fearData = res.data.map((item) => {
+            return {country: item.country, value: item.fear}
+          });
+          // console.log(this.happyData)
+          //计算各国情感占比
+          this.happyData = this.calProportion(this.happyData)
+          this.amazedData = this.calProportion(this.amazedData)
+          this.neutralityData = this.calProportion(this.neutralityData)
+          this.hateData = this.calProportion(this.hateData)
+          this.angryData = this.calProportion(this.angryData)
+          this.fearData = this.calProportion(this.fearData)
+          //根据所选情感值 将对应数组中的数据填充至worldMap中 更新图表
+          this.updateChart();
+        }
+      })
+      /*//调用接口
       querySentiment(this.queryMapParam).then((res) => {
         if (res.code === "0") {
           console.log("2222")
@@ -1806,7 +1840,7 @@ export default {
           //根据所选情感值 将对应数组中的数据填充至worldMap中 更新图表
           this.updateChart();
         }
-      })
+      })*/
    },
     //计算各国情感占比
     calProportion(emotionArray){
@@ -1844,24 +1878,25 @@ export default {
     },
     //更新图表
     updateChart(){
-      console.log("1111")
+      // console.log("1111")
       this.fillWorldMapData()
-      console.log(this.emotionEveryCountry)
+      // console.log(this.emotionEveryCountry)
       let countryEmotion = {}
       let countryKeys = this.emotionEveryCountry.map((item) => {return item.country})//取出国家
-      console.log(countryKeys)
+      // console.log(countryKeys)
       let emotionValues = this.emotionEveryCountry.map((item) => {return item.value})//取出情感值
-      console.log(emotionValues)
+      // console.log(emotionValues)
       //将countryKeys和emotionValues数组合并成一个键值对数组
       for (let i = 0; i < countryKeys.length; i++) {
         countryEmotion[countryKeys[i]] = emotionValues[i]
       }
-      console.log(countryEmotion['美国'])
+      // console.log(countryEmotion)
+      // console.log(countryEmotion['美国'])
       for (let i = 0; i < this.dataList.length; i++) {
         if (countryEmotion[this.dataList[i].name]!=null){
-          console.log("5555")
+          // console.log("5555")
           this.dataList[i].value = Math.floor(countryEmotion[this.dataList[i].name])
-          console.log( this.dataList[i].value)
+          // console.log( this.dataList[i].value)
         }else {
           this.dataList[i].value=0
         }

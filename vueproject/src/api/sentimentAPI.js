@@ -22,6 +22,10 @@ export const querySentiment = (params)=>{
   return req("get", "/sentiment/query-list", params, null);
 }
 
+export const querySentimentByWorkIdAndTime = (params)=>{
+  return req("get", "/sentiment/getWorldSentiment", params, null);
+}
+
 // 统计不同情感倾向的评论数  请求参数：workId、country、postTime
 export const sentimentCountDaily = (params)=>{
   return req("get", "/sentiment/countDaily", params, null);

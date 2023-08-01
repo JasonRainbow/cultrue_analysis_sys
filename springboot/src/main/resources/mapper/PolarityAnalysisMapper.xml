@@ -42,15 +42,63 @@
     </select>
 
     <select id="selectDayInterval" resultType="com.example.demo.entity.dto.PolarityDto">
-        select time, sum(positive) as positive,
+        select date_tab.`year_date` as postTime, sum(positive) as positive,
           sum(negative) as negative, sum(neutrality) as neutrality
-        from polarity_analy
-        where workId = #{workId}
+        from
+        (SELECT DATE_FORMAT(#{startTime}, '%Y-%m-%d') AS `year_date`
+        <if test="offsets != null">
+            <foreach item="offset" collection="offsets">
+                UNION SELECT DATE_FORMAT((#{startTime} + INTERVAL #{offset} DAY), '%Y-%m-%d') AS `year_date`
+            </foreach>
+        </if>
+        ) as date_tab
+        left join (select * from polarity_analy where workId = #{workId}
         <if test="country != null and country != ''">
             and country = #{country}
         </if>
-            and TO_DAYS(time) - TO_DAYS(#{startTime}) between 0 and (#{interval} - 1)
-        group by time
-        order by time asc
+            ) as pa
+        on(pa.time = date_tab.`year_date`)
+        group by postTime
+        order by postTime asc
+    </select>
+    <select id="findPolarityDis" resultType="com.example.demo.entity.vo.PolarityDistribution">
+        SELECT country,
+       <if test="type == '积极'">
+           sum(positive)
+       </if>
+       <if test="type == '消极'">
+           sum(negative)
+       </if>
+        <if test="type == '中立'">
+            sum(neutrality)
+        </if>
+             as cnt
+        FROM `polarity_analy`
+        where workId = #{workId}
+        group by country
+        order by cnt desc
+        <if test="offset != -1">
+            limit 0,#{offset}
+        </if>
+        ;
+    </select>
+    <select id="selectMonthInterval" resultType="com.example.demo.entity.vo.PolarityMonthlyVO">
+        select date_tab.`year_month` as postTime, sum(positive) as positive,
+               sum(negative) as negative, sum(neutrality) as neutrality
+        from (SELECT DATE_FORMAT(CURDATE(), '%Y-%m') AS `year_month`
+            <if test="offsets != null">
+                <foreach item="offset" collection="offsets">
+                    UNION SELECT DATE_FORMAT((CURDATE() - INTERVAL #{offset} MONTH), '%Y-%m') AS `year_month`
+                </foreach>
+            </if>
+            ) as date_tab
+                 left join (select * from polarity_analy
+                     <if test="country != null and country != ''">
+                         where country = #{country}
+                     </if>
+                     ) as pa
+                     on(DATE_FORMAT(pa.time, "%Y-%m") = date_tab.`year_month`)
+        group by postTime
+        order by postTime;
     </select>
 </mapper>

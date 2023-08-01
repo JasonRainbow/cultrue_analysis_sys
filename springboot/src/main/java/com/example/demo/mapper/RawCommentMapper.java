@@ -12,7 +12,7 @@ public interface RawCommentMapper extends BaseMapper<RawComment> {
     List<CommentPlatformDto> countPlatformByWorkId(Integer workId);
 
     // 查询所有的国家
-    List<String> selectAllCountry();
+    List<String> selectAllCountry(@Param("workId") Integer workId);
 
     // 查询所有的平台
     List<String> selectAllPlatform();

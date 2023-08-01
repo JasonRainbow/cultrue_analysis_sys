@@ -93,7 +93,14 @@ public class SentimentAnalysisController {
     }
 
 
-    // 精确查询
+    // 根据作品ID和日期查询各个国家的情感分析结果
+    @GetMapping("/getWorldSentiment")
+    @ApiOperation(value = "查询各个国家的情感分析结果")
+    public Result<?> getWorldSentiment(@RequestParam Integer searchWorkId,
+                                       @RequestParam(defaultValue = "", required = false) String searchTime) {
+        List<SentimentAnalysis> res = sentimentAnalysisMapper.findByWorkIdAndTime(searchWorkId, searchTime);
+        return Result.success(res);
+    }
 
 
     // 统计不同情感倾向的评论数
@@ -101,14 +108,16 @@ public class SentimentAnalysisController {
     @ApiOperation(value = "统计不同情感倾向的评论数")
     public Result<?> countDaily(@RequestParam Integer workId,
                                 @RequestParam(required = false, defaultValue = "") String country,
-                                @RequestParam String postTime
+                                @RequestParam(required = false, defaultValue = "") String postTime
                                 ) {
         QueryWrapper<SentimentAnalysis> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("workId", workId);
         if (country.length() > 0) {
             queryWrapper.eq("country", country);
         }
-        queryWrapper.eq("time", postTime);
+        if (postTime.length() > 0) {
+            queryWrapper.eq("time", postTime);
+        }
         List<SentimentAnalysis> sentimentAnalyses
                 = sentimentAnalysisMapper.selectList(queryWrapper);
         SentimentDto sentimentDto = new SentimentDto();

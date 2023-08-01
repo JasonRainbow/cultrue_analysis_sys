@@ -1,5 +1,6 @@
 <script>
 import {sentimentCountDaily} from "../../../api/sentimentAPI";
+import {getCountries} from "../../../api/commentAPI";
 
 export default {
   name: "pie",
@@ -96,10 +97,21 @@ export default {
       }
     }
   },
-  mounted() {
+  async mounted() {
+    await this.getAllCountries();
     this.createChart()
   },
   methods: {
+    getAllCountries() {
+      getCountries({workId: this.workId}).then((res)=>{
+        // alert("hello");
+        this.countryOptions = res.data.map((item)=>{
+          return {label: item, value: item}
+        })
+        this.countryOptions.push({label: "全球", value: "全球"})
+        this.countryOptions.reverse()
+      })
+    },
     createChart() {
       // 获取数据
       console.log(this.searchParams)
@@ -203,6 +215,7 @@ export default {
       :picker-options="pickerOptions"
       format="yyyy-MM-dd"
       value-format="yyyy-MM-dd"
+      clearable
       @change="dateChanged"
     >
     </el-date-picker>

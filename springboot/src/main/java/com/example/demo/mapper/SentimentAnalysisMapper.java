@@ -16,4 +16,7 @@ public interface SentimentAnalysisMapper extends BaseMapper<SentimentAnalysis> {
                                     @Param("platform") String platform,
                                      @Param("time") String time
     );
+
+    List<SentimentAnalysis> findByWorkIdAndTime(@Param("workId") Integer workId,
+                                                @Param("time") String time);
 }

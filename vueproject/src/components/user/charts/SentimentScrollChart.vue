@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { querySentiment } from "../../../api/sentimentAPI";
+import {querySentimentByWorkIdAndTime} from "../../../api/sentimentAPI";
 
 export default {
   name: 'SentimentChart',
@@ -81,7 +81,7 @@ export default {
     getSentimentData() {// 调用接口 获取数据
       const {config} = this;
       // console.log(this.querySentimentParams)
-      querySentiment(this.querySentimentParams).then((res) => {
+      querySentimentByWorkIdAndTime(this.querySentimentParams).then((res) => {
         if (res.code === "0") {
           // console.log(res.data)
           this.allEmotion = res.data.map((item) => {
@@ -91,8 +91,9 @@ export default {
             }
           });
           // console.log(this.allEmotion)
+          // console.log(this.allEmotion)
           //将allEmotion数组去重 对应属性数值相加
-          let obj = {}
+          /*let obj = {}
           this.allEmotion.forEach(item => {
             if (obj.hasOwnProperty(item.country)) {
               obj[item.country] += item.wholeEmotion
@@ -109,16 +110,16 @@ export default {
               country: item,
               emotionValue: wholeEmotionArr[index]
             }
-          })
+          })*/
           //获取胶囊柱图的数据
-          this.config.data = newArr.map((item) => {
-            return {name: item.country, value: item.emotionValue}
+          this.config.data = this.allEmotion.map((item) => {
+            return {name: item.country, value: item.wholeEmotion}
           });
-          console.log(this.config.data)
+          // console.log(this.config.data)
           this.config.unit = "条";
           // 将数据赋值给DataV的胶囊柱图
           this.config = {...this.config}
-          console.log(this.config)
+          // console.log(this.config)
         }
       })
     },

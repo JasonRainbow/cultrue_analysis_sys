@@ -54,8 +54,8 @@ public class RawCommentController {
     // 查询所有的国家列表
     @GetMapping("/countries")
     @ApiOperation(value = "查询所有的国家列表")
-    public Result<?> findAllCountry() {
-        List<String> list = rawCommentMapper.selectAllCountry();
+    public Result<?> findAllCountry(@RequestParam(defaultValue = "", required = false) Integer workId) {
+        List<String> list = rawCommentMapper.selectAllCountry(workId);
         return Result.success(list);
     }
 

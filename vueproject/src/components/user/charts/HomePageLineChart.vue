@@ -1,6 +1,6 @@
 <template>
     <div style="text-align:center;margin-top: 30px">
-      <h2>{{ selectCountry }}&nbsp;{{selectMonth}}情感趋势</h2>
+      <h2>{{ selectCountry }}&nbsp;{{selectMonth}} 极性情感趋势</h2>
       <div style="margin-top: 15px;" >
         <el-select v-model="selectCountry" placeholder="国家" @change="this.getData">
           <el-option
@@ -27,6 +27,7 @@
 
 <script>
 import {polarityCountDayInterval} from "../../../api/polarityAPI";
+import {getCountries} from "../../../api/commentAPI";
 export default {
   name: "HomePageChart",
   props: {//用于组件通信
@@ -158,12 +159,23 @@ export default {
       },
     }
   },
-  mounted() {
+  async mounted() {
+    await this.getAllCountries()
     this.getData()
     this.initLineChart()
     console.log("line chart")
   },
   methods: {
+    getAllCountries() {
+      getCountries({workId: this.workId}).then((res)=>{
+        // alert("hello");
+        this.countryOptions = res.data.map((item)=>{
+          return {label: item, value: item}
+        })
+        this.countryOptions.push({label: "全球", value: "全球"})
+        this.countryOptions.reverse()
+      })
+    },
     initLineChart() {
       this.myChart = this.$echarts.init(document.getElementById('myChart'))
       this.myChart.setOption(this.option)
@@ -178,16 +190,21 @@ export default {
       }
       polarityCountDayInterval(this.queryPolarityParams).then((res) => {
         if (res.code === "0") {
-          this.option.xAxis.data = res.data.statisticsInfo.map((item) => {
-            return item.time
+          // console.log(res.data)
+          this.option.xAxis[0].data = res.data.statisticsInfo.map((item) => {
+            return item.postTime
           })
+          // console.log(this.option.xAxis[0].data)
           this.option.series[0].data = res.data.statisticsInfo.map((item) => {
+            if (item.positive + item.negative + item.neutrality === 0) return 0;
             return (item.positive / (item.positive + item.negative + item.neutrality) * 100).toFixed(2)
           })
           this.option.series[1].data = res.data.statisticsInfo.map((item) => {
+            if (item.positive + item.negative + item.neutrality === 0) return 0;
             return (item.negative / (item.positive + item.negative + item.neutrality) * 100).toFixed(2)
           })
           this.option.series[2].data = res.data.statisticsInfo.map((item) => {
+            if (item.positive + item.negative + item.neutrality === 0) return 0;
             return (item.neutrality / (item.positive + item.negative + item.neutrality) * 100).toFixed(2)
           })
           this.updateChart();
