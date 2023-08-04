@@ -22,4 +22,7 @@ public interface UserMapper extends BaseMapper<User> {
     User selectByUsername(String username);
 
     int updatePass(Map<String, Object> map);
+
+    // 查询申请监测某个作品的用户邮箱列表
+    List<User> selectEmailsByWorkId(Integer workId);
 }

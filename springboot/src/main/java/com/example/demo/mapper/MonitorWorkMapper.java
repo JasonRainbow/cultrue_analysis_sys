@@ -10,4 +10,6 @@ public interface MonitorWorkMapper extends BaseMapper<MonitorWork> {
     List<MonitorWork> selectByUserId(Integer userId);
 
     String findWorkName(Integer workId);
+
+    boolean updateCrawlState(Integer workId);
 }

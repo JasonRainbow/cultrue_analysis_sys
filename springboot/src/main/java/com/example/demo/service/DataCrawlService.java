@@ -1,46 +1,67 @@
 package com.example.demo.service;
-
-import org.springframework.beans.factory.annotation.Value;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.example.demo.entity.User;
+import com.example.demo.mapper.MonitorWorkMapper;
+import com.example.demo.mapper.UserMapper;
+import com.example.demo.utils.EmailUtil;
+import com.example.demo.utils.HttpUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.json.JsonParser;
+import org.springframework.boot.json.JsonParserFactory;
 import org.springframework.stereotype.Service;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 
 @Service
 public class DataCrawlService {
-    @Value("${python.env}")
-    private String pythonEnv;
+    @Autowired
+    private HttpUtils httpUtils; // 发送http请求工具类
 
-    @Value("${python.home}")
-    private String pythonHome;
+    @Autowired
+    private EmailUtil emailUtil; // 发送邮件的工具类
 
-    public boolean crawlComments(Integer workId, String workName) throws UnsupportedEncodingException {
-        // 本地环境下的python的启动文件地址，要执行的python脚本
-//        pythonHome = "E:\\homework\\大二下学期\\软件综合实训\\开发\\爬虫和算法\\src\\";
-        String[] arguments = new String[]{pythonEnv, pythonHome + "test.py", "-i " + workId, "-n " + workName};
-        System.out.println(Arrays.toString(arguments));
-        Process proc;
-        try {
-            proc = Runtime.getRuntime().exec(arguments);// 执行py文件
-            //用输入输出流来截取结果
-            /*BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream(), "gbk"));
-            String line = null;
-            while ((line = in.readLine()) != null) {
-                System.out.println(line);
+    @Autowired
+    private UserMapper userMapper;
+
+    @Autowired
+    private MonitorWorkMapper monitorWorkMapper;
+
+    public boolean crawlComments(Integer workId, String keyword, String uri, String platform) {
+        Map<String, String> param = new HashMap<>();
+        param.put("workId", workId.toString());
+        param.put("keyword", keyword);
+        // 开启一个线程用于发送请求
+        new Thread(() -> {
+            try {
+                String res = httpUtils.get(uri, param);
+                JsonParser jsonParser = JsonParserFactory.getJsonParser();
+                Map<String, Object> objectMap = jsonParser.parseMap(res);
+                String code = objectMap.get("code").toString(); // 返回响应码
+                String workName = monitorWorkMapper.selectById(workId).getName(); // 获取作品名称
+                String message = String.format("《%s》在“%s”平台的评论数据已经爬取完毕", workName, platform);
+                if ("0".equals(code)) {
+                    List<User> emailList = userMapper.selectEmailsByWorkId(workId);
+                    for (User user: emailList) {
+                        if (StringUtils.isNotBlank(user.getEmail())) {
+                            try {
+                                emailUtil.sendHtmlMail(user.getEmail(),
+                                        user.getUsername(), user.getName(), message);
+                            } catch (Exception e) {
+                                System.out.println("发送邮件失败");
+                            }
+                        }
+                    }
+                    monitorWorkMapper.updateCrawlState(workId);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println("爬取评论数据失败");
             }
-            in.close();*/
-            //waitFor是用来显示脚本是否运行成功，1表示失败，0表示成功，还有其他的表示其他错误
-            int res = proc.waitFor();
-            return res == 0;
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return false;
+        }).start();
+
+        return true;
     }
 }

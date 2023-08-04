@@ -59,7 +59,8 @@ public class EmailUtil {
         javaMailSender.send(message);
     }
 
-    public void sendHtmlMail(String target, String username) throws IOException, TemplateException {
+    public void sendHtmlMail(String target, String username, String name, String content)
+            throws IOException, TemplateException {
         // 首先配置 FreeMarker 模版位置
         Configuration configuration = new Configuration(Configuration.VERSION_2_3_0);
         // MailDemoApplication是启动类类名
@@ -70,7 +71,9 @@ public class EmailUtil {
         // 渲染模版
         StringWriter mail = new StringWriter();
         HashMap<String, Object> map = new HashMap<>();
-        map.put("user", username);
+        map.put("username", username);
+        map.put("name", name);
+        map.put("content", content);
         template.process(map, mail);
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper messageHelper;

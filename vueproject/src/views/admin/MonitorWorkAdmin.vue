@@ -85,7 +85,7 @@
           <el-button size="small" round type="primary" icon="el-icon-edit"
                      @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
           <el-button size="small" round icon="el-icon-delete" type="danger" @click="deleteRow(scope.row)">删除</el-button>
-          <el-button size="small" type="success" round>爬取数据</el-button>
+          <el-button size="small" type="success" round @click="openScrap(scope.$index, scope.row)">爬取数据</el-button>
           <el-button size="small" type="danger" round>词频统计</el-button>
           <el-button size="small" type="info" round>情感分析</el-button>
           <el-button size="small" type="warning" round>情感极性分析</el-button>
@@ -150,12 +150,40 @@
         <el-button @click="upload.open = false">取 消</el-button>
       </div>
     </el-dialog>
+    <el-dialog :title="scrap_title" :visible.sync="scrap_toggle" width="40%" @click="closeScrap">
+      <el-form label-width="130px" :model="scrap_option" :rules="scrap_rules" ref="scrap_option">
+        <el-form-item label="作品ID" prop="workId">
+          <el-input disabled size="small" v-model="scrap_option.workId" auto-complete="off"
+                    placeholder="请输入作品ID"></el-input>
+        </el-form-item>
+        <el-form-item label="作品关键词" prop="keyword">
+          <el-input size="small" v-model="scrap_option.keyword" auto-complete="off"
+                    placeholder="请输入搜索关键词"></el-input>
+        </el-form-item>
+        <el-form-item label="爬取平台" prop="platform">
+          <el-select v-model="scrap_option.platform" placeholder="请选择平台">
+            <el-option
+              v-for="item in platforms"
+              :key="item"
+              :label="item"
+              :value="item"
+            />
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button size="small" @click="closeScrap">取消</el-button>
+        <el-button size="small" type="primary" :loading="loading" class="title" @click="beginScrap">开始爬取
+        </el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import Pagination from "../../components/Pagination";
 import {addMonitorWork, deleteMonitorWork, getMonitorWorkByPage, updateMonitorWork} from "../../api/monitor_workAPI";
+import {scrap_comment} from "../../api/otherAPI";
 
 export default {
   name: "MonitorWorkAdmin",
@@ -175,6 +203,23 @@ export default {
       // 非多个禁用
       multiple: true,
       title: '添加',
+      scrap_toggle: false,
+      scrap_title: "数据爬取配置",
+      scrap_option: {
+        workId: 0,
+        keyword: "",
+        platform: "豆瓣"
+      },
+      platforms: [
+        "豆瓣",
+        "Twitter",
+        "Facebook",
+        "Youtube",
+        "烂番茄",
+        "GoodReads",
+        "IMDb",
+        "亚马逊"
+      ],
       // 数据导入参数
       upload: {
         // 是否显示弹出层（数据导入）
@@ -233,6 +278,22 @@ export default {
           {required: true, message: '请输入作品类型', trigger: 'blur'},
         ],
       },
+      scrap_rules: {
+        workId: [ // 作品ID校验
+          {
+            required: true,
+            message: "请输入作品ID",
+            trigger: "blur"
+          }
+        ],
+        keyword: [ // 搜索关键词校验
+          {
+            required: true,
+            message: "请输入搜索关键词",
+            trigger: "blur"
+          }
+        ]
+      },
       // 要删除的数据
       delete_data: {
         ids: '',
@@ -246,6 +307,29 @@ export default {
     }
   },
   methods: {
+    closeScrap() {
+      this.scrap_toggle = false
+    },
+    beginScrap() {
+      scrap_comment(this.scrap_option).then((res)=>{
+        this.scrap_toggle = false
+        if (res.code === "0") {
+          this.$message.success("开始爬取数据")
+        } else {
+          this.$message.error("爬取数据失败")
+        }
+      }).catch((err)=>{
+        this.scrap_toggle = false
+        console.log(err)
+      })
+    },
+    openScrap(index, row) {
+      if (row !== undefined && row !== 'undefined') {
+        this.scrap_option.keyword = row.name
+        this.scrap_option.workId = row.id
+      }
+      this.scrap_toggle = true
+    },
     get_data(param) {
       this.loading = true
       getMonitorWorkByPage(param).then(res => {
@@ -382,7 +466,7 @@ export default {
     //显示编辑界面
     handleEdit: function (index, row) {
       this.editFormVisible = true
-      if (row != undefined && row != 'undefined') {
+      if (row !== undefined && row !== 'undefined') {
         this.title = '编辑'
         this.editForm.id = row.id
         this.editForm.name = row.name

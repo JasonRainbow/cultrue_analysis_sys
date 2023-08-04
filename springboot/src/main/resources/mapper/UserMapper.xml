@@ -29,4 +29,13 @@
     <select id="selectByUsername" resultType="com.example.demo.entity.User" parameterType="java.lang.String">
         select * from user where username=#{username}
     </select>
+    <select id="selectEmailsByWorkId" resultType="com.example.demo.entity.User" parameterType="java.lang.Integer">
+        select distinct email, username, name
+        from `user`
+        where id in (
+            select userId
+            from monitor_request
+            where workId = #{workId}
+        ) and email is not null;
+    </select>
 </mapper>
