@@ -38,6 +38,7 @@ import HotComment from "../components/user/common/HotComment";
 import normalQuestion from "../components/user/common/normalQuestion";
 import NotLogin from "../views/user/NotLogin";
 import ShowWorldMap from "../views/user/ShowWorldMap";
+import TeamIntroduction from "../components/user/common/TeamIntroduction";
 
 // 启用路由
 Vue.use(Router);
@@ -235,6 +236,13 @@ export default new Router({
           path: "/background",
           name: "背景介绍",
           component: background,
+          meta: {
+            requireAuth: false
+          }
+        },{
+          path: "/team",
+          name: "团队介绍",
+          component: TeamIntroduction,
           meta: {
             requireAuth: false
           }

@@ -45,8 +45,8 @@ public class SentimentAnalysis {
     @ApiModelProperty(value = "中立评论数")
     private Integer neutrality; // 中立的评论数
 
-    @ApiModelProperty(value = "厌恶评论数")
-    private Integer hate; // 讨厌的评论数
+    @ApiModelProperty(value = "伤心评论数")
+    private Integer sad; // 伤心的评论数
 
     @ApiModelProperty(value = "愤怒评论数")
     private Integer angry; // 愤怒的评论数

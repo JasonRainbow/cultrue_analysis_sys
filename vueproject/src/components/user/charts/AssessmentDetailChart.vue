@@ -3,6 +3,11 @@
     <el-row align="center" justify="center" style="display: flex; justify-content: center">
       <el-col :span="14" :xs="24" :md="13" align="center">
         <el-card class="box-card grid-content" shadow="always">
+          <div style="text-align: left">
+            <router-link to="/effect">
+              <el-link type="warning" style="font-size: 18px;">返回</el-link>
+            </router-link>
+          </div>
           <h2 style="text-align: center" >{{country}} </h2>
           <div id="assessChart" style="width: 100%;height: 800px; margin-top: 20px"></div>
         </el-card>
@@ -131,7 +136,7 @@ export default {
   },
   beforeMount() {
     this.country = this.$route.query.country // 接收路由传递参数
-    console.log(this.country)
+    // console.log(this.country)
     if (!this.country) {
       this.country = '美国'
     }
@@ -154,12 +159,12 @@ export default {
     },
     //调用接口 获取极性情感数据
     getAssessData() {
-      console.log(this.queryAssessmentParam)
+      // console.log(this.queryAssessmentParam)
       // 改进的方法  直接从后台获取数据
       polarityCountMonthInterval(this.queryAssessmentParam).then((res)=>{
         if (res.code === "0") {
           let res_data = res.data
-          console.log(res_data)
+          // console.log(res_data)
           // 通入时间数据
           this.option.xAxis[0].data = res_data.map((item)=>{
             return item.postTime
@@ -269,7 +274,7 @@ export default {
 </script>
 <style scoped>
 .box-card {
-  background-color: #ebf2f3;
+  background-color: #dde5f3;
 }
 .grid-content {
   border-radius: 4px;

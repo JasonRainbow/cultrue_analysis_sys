@@ -71,7 +71,7 @@ import {getHotCommentsByPage} from "../../../api/commentAPI";
       handleChanged(val){
         this.searchParam2.pageNum=val;
         getHotCommentsByPage(this.searchParam2).then((res)=>{
-          console.log(res.data);
+          // console.log(res.data);
           if(res.code==="0"){
             this.works=res.data;
           }
@@ -83,24 +83,24 @@ import {getHotCommentsByPage} from "../../../api/commentAPI";
         this.searchParam2.searchCountry=this.country;
         this.searchParam2.searchPlatform=this.platform;
         this.searchParam2.searchTime=this.time;
-        console.log(this.time);
+        // console.log(this.time);
         getHotCommentsByPage(this.searchParam2).then((res)=>{
-          console.log(res.data);
+          // console.log(res.data);
           if(res.code==="0"){
             this.works=res.data;
           }
         })
       },
       Delete(){
-        console.log("delete success");
+        // console.log("delete success");
       }
     },
     mounted() {
       /*getCommentsByPage(this.searchParam2).then((res)=>{
-        console.log(res.data);
+        // console.log(res.data);
         if(res.code==="0"){
           this.works=res.data;
-          console.log(this.works.pages);
+          // console.log(this.works.pages);
         }
       })*/
       this.search()

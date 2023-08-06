@@ -62,16 +62,10 @@
           <div v-else-if="scope.row.polarityOk === 0" style="color: #F56C6C">否</div>
         </template>
       </el-table-column>
-      <el-table-column prop="wordCloudOk" label="是否完成词云图分析" width="170">
+      <el-table-column prop="wordFreqOk" label="是否完成词频统计" width="170">
         <template slot-scope="scope">
-          <div v-if="scope.row.wordCloudOk === 1" style="color: #67C23A">是</div>
-          <div v-else-if="scope.row.wordCloudOk === 0" style="color: #F56C6C">否</div>
-        </template>
-      </el-table-column>
-      <el-table-column prop="gramNetOk" label="是否完成语义网络分析" width="170">
-        <template slot-scope="scope">
-          <div v-if="scope.row.gramNetOk === 1" style="color: #67C23A">是</div>
-          <div v-else-if="scope.row.gramNetOk === 0" style="color: #F56C6C">否</div>
+          <div v-if="scope.row.wordFreqOk === 1" style="color: #67C23A">是</div>
+          <div v-else-if="scope.row.wordFreqOk === 0" style="color: #F56C6C">否</div>
         </template>
       </el-table-column>
       <el-table-column prop="allDone" label="是否完成所有监测工作" width="170">
@@ -85,10 +79,11 @@
           <el-button size="small" round type="primary" icon="el-icon-edit"
                      @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
           <el-button size="small" round icon="el-icon-delete" type="danger" @click="deleteRow(scope.row)">删除</el-button>
-          <el-button size="small" type="success" round @click="openScrap(scope.$index, scope.row)">爬取数据</el-button>
-          <el-button size="small" type="danger" round>词频统计</el-button>
-          <el-button size="small" type="info" round>情感分析</el-button>
-          <el-button size="small" type="warning" round>情感极性分析</el-button>
+          <el-button size="small" type="warning" round @click="openScrap(scope.$index, scope.row)">爬取评论数据</el-button>
+          <el-button size="small" type="success" round @click="openScrap2(scope.$index, scope.row)">爬取评分数据</el-button>
+          <el-button size="small" type="danger" round @click="beginCountWordFreq(scope.row)">词频统计</el-button>
+          <el-button size="small" type="info" round @click="beginPolarityAnalysis(scope.row)">情感极性分析</el-button>
+          <el-button size="small" type="warning" round @click="beginSentimentAnalysis(scope.row)">细腻情感分析</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -173,7 +168,34 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button size="small" @click="closeScrap">取消</el-button>
-        <el-button size="small" type="primary" :loading="loading" class="title" @click="beginScrap">开始爬取
+        <el-button size="small" type="primary" :loading="loading" class="title" @click="beginScrap('scrap_option')">开始爬取
+        </el-button>
+      </div>
+    </el-dialog>
+    <el-dialog :title="scrap_title" :visible.sync="scrap_toggle2" width="40%" @click="closeScrap2">
+      <el-form label-width="130px" :model="scrap_option2" :rules="scrap_rules" ref="scrap_option2">
+        <el-form-item label="作品ID" prop="workId">
+          <el-input disabled size="small" v-model="scrap_option2.workId" auto-complete="off"
+                    placeholder="请输入作品ID"></el-input>
+        </el-form-item>
+        <el-form-item label="作品关键词" prop="keyword">
+          <el-input size="small" v-model="scrap_option2.keyword" auto-complete="off"
+                    placeholder="请输入搜索关键词"></el-input>
+        </el-form-item>
+        <el-form-item label="爬取平台" prop="platform">
+          <el-select v-model="scrap_option2.platform" placeholder="请选择平台">
+            <el-option
+              v-for="item in platforms2"
+              :key="item"
+              :label="item"
+              :value="item"
+            />
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button size="small" @click="closeScrap2">取消</el-button>
+        <el-button size="small" type="primary" :loading="loading" class="title" @click="beginScrap2('scrap_option2')">开始爬取
         </el-button>
       </div>
     </el-dialog>
@@ -183,7 +205,7 @@
 <script>
 import Pagination from "../../components/Pagination";
 import {addMonitorWork, deleteMonitorWork, getMonitorWorkByPage, updateMonitorWork} from "../../api/monitor_workAPI";
-import {scrap_comment} from "../../api/otherAPI";
+import {analyze_polarity, analyze_sentiment, count_word_freq, scrap_comment, scrap_score} from "../../api/otherAPI";
 
 export default {
   name: "MonitorWorkAdmin",
@@ -215,6 +237,20 @@ export default {
         "Twitter",
         "Facebook",
         "Youtube",
+        "烂番茄",
+        "GoodReads",
+        "IMDb",
+        "亚马逊"
+      ],
+      scrap_toggle2: false,
+      scrap_title2: "评分数据爬取配置",
+      scrap_option2: {
+        workId: 0,
+        keyword: "",
+        platform: "豆瓣"
+      },
+      platforms2: [
+        "豆瓣",
         "烂番茄",
         "GoodReads",
         "IMDb",
@@ -264,8 +300,7 @@ export default {
           crawlOk: 0,
           sentimentOk: 0,
           polarityOk: 0,
-          gramNetOk: 0,
-          wordCloudOk: 0,
+          wordFreqOk: 0,
           allDone: 0,
         }
       ],
@@ -310,17 +345,23 @@ export default {
     closeScrap() {
       this.scrap_toggle = false
     },
-    beginScrap() {
-      scrap_comment(this.scrap_option).then((res)=>{
-        this.scrap_toggle = false
-        if (res.code === "0") {
-          this.$message.success("开始爬取数据")
+    beginScrap(editData) {
+      this.$refs[editData].validate(valid => {
+        if (valid) {
+          scrap_comment(this.scrap_option).then((res)=>{
+            this.scrap_toggle = false
+            if (res.code === "0") {
+              this.$message.success("开始爬取数据")
+            } else {
+              this.$message.error("爬取数据失败")
+            }
+          }).catch((err)=>{
+            this.scrap_toggle = false
+            console.log(err)
+          })
         } else {
-          this.$message.error("爬取数据失败")
+          return false
         }
-      }).catch((err)=>{
-        this.scrap_toggle = false
-        console.log(err)
       })
     },
     openScrap(index, row) {
@@ -330,6 +371,96 @@ export default {
       }
       this.scrap_toggle = true
     },
+    closeScrap2() {
+      this.scrap_toggle2 = false
+    },
+    beginScrap2(editData) {
+      // console.log(editData)
+      // console.log(this.$refs[editData])
+      this.$refs[editData].validate(valid => {
+        if (valid) {
+          scrap_score(this.scrap_option2).then((res)=>{
+            this.scrap_toggle2 = false
+            if (res.code === "0") {
+              this.$message.success("开始爬取数据")
+            } else {
+              this.$message.error("爬取数据失败")
+            }
+          }).catch((err)=>{
+            this.scrap_toggle2 = false
+            console.log(err)
+          })
+        } else {
+          return false
+        }
+      })
+    },
+    openScrap2(index, row) {
+      if (row !== undefined && row !== 'undefined') {
+        this.scrap_option2.keyword = row.name
+        this.scrap_option2.workId = row.id
+      }
+      this.scrap_toggle2 = true
+    },
+    beginCountWordFreq(row) {
+      // console.log(row.name)
+      // console.log(row)
+      this.$confirm('是否开始对《' + row.name + '》的评论进行词频统计？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        .then(() => {
+          count_word_freq({workId: row.id}).then((res)=>{
+            if (res.code === "0") {
+              this.$message.success("开始进行词频统计")
+            }
+          })
+        }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消'
+        })
+      })
+    },
+    beginPolarityAnalysis(row) {
+      this.$confirm('是否开始对《' + row.name + '》的评论进行情感极性分析？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        .then(() => {
+          analyze_polarity({workId: row.id}).then((res)=>{
+            if (res.code === "0") {
+              this.$message.success("开始进行情感极性分析")
+            }
+          })
+        }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消'
+        })
+      })
+    },
+    beginSentimentAnalysis(row) {
+      this.$confirm('是否开始对《' + row.name + '》的评论进行细腻情感分析？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        .then(() => {
+          analyze_sentiment({workId: row.id}).then((res)=>{
+            if (res.code === "0") {
+              this.$message.success("开始进行细腻情感分析")
+            }
+          })
+        }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消'
+        })
+      })
+    },
     get_data(param) {
       this.loading = true
       getMonitorWorkByPage(param).then(res => {
@@ -338,7 +469,7 @@ export default {
         this.pageparm.currentPage = res.data.current
         this.pageparm.pageSize = res.data.size
         this.pageparm.total = res.data.total
-        console.log(this.list_data)
+        // console.log(this.list_data)
       }).catch(err => {
         console.log(err)
         this.loading = false

@@ -161,7 +161,7 @@ export default {
       ],
       msg: 'success'
     }
-          this.allmenu = res.data
+    this.allmenu = res.data
     this.$root.Bus.$on('toggle', value => {
       this.collapsed = !value
     })

@@ -140,8 +140,7 @@ public class MonitorWorkController {
             row.put("是否完成评论数据爬取", monitorWork.getCrawlOk());
             row.put("是否完成情感分析", monitorWork.getSentimentOk());
             row.put("是否完成情感极性分析", monitorWork.getPolarityOk());
-            row.put("是否完成词云图分析", monitorWork.getWordCloudOk());
-            row.put("是否完成语义网络分析", monitorWork.getGramNetOk());
+            row.put("是否完成词频统计", monitorWork.getWordFreqOk());
             row.put("是否全部完成", monitorWork.getAllDone());
             list.add(row);
         }

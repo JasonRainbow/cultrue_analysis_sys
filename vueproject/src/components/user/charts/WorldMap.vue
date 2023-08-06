@@ -60,7 +60,7 @@ export default {
           value: 'neutrality',
           label: '中立'
         }, {
-          value: 'hate',
+          value: 'sad',
           label: '厌恶'
         }, {
           value: 'angry',
@@ -1441,8 +1441,8 @@ export default {
         country:null,
         value:null,
       },
-      //hate
-      hateData:{
+      //sad
+      sadData:{
         country:null,
         value:null,
       },
@@ -1779,8 +1779,8 @@ export default {
           this.neutralityData = res.data.map((item) => {
             return {country: item.country, value: item.neutrality}
           });
-          this.hateData = res.data.map((item) => {
-            return {country: item.country, value: item.hate}
+          this.sadData = res.data.map((item) => {
+            return {country: item.country, value: item.sad}
           });
           this.angryData = res.data.map((item) => {
             return {country: item.country, value: item.angry}
@@ -1793,7 +1793,7 @@ export default {
           this.happyData = this.calProportion(this.happyData)
           this.amazedData = this.calProportion(this.amazedData)
           this.neutralityData = this.calProportion(this.neutralityData)
-          this.hateData = this.calProportion(this.hateData)
+          this.sadData = this.calProportion(this.sadData)
           this.angryData = this.calProportion(this.angryData)
           this.fearData = this.calProportion(this.fearData)
           //根据所选情感值 将对应数组中的数据填充至worldMap中 更新图表
@@ -1814,8 +1814,8 @@ export default {
           this.neutralityData = res.data.map((item) => {
             return {country: item.country, value: item.neutrality}
           });
-          this.hateData = res.data.map((item) => {
-            return {country: item.country, value: item.hate}
+          this.sadData = res.data.map((item) => {
+            return {country: item.country, value: item.sad}
           });
           this.angryData = res.data.map((item) => {
             return {country: item.country, value: item.angry}
@@ -1827,14 +1827,14 @@ export default {
           this.happyData = this.duplicate(this.happyData)
           this.amazedData = this.duplicate(this.amazedData)
           this.neutralityData = this.duplicate(this.neutralityData)
-          this.hateData = this.duplicate(this.hateData)
+          this.sadData = this.duplicate(this.sadData)
           this.angryData = this.duplicate(this.angryData)
           this.fearData = this.duplicate(this.fearData)
           //计算各国情感占比
           this.happyData = this.calProportion(this.happyData)
           this.amazedData = this.calProportion(this.amazedData)
           this.neutralityData = this.calProportion(this.neutralityData)
-          this.hateData = this.calProportion(this.hateData)
+          this.sadData = this.calProportion(this.sadData)
           this.angryData = this.calProportion(this.angryData)
           this.fearData = this.calProportion(this.fearData)
           //根据所选情感值 将对应数组中的数据填充至worldMap中 更新图表
@@ -1865,8 +1865,8 @@ export default {
         case 'neutrality':
           this.emotionEveryCountry = this.neutralityData;
           break;
-        case 'hate':
-          this.emotionEveryCountry = this.hateData;
+        case 'sad':
+          this.emotionEveryCountry = this.sadData;
           break;
         case 'angry':
           this.emotionEveryCountry = this.angryData;

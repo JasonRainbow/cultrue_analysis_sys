@@ -32,7 +32,7 @@
 
 .box-card {
   margin: auto;
-  background-color: #ebf2f3;
+  background-color: #c4d5f5;
   border-radius: 30px
 }
 h1{
@@ -42,16 +42,16 @@ h1{
   margin:0px;
   text-indent: 2em;
   font-size: 20px;
-  font-family: SimSun-ExtB;
+  font-family: "微软雅黑";
   line-height:35px
 }
 .p2{
   margin:0px;
   text-indent: 2em;
   font-size: 20px;
-  font-family: SimSun-ExtB;
+  font-family: "新宋体";
+  font-weight: bold;
   line-height:35px;
-  font-weight: bolder;
   letter-spacing: -0.03em;
   word-spacing: -0.15em;
 }

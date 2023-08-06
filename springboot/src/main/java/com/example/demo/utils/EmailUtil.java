@@ -1,6 +1,9 @@
 package com.example.demo.utils;
 
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.example.demo.DemoApplication;
+import com.example.demo.entity.User;
+import com.example.demo.mapper.UserMapper;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -18,12 +21,16 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 @Component
 @Slf4j
 public class EmailUtil {
     @Autowired
     private JavaMailSender javaMailSender;
+
+    @Autowired
+    private UserMapper userMapper;
 
     // 获取yml配置的发送者邮箱
     @Value("${spring.mail.username}")
@@ -33,7 +40,7 @@ public class EmailUtil {
     @Value("${spring.mail.nickname}")
     private String nickname;
 
-    private String subject = "文化作品传播效果监测完成通知";
+    private String subject = "文化作品传播效果分析完成通知";
 
     /**
      * 普通邮件发送
@@ -87,5 +94,24 @@ public class EmailUtil {
         } catch (MessagingException e) {
             e.printStackTrace();
         }
+    }
+
+    public boolean sendEmails(String code, Integer workId, String message) {
+        boolean success = false;
+        if ("0".equals(code)) {
+            List<User> emailList = userMapper.selectEmailsByWorkId(workId);
+            for (User user: emailList) {
+                if (StringUtils.isNotBlank(user.getEmail())) {
+                    try {
+                        sendHtmlMail(user.getEmail(),
+                                user.getUsername(), user.getName(), message);
+                    } catch (Exception e) {
+                        System.out.println("发送邮件失败");
+                    }
+                }
+            }
+            success = true;
+        }
+        return success;
     }
 }

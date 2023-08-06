@@ -64,7 +64,7 @@ export default {
               this.$store.state.user = res.data*/
               let user = res.data
               this.$store.commit("user_login", user)
-              console.log(res)
+              // console.log(res)
               // 登录成功的时候更新当前路由
               //登录成功之后进行页面的跳转，跳转到主页
               this.$router.push({path: '/home'})

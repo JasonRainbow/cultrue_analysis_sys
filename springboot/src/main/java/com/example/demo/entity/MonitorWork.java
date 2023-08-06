@@ -48,11 +48,8 @@ public class MonitorWork {
     @ApiModelProperty(value = "是否完成情感极性分析")
     private Short polarityOk = 0; // 是否完成情感极性分析
 
-    @ApiModelProperty(value = "是否完成词云图分析")
-    private Short wordCloudOk = 0; // 是否完成词云图分析
-
-    @ApiModelProperty(value = "是否完成语义网络分析")
-    private Short gramNetOk = 0; // 是否完成语义网络分析
+    @ApiModelProperty(value = "是否完成词频统计")
+    private Short wordFreqOk = 0; // 是否完成词频统计
 
     @ApiModelProperty(value = "是否完成所有监测工作")
     private Short allDone = 0; // 是否完成所有监测工作

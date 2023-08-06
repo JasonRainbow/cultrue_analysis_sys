@@ -163,7 +163,7 @@ export default {
     await this.getAllCountries()
     this.getData()
     this.initLineChart()
-    console.log("line chart")
+    // console.log("line chart")
   },
   methods: {
     getAllCountries() {

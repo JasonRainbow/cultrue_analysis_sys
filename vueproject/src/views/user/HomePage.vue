@@ -141,14 +141,14 @@ export default {
         //现在在请求
         this.loading = true
         // this.searchParams.pageNum = this.offset
-        console.log(this.searchParams)
+        // console.log(this.searchParams)
         getHotWorkByPage(this.searchParams)
           .then((res) => {
             if (res.code === "0") {
               //把数据拼上去
               let res_data = res.data.records
               this.totalRecords = res.data.total
-              console.log(res_data)
+              // console.log(res_data)
               /*let titles = res_data.map((item)=>{
                 return item.title
               })*/
@@ -208,7 +208,7 @@ export default {
 }
 
 .box-card {
-  background-color: #ebf2f3;
+  background-color: #e7edfd;
 }
 
 .box-card2 {

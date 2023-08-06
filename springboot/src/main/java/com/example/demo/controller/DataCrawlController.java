@@ -61,4 +61,34 @@ public class DataCrawlController {
         if (res) return Result.success();
         return Result.error("-1", "爬取评论失败，请稍后重试！");
     }
+
+    @GetMapping("/crawl-scores")
+    @ApiOperation(value = "爬取关于指定作品的网络平台得分")
+    public Result<?> crawlScores(@RequestParam Integer workId,
+                                   @RequestParam String keyword,
+                                   @RequestParam String platform) {
+        String baseUri = scrap_hots + "";
+        switch (platform) {
+            case "豆瓣":
+                baseUri += "/scrap_douban_score";
+                break;
+            case "烂番茄":
+                baseUri += "/scrap_tomato_score";
+                break;
+            case "GoodReads":
+                baseUri += "/scrap_goodreads_score";
+                break;
+            case "IMDb":
+                baseUri += "/scrap_IMDb_score";
+                break;
+            case "亚马逊":
+                baseUri += "/scrap_amazon_score";
+                break;
+            default:
+                return Result.error("-1", "没有平台参数");
+        }
+        boolean res = dataCrawlService.crawlScores(workId, keyword, baseUri, platform);
+        if (res) return Result.success();
+        return Result.error("-1", "爬取评分数据失败，请稍后重试！");
+    }
 }

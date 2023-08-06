@@ -125,7 +125,7 @@ public class SentimentAnalysisController {
             sentimentDto.happyAdd(sentimentAnalysis.getHappy());
             sentimentDto.amazedAdd(sentimentAnalysis.getAmazed());
             sentimentDto.neutralityAdd(sentimentAnalysis.getNeutrality());
-            sentimentDto.hateAdd(sentimentAnalysis.getHate());
+            sentimentDto.sadAdd(sentimentAnalysis.getSad());
             sentimentDto.angryAdd(sentimentAnalysis.getAngry());
             sentimentDto.fearAdd(sentimentAnalysis.getFear());
         }
@@ -191,7 +191,7 @@ public class SentimentAnalysisController {
             row.put("开心的评论数", sentimentAnalysis.getHappy());
             row.put("惊讶的评论数", sentimentAnalysis.getAmazed());
             row.put("中立的评论数", sentimentAnalysis.getNeutrality());
-            row.put("厌恶的评论数", sentimentAnalysis.getHate());
+            row.put("伤心的评论数", sentimentAnalysis.getSad());
             row.put("愤怒的评论数", sentimentAnalysis.getAngry());
             row.put("恐惧的评论数", sentimentAnalysis.getFear());
             list.add(row);
@@ -274,7 +274,7 @@ public class SentimentAnalysisController {
             sentimentAnalysis.setHappy(Integer.valueOf(row.get(4).toString()));
             sentimentAnalysis.setAmazed(Integer.valueOf(row.get(5).toString()));
             sentimentAnalysis.setNeutrality(Integer.valueOf(row.get(6).toString()));
-            sentimentAnalysis.setHate(Integer.valueOf(row.get(7).toString()));
+            sentimentAnalysis.setSad(Integer.valueOf(row.get(7).toString()));
             sentimentAnalysis.setAngry(Integer.valueOf(row.get(8).toString()));
             sentimentAnalysis.setFear(Integer.valueOf(row.get(9).toString()));
             saveList.add(sentimentAnalysis);

@@ -11,7 +11,7 @@
         <result property="happy" column="happy" />
         <result property="amazed" column="amazed" />
         <result property="neutrality" column="neutrality" />
-        <result property="hate" column="hate" />
+        <result property="sad" column="sad" />
         <result property="angry" column="angry" />
         <result property="fear" column="fear" />
         <association property="monitorWork"
@@ -49,7 +49,7 @@
             , time
         </if>
                , sum(happy) as happy, sum(amazed) as amazed,
-            sum(neutrality) as neutrality, sum(hate) as hate,
+            sum(neutrality) as neutrality, sum(sad) as sad,
             sum(angry) as angry, sum(fear) as fear
         FROM `sentiment_analy`
         where workId = #{workId}

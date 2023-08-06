@@ -20,18 +20,18 @@ export default {
   methods: {
     createList() {
       let queryParam = {userId: this.userId}
-      console.log(queryParam)
+      // console.log(queryParam)
       getMonitorWorkByUserId(queryParam).then((res) => {
         if (res.code === '0') {
           this.monitorList = res.data;
-          console.log(this.monitorList);
-          console.log(this.userId);
+          // console.log(this.monitorList);
+          // console.log(this.userId);
         }
       })
     },
     dialogVisible_click(name) {
       this.dialogVisible = true
-      console.log(name);
+      // console.log(name);
     },
     back() {
 

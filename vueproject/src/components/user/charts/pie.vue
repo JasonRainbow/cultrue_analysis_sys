@@ -114,7 +114,7 @@ export default {
     },
     createChart() {
       // 获取数据
-      console.log(this.searchParams)
+      // console.log(this.searchParams)
       if (this.searchParams.country === "全球") {
         this.searchParams.country = ""
       } else {
@@ -123,7 +123,7 @@ export default {
       sentimentCountDaily(this.searchParams).then((res) => {
         if (res.code === "0") {
           this.res_data = res.data
-          console.log(this.res_data)
+          // console.log(this.res_data)
           // 基于准备好的dom，初始化echarts实例
           let chart = this.$echarts.init(document.getElementById("pieChat"));
           // 指定图表的let chart = this.$echarts.init(document.getElementById("pieChat"));配置项和数据
@@ -164,7 +164,7 @@ export default {
                   {value: this.res_data.happy, name: '开心'},
                   {value: this.res_data.amazed, name: '惊讶'},
                   {value: this.res_data.neutrality, name: '中立'},
-                  {value: this.res_data.hate, name: '厌恶'},
+                  {value: this.res_data.sad, name: '伤心'},
                   {value: this.res_data.angry, name: '愤怒'},
                   {value: this.res_data.fear, name: '恐惧'}
                 ]

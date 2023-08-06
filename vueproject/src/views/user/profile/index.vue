@@ -88,8 +88,8 @@ export default {
   },
   created() {
     this.getUser();
-    console.log(this.$route.query.id)
-    console.log(this.$route.query.name)
+    // console.log(this.$route.query.id)
+    // console.log(this.$route.query.name)
     // console.log("test")
   },
   methods: {
@@ -97,7 +97,7 @@ export default {
       getUserProfile().then(res=>{
         if (res.code === "0") {
           this.user = res.data;
-          console.log(this.user)
+          // console.log(this.user)
         } else {
           console.log(res.msg)
         }
@@ -110,13 +110,14 @@ export default {
         type: 'warning'
       })
         .then(() => {
-          setTimeout(() => { // 管理员退出登录
-            this.$router.push("/home")
+          setTimeout(() => { // 用户退出登录
             this.$store.commit("user_logout"); // 用户退出登录
             this.$message({
               type: 'success',
               message: '已退出登录!'
             })
+            this.$router.push("/home")
+            // location.reload()
           }, 1000)
         })
         .catch(() => {
@@ -132,6 +133,6 @@ export default {
 
 <style scoped lang="scss">
 .box-card {
-  background-color: #ebf2f3;
+  background-color: #dde5f3;
 }
 </style>

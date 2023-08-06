@@ -33,7 +33,7 @@ export default {
 
 <style scoped>
 .box-card {
-  background-color: #ebf2f3;
+  background-color: #c4d5f5;
   border-radius: 30px;
   margin-top: 20px;
 }
@@ -44,13 +44,13 @@ h1{
 .p1{
   text-indent: 2em;
   font-size: 20px;
-  font-family: SimSun-ExtB;
+  font-family: "微软雅黑";
   line-height:35px
 }
 .p2{
   text-indent: 2em;
   font-size: 20px;
-  font-family: SimSun-ExtB;
+  font-family: "微软雅黑";
   line-height:35px;
   margin: 0px;
 }

@@ -64,7 +64,7 @@
       </el-table-column>
       <el-table-column prop="neutrality" label="中立评论数" width="100">
       </el-table-column>
-      <el-table-column prop="hate" label="厌恶评论数" width="100">
+      <el-table-column prop="sad" label="伤心评论数" width="100">
       </el-table-column>
       <el-table-column prop="angry" label="愤怒评论数" width="100">
       </el-table-column>
@@ -120,8 +120,8 @@
           <el-input size="small" v-model="editForm.neutrality" auto-complete="off"
                     placeholder="请输入中立评论数"></el-input>
         </el-form-item>
-        <el-form-item label="厌恶评论数" prop="hate">
-          <el-input size="small" v-model="editForm.hate" auto-complete="off"
+        <el-form-item label="厌恶评论数" prop="sad">
+          <el-input size="small" v-model="editForm.sad" auto-complete="off"
                     placeholder="请输入厌恶评论数"></el-input>
         </el-form-item>
         <el-form-item label="愤怒评论数" prop="angry">
@@ -244,7 +244,7 @@ export default {
         happy: 0,
         amazed: 0,
         neutrality: 0,
-        hate: 0,
+        sad: 0,
         angry: 0,
         fear: 0,
       },
@@ -267,7 +267,7 @@ export default {
           happy: 0,
           amazed: 0,
           neutrality: 0,
-          hate: 0,
+          sad: 0,
           angry: 0,
           fear: 0,
         }
@@ -447,7 +447,7 @@ export default {
         this.editForm.happy = row.happy
         this.editForm.amazed = row.amazed
         this.editForm.neutrality = row.neutrality
-        this.editForm.hate = row.hate
+        this.editForm.sad = row.sad
         this.editForm.angry = row.angry
         this.editForm.fear = row.fear
         console.log(this.editForm)
@@ -461,7 +461,7 @@ export default {
         this.editForm.happy = null
         this.editForm.amazed = null
         this.editForm.neutrality = null
-        this.editForm.hate = null
+        this.editForm.sad = null
         this.editForm.angry = null
         this.editForm.fear = null
         console.log(this.editForm)

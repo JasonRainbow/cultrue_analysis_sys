@@ -65,6 +65,17 @@ public class HttpUtils {
         return (String) responseEntity.getBody();
     }
 
+    // https请求
+    public String get_https(String url, Map<String,String> map) {
+
+        ResponseEntity responseEntity = restTemplate.getForEntity
+                (
+                        generateRequestParameters("https", url, map),
+                        String.class
+                );
+        return (String) responseEntity.getBody();
+    }
+
     public String post(String url, Map<String,String> jsonMap) {
         ResponseEntity<String> apiResponse = restTemplate.postForEntity
                 (

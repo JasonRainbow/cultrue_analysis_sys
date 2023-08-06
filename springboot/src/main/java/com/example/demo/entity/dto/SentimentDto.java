@@ -7,7 +7,7 @@ public class SentimentDto {
     private Integer happy = 0; // 开心评论数
     private Integer amazed = 0; // 惊讶评论数
     private Integer neutrality = 0; // 中立评论数
-    private Integer hate = 0; // 厌恶评论数
+    private Integer sad = 0; // 伤心评论数
     private Integer angry = 0; // 愤怒评论数
     private Integer fear = 0; // 恐惧评论数
 
@@ -23,8 +23,8 @@ public class SentimentDto {
         this.neutrality += offset;
     }
 
-    public void hateAdd(Integer offset) {
-        this.hate += offset;
+    public void sadAdd(Integer offset) {
+        this.sad += offset;
     }
 
     public void angryAdd(Integer offset) {

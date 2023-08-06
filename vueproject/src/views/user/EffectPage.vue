@@ -81,7 +81,7 @@ export default {
   min-height: 36px;
 }
 .box-card {
-  background-color: #ebf2f3;
+  background-color: #dde5f3;
   margin-top: 20px;
 }
 

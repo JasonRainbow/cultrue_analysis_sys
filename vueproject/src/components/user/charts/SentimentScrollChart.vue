@@ -28,7 +28,7 @@ export default {
       querySentimentParams:{
         searchWorkId:this.workId,
       },
-      //从请求所得records数组中提取国家和总体情感数值(happy+amazed+neutrality-hate-angry-fear)
+      //从请求所得records数组中提取国家和总体情感数值(happy+amazed+neutrality-sad-angry-fear)
       allEmotion:{
         country:null,
         wholeEmotion:null
@@ -87,7 +87,7 @@ export default {
           this.allEmotion = res.data.map((item) => {
             return {
               country: item.country,
-              wholeEmotion: item.happy + item.amazed + item.neutrality - item.hate - item.angry - item.fear
+              wholeEmotion: item.happy + item.amazed + item.neutrality - item.sad - item.angry - item.fear
             }
           });
           // console.log(this.allEmotion)

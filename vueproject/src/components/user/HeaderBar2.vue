@@ -3,11 +3,21 @@
     <div id="header-title">
       中国语言文化作品国际传播效果分析系统
     </div>
+    <div id="show-login-div">
+      <div id="user-info" v-if="loginFlag"> <!--显示登录用户-->
+        <el-avatar size="medium" :src="this.user.avatar" id="inner-user-avatar"></el-avatar>
+        <div id="inner-user-nick">{{user.name}}</div>
+      </div>
+      <div v-else>  <!--未登录可前往登录-->
+        <router-link to="/login" style="color: #6dcdcd; font-weight: bold">前往登录>></router-link>
+      </div>
+    </div>
     <div id="nav-tab" ref="navtab">
       <div class="nav-tab-item active" v-for="(item,index) in items"
-           @click="activeIndex = index"
+           :key="index"
+           @click="switchMenu(index)"
            :style="{'width': `${activeIndex === index ? itemWidth + 10: itemWidth}%`}">
-        <router-link :to="item.path" style="text-align: center">
+        <router-link :to="item.path" style="text-align: center; width: 100%">
           <i :class='item.icon'></i>
           <p class="nav-tab-item_label" style="margin-top: 4px">{{item.label}}</p>
         </router-link>
@@ -20,6 +30,16 @@
 <script>
 export default {
   name: "HeaderBar2",
+  props: {
+    activeIndex: {
+      type: Number,
+      require: true
+    },
+    loginFlag: {
+      type: Boolean,
+      require: true
+    }
+  },
   data() {
     return {
       items: [
@@ -27,29 +47,53 @@ export default {
         { icon: 'nav-tab-item_icon iconfont icon-send-fill', label: '传播效果评估', path: '/effect'},
         { icon: 'nav-tab-item_icon iconfont icon-shujuxianshi', label: '大屏模式', path: '/big-screen'},
         { icon: 'nav-tab-item_icon iconfont icon-project_info', label: '背景介绍', path: '/background'},
+        { icon: 'nav-tab-item_icon iconfont icon-rencaishuangxuanhui', label: '团队介绍', path: '/team'},
         { icon: 'nav-tab-item_icon iconfont icon-a-commandinquiry-fill', label: '常见问题', path: '/question'},
         { icon: 'nav-tab-item_icon iconfont icon-user', label: '个人中心', path: '/personal'},
       ],
-      activeIndex: 0,
+      // activeIndex: Number(sessionStorage.getItem("activeIndex")),
+      user: this.$store.state.user
     }
   },
   methods: {
-
+    switchMenu(index) {
+      this.activeIndex = index
+      // sessionStorage.setItem("activeIndex", index)
+    },
+    getUserInfo() {
+      const user = JSON.parse(localStorage.getItem("user"));
+      if(user.avatar == null || user.avatar === ""){  //头像为空
+        user.avatar = require("../../assets/img/avatar.jpeg")  //默认头像
+      }
+      // this.$store.state.user = user;
+      this.user = user
+    }
   },
   computed: {
     itemWidth() {
       return 90 / this.items.length;
     }
   },
-  created() {
-    let menuId = sessionStorage.getItem("menuId")
-    if (menuId) {
-      this.activeIndex = Number(menuId)
+  updated() {
+    if (this.loginFlag) {
+      this.getUserInfo()
     }
   },
-  updated() {
-    console.log("update")
-  }
+  created() {
+    if (this.loginFlag) {
+      this.getUserInfo()
+    }
+  },
+  mounted() {
+    // alert(this.$store.state.user)
+    // alert("hello")
+    /*let menuId = sessionStorage.getItem("activeIndex")
+    alert(menuId)
+    if (!menuId) menuId = 0
+    if (menuId) {
+      this.activeIndex = Number(menuId)
+    }*/
+  },
 }
 </script>
 
@@ -106,6 +150,11 @@ body {
   width: 210px;
 }
 
+.nav-tab-item:hover {
+  background-color: #2b729c;
+  border-radius: 20px;
+}
+
 .nav-tab-item_icon {
   font-size: 26px;
   color: #ffffff;
@@ -152,6 +201,30 @@ body {
   padding-top: 20px;
   font-family: Arial, sans-serif;
   text-shadow: 1px 1px white;
+}
+
+#show-login-div{
+  height: 100px;
+  width:  220px;
+  background-color: #195161;
+  position: absolute;
+  top: 25px;
+  right: 40px;
+}
+#inner-user-avatar{
+  height: 50px;
+  width:  50px;
+  float: left;
+}
+#inner-user-nick{
+  height: 20px;
+  width: 155px;
+  font-family: 华光中圆_CNKI;
+  margin-top: 15px;
+  margin-left: 10px;
+  font-size: 18px;
+  color: #E6A23C;
+  float: right;
 }
 
 </style>
