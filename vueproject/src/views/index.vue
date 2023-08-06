@@ -91,7 +91,12 @@ export default {
 }
 #index-header,
 #index-main {
-  padding: 0px;
+  padding: 0;
   border-left: 2px solid #333;
+}
+
+#index-main {
+  padding-left: 7px;
+  padding-top: 10px;
 }
 </style>

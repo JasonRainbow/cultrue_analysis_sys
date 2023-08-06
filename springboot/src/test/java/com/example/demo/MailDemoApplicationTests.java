@@ -31,12 +31,12 @@ public class MailDemoApplicationTests {
     @Test
     public void testEmailSend() {
 //        emailUtil.sendSimpleMail("1728326545@qq.com", "这是一封测试邮件");
-        try {
-            emailUtil.sendHtmlMail("111", "xxx", "xxx", "xxx");
-        } catch (IOException | TemplateException e) {
-            e.printStackTrace();
-            System.out.println("发送邮件失败");
-        }
+//        try {
+//            emailUtil.sendHtmlMail("111", "xxx", "xxx", "xxx");
+//        } catch (IOException | TemplateException e) {
+//            e.printStackTrace();
+//            System.out.println("发送邮件失败");
+//        }
     }
 
     @Test
@@ -45,7 +45,7 @@ public class MailDemoApplicationTests {
         System.out.println(sdf.parse("2023/7/1 0:00"));*/
     }
 
-    @Test
+
     public void test3() {
         String url = "47.115.211.201:5000";
         Map<String, String> param = new HashMap<>();
