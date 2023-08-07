@@ -12,11 +12,11 @@ export default {
     },
     width: {
       type: String,
-      default: "350px"
+      default: "400px"
     },
     height: {
       type: String,
-      default: "310px"
+      default: "270px"
     },
     chartOptions: {
       type: Object,
@@ -310,35 +310,41 @@ export default {
         post_time: this.selectTime
       }).then(res => {
         this.data2 = res.data
-        console.log(this.data2)
+        // console.log(this.data2)
         //将获取到的data直接赋值给data2即可
 
         let relationChart = this.$echarts.init(document.getElementById("relationGraph"));
         let option = {
           title: {
-            text: '语义网络分析图',
-            left: '0%'
+            text:'共现语义网络图',
+            left: '0%',
+            textStyle: {
+              fontSize: 18,
+              color: 'darkturquoise',
+              fontWeight: '500'
+            }
           },
           series: [{
             type: 'graph',
             layout: 'circular',
             roam: true,
             focusNodeAdjacency: true,
+            radius: '40%',
             circular: {
               rotateLabel: true
             },
             grid: {
-              x: 50,
-              y: 50,
-              x2: 50,
-              y3: 50
+              x:50,
+              y:50,
+              x2:50,
+              y2:50
             },
             label: {
               normal: {
                 position: 'inside',
                 fontWeight: 'bold',
                 formatter: '{b}',
-                fontSize: 13,
+                fontSize: 11,
                 normal: {
                   textStyle: {
                     fontFamily: '宋体'
@@ -351,7 +357,7 @@ export default {
             edgeLabel: {
               normal: {
                 textStyle: {
-                  fontSize: 17,
+                  fontSize: 15,
                   fontWeight: 'bold',
                   fontFamily: '宋体'
                 }
@@ -384,26 +390,26 @@ export default {
           }]
         };
         this.data3 = []
-        this.data2.data.nodes.forEach(item => {
-          let data_item = {
+        this.data2.data.nodes.forEach(item=>{
+          let data_item={
             name: '地球',
-            symbolSize: 10, // 设置节点大小
+            symbolSize: 11, // 设置节点大小
             itemStyle: {
               normal: {
                 color: '#F07C82'
               }
             }
           }
-          data_item.name = item
+          data_item.name=item
           this.data3.push(data_item)
         })
-        option.series.forEach(item => {
-          item.data = this.data3
+        option.series.forEach(item=>{
+          item.data=this.data3
         })
 
-        this.link1 = []
-        this.data2.data.edges.forEach(item => {
-          let link = {
+        this.link1=[]
+        this.data2.data.edges.forEach(item=>{
+          let link={
             source: "地球",
             target: "流浪",
             name: "32",
@@ -420,7 +426,9 @@ export default {
                   params.name = params.data.name;
                   return params.name;
                 },
-                show: true
+                show: true,
+                color:'#ffff00',
+                //fontFamily:'serif'
               }
             },
             lineStyle: {
@@ -431,15 +439,14 @@ export default {
               }
             }
           }
-          link.source = item.shift()
-          link.target = item.shift()
-          link.name = item.shift()
+          link.source=item.shift()
+          link.target=item.shift()
+          link.name=item.shift()
           this.link1.push(link)
         })
-        option.series.forEach(item => {
-          item.links = this.link1
+        option.series.forEach(item=>{
+          item.links=this.link1
         })
-        console.log(option)
         // 特殊处理
         relationChart.setOption(option);
         window.addEventListener('resize', function () {
@@ -485,7 +492,7 @@ export default {
 <template>
   <div id="div1" style="text-align: center; width: 100%; height: 100%; color: white">
     <div style="margin-top: 5px;text-align: center">
-      <el-select size="small" style="width: 110px" v-model="selectCountry" placeholder="请选择国家" @change="countryChanged">
+      <el-select size="mini" style="width: 110px" v-model="selectCountry" placeholder="请选择国家" @change="countryChanged">
         <el-option
           v-for="item in countryOptions"
           :key="item.value"
@@ -493,8 +500,8 @@ export default {
           :value="item.value">
         </el-option>
       </el-select>
-      <el-date-picker style="width: 130px"
-                      size="small"
+      <el-date-picker style="width: 125px"
+                      size="mini"
                       v-model="selectTime"
                       type="date"
                       placeholder="请选择日期"
@@ -504,7 +511,7 @@ export default {
                       @change="dateChanged">
       </el-date-picker>
     </div>
-    <div id="relationGraph" :style="{ width: width,height: height, 'margin-top': '20px'}"></div>
+    <div id="relationGraph" :style="{ width: width,height: height,}"></div>
   </div>
 </template>
 
@@ -512,5 +519,9 @@ export default {
 #div1 {
   width: 100%;
   height: 100%;
+  margin: auto;
+}
+#relationGraph{
+  margin:10px auto auto auto;
 }
 </style>

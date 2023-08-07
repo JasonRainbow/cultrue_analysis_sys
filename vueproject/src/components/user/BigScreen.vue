@@ -17,7 +17,7 @@
         <dv-decoration-8 class="dv-dec-8-left" :color="decorationColor"/>
         <!-- 标题 -->
         <dv-decoration-7 class="title font-bold colorText" style="width: 220px;height: 30px;margin-left: -47px;font-size: 20px">传播效果大屏展示</dv-decoration-7>
-<!--        <span class="title font-bold colorText" :style="{'font-size': Math.round(this.screenWidth/100) + 'px'}">传播效果大屏展示</span>-->
+        <!--        <span class="title font-bold colorText" :style="{'font-size': Math.round(this.screenWidth/100) + 'px'}">传播效果大屏展示</span>-->
         <!-- 装饰8 -->
         <dv-decoration-8 class="dv-dec-8-right" :reverse="true" :color="decorationColor" />
         <!-- 装饰10 -->
@@ -48,42 +48,48 @@
       <!-- Element-UI Layout布局 -->
       <div class="layoutHome">
         <el-row>
-<!--         左侧部分-->
-          <el-col :span="6">
+          <!--         左侧部分-->
+          <el-col :span="7">
             <div :style="{ height: kHOne + 'px'}">
-              <dv-border-box-12 style="padding:12px">
+              <dv-border-box-12 style="padding:12px;width:100%">
                 <WordCloud :work-id="workId" :key="workId"></WordCloud>
               </dv-border-box-12>
             </div>
 
             <div :style="{ height: kHTwo + 'px'}">
               <!-- style="padding:12px" -->
-              <dv-border-box-12 style="padding:12px">
+              <dv-border-box-12 style="padding:12px;width:100%">
                 <RelationGraph :work-id="workId" :key="workId"></RelationGraph>
+              </dv-border-box-12>
+            </div>
+            <div :style="{ height: kHTen + 'px'}">
+              <!-- style="padding:12px" -->
+              <dv-border-box-12 style="padding:12px;width:100%">
+                <MessageChart :work-id="workId" :key="workId"></MessageChart>
               </dv-border-box-12>
             </div>
           </el-col>
 
-<!--          中间部分-->
-          <el-col :span="10">
+          <!--          中间部分-->
+          <el-col :span="9">
             <div :style="{ height: kHThree + 'px'}">
-              <dv-border-box-12 style="padding:12px">
-                <div style="margin-bottom: 15px">
+              <dv-border-box-12 style="padding:12px;width:100%">
+                <div style="margin-bottom: 5px">
                   <span style="margin-right: 8px" class="font-bold">监测作品切换：</span>
-                  <el-select v-model="workId" placeholder="请选择作品类型">
+                  <el-select v-model="workId" size="small" placeholder="请选择作品类型">
                     <el-option
                       v-for="work in works"
                       :key="work.id"
                       :label="work.name"
                       :value="work.id"
                     />
-                  </el-select><br><br>
-<!--                  <el-button type="success" plain>世界情感分布图</el-button>-->
-                  <div @click="sentimentMap">
+                  </el-select>
+                  <!--                  <el-button type="success" plain>世界情感分布图</el-button>-->
+                  <div @click="sentimentMap" style="margin-top: 5px">
                     <router-link :to="{path: '/worldMap', query: {workId: workId, workName: getWorkName(workId)}}">
                       <dv-border-box-8 id="btn-world"
 
-                                       style="color: white;cursor: pointer; width: 250px; border-radius: 10px; height: 50px; margin: auto auto; font-size: 20px; text-align: center; line-height: 50px" :reverse="true">
+                                       style="color: white;cursor: pointer; width: 250px; border-radius: 10px; height: 40px; margin: auto auto; font-size: 17px; text-align: center; line-height: 40px" :reverse="true">
                         查看世界情感分布图
                       </dv-border-box-8>
                     </router-link>
@@ -93,28 +99,35 @@
               </dv-border-box-12>
             </div>
             <div :style="{ height: kHFour + 'px'}">
-              <dv-border-box-12 style="padding:12px">
-                <DataSourcePieChart :work-id="workId" :key="workId"></DataSourcePieChart>
+              <dv-border-box-12 style="padding:5px;width: 100%">
+                <Score :work-id="workId" :key="workId"></Score>
+              </dv-border-box-12>
+            </div>
+            <div :style="{ height: kHNine + 'px'}">
+              <dv-border-box-12 style="padding:12px;width:100%">
+                <!--               <Story></Story>-->
+                <Subject :work-id="workId" :key="workId"></Subject>
               </dv-border-box-12>
             </div>
           </el-col>
 
-<!--          右侧部分-->
+          <!--          右侧部分-->
           <el-col :span="8">
             <div :style="{ height: kHSix + 'px'}">
-              <dv-border-box-12 style="padding-top:8px; padding-left: 10px;padding-right: 10px">
+              <dv-border-box-12 style="padding-top:8px; padding-left: 10px;padding-right: 10px;width:100%">
                 各国整体情感排名
                 <SentimentScrollChart :work-id="workId" :key="workId"></SentimentScrollChart>
               </dv-border-box-12>
             </div>
             <div :style="{ height: kHSeven + 'px'}">
-              <dv-border-box-12 style="padding:12px; ">
+              <dv-border-box-12 style="padding:12px;width:100%">
                 <PolarityCapsuleChart :work-id="workId" :key="workId"></PolarityCapsuleChart>
               </dv-border-box-12>
             </div>
             <div :style="{ height: kHEight + 'px'}">
-              <dv-border-box-12 style="padding:12px">
-                <MessageChart :work-id="workId" :key="workId"></MessageChart>
+              <dv-border-box-12 style="padding:12px;width:100%">
+                <!--                <MessageChart :work-id="workId" :key="workId"></MessageChart>-->
+                <DataSourcePieChart :work-id="workId" :key="workId"></DataSourcePieChart>
               </dv-border-box-12>
             </div>
           </el-col>
@@ -135,17 +148,22 @@ import WordCloud from "./charts/WordCloud";
 import RelationGraph from "./charts/RelationGraph";
 import DataSourcePieChart from "./charts/DataSourcePieChart";
 import MessageChart from "./charts/MessageChart";
+import Subject from "./charts/Subject";
+import Score from "./charts/Score";
 
 import {getMonitorWorkByUserId} from "../../api/monitor_workAPI";
 export default {
   name: 'BigScreen',
-  components: { // 注册组件
+  components: {
+    Subject,
+    // 注册组件
+    Score,
     SentimentScrollChart,
     PolarityCapsuleChart,
     WordCloud,
     RelationGraph,
     DataSourcePieChart,
-    MessageChart
+    MessageChart,
   },
   data () {
     return {
@@ -169,12 +187,14 @@ export default {
       screenWidth: window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
       kHOne: 200,
       kHTwo: 500,
-      kHThree: 250,
-      kHFour: 500,
+      kHThree: 240,
+      kHFour: 300,
       kHFive: 450,
       kHSix: 400,
       kHSeven: 400,
       kHEight: 400,
+      kHNine: 370,
+      kHTen:320,
       workId: 1, // 选中的作品
       works: [ // 所有的作品
         {
@@ -250,7 +270,7 @@ export default {
         loginUser = JSON.parse(loginUser) // 解析存储在浏览器中的用户数据
         userId = loginUser.id
       }
-      getMonitorWorkByUserId({userId: userId}).then((res)=>{ // 获取监测作品
+      getMonitorWorkByUserId(userId).then((res)=>{ // 获取监测作品
         if (res.code === "0") {
           this.works = res.data.map((item)=>{
             return {id: item.id, name: item.name}
@@ -283,14 +303,16 @@ export default {
     getScreenHeight() {
       this.screenHeight = window.innerHeight || document.documentElement.innerHeight || document.body.clientHeight;
       // 四舍五入取整数
-      this.kHOne = Math.round(this.screenHeight * 0.4);
-      this.kHTwo = Math.round(this.screenHeight * 0.5397);
-      this.kHThree = Math.round(this.screenHeight * 0.18);
-      this.kHFour = Math.round(this.screenHeight * 0.76);
+      this.kHOne = Math.round(this.screenHeight * 0.24);
+      this.kHTwo = Math.round(this.screenHeight * 0.46);  //0.4397
+      this.kHThree = Math.round(this.screenHeight * 0.13);  //0.18
+      this.kHFour = Math.round(this.screenHeight * 0.42); //0.76 0.44
       // this.kHFive = Math.round(this.screenHeight * 0.385);
-      this.kHSix = Math.round(this.screenHeight * 0.3);
-      this.kHSeven = Math.round(this.screenHeight * 0.3);
-      this.kHEight = Math.round(this.screenHeight * 0.34);
+      this.kHSix = Math.round(this.screenHeight * 0.28);
+      this.kHSeven = Math.round(this.screenHeight * 0.28);
+      this.kHEight = Math.round(this.screenHeight * 0.39);
+      this.kHNine = Math.round(this.screenHeight * 0.4);
+      this.kHTen = Math.round(this.screenHeight * 0.25);
       //console.log(this.screenHeight +"-"+ Math.round(this.percentHThirty) +"-"+ Math.round(this.percentHForty));
     },
     // 字体大小根据宽度自适应

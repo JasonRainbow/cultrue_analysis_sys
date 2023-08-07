@@ -21,7 +21,7 @@ export default{
           text: "国际总体信息量变化趋势",
           left: 'center',
           textStyle: {
-            fontSize: 30,
+            fontSize: 24,
             color:'#6495ed',
             fontWeight:'bolder',
 
@@ -55,8 +55,8 @@ export default{
             boundaryGap: false,
             backgroundColor: '#7581BD',
             nameTextStyle: {
-              fontWeight: 600,
-              fontSize: 6,
+              fontWeight: 400,
+              fontSize: 4,
               fontFamily: 'Times New Roman'
             },
             splitLine: {

@@ -1,7 +1,8 @@
 <template>
   <div style="text-align:center;">
-    <h3>{{queryParam.selectEmotion}}情感分布</h3>
+
     <div style="margin-top: 10px" >
+      <h4 style="display: inline-block; float: left">{{queryParam.selectEmotion}}情感分布</h4>
       <el-select size="small" style="width: 30%" v-model="queryParam.selectEmotion" placeholder="请选择情感" @change="getPolarityData">
         <el-option
           v-for="item in emotionOptions"
@@ -67,7 +68,7 @@ export default {
     }
   },
   mounted() {
-    console.log(this.selectEmotion)
+    // console.log(this.selectEmotion)
     this.getPolarityData()
   },
   methods: {
@@ -108,7 +109,7 @@ export default {
     },
     //获取积极情感胶囊柱图的数据并将数据赋值给DataV的胶囊柱图
     getPositiveData(){
-      console.log("显示积极")
+      // console.log("显示积极")
       const {config} = this
       //将positiveEmotion数组去重 对应属性数值相加
       let obj = {}
@@ -134,7 +135,7 @@ export default {
       this.config.data = newArr.map((item) => {
         return {name: item.country, value: item.emotionValue}
       });
-      console.log(this.config.data)
+      // console.log(this.config.data)
       this.config = {...this.config}
     },
     //获取消极情感胶囊柱图的数据并将数据赋值给DataV的胶囊柱图
@@ -197,7 +198,7 @@ export default {
     },
     //将object按value从大至小排序
     sortMap(obj){
-      console.log("obj")
+      // console.log("obj")
       // let aa = Object.values(map).sort((a,b)=>{
       //   return b-a
       // })
@@ -221,7 +222,7 @@ export default {
           }
         });
       }
-      console.log(new_obj)
+      // console.log(new_obj)
       return new_obj
     },
     configChart(){

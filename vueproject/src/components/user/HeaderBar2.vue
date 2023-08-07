@@ -17,7 +17,7 @@
            :key="index"
            @click="switchMenu(index)"
            :style="{'width': `${activeIndex === index ? itemWidth + 10: itemWidth}%`}">
-        <router-link :to="item.path" style="text-align: center; width: 100%">
+        <router-link :to="item.path" style="text-align: center; width: 100%;height: 100%;padding-top: 12px">
           <i :class='item.icon'></i>
           <p class="nav-tab-item_label" style="margin-top: 4px">{{item.label}}</p>
         </router-link>

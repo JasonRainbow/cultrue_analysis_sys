@@ -60,8 +60,8 @@ export default {
     this.resizeScreen();
     // 获取接口数据
     this.getSentimentData();
-    console.log("mounted")
-    console.log(this.workId)
+    // console.log("mounted")
+    // console.log(this.workId)
     // 局部刷新定时器
     //this.getDataTimer();
   },

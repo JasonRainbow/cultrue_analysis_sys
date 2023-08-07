@@ -24,6 +24,7 @@ public class WorkScoreController {
     @ApiOperation(value = "查询作品的得分情况")
     public Result<?> findByWorkId(@RequestParam Integer workId) {
         List<WorkScore> workScores = workScoreMapper.countScoreByWorkId(workId);
+        if (workScores.size() == 0) return Result.success();
         float meanScore = 0;
         for (WorkScore workScore: workScores) {
             meanScore += workScore.getScore();

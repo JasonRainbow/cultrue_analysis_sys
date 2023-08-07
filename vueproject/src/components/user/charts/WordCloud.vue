@@ -1,8 +1,8 @@
 <template>
   <div>
     <div style="text-align:center;">
-      <h2>{{selectCountry}}&nbsp;{{selectDate}}词云图</h2><br>
-      <el-select size="small" style="width: 110px" v-model="selectCountry" placeholder="请选择国家" @change="getWordData">
+      <h4 style="margin-bottom: 6px">{{selectCountry}}&nbsp;{{selectDate}}词云图</h4>
+      <el-select size="mini" style="width: 100px" v-model="selectCountry" placeholder="请选择国家" @change="getWordData">
         <el-option
           v-for="item in countryOptions"
           :key="item.value"
@@ -10,7 +10,7 @@
           :value="item.value">
         </el-option>
       </el-select>
-      <el-select size="small" style="width: 100px" v-model="queryWordFreqParam.searchPlatform" placeholder="请选择平台" @change="getWordData">
+      <el-select size="mini" style="width: 90px" v-model="queryWordFreqParam.searchPlatform" placeholder="请选择平台" @change="getWordData">
         <el-option
           v-for="item in platFormOptions"
           :key="item.value"
@@ -18,8 +18,8 @@
           :value="item.value">
         </el-option>
       </el-select>
-      <el-date-picker style="width: 130px"
-        size="small"
+      <el-date-picker style="width: 110px"
+        size="mini"
         v-model="selectDate"
         align="right"
         type="date"
@@ -29,7 +29,7 @@
         @change="getWordData">
       </el-date-picker>
     </div>
-    <div id="wordCloud" style="height: 100%;width: 100%; margin-top: 25px"></div>
+    <div id="wordCloud" style="height: 100%;width: 100%; margin-top: 10px"></div>
   </div>
 </template>
 
@@ -47,7 +47,7 @@ export default {
   },
   data() {
     return {
-      selectCountry:"美国",
+      selectCountry:"全球",
       // selectDate:"2023-07-01",
       selectDate: "",
       selectPlatForm:"Youtube",
@@ -180,6 +180,9 @@ export default {
         })
         this.countryOptions.push({label: "全球", value: "全球"})
         this.countryOptions.reverse()
+        if (this.countryOptions.length > 1) {
+          this.selectCountry = this.countryOptions[1].value;
+        }
       })
     },
     initWordCloud() {
@@ -195,14 +198,14 @@ export default {
         this.queryWordFreqParam.searchCountry = this.selectCountry
       }
       this.queryWordFreqParam.searchTime = this.selectDate
-      console.log(this.queryWordFreqParam)
+      // console.log(this.queryWordFreqParam)
       getWordFreqRes(this.queryWordFreqParam).then((res) => {
         if (res.code === "0") {
-          console.log(res.data.keywords)
+          // console.log(res.data.keywords)
           this.wordCloudOption.series[0].data = res.data.keywords.map((item) => {
             return {name: item.word, value: item.counts}
           })
-          console.log(this.wordCloudOption.series[0].data)
+          // console.log(this.wordCloudOption.series[0].data)
           this.updateWordCloud();
         }
       })

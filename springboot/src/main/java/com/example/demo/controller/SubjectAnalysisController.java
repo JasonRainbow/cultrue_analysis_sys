@@ -29,6 +29,7 @@ public class SubjectAnalysisController {
                                             @RequestParam String subject) {
         SubjectAnalysis analysis = subjectAnalysisMapper
                 .selectByWorkIdAndSubject(workId, subject);
+        if (analysis == null) return Result.success();
         List<Map<String, Object>> resList = new ArrayList<>();
         Map<String, Object> resData1 = new HashMap<>();
         resData1.put("name", "积极");

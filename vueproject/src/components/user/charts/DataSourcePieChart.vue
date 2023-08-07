@@ -1,7 +1,7 @@
 <template>
   <div style="">
-    <div style="margin-bottom: 20px">数据来源占比</div>
-    <div id="platFormChart" style="height: 450px;width: 100%"></div>
+    <div>数据来源占比</div>
+    <div id="platFormChart" style="height: 390px;width: 100%"></div>
   </div>
 </template>
 
@@ -20,10 +20,10 @@ export default {
     return{
       option: {
         legend: {
-          top: '5%',
+          top: '2%',
           left: 'center',
           textStyle: {
-            color: '#fff'
+            color: '#fff',
           },
         },
         tooltip: {
@@ -42,12 +42,22 @@ export default {
           {
             name: '数据来源占比图',
             type: 'pie',
-            radius: ['40%', '70%'],
-            center: ['52%', '60%'],
+            radius: ['15%', '35%'],
+            center: ['50%', '40%'],
             roseType: 'area',
             itemStyle: {
-              borderRadius: 10,
+              borderRadius: 5,
               borderColor: '#ece7e7',
+            },
+            label:{
+              show:true,
+              normal:{
+                textStyle: {
+                  color: "#ffffff",
+                  fontSize:14
+                }
+
+              }
             },
             data: [
               { value: 40, name: 'Youtube' },
@@ -77,7 +87,7 @@ export default {
           this.option.series[0].data = res.data.map((item)=>{
             return {value: item.count, name: item.platform}
           });
-          console.log(this.option.series[0].data)
+          // console.log(this.option.series[0].data)
           this.platFormChart = this.$echarts.init(document.getElementById('platFormChart'))
 
           this.platFormChart.setOption(this.option)
