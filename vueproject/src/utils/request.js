@@ -31,7 +31,10 @@ const whiteUrls = ["/user/login", '/user/register',
   '/monitor-work/all', '/monitor-work/byUserId', '/monitor-work/countPlatform', '/polarity/all',
   '/polarity/byPage', '/polarity/query-list', '/polarity/countDaily', '/polarity/countDayInterval',
   '/sentiment/all', '/sentiment/byPage', '/sentiment/query-list', '/sentiment/countDaily',
-  '/user/update', '/word-freq/all', '/word-freq/byPage', '/word-freq/query-res', '']
+  '/user/update', '/word-freq/all', '/word-freq/byPage', '/word-freq/query-res',
+  '/sentiment/getWorldSentiment', '/polarity/getDistribute', '/polarity/countMonthInterval',
+  '/subject-analysis/polarityByWorkIdAndSubject', '/work-score/findByWorkId'
+  ]
 
 const userAuth = ["/user/pass", "/user/profile"]
 
