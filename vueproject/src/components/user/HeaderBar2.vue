@@ -46,6 +46,7 @@ export default {
         { icon: 'nav-tab-item_icon iconfont icon-home', label: '首页', path: '/home'},
         { icon: 'nav-tab-item_icon iconfont icon-send-fill', label: '传播效果评估', path: '/effect'},
         { icon: 'nav-tab-item_icon iconfont icon-shujuxianshi', label: '大屏模式', path: '/big-screen'},
+        { icon: 'nav-tab-item_icon iconfont icon-zhinengtuijian', label: '个性化推荐', path: '/recommend'},
         { icon: 'nav-tab-item_icon iconfont icon-project_info', label: '背景介绍', path: '/background'},
         { icon: 'nav-tab-item_icon iconfont icon-rencaishuangxuanhui', label: '团队介绍', path: '/team'},
         { icon: 'nav-tab-item_icon iconfont icon-a-commandinquiry-fill', label: '常见问题', path: '/question'},

@@ -6,6 +6,20 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "34248809",
+      "name": "智能推荐",
+      "font_class": "zhinengtuijian",
+      "unicode": "e608",
+      "unicode_decimal": 58888
+    },
+    {
+      "icon_id": "36774172",
+      "name": "电影院",
+      "font_class": "dianyingyuan",
+      "unicode": "e6fa",
+      "unicode_decimal": 59130
+    },
+    {
       "icon_id": "1461250",
       "name": "project_info",
       "font_class": "project_info",

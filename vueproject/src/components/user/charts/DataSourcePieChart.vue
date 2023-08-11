@@ -20,7 +20,7 @@ export default {
     return{
       option: {
         legend: {
-          top: '2%',
+          top: '0.5%',
           left: 'center',
           textStyle: {
             color: '#fff',
@@ -43,7 +43,7 @@ export default {
             name: '数据来源占比图',
             type: 'pie',
             radius: ['15%', '35%'],
-            center: ['50%', '40%'],
+            center: ['50%', '34%'],
             roseType: 'area',
             itemStyle: {
               borderRadius: 5,

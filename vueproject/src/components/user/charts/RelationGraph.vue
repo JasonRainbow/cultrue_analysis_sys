@@ -16,7 +16,7 @@ export default {
     },
     height: {
       type: String,
-      default: "270px"
+      default: "258px"
     },
     chartOptions: {
       type: Object,
@@ -315,7 +315,7 @@ export default {
 
         let relationChart = this.$echarts.init(document.getElementById("relationGraph"));
         let option = {
-          title: {
+          /*title: {
             text:'共现语义网络图',
             left: '0%',
             textStyle: {
@@ -323,7 +323,7 @@ export default {
               color: 'darkturquoise',
               fontWeight: '500'
             }
-          },
+          },*/
           series: [{
             type: 'graph',
             layout: 'circular',
@@ -490,8 +490,9 @@ export default {
 </script>
 
 <template>
-  <div id="div1" style="text-align: center; width: 100%; height: 100%; color: white">
-    <div style="margin-top: 5px;text-align: center">
+  <div id="div1" style="text-align: center; width: 100%; height: 100%;">
+    <div style="text-align: center">
+      <h4 style="margin-bottom: 5px">{{selectCountry}}&nbsp;{{selectTime}} 共现语义网络图</h4>
       <el-select size="mini" style="width: 110px" v-model="selectCountry" placeholder="请选择国家" @change="countryChanged">
         <el-option
           v-for="item in countryOptions"

@@ -1,6 +1,7 @@
 <template>
-  <div>
-    <span style="margin-right: 8px" class="font-bold">主题切换：</span>
+  <div style="text-align: center">
+    <h4 style="margin-bottom: 5px">{{value}} 情感分布</h4>
+    <span style="margin-right: 4px" class="">指标切换：</span>
     <el-select v-model="value" size="small" placeholder="请选择" @change="SelectChanged" style="">
       <el-option
         v-for="item in options"
@@ -129,6 +130,6 @@ export default {
 
 <style scoped>
 #container1{
-  height:290px;
+  height:270px;
 }
 </style>
