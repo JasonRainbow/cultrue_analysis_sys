@@ -168,6 +168,9 @@ export default{
     this.getMsgData()
     this.initMsgChart()
     this.getTootipTimer()
+    window.addEventListener('resize',  ()=> {
+      this.msgChart.resize();
+    })
   },
   methods: {
     //初始化图表

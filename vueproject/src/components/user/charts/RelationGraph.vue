@@ -27,6 +27,9 @@ export default {
   async mounted() {
     await this.getAllCountries()
     this.createGraph()
+    window.addEventListener('resize', function () {
+      this.chart.resize();
+    })
   },
   data() {
     return {
@@ -34,6 +37,7 @@ export default {
       selectTime: '',
       workId: this.workId,
       res_data: {},
+      chart:null,
       countryOptions: [
         {
           value: '全球',
@@ -312,8 +316,7 @@ export default {
         this.data2 = res.data
         // console.log(this.data2)
         //将获取到的data直接赋值给data2即可
-
-        let relationChart = this.$echarts.init(document.getElementById("relationGraph"));
+        this.chart  = this.$echarts.init(document.getElementById("relationGraph"));
         let option = {
           /*title: {
             text:'共现语义网络图',
@@ -448,9 +451,9 @@ export default {
           item.links=this.link1
         })
         // 特殊处理
-        relationChart.setOption(option);
-        window.addEventListener('resize', function () {
-          relationChart.resize();
+        this.chart.setOption(option);
+        window.addEventListener('resize',  ()=> {
+          this.chart.resize();
         })
       })
     },
@@ -491,7 +494,7 @@ export default {
 
 <template>
   <div id="div1" style="text-align: center; width: 100%; height: 100%;">
-    <div style="text-align: center">
+    <div style="text-align: center;width:100%;height:100%">
       <h4 style="margin-bottom: 5px">{{selectCountry}}&nbsp;{{selectTime}} 共现语义网络图</h4>
       <el-select size="mini" style="width: 110px" v-model="selectCountry" placeholder="请选择国家" @change="countryChanged">
         <el-option
@@ -511,8 +514,9 @@ export default {
                       value-format="yyyy-MM-dd"
                       @change="dateChanged">
       </el-date-picker>
+      <div id="relationGraph"></div>
     </div>
-    <div id="relationGraph" :style="{ width: '100%',height: '83%',}"></div>
+<!--    <div id="relationGraph" :style="{ width: width,height: height,}"></div>-->
   </div>
 </template>
 
@@ -523,6 +527,9 @@ export default {
   margin: auto;
 }
 #relationGraph{
-  margin:10px auto auto auto;
+  margin:2% auto auto 0;
+  //margin: auto;
+  height:84%;
+  width:100%;
 }
 </style>

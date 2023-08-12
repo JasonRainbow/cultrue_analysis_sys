@@ -1,7 +1,7 @@
 <template>
-  <div style="">
+  <div style="height:100%">
     <div>数据来源占比</div>
-    <div id="platFormChart" style="height: 390px;width: 100%"></div>
+    <div id="platFormChart" style="height: 95%;width: 100%;margin-top: 5%"></div>
   </div>
 </template>
 
@@ -20,7 +20,7 @@ export default {
     return{
       option: {
         legend: {
-          top: '0.5%',
+          top: '0%',
           left: 'center',
           textStyle: {
             color: '#fff',
@@ -42,21 +42,20 @@ export default {
           {
             name: '数据来源占比图',
             type: 'pie',
-            radius: ['15%', '35%'],
-            center: ['50%', '34%'],
+            radius: ['25%', '60%'],
+            center: ['50%', '50%'],
             roseType: 'area',
             itemStyle: {
               borderRadius: 5,
               borderColor: '#ece7e7',
             },
-            label:{
-              show:true,
-              normal:{
-                textStyle: {
+            label : {
+              normal : {
+                formatter: '{b}:{c}({d}%)',
+                textStyle : {
                   color: "#ffffff",
-                  fontSize:14
+                  fontSize : 13
                 }
-
               }
             },
             data: [
@@ -108,6 +107,9 @@ export default {
     // console.log("Data")
     // this.getPlatFormData()
     this.initPlatFormChart()
+    window.addEventListener('resize',  ()=> {
+      this.platFormChart.resize();
+    })
   },
   create() {
     // console.log("1111")

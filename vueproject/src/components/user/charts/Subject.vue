@@ -1,5 +1,5 @@
 <template>
-  <div style="text-align: center">
+  <div style="text-align: center;height:100%">
     <h4 style="margin-bottom: 5px">{{value}} 情感分布</h4>
     <span style="margin-right: 4px" class="">指标切换：</span>
     <el-select v-model="value" size="small" placeholder="请选择" @change="SelectChanged" style="">
@@ -27,6 +27,7 @@ export default {
   },
   data(){
     return {
+      chart:null,
       options: [{
         value: '故事情节',
         label: '故事情节'
@@ -55,16 +56,26 @@ export default {
           {
             name: 'Access From',
             type: 'pie',
-            radius: ['40%', '60%'],
+            radius: ['45%', '65%'],
+            center: ['50%', '60%'],
             avoidLabelOverlap: false,
             itemStyle: {
               borderRadius: 10,
               borderColor: '#fff',
               borderWidth: 2
             },
-            label: {
-              show: false,
-              position: 'center'
+            // label: {
+            //   show: false,
+            //   position: 'center'
+            // },
+            label : {
+              normal : {
+                formatter: '{b}:{c}({d}%)',
+                textStyle : {
+                  color: "#ffffff",
+                  fontSize : 15
+                }
+              }
             },
             emphasis: {
               label: {
@@ -74,7 +85,10 @@ export default {
               }
             },
             labelLine: {
-              show: false
+              show: true,
+              lineStyle:{
+                width:1
+              }
             },
             data: [
               { value: 1048, name: '积极' },
@@ -103,6 +117,9 @@ export default {
   mounted(){
       // console.log("@@@@@@","mounted")
       this.createGraph()
+    window.addEventListener('resize',  ()=> {
+      this.chart.resize();
+    })
   },
   methods:{
     createGraph(){
@@ -114,9 +131,9 @@ export default {
               this.option.series.forEach(item=>{
                 item.data=this.data1
               })
-              const myChart = this.$echarts.init(document.getElementById('container1'))
+              this.chart = this.$echarts.init(document.getElementById('container1'))
               // console.log("@@@",myChart)
-              myChart.setOption(this.option)
+              this.chart.setOption(this.option)
             }
         })
 
@@ -130,6 +147,7 @@ export default {
 
 <style scoped>
 #container1{
-  height:270px;
+  margin-top: 3%;
+  height:70%;
 }
 </style>
