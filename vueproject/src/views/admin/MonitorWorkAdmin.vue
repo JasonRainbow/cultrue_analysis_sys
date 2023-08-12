@@ -173,7 +173,7 @@
       </div>
     </el-dialog>
     <el-dialog :title="scrap_title" :visible.sync="scrap_toggle2" width="40%" @click="closeScrap2">
-      <el-form label-width="130px" :model="scrap_option2" :rules="scrap_rules" ref="scrap_option2">
+      <el-form label-width="170px" :model="scrap_option2" :rules="scrap_rules" ref="scrap_option2">
         <el-form-item label="作品ID" prop="workId">
           <el-input disabled size="small" v-model="scrap_option2.workId" auto-complete="off"
                     placeholder="请输入作品ID"></el-input>
@@ -191,6 +191,10 @@
               :value="item"
             />
           </el-select>
+        </el-form-item>
+        <el-form-item label="是否从网络平台上爬取" prop="fromNet">
+          <el-radio v-model="scrap_option2.fromNet" :label="0">否</el-radio>
+          <el-radio v-model="scrap_option2.fromNet" :label="1">是</el-radio>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -247,14 +251,18 @@ export default {
       scrap_option2: {
         workId: 0,
         keyword: "",
-        platform: "豆瓣"
+        platform: "豆瓣",
+        fromNet: 1
       },
       platforms2: [
         "豆瓣",
         "烂番茄",
         "GoodReads",
         "IMDb",
-        "亚马逊"
+        "Amazon",
+        "Twitter",
+        "Youtube",
+        "Facebook"
       ],
       // 数据导入参数
       upload: {

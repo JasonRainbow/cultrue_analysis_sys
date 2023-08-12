@@ -1,6 +1,11 @@
 package com.example.demo.service;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.example.demo.entity.SentimentAnalysis;
+import com.example.demo.entity.WorkScore;
 import com.example.demo.mapper.MonitorWorkMapper;
+import com.example.demo.mapper.SentimentAnalysisMapper;
+import com.example.demo.mapper.WorkScoreMapper;
 import com.example.demo.utils.EmailUtil;
 import com.example.demo.utils.HttpUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +14,9 @@ import org.springframework.boot.json.JsonParser;
 import org.springframework.boot.json.JsonParserFactory;
 import org.springframework.stereotype.Service;
 
+import java.text.DecimalFormat;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -28,6 +35,12 @@ public class DataAnalysisService {
 
     @Autowired
     private MonitorWorkMapper monitorWorkMapper;
+
+    @Autowired
+    private SentimentAnalysisMapper sentimentAnalysisMapper;
+
+    @Autowired
+    private WorkScoreMapper workScoreMapper;
 
     public boolean countWordFreq(Integer workId) {
         Map<String, String> param = new HashMap<>();
@@ -102,8 +115,41 @@ public class DataAnalysisService {
 
 
     // 将计算某个影视作品在Facebook、Twitter、Youtube的评分，通过细腻情感的转换
-    public boolean generatePlatformScore() {
+    public boolean generatePlatformScore(int workId, String platform) {
+        float score = sentiToScore(workId, platform);
+        if (Float.isNaN(score)) {
+            return false;
+        }
+        int res = workScoreMapper.insert(WorkScore.builder()
+                .score(score)
+                .workId(workId)
+                .platform(platform)
+                .build());
+        return res > 0;
+    }
 
-        return true;
+    //根据作品编号和排名进行细腻情感至评分的映射 返回评分
+    private float sentiToScore(int workId, String platform) {
+        int count = 0;
+        int sum = 0;
+        QueryWrapper<SentimentAnalysis> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("workId", workId);
+        queryWrapper.eq("platform", platform);
+        List<SentimentAnalysis> selectList = sentimentAnalysisMapper.selectList(queryWrapper);
+        for (SentimentAnalysis sentimentAnalysis: selectList) {
+            //获取各个属性值 创建选课对象
+            int happy = sentimentAnalysis.getHappy();
+            int amazed = sentimentAnalysis.getAmazed();
+            int neutrality = sentimentAnalysis.getNeutrality();
+            int sad = sentimentAnalysis.getSad();
+            int angry = sentimentAnalysis.getAngry();
+            int fear = sentimentAnalysis.getFear();
+            count += happy+amazed+neutrality+sad+angry+fear;
+            sum += happy*5 + amazed*4 + neutrality*3 + sad*2 + angry;
+        }
+//        System.out.println("sum:"+sum+" count:"+count+" sum/count:"+(float)sum/count);
+        DecimalFormat df = new DecimalFormat("0.0"); // 创建DecimalFormat对象，指定格式为保留一位小数
+        String result = df.format((float)sum/count); // 格式化浮点数为字符串
+        return Float.parseFloat(result);
     }
 }

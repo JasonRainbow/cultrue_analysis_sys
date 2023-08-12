@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 @RestController
@@ -30,6 +31,7 @@ public class WorkScoreController {
             meanScore += workScore.getScore();
         }
         meanScore /= workScores.size();
+        meanScore = Float.parseFloat(new DecimalFormat("0.0").format(meanScore));
         workScores.add(WorkScore.builder().score(meanScore).platform("平均").build());
         return Result.success(workScores);
     }

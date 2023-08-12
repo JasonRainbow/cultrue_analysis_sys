@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.common.Result;
+import com.example.demo.service.DataAnalysisService;
 import com.example.demo.service.DataCrawlService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -19,6 +20,9 @@ import java.io.UnsupportedEncodingException;
 public class DataCrawlController {
     @Autowired
     private DataCrawlService dataCrawlService;
+
+    @Autowired
+    private DataAnalysisService dataAnalysisService;
 
     @Value("${scrap_host}")
     private String scrap_hots;
@@ -65,8 +69,9 @@ public class DataCrawlController {
     @GetMapping("/crawl-scores")
     @ApiOperation(value = "爬取关于指定作品的网络平台得分")
     public Result<?> crawlScores(@RequestParam Integer workId,
-                                   @RequestParam String keyword,
-                                   @RequestParam String platform) {
+                                 @RequestParam String keyword,
+                                 @RequestParam String platform,
+                                 @RequestParam(defaultValue = "1", required = false) Integer fromNet) {
         String baseUri = scrap_hots + "";
         switch (platform) {
             case "豆瓣":
@@ -81,18 +86,28 @@ public class DataCrawlController {
             case "IMDb":
                 baseUri += "/scrap_IMDb_score";
                 break;
-            case "亚马逊":
+            case "Amazon":
                 baseUri += "/scrap_amazon_score";
                 break;
             case "Twitter":
             case "Facebook":
             case "Youtube":
-
-                break;
+                boolean res = dataAnalysisService.generatePlatformScore(workId, platform);
+                if (res) {
+                    return Result.success();
+                } else {
+                    return Result.error("-1", "计算平台得分失败");
+                }
             default:
-                return Result.error("-1", "没有平台参数");
+                return Result.error("-1", "没有平台参数或平台不正确");
         }
-        boolean res = dataCrawlService.crawlScores(workId, keyword, baseUri, platform);
+        boolean res;
+        if (fromNet == 1) {
+            res = dataCrawlService.crawlScores(workId, keyword, baseUri, platform);
+        } else {
+            res = dataAnalysisService.generatePlatformScore(workId, platform);
+        }
+
         if (res) return Result.success();
         return Result.error("-1", "爬取评分数据失败，请稍后重试！");
     }

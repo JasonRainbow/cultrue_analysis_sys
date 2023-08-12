@@ -312,7 +312,7 @@ export default {
       this.kHSeven = Math.round(this.screenHeight * 0.28);
       this.kHEight = Math.round(this.screenHeight * 0.39);
       this.kHNine = Math.round(this.screenHeight * 0.4);
-      this.kHTen = Math.round(this.screenHeight * 0.25);
+      this.kHTen = Math.round(this.screenHeight * 0.245);
       //console.log(this.screenHeight +"-"+ Math.round(this.percentHThirty) +"-"+ Math.round(this.percentHForty));
     },
     // 字体大小根据宽度自适应

@@ -327,10 +327,15 @@ export default {
               fontWeight: '500'
             }
           },*/
+
           series: [{
             type: 'graph',
             layout: 'circular',
             roam: true,
+            scaleLimit: {
+              min: 0.6,
+              max: 3
+            },
             focusNodeAdjacency: true,
             radius: '40%',
             circular: {
@@ -528,7 +533,7 @@ export default {
 }
 #relationGraph{
   margin:2% auto auto 0;
-  //margin: auto;
+  /*margin: auto;*/
   height:84%;
   width:100%;
 }
