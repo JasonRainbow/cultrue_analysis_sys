@@ -24,11 +24,12 @@ export default {
       routes_map: {
         "/home": 0,
         "/effect": 1,
-        "/background": 3,
-        "/team": 4,
-        "/question": 5,
-        "/personal": 6,
-        "/not-login": 6,
+        "/recommend": 3,
+        "/background": 4,
+        "/team": 5,
+        "/question": 6,
+        "/personal": 7,
+        "/not-login": 7,
         "/sentiment-assessment":1
       },
       activeIndex: 0,
