@@ -84,6 +84,11 @@ public class DataCrawlController {
             case "亚马逊":
                 baseUri += "/scrap_amazon_score";
                 break;
+            case "Twitter":
+            case "Facebook":
+            case "Youtube":
+
+                break;
             default:
                 return Result.error("-1", "没有平台参数");
         }

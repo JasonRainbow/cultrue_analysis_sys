@@ -99,4 +99,11 @@ public class DataAnalysisService {
         }).start();
         return true;
     }
+
+
+    // 将计算某个影视作品在Facebook、Twitter、Youtube的评分，通过细腻情感的转换
+    public boolean generatePlatformScore() {
+
+        return true;
+    }
 }

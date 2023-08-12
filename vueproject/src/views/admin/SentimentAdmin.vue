@@ -494,6 +494,7 @@ export default {
     },
     // 搜索事件
     search() {
+      this.search_data.pageNum = 1
       this.get_data(this.search_data)
     },
   },

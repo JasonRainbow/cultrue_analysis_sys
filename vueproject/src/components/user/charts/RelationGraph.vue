@@ -512,7 +512,7 @@ export default {
                       @change="dateChanged">
       </el-date-picker>
     </div>
-    <div id="relationGraph" :style="{ width: width,height: height,}"></div>
+    <div id="relationGraph" :style="{ width: '100%',height: '83%',}"></div>
   </div>
 </template>
 
