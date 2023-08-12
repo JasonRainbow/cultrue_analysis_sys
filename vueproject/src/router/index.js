@@ -39,6 +39,7 @@ import normalQuestion from "../components/user/common/normalQuestion";
 import NotLogin from "../views/user/NotLogin";
 import ShowWorldMap from "../views/user/ShowWorldMap";
 import TeamIntroduction from "../components/user/common/TeamIntroduction";
+import PersonalRecommendation from "../views/user/PersonalRecommendation.vue";
 
 // 启用路由
 Vue.use(Router);
@@ -253,6 +254,14 @@ export default new Router({
           component: normalQuestion,
           meta: {
             requireAuth: false
+          }
+        },
+        {
+          path: "/recommend",
+          name: "个性化推荐",
+          component: PersonalRecommendation,
+          meta: {
+            requireAuth: true
           }
         },
         {
