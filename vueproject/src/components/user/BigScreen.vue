@@ -73,10 +73,10 @@
           <!--          中间部分-->
           <el-col :span="9">
             <div :style="{ height: kHThree + 'px'}">
-              <dv-border-box-12 style="padding:12px;width:100%">
-                <div style="margin-bottom: 5px">
-                  <span style="margin-right: 8px" class="font-bold">监测作品切换：</span>
-                  <el-select v-model="workId" size="small" placeholder="请选择作品类型">
+              <dv-border-box-12 style="padding:12px;width:100%;height:100%">
+                <div style="margin-bottom: 5px;height:100%">
+                  <span style="margin-right: 8px;height:45%" class="font-bold">监测作品切换：</span>
+                  <el-select v-model="workId" size="small" placeholder="请选择作品类型" style="height: 45%">
                     <el-option
                       v-for="work in works"
                       :key="work.id"
@@ -85,11 +85,11 @@
                     />
                   </el-select>
                   <!--                  <el-button type="success" plain>世界情感分布图</el-button>-->
-                  <div @click="sentimentMap" style="margin-top: 5px">
+                  <div @click="sentimentMap" style="margin:5px auto auto auto;width: 50%;height:45%">
                     <router-link :to="{path: '/worldMap', query: {workId: workId, workName: getWorkName(workId)}}">
                       <dv-border-box-8 id="btn-world"
 
-                                       style="color: white;cursor: pointer; width: 250px; border-radius: 10px; height: 40px; margin: auto auto; font-size: 17px; text-align: center; line-height: 40px" :reverse="true">
+                                       style="color: white;cursor: pointer; width: 100%; border-radius: 10px; height: 40px; margin: auto auto; font-size: 17px; text-align: center; line-height: 40px" :reverse="true">
                         查看世界情感分布图
                       </dv-border-box-8>
                     </router-link>

@@ -1,8 +1,8 @@
 <template>
-  <div>
-    <div style="text-align:center;">
+  <div style="height: 100%;width:100%">
+    <div style="text-align:center;height:30%;">
       <h4 style="margin-bottom: 6px">{{selectCountry}}&nbsp;{{selectDate}}词云图</h4>
-      <el-select size="mini" style="width: 100px" v-model="selectCountry" placeholder="请选择国家" @change="getWordData">
+      <el-select size="mini" style="width: 28%" v-model="selectCountry" placeholder="请选择国家" @change="getWordData">
         <el-option
           v-for="item in countryOptions"
           :key="item.value"
@@ -10,7 +10,7 @@
           :value="item.value">
         </el-option>
       </el-select>
-      <el-select size="mini" style="width: 90px" v-model="queryWordFreqParam.searchPlatform" placeholder="请选择平台" @change="getWordData">
+      <el-select size="mini" style="width: 28%" v-model="queryWordFreqParam.searchPlatform" placeholder="请选择平台" @change="getWordData">
         <el-option
           v-for="item in platFormOptions"
           :key="item.value"
@@ -18,7 +18,7 @@
           :value="item.value">
         </el-option>
       </el-select>
-      <el-date-picker style="width: 110px"
+      <el-date-picker style="width: 28%"
         size="mini"
         v-model="selectDate"
         align="right"
@@ -29,7 +29,7 @@
         @change="getWordData">
       </el-date-picker>
     </div>
-    <div id="wordCloud" style="height: 100%;width: 100%; margin-top: 10px"></div>
+    <div id="wordCloud" style="height: 70%;width: 100%;margin-top: 0%"></div>
   </div>
 </template>
 
@@ -47,6 +47,7 @@ export default {
   },
   data() {
     return {
+      wordCloudChart:null,
       selectCountry:"全球",
       // selectDate:"2023-07-01",
       selectDate: "",
@@ -131,7 +132,7 @@ export default {
             left: 'center',
             top: 'center',
             gridSize: 10,
-            sizeRange: [12, 40],
+            sizeRange: [12, 30],
             rotationRange: [0, 0],
             rotationStep: 0,
             drawOutOfBound: false,

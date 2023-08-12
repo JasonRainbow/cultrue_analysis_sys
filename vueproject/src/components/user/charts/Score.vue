@@ -14,6 +14,7 @@ export default {
   },
   data(){
     return {
+      chart:null,
       data1: [
         {
           "id": null,
@@ -132,19 +133,22 @@ export default {
         })
         // console.log(score)
         // console.log(platform)
-        const myChart = this.$echarts.init(document.getElementById('container2'))
+        this.chart = this.$echarts.init(document.getElementById('container2'))
         // console.log(myChart)
-        myChart.setOption(this.option)
+        this.chart.setOption(this.option)
       }
     })
-
+    window.addEventListener('resize',  ()=> {
+      this.chart.resize();
+    })
   }
 }
 </script>
 
 <style scoped>
 #container2{
-  margin: 30px auto auto auto;
-  height:250px;
+  //margin: 30px auto auto auto;
+  margin-top:5%;
+  height:85%;
 }
 </style>
