@@ -85,10 +85,14 @@ export default {
         if (res.code === "0") {
           // console.log(res.data)
           this.allEmotion = res.data.map((item) => {
-            return {
+            let config={
               country: item.country,
               wholeEmotion: item.happy + item.amazed + item.neutrality - item.sad - item.angry - item.fear
             }
+            if(config.wholeEmotion<0){
+              config.wholeEmotion=0
+            }
+            return config
           });
           // console.log(this.allEmotion)
           // console.log(this.allEmotion)
