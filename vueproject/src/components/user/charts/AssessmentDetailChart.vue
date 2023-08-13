@@ -28,6 +28,14 @@ export default {
           left: 'center',
           data: ['积极情感', '消极情感', '中性情感']
         },
+        dataset: {
+          source: [
+            ['time', '2022-09', '2022-10', '2022-11', '2022-12', '2023-01', '2023-02', '2023-03', '2023-04','2023-05','2023-06','2023-07','2023-08'],
+            ['积极情感', 56.5, 82.1, 88.7, 70.1, 53.4, 85.1, 56.5, 82.1, 88.7, 70.1, 53.4, 85.1],
+            ['消极情感', 51.1, 51.4, 55.1, 53.3, 73.8, 68.7, 51.1, 51.4, 55.1, 53.3, 73.8, 68.7],
+            ['中性情感', 40.1, 62.2, 69.5, 36.4, 45.2, 32.5, 40.1, 62.2, 69.5, 36.4, 45.2, 32.5],
+          ]
+        },
         tooltip: {
           trigger: 'axis',
           axisPointer: {
@@ -35,20 +43,21 @@ export default {
             label: {
               backgroundColor: '#6a7985'
             }
-          }
+          },
+          showContent: true
         },
         grid: {
-          top: '4%',
+          top: '50%',
           left: '1%',
           right: '4%',
           bottom: '6%',
-          containLabel: true
+          containLabel: true,
+          show: true
         },
         xAxis: [
           {
             type: 'category',
             boundaryGap: false,
-            data: ['2023-01', '2023-02', '2023-03', '2023-04','2023-05','2023-06','2023-07','2023-08']
           }
         ],
         yAxis: [
@@ -60,7 +69,8 @@ export default {
               fontWeight: 500,
               fontSize: 12,
               fontFamily: 'Times New Roman'
-            }
+            },
+            gridIndex: 0
           }
         ],
         series: [
@@ -69,35 +79,35 @@ export default {
             stack: 'Total',
             areaStyle: {},
             smooth: true,
+            seriesLayoutBy: 'row',
             emphasis: {
               focus: 'series'
             },
             name: '积极情感',
-            data: []
           },
           {
             type: 'line',
             stack: 'Total',
             areaStyle: {},
             smooth: true,
+            seriesLayoutBy: 'row',
             emphasis: {
               focus: 'series'
             },
             name: '消极情感',
-            data: []
           },
           {
             type: 'line',
             stack: 'Total',
             areaStyle: {},
+            seriesLayoutBy: 'row',
             smooth: true,
             emphasis: {
               focus: 'series'
             },
             name: '中性情感',
-            data: []
           },
-          /*{
+          {
             type: 'pie',
             id: 'pie',
             radius: '30%',
@@ -106,14 +116,18 @@ export default {
               focus: 'self'
             },
             label: {
-              formatter: '{b}: {@2012} ({d}%)'
+              formatter: '{b}: {@2022-09} ({d}%)',
+              textStyle : {
+                color: "#844400",
+                fontSize : 14
+              }
             },
             encode: {
-              itemName: 'product',
-              value: '2012',
-              tooltip: '2012'
-            }
-          }*/
+              itemName: 'time',
+              value: '2022-09',
+              // tooltip: '2022-10'
+            },
+          }
         ]
       },
       queryAssessmentParam: {
@@ -165,22 +179,34 @@ export default {
         if (res.code === "0") {
           let res_data = res.data
           // console.log(res_data)
-          // 通入时间数据
-          this.option.xAxis[0].data = res_data.map((item)=>{
+          // 填入时间数据
+          let time_data = ["time"]
+          time_data = time_data.concat(res_data.map((item)=>{
             return item.postTime
-          })
+          }))
+          this.option.dataset.source[0] = time_data
           // 填入积极情感数据
-          this.option.series[0].data = res_data.map((item)=>{
+          let positive_data = ["积极情感"]
+          positive_data = positive_data.concat(res_data.map((item)=>{
             return item.positive
-          })
+          }))
+          this.option.dataset.source[1] = positive_data
           // 填入消极情感数据
-          this.option.series[1].data = res_data.map((item)=>{
+          let negative_data = ["消极情感"]
+          negative_data = negative_data.concat(res_data.map((item)=>{
             return item.negative
-          })
+          }))
+          this.option.dataset.source[2] = negative_data
           // 填入中立情感数据
-          this.option.series[2].data = res_data.map((item)=>{
+          let neutrality_data = ["中立情感"]
+          neutrality_data = neutrality_data.concat(res_data.map((item)=>{
             return item.neutrality
-          })
+          }))
+          this.option.dataset.source[3] = neutrality_data
+          this.option.series[3].label.formatter = '{b}: {@'+time_data[1]+'} ({d}%)'
+          this.option.series[3].encode.value = time_data[1]
+          // console.log(time_data[1])
+          // console.log(this.option.dataset.source)
           this.updateAssessChart()
         }
       })
@@ -244,8 +270,7 @@ export default {
     },*/
     //更新图表
     updateAssessChart() {
-      this.assessChart.setOption(this.option);
-      /*let _this = this
+      let _this = this
       setTimeout(function () {
         _this.assessChart.on('updateAxisPointer', function (event) {
           const xAxisInfo = event.axesInfo[0];
@@ -261,13 +286,15 @@ export default {
                 encode: {
                   value: dimension,
                   tooltip: dimension
-                }
+                },
+
               }
             });
           }
         });
         _this.assessChart.setOption(_this.option)
-      })*/
+      })
+      this.assessChart.setOption(this.option);
     }
   }
 }

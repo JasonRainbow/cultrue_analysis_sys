@@ -1,12 +1,15 @@
 <template>
   <div>
     <div>
-      <h2 style="text-align: center;margin: auto;">
+      <h2 :style="{
+      'text-align': 'center','margin': 'auto',
+      'font-size': screenWidth * 0.0152 + 'px'
+      }">
         {{workName}}&nbsp;&nbsp;{{queryMapParam.searchTime}}&nbsp;&nbsp;国际情感分布
       </h2>
     </div>
     <div style="margin-top: 1%;text-align: center" >
-      <el-select size="small" v-model="selectEmotion" placeholder="请选择情感" @change="updateChart">
+      <el-select :size="inputSize" v-model="selectEmotion" placeholder="请选择情感" @change="updateChart">
         <el-option
           v-for="item in emotionOptions"
           :key="item.value"
@@ -14,7 +17,7 @@
           :value="item.value">
         </el-option>
       </el-select>
-      <el-date-picker size="small"
+      <el-date-picker :size="inputSize"
         v-model="queryMapParam.searchTime"
         align="right"
         type="date"
@@ -45,6 +48,8 @@ export default {
   },
   data() {
     return {
+      inputSize: 'small',
+      screenWidth: 1536,
       emotionEveryCountry: {},
       selectDate: "2023-07-01",
       worldMapChart: {},
@@ -1459,8 +1464,19 @@ export default {
     }
   },
   mounted() {
+    this.screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+    if (this.screenWidth < 1920) {
+      this.inputSize = "small"
+    } else {
+      this.inputSize = "medium"
+    }
+
     this.initWorldMapChart()
     this.getWorldMapData()
+    window.addEventListener('resize', ()=>{
+      this.screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+      this.worldMapChart.resize();
+    })
   },
   methods: {
     initWorldMapChart(){
@@ -1481,17 +1497,21 @@ export default {
           backgroundColor: 'rgba(19, 25, 47, 0.6)',
           borderColor: 'deepskyblue',
           textStyle: {
-            color: 'white' //设置文字颜色
+            color: 'white', //设置文字颜色
+            fontSize: this.screenWidth * 0.01
           }
         },
         visualMap: {
           textStyle: {
             color: '#b5bb94',
+            fontSize: this.screenWidth * 0.009
           },
+          itemHeight: this.screenWidth * 0.092,
+          itemWidth: this.screenWidth * 0.0131,
           min: 0,
           max: 100,
-          left: "65px",
-          top: '250px',
+          left: 65,
+          top: 250,
 
           text: ["高(百分比)", "低"], //取值范围的文字
           inRange: {
@@ -1518,7 +1538,7 @@ export default {
           zoom: 1, //视角缩放比例
           label: {
             show: false,//是否在地图上显示国家名字
-            fontSize: "10",
+            fontSize: this.screenWidth * 0.0066,
             color: "rgba(201,174,174,0.7)",
           },
           nameMap:{

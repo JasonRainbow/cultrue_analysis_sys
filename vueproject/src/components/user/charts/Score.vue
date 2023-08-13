@@ -14,6 +14,7 @@ export default {
   },
   data(){
     return {
+      divWidth: 566,
       chart:null,
       data1: [
         {
@@ -46,71 +47,74 @@ export default {
         }
       ],
       name:'Score',
-      option:{
-        title:{
-          text:"作品评分图",
-          left: 'center',
-          textStyle: {
-            fontSize: '20',
-            color: '#ccc'
-          }
-        },
-        tooltip: {
-          trigger: 'axis',
-          axisPointer: {
-            type: 'shadow'
-          }
-        },
-        grid: {
-          left: '5%',
-          right: '5%',
-          bottom: '1%',
-          containLabel: true
-        },
-        xAxis: [
-          {
-            type: 'category',
-            data: ['豆瓣', 'Amazon', 'Imdb', 'GoodReads','烂番茄'],
-            axisTick: {
-              alignWithLabel: true
-            },
-            axisLabel:{
-              fontSize:14
-            }
-          }
-        ],
-        yAxis: [
-          {
-            type: 'value',
-            min: 0,
-            max: 5,
-            name: '评分',
-            nameTextStyle: {
-              fontWeight: 600,
-              fontSize: 20,
-              fontFamily: 'Times New Roman',
-            },
-            axisLabel:{
-              fontSize:14
-            }
-          }
-        ],
-        series: [
-          {
-            name: 'Score',
-            type: 'bar',
-            barWidth: '60%',
-            data: [4.5, 3.2, 4.5, 3.9,4.9]
-          }
-        ],
-        textStyle:{
-          fontSize:20,
-          color:'#fff',
-        }
-      }
+      option: null
     }
   },
   mounted(){
+    this.divWidth = document.getElementById("container2").clientWidth
+    // console.log(this.divWidth)
+    this.option = {
+      title:{
+        text:"作品评分图",
+        left: 'center',
+        textStyle: {
+          fontSize: this.divWidth * 0.033,
+          color: '#ccc'
+        }
+      },
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+          type: 'shadow'
+        }
+      },
+      grid: {
+        left: '5%',
+        right: '5%',
+        bottom: '1%',
+        containLabel: true
+      },
+      xAxis: [
+        {
+          type: 'category',
+          data: ['豆瓣', 'Amazon', 'Imdb', 'GoodReads','烂番茄'],
+          axisTick: {
+            alignWithLabel: true
+          },
+          axisLabel:{
+            fontSize: this.divWidth * 0.0247
+          }
+        }
+      ],
+      yAxis: [
+        {
+          type: 'value',
+          min: 0,
+          max: 5,
+          name: '评分',
+          nameTextStyle: {
+            fontWeight: 600,
+            fontSize: this.divWidth * 0.0248,
+            fontFamily: 'Times New Roman',
+          },
+          axisLabel:{
+            fontSize:this.divWidth * 0.0247
+          }
+        }
+      ],
+      series: [
+        {
+          name: 'Score',
+          type: 'bar',
+          barWidth: '60%',
+          data: [4.5, 3.2, 4.5, 3.9,4.9]
+        }
+      ],
+      textStyle:{
+        fontSize: this.divWidth * 0.0351,
+        color:'#fff',
+      }
+    }
     //调用接口，取得返回值，将返回值中的data直接复制给data1
     workScoreByWorkId({workId: this.workId}).then((res)=>{
       // console.log("1111")
@@ -147,7 +151,7 @@ export default {
 
 <style scoped>
 #container2{
-  //margin: 30px auto auto auto;
+  /*margin: 30px auto auto auto;*/
   margin-top:5%;
   height:85%;
 }

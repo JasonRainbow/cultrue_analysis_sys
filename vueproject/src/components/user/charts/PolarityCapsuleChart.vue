@@ -1,9 +1,8 @@
 <template>
-  <div style="text-align:center;height:100%">
-
+  <div id="main_container" style="text-align:center;height:100%">
     <div style="margin-top: 2.5%;height:100%" >
-      <h4 style="display: inline-block; float: left">{{queryParam.selectEmotion}}情感分布</h4>
-      <el-select size="small" style="width: 30%" v-model="queryParam.selectEmotion" placeholder="请选择情感" @change="getPolarityData">
+      <h4 :style="{'display': 'inline-block', 'float': 'left', 'font-size': divWidth * 0.0327 + 'px'}">{{queryParam.selectEmotion}}情感分布</h4>
+      <el-select :size="inputSize" style="width: 30%" v-model="queryParam.selectEmotion" placeholder="请选择情感" @change="getPolarityData">
         <el-option
           v-for="item in emotionOptions"
           :key="item.value"
@@ -17,7 +16,7 @@
 </template>
 
 <script>
-import {queryPolarity, queryPolarityDistribute} from "../../../api/polarityAPI";
+import {queryPolarityDistribute} from "../../../api/polarityAPI";
 export default {
   name: "PolarityCapsuleChart",
   props: {//用于组件通信
@@ -28,6 +27,8 @@ export default {
   },
   data() {
     return {
+      divWidth: 488,
+      inputSize: 'mini',
       emotionOptions:[
         {
           value: '积极',
@@ -68,8 +69,20 @@ export default {
     }
   },
   mounted() {
+    this.divWidth = document.getElementById("main_container").clientWidth
+    // console.log(this.divWidth)
+    if (this.divWidth < 550) {
+      this.inputSize = "mini"
+    } else if (this.divWidth < 630) {
+      this.inputSize = "small"
+    } else {
+      this.inputSize = "medium"
+    }
     // console.log(this.selectEmotion)
     this.getPolarityData()
+    window.addEventListener('resize',  ()=> {
+      this.divWidth = document.getElementById("main_container").clientWidth
+    })
   },
   methods: {
     //发送异步请求 得到返回数据

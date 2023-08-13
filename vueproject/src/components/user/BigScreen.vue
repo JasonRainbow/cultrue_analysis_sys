@@ -16,7 +16,12 @@
         <!-- 装饰8 -->
         <dv-decoration-8 class="dv-dec-8-left" :color="decorationColor"/>
         <!-- 标题 -->
-        <dv-decoration-7 class="title font-bold colorText" style="width: 220px;height: 30px;margin-left: -47px;font-size: 20px">传播效果大屏展示</dv-decoration-7>
+        <dv-decoration-7 class="title font-bold colorText" :style="{
+        'width': screenWidth * 0.143 + 'px',
+        'height': screenWidth * 0.0196 + 'px',
+        'margin-left': -screenWidth * 0.0306 + 'px',
+        'font-size': screenWidth * 0.0131 + 'px'
+        }">传播效果大屏展示</dv-decoration-7>
         <!--        <span class="title font-bold colorText" :style="{'font-size': Math.round(this.screenWidth/100) + 'px'}">传播效果大屏展示</span>-->
         <!-- 装饰8 -->
         <dv-decoration-8 class="dv-dec-8-right" :reverse="true" :color="decorationColor" />
@@ -64,7 +69,7 @@
             </div>
             <div :style="{ height: kHTen + 'px'}">
               <!-- style="padding:12px" -->
-              <dv-border-box-12 style="padding:12px;width:100%">
+              <dv-border-box-12 style="padding:6px;width:100%">
                 <MessageChart :work-id="workId" :key="workId"></MessageChart>
               </dv-border-box-12>
             </div>
@@ -75,8 +80,8 @@
             <div :style="{ height: kHThree + 'px'}">
               <dv-border-box-12 style="padding:12px;width:100%;height:100%">
                 <div style="margin-bottom: 5px;height:100%">
-                  <span style="margin-right: 8px;height:45%" class="font-bold">监测作品切换：</span>
-                  <el-select v-model="workId" size="small" placeholder="请选择作品类型" style="height: 45%">
+                  <span :style="{'margin-right': '8px', 'height': '45%', 'font-size': screenWidth * 0.0118 + 'px'}" class="font-bold">监测作品切换：</span>
+                  <el-select v-model="workId" :size="inputSize" placeholder="请选择作品类型" style="height: 45%">
                     <el-option
                       v-for="work in works"
                       :key="work.id"
@@ -89,8 +94,17 @@
                     <router-link :to="{path: '/worldMap', query: {workId: workId, workName: getWorkName(workId)}}">
                       <dv-border-box-8 id="btn-world"
 
-                                       style="color: white;cursor: pointer; width: 100%; border-radius: 10px; height: 40px; margin: auto auto; font-size: 17px; text-align: center; line-height: 40px" :reverse="true">
-                        查看世界情感分布图
+                                       :style="{
+                        'color': 'white',
+                        'cursor': 'pointer', 'width': '100%',
+                         'border-radius': '10px',
+                         'height': screenWidth * 0.0261 + 'px',
+                         'margin': 'auto auto',
+                          'font-size': screenWidth * 0.0116 + 'px',
+                           'text-align': 'center',
+                           'line-height': screenWidth * 0.0261 + 'px',
+                                       }" :reverse="true">
+                        <span :style="{}">查看世界情感分布图</span>
                       </dv-border-box-8>
                     </router-link>
 
@@ -104,7 +118,7 @@
               </dv-border-box-12>
             </div>
             <div :style="{ height: kHNine + 'px'}">
-              <dv-border-box-12 style="padding:12px;width:100%">
+              <dv-border-box-12 style="padding-top:10px;width:100%">
                 <!--               <Story></Story>-->
                 <Subject :work-id="workId" :key="workId"></Subject>
               </dv-border-box-12>
@@ -114,7 +128,13 @@
           <!--          右侧部分-->
           <el-col :span="8">
             <div :style="{ height: kHSix + 'px'}">
-              <dv-border-box-12 style="padding-top:8px; padding-left: 10px;padding-right: 10px;width:100%">
+              <dv-border-box-12 :style="{
+              'padding-top':screenWidth * 0.0052 + 'px',
+               'padding-left': screenWidth * 0.0066 + 'px',
+               'padding-right': screenWidth * 0.0066 + 'px',
+               'font-size': screenWidth * 0.0105 + 'px',
+               'width':'100%'
+              }">
                 各国整体情感排名
                 <SentimentScrollChart :work-id="workId" :key="workId"></SentimentScrollChart>
               </dv-border-box-12>
@@ -167,6 +187,7 @@ export default {
   },
   data () {
     return {
+      inputSize: 'small',
       loading: true,
       // 装饰8颜色
       decorationColor: ['#568aea', '#000000'],
@@ -208,6 +229,12 @@ export default {
     this.getWorkData()
   },
   mounted(){
+    this.screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+    if (this.screenWidth < 1920) {
+      this.inputSize = "small"
+    } else {
+      this.inputSize = "medium"
+    }
     // 页面大小改变时触发
     window.addEventListener('resize',this.getScreenHeight, false);
     // 页面大小改变时触发
@@ -217,6 +244,7 @@ export default {
     this.timeInterval();
     this.cancelLoading();
     this.resizeScreen();
+    // console.log(this.screenWidth)
   },
   beforeDestroy () {
     clearInterval(this.timer)

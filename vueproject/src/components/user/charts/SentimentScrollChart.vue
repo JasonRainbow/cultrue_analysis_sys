@@ -3,7 +3,6 @@
     <dv-scroll-ranking-board :config="config" :style="{ height: kHOne + 'px'}" />
   </div>
 
-
 </template>
 
 <script>

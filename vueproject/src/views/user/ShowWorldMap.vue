@@ -16,7 +16,12 @@
         <!-- 装饰8 -->
         <dv-decoration-8 class="dv-dec-8-left" :color="decorationColor"/>
         <!-- 标题 -->
-        <dv-decoration-7 class="title font-bold colorText" style="width: 220px;height: 30px;margin-left: -47px;font-size: 20px">国际情感分布图</dv-decoration-7>
+        <dv-decoration-7 class="title font-bold colorText" :style="{
+        'width': screenWidth * 0.143 + 'px',
+        'height': screenWidth * 0.024 + 'px',
+        'margin-left': -screenWidth * 0.0306 + 'px',
+        'font-size': screenWidth * 0.0131 + 'px'
+        }">国际情感分布图</dv-decoration-7>
         <!--        <span class="title font-bold colorText" :style="{'font-size': Math.round(this.screenWidth/100) + 'px'}">传播效果大屏展示</span>-->
         <!-- 装饰8 -->
         <dv-decoration-8 class="dv-dec-8-right" :reverse="true" :color="decorationColor" />
@@ -80,6 +85,7 @@ export default {
 
   },
   mounted(){
+    this.screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
     // 页面大小改变时触发
     window.addEventListener('resize',this.getScreenHeight, false);
     // 页面大小改变时触发

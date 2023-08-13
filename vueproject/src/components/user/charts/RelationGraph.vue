@@ -25,9 +25,20 @@ export default {
 
   },
   async mounted() {
+    this.divWidth = document.getElementById("head_div").clientWidth
+    if (this.divWidth < 500) {
+      this.inputSize = "mini"
+    } else if (this.divWidth < 570) {
+      this.inputSize = "small"
+    } else {
+      this.inputSize = "medium"
+    }
+    // console.log(this.inputSize)
     await this.getAllCountries()
     this.createGraph()
-    window.addEventListener('resize', function () {
+    let _this = this
+    window.addEventListener('resize', ()=>{
+      this.divWidth = document.getElementById("head_div").clientWidth
       this.chart.resize();
     })
   },
@@ -35,9 +46,36 @@ export default {
     return {
       selectCountry: '全球',
       selectTime: '',
-      workId: this.workId,
+      // workId: this.workId,
       res_data: {},
-      chart:null,
+      chart: null,
+      divWidth: 475,
+      inputSize: 'mini',
+      pickerOptions: {
+        disabledDate(time) {
+          return time.getTime() > Date.now();
+        },
+        shortcuts: [{
+          text: '今天',
+          onClick(picker) {
+            picker.$emit('pick', new Date());
+          }
+        }, {
+          text: '昨天',
+          onClick(picker) {
+            const date = new Date();
+            date.setTime(date.getTime() - 3600 * 1000 * 24);
+            picker.$emit('pick', date);
+          }
+        }, {
+          text: '一周前',
+          onClick(picker) {
+            const date = new Date();
+            date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+            picker.$emit('pick', date);
+          }
+        }]
+      },
       countryOptions: [
         {
           value: '全球',
@@ -336,6 +374,8 @@ export default {
               min: 0.6,
               max: 3
             },
+            height: '68%',
+            top: '18%',
             focusNodeAdjacency: true,
             radius: '40%',
             circular: {
@@ -352,7 +392,7 @@ export default {
                 position: 'inside',
                 fontWeight: 'bold',
                 formatter: '{b}',
-                fontSize: 11,
+                fontSize: this.divWidth * 0.025,
                 normal: {
                   textStyle: {
                     fontFamily: '宋体'
@@ -365,7 +405,7 @@ export default {
             edgeLabel: {
               normal: {
                 textStyle: {
-                  fontSize: 15,
+                  fontSize: this.divWidth * 0.035,
                   fontWeight: 'bold',
                   fontFamily: '宋体'
                 }
@@ -401,7 +441,7 @@ export default {
         this.data2.data.nodes.forEach(item=>{
           let data_item={
             name: '地球',
-            symbolSize: 11, // 设置节点大小
+            symbolSize: this.divWidth * 0.026, // 设置节点大小
             itemStyle: {
               normal: {
                 color: '#F07C82'
@@ -457,42 +497,14 @@ export default {
         })
         // 特殊处理
         this.chart.setOption(option);
-        window.addEventListener('resize',  ()=> {
-          this.chart.resize();
-        })
       })
-    },
-    pickerOptions: {
-      disabledDate(time) {
-        return time.getTime() > Date.now();
-      },
-      shortcuts: [{
-        text: '今天',
-        onClick(picker) {
-          picker.$emit('pick', new Date());
-        }
-      }, {
-        text: '昨天',
-        onClick(picker) {
-          const date = new Date();
-          date.setTime(date.getTime() - 3600 * 1000 * 24);
-          picker.$emit('pick', date);
-        }
-      }, {
-        text: '一周前',
-        onClick(picker) {
-          const date = new Date();
-          date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-          picker.$emit('pick', date);
-        }
-      }]
     },
     countryChanged() {
       this.createGraph()
     },
     dateChanged() {
       this.createGraph()
-    }
+    },
   }
 }
 </script>
@@ -500,25 +512,30 @@ export default {
 <template>
   <div id="div1" style="text-align: center; width: 100%; height: 100%;">
     <div style="text-align: center;width:100%;height:100%">
-      <h4 style="margin-bottom: 5px">{{selectCountry}}&nbsp;{{selectTime}} 共现语义网络图</h4>
-      <el-select size="mini" style="width: 110px" v-model="selectCountry" placeholder="请选择国家" @change="countryChanged">
-        <el-option
-          v-for="item in countryOptions"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value">
-        </el-option>
-      </el-select>
-      <el-date-picker style="width: 125px"
-                      size="mini"
-                      v-model="selectTime"
-                      type="date"
-                      placeholder="请选择日期"
-                      :picker-options="pickerOptions"
-                      format="yyyy-MM-dd"
-                      value-format="yyyy-MM-dd"
-                      @change="dateChanged">
-      </el-date-picker>
+      <div id="head_div">
+        <h4 :style="{'margin-bottom': '5px', 'font-size': this.divWidth * 0.038 + 'px'}">{{selectCountry}}&nbsp;{{selectTime}} 共现语义网络图</h4>
+        <el-select :size="inputSize" :style="{width: divWidth * 0.25 + 'px'}"
+                   v-model="selectCountry"
+                   placeholder="请选择国家"
+                   @change="countryChanged">
+          <el-option
+            v-for="item in countryOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+        </el-select>
+        <el-date-picker :style="{width: divWidth * 0.3 + 'px'}"
+                        :size="inputSize"
+                        v-model="selectTime"
+                        type="date"
+                        placeholder="请选择日期"
+                        :picker-options="pickerOptions"
+                        format="yyyy-MM-dd"
+                        value-format="yyyy-MM-dd"
+                        @change="dateChanged">
+        </el-date-picker>
+      </div>
       <div id="relationGraph"></div>
     </div>
 <!--    <div id="relationGraph" :style="{ width: width,height: height,}"></div>-->
@@ -536,5 +553,9 @@ export default {
   /*margin: auto;*/
   height:84%;
   width:100%;
+}
+#head_div {
+  width: 100%;
+  height: 14%;
 }
 </style>

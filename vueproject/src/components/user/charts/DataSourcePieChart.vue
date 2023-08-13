@@ -1,6 +1,6 @@
 <template>
   <div style="height:100%">
-    <div>数据来源占比</div>
+    <div :style="{'font-size': divWidth * 0.0327 + 'px'}">数据来源占比</div>
     <div id="platFormChart" style="height: 95%;width: 100%;margin-top: 5%"></div>
   </div>
 </template>
@@ -18,57 +18,8 @@ export default {
   },
   data(){
     return{
-      option: {
-        legend: {
-          top: '0%',
-          left: 'center',
-          textStyle: {
-            color: '#fff',
-          },
-        },
-        tooltip: {
-          trigger: 'item'
-        },
-        toolbox: {
-          show: true,
-          feature: {
-            mark: { show: true },
-            dataView: { show: true, readOnly: false },
-            restore: { show: true },
-            saveAsImage: { show: true }
-          }
-        },
-        series: [
-          {
-            name: '数据来源占比图',
-            type: 'pie',
-            radius: ['25%', '60%'],
-            center: ['50%', '50%'],
-            roseType: 'area',
-            itemStyle: {
-              borderRadius: 5,
-              borderColor: '#ece7e7',
-            },
-            label : {
-              normal : {
-                formatter: '{b}:{c}({d}%)',
-                textStyle : {
-                  color: "#ffffff",
-                  fontSize : 13
-                }
-              }
-            },
-            data: [
-              { value: 40, name: 'Youtube' },
-              { value: 38, name: 'Twitter' },
-              { value: 32, name: '烂番茄' },
-              { value: 30, name: 'Amazon' },
-              { value: 28, name: 'Facebook' },
-              { value: 26, name: '豆瓣' },
-            ]
-          }
-        ]
-      },
+      divWidth: 488,
+      option: null,
       //请求参数
       queryPlatFormParams: {
         workId: this.workId
@@ -104,10 +55,65 @@ export default {
     }
   },
   mounted(){
+    this.divWidth = document.getElementById("platFormChart").clientWidth
+    // console.log(this.divWidth)
+    this.option = {
+      legend: {
+        top: '0%',
+        left: 'center',
+        textStyle: {
+          color: '#fff',
+          fontSize: this.divWidth * 0.023
+        },
+      },
+      tooltip: {
+        trigger: 'item'
+      },
+      toolbox: {
+        show: true,
+        feature: {
+          mark: { show: true },
+          dataView: { show: true, readOnly: false },
+          restore: { show: true },
+          saveAsImage: { show: true }
+        }
+      },
+      series: [
+        {
+          name: '数据来源占比图',
+          type: 'pie',
+          radius: ['25%', '60%'],
+          center: ['50%', '50%'],
+          roseType: 'area',
+          itemStyle: {
+            borderRadius: 5,
+            borderColor: '#ece7e7',
+          },
+          label : {
+            normal : {
+              formatter: '{b}:{c}({d}%)',
+              textStyle : {
+                color: "#ffffff",
+                fontSize : this.divWidth * 0.0267
+              }
+            }
+          },
+          data: [
+            { value: 40, name: 'Youtube' },
+            { value: 38, name: 'Twitter' },
+            { value: 32, name: '烂番茄' },
+            { value: 30, name: 'Amazon' },
+            { value: 28, name: 'Facebook' },
+            { value: 26, name: '豆瓣' },
+          ]
+        }
+      ]
+    };
     // console.log("Data")
     // this.getPlatFormData()
     this.initPlatFormChart()
     window.addEventListener('resize',  ()=> {
+      this.divWidth = document.getElementById("platFormChart").clientWidth
       this.platFormChart.resize();
     })
   },

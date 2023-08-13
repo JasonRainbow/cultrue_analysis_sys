@@ -1,8 +1,8 @@
 <template>
   <div style="text-align: center;height:100%">
-    <h4 style="margin-bottom: 5px">{{value}} 情感分布</h4>
-    <span style="margin-right: 4px" class="">指标切换：</span>
-    <el-select v-model="value" size="small" placeholder="请选择" @change="SelectChanged" style="">
+    <h4 :style="{'margin-bottom': '5px', 'font-size': divWidth * 0.0285 + 'px'}">{{value}} 情感分布</h4>
+    <span :style="{'margin-right': '4px', 'font-size': divWidth * 0.0280 + 'px'}" class="">指标切换：</span>
+    <el-select v-model="value" :size="inputSize" placeholder="请选择" @change="SelectChanged" style="">
       <el-option
         v-for="item in options"
         :key="item.value"
@@ -27,6 +27,8 @@ export default {
   },
   data(){
     return {
+      divWidth: 566,
+      inputSize: 'mini',
       chart:null,
       options: [{
         value: '故事情节',
@@ -41,63 +43,7 @@ export default {
           label: '影视特效'
         }],
       value:'故事情节',
-      option:{
-        tooltip: {
-          trigger: 'item'
-        },
-        legend: {
-          top: '5%',
-          left: 'center',
-          textStyle: {
-            color: '#fff'
-          },
-        },
-        series: [
-          {
-            name: 'Access From',
-            type: 'pie',
-            radius: ['45%', '65%'],
-            center: ['50%', '60%'],
-            avoidLabelOverlap: false,
-            itemStyle: {
-              borderRadius: 10,
-              borderColor: '#fff',
-              borderWidth: 2
-            },
-            // label: {
-            //   show: false,
-            //   position: 'center'
-            // },
-            label : {
-              normal : {
-                formatter: '{b}:{c}({d}%)',
-                textStyle : {
-                  color: "#ffffff",
-                  fontSize : 15
-                }
-              }
-            },
-            emphasis: {
-              label: {
-                show: true,
-                fontSize: 20,
-                fontWeight: 'bold'
-              }
-            },
-            labelLine: {
-              show: true,
-              lineStyle:{
-                width:1
-              }
-            },
-            data: [
-              { value: 1048, name: '积极' },
-              { value: 735, name: '消极' },
-              { value: 580, name: '中立' }
-            ]
-          }
-        ]
-      },
+      option: null,
       data1:[
         {
           name: "积极",
@@ -115,10 +61,76 @@ export default {
     }
   },
   mounted(){
-      // console.log("@@@@@@","mounted")
-      this.createGraph()
+    this.divWidth = document.getElementById("container1").clientWidth
+    if (this.divWidth < 600) {
+      this.inputSize = "mini"
+    } else if (this.divWidth < 760) {
+      this.inputSize = "small"
+    } else {
+      this.inputSize = "medium"
+    }
+    this.option = {
+      tooltip: {
+        trigger: 'item'
+      },
+      legend: {
+        top: '4%',
+        left: 'center',
+        textStyle: {
+          color: '#fff'
+        },
+      },
+      series: [
+        {
+          name: this.value,
+          type: 'pie',
+          radius: ['45%', '65%'],
+          center: ['50%', '60%'],
+          avoidLabelOverlap: false,
+          itemStyle: {
+            borderRadius: 10,
+            borderColor: '#fff',
+            borderWidth: 2
+          },
+          // label: {
+          //   show: false,
+          //   position: 'center'
+          // },
+          label : {
+            normal : {
+              formatter: '{b}:{c}({d}%)',
+              textStyle : {
+                color: "#ffffff",
+                fontSize : this.divWidth * 0.024
+              }
+            }
+          },
+          emphasis: {
+            label: {
+              show: true,
+              fontSize: this.divWidth * 0.0265,
+              fontWeight: 'bold'
+            }
+          },
+          labelLine: {
+            show: true,
+            lineStyle:{
+              width:1
+            }
+          },
+          data: [
+            { value: 1048, name: '积极' },
+            { value: 735, name: '消极' },
+            { value: 580, name: '中立' }
+          ]
+        }
+      ]
+    };
+    // console.log("@@@@@@","mounted")
+    this.createGraph()
     window.addEventListener('resize',  ()=> {
       this.chart.resize();
+      this.divWidth = document.getElementById("container1").clientWidth
     })
   },
   methods:{
@@ -139,7 +151,8 @@ export default {
 
     },
     SelectChanged(){
-        this.createGraph()
+      this.option.series[0].name = this.value
+      this.createGraph()
     },
   }
 }
