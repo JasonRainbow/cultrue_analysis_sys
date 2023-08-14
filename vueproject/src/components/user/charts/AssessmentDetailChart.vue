@@ -44,7 +44,8 @@ export default {
               backgroundColor: '#6a7985'
             }
           },
-          showContent: true
+          showContent: true,
+          borderColor: '#2381bb',
         },
         grid: {
           top: '50%',
@@ -198,7 +199,7 @@ export default {
           }))
           this.option.dataset.source[2] = negative_data
           // 填入中立情感数据
-          let neutrality_data = ["中立情感"]
+          let neutrality_data = ["中性情感"]
           neutrality_data = neutrality_data.concat(res_data.map((item)=>{
             return item.neutrality
           }))

@@ -101,4 +101,14 @@
         group by postTime
         order by postTime;
     </select>
+    <select id="selectCountries" resultType="java.lang.String" parameterType="java.lang.Integer">
+        select country from
+        (select country, sum(positive) as posCnt from polarity_analy
+        <if test="workId != null and workId != -1">
+            where workId = #{workId}
+        </if>
+        group by country
+        having posCnt > 3
+        order by posCnt desc) as tab;
+    </select>
 </mapper>

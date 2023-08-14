@@ -109,6 +109,13 @@ public class PolarityAnalysisController {
         return Result.success(polarityAnalysisMapper.findPolarityDis(searchWorkId, selectEmotion, offset));
     }
 
+    // 查询国家列表
+    @GetMapping("/getCountries")
+    @ApiOperation(value = "查询经过情感极性分析了的国家列表")
+    public Result<?> getCountries(@RequestParam(defaultValue = "-1", required = false) Integer workId) {
+        return Result.success(polarityAnalysisMapper.selectCountries(workId));
+    }
+
     // 统计不同情感极性的评论数
     @GetMapping("/countDaily")
     @ApiOperation(value = "统计不同情感极性的评论数")

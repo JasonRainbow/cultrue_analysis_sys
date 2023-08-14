@@ -35,13 +35,13 @@ export default{
           fontSize: this.divWidth * 0.055,
           color:'#6495ed',
           fontWeight:'bolder',
-
         },
       },
       legend: {
-        bottom: '-5px',
+        bottom: '-4px',
         textStyle: {
           color: "darkturquoise",
+          fontSize: this.divWidth * 0.029
         }
       },
       tooltip: {
@@ -50,7 +50,7 @@ export default{
         borderColor: 'deepskyblue',
         textStyle: {
           color: 'white', //设置文字颜色
-          fontSize: this.divWidth * 0.008,
+          fontSize: this.divWidth * 0.02,
         }
       },
       grid: {

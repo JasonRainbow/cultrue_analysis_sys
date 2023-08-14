@@ -169,11 +169,10 @@ export default {
     getAllCountries() {
       getCountries({workId: this.workId}).then((res)=>{
         // alert("hello");
-        this.countryOptions = res.data.map((item)=>{
+        this.countryOptions = [{label: "全球", value: "全球"}]
+        this.countryOptions = this.countryOptions.concat(res.data.map((item)=>{
           return {label: item, value: item}
-        })
-        this.countryOptions.push({label: "全球", value: "全球"})
-        this.countryOptions.reverse()
+        }))
       })
     },
     initLineChart() {

@@ -23,6 +23,7 @@
 </template>
 
 <script>
+import {getPolarityCountries} from "../../api/polarityAPI";
 
 export default {
   name: "EffectPage",
@@ -33,7 +34,7 @@ export default {
     return {
       countries: [
         '全球',
-        '美国',
+        /*'美国',
         '英国',
         '法国',
         '俄罗斯',
@@ -54,12 +55,20 @@ export default {
         '马来西亚',
         '南非',
         '巴基斯坦',
-        '哥伦比亚',
+        '哥伦比亚',*/
       ]
     }
   },
   mounted() {
 
+  },
+  created() {
+    getPolarityCountries().then((res)=>{
+      if (res.code === "0") {
+        this.countries = ["全球"]
+        this.countries = this.countries.concat(res.data)
+      }
+    })
   },
   methods: {
     toAssess(country) {

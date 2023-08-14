@@ -42,6 +42,11 @@ export const polarityCountMonthInterval = (params)=>{
   return req("get", "/polarity/countMonthInterval", params, null);
 }
 
+// 查询国家列表
+export const getPolarityCountries = (params)=>{
+  return req("get", "/polarity/getCountries", params, null);
+}
+
 // 根据id删除指定情感极性分析结果
 export const deletePolarity = (params)=>{
   return req("delete", "/polarity/delete/" + params, null, null);
@@ -57,4 +62,4 @@ export const updatePolarity = (params)=>{
   return req("put", "/polarity/update", null, params);
 }
 
-//
+
