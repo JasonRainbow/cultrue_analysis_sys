@@ -33,7 +33,8 @@ const whiteUrls = ["/user/login", '/user/register',
   '/sentiment/all', '/sentiment/byPage', '/sentiment/query-list', '/sentiment/countDaily',
   '/user/update', '/word-freq/all', '/word-freq/byPage', '/word-freq/query-res',
   '/sentiment/getWorldSentiment', '/polarity/getDistribute', '/polarity/countMonthInterval',
-  '/subject-analysis/polarityByWorkIdAndSubject', '/work-score/findByWorkId'
+  '/subject-analysis/polarityByWorkIdAndSubject', '/work-score/findByWorkId',
+  '/polarity/getCountries'
   ]
 
 const userAuth = ["/user/pass", "/user/profile"]

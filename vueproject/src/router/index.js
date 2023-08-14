@@ -261,7 +261,7 @@ export default new Router({
           name: "个性化推荐",
           component: PersonalRecommendation,
           meta: {
-            requireAuth: true
+            requireAuth: false
           }
         },
         {
