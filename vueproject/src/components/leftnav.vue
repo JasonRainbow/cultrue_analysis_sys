@@ -162,13 +162,16 @@ export default {
       msg: 'success'
     }
     this.allmenu = res.data
-    this.$root.Bus.$on('toggle', value => {
+    this.$bus.$on('toggle', value => {
       this.collapsed = !value
     })
+  },
+  beforeDestroy() {
+    this.$bus.$off('toggle')
   }
 }
 </script>
-<style>
+<style scoped>
 .el-menu-vertical-demo:not(.el-menu--collapse) {
   width: 220px;
   min-height: 400px;

@@ -8,10 +8,24 @@
     <!-- 搜索筛选 -->
     <el-form :inline="true" :model="search_data" class="user-search">
       <el-form-item label="搜索：">
-        <el-input size="small" v-model="search_data.searchName" placeholder="输入监测文化作品名"></el-input>
+        <el-input size="small"
+                  v-model="search_data.searchName"
+                  placeholder="输入监测文化作品名"
+                  @keypress.enter.native="search"
+                  clearable
+        >
+
+        </el-input>
       </el-form-item>
       <el-form-item label="">
-        <el-input size="small" v-model="search_data.searchCategory" placeholder="输入监测文化作品类别"></el-input>
+        <el-input size="small"
+                  v-model="search_data.searchCategory"
+                  placeholder="输入监测文化作品类别"
+                  @keypress.enter.native="search"
+                  clearable
+        >
+
+        </el-input>
       </el-form-item>
       <el-form-item>
         <el-button size="small" type="primary" plain round icon="el-icon-search" @click="search">搜索</el-button>

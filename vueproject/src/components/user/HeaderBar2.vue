@@ -31,14 +31,14 @@
 export default {
   name: "HeaderBar2",
   props: {
-    activeIndex: {
+    /*activeIndex: {
       type: Number,
       require: true
     },
     loginFlag: {
       type: Boolean,
       require: true
-    }
+    }*/
   },
   data() {
     return {
@@ -53,7 +53,19 @@ export default {
         { icon: 'nav-tab-item_icon iconfont icon-user', label: '个人中心', path: '/personal'},
       ],
       // activeIndex: Number(sessionStorage.getItem("activeIndex")),
-      user: this.$store.state.user
+      routes_map: {
+        "/home": 0,
+        "/effect": 1,
+        "/recommend": 3,
+        "/background": 4,
+        "/team": 5,
+        "/question": 6,
+        "/personal": 7,
+        "/not-login": 7,
+        "/sentiment-assessment":1
+      },
+      activeIndex: 0,
+      loginFlag: true,
     }
   },
   methods: {
@@ -67,23 +79,43 @@ export default {
         user.avatar = require("../../assets/img/avatar.jpeg")  //默认头像
       }
       // this.$store.state.user = user;
-      this.user = user
+      return user
+    },
+    judgeLogin(){ //判断用户是否登录
+      this.loginFlag = Boolean(localStorage.getItem("user"));
     }
   },
   computed: {
     itemWidth() {
       return 90 / this.items.length;
+    },
+    // 获取用户信息的计算属性
+    user() {
+      if (!this.loginFlag) return null
+      let user_stored = this.$store.state.user
+      // console.log(user_stored)
+      if (user_stored) {
+        if (!user_stored.avatar) {
+          user_stored.avatar = require("../../assets/img/avatar.jpeg")  //默认头像
+          this.$store.state.user = user_stored
+        }
+        return user_stored
+      }
+      else {
+        return this.getUserInfo()
+      }
     }
   },
   updated() {
-    if (this.loginFlag) {
+    /*if (this.loginFlag) {
       this.getUserInfo()
     }
+    this.judgeLogin()
+    this.activeIndex = this.routes_map[this.$route.path]*/
   },
   created() {
-    if (this.loginFlag) {
-      this.getUserInfo()
-    }
+    this.judgeLogin()
+    this.activeIndex = this.routes_map[this.$route.path]
   },
   mounted() {
     // alert(this.$store.state.user)
@@ -95,6 +127,16 @@ export default {
       this.activeIndex = Number(menuId)
     }*/
   },
+  watch: {
+    // 监听路由的变化
+    $route(to, from) {
+      // console.log("路由变化了")
+      // console.log("当前页面路由：", to);
+      // console.log("上一个路由:", from)
+      this.judgeLogin()
+      this.activeIndex = this.routes_map[to.path]
+    }
+  }
 }
 </script>
 

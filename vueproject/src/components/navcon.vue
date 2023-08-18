@@ -96,7 +96,7 @@ export default {
     // 切换显示
     toggle(showtype) {
       this.collapsed = !showtype
-      this.$root.Bus.$emit('toggle', this.collapsed)
+      this.$bus.$emit('toggle', this.collapsed)
     }
   }
 }

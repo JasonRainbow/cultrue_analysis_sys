@@ -1,4 +1,4 @@
-{
+export default {
     "editor.tabSize": 2,
     "files.associations": {
         "*.vue": "vue"

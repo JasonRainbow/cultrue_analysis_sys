@@ -2,7 +2,7 @@
   <div class="app-container">
     <el-row :gutter="40">
       <el-col :span="8" :xs="24">
-        <el-card class="box-card">
+        <el-card class="box-card animate__animated animate__slideInLeft">
           <div slot="header" class="clearfix">
             <span>基本信息</span>
           </div>
@@ -36,7 +36,7 @@
         </el-card>
       </el-col>
       <el-col :span="16" :xs="24">
-        <el-card class="box-card">
+        <el-card class="box-card animate__animated animate__slideInRight">
           <div slot="header" class="clearfix">
             <span>个人信息</span>
             <el-button style="float: right" type="danger" size="mini" @click="logout">退出登录</el-button>
@@ -68,6 +68,7 @@ import resetPwd from "./resetPwd";
 import {getUserProfile} from "../../../api/userAPI";
 import monitorList from "../../../components/user/common/monitorList";
 import applyMonitor from "../../../components/user/common/applyMonitor";
+import 'animate.css'
 
 export default {
   name: "Profile",
@@ -134,5 +135,9 @@ export default {
 <style scoped lang="scss">
 .box-card {
   background-color: #dde5f3;
+}
+
+.app-container {
+  overflow: hidden;
 }
 </style>

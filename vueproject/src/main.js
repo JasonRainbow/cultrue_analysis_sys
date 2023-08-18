@@ -64,6 +64,13 @@ Object.keys(custom).forEach(key => {
     Vue.filter(key, custom[key])
 })
 
+// 配置滚动条组件
+Vue.prototype.$vuescrollConfig = {
+  bar: {
+    background: 'rgba(23,4,90,0.47)'
+  }
+}
+
 // 路由拦截器
 router.beforeEach((to, from, next) => {
     if (to.matched.length !== 0) { // 路由能够匹配
@@ -131,9 +138,11 @@ new Vue({
     store, //使用store vuex状态管理
     components: { App },
     template: '<App/>',
-    data: {
+    /*data: {
         // 空的实例放到根组件下，所有的子组件都能调用
         Bus: new Vue()
-    }
-
+    },*/
+    beforeCreate() {
+      Vue.prototype.$bus = this // 安装全局事件总线，$bus就是当前应用的vm
+    },
 })

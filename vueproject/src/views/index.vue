@@ -49,7 +49,7 @@ export default {
   methods: {},
   created() {
     // 监听
-    this.$root.Bus.$on('toggle', value => {
+    this.$bus.$on('toggle', value => {
       if (value) {
         this.showclass = 'asideshow'
       } else {
@@ -67,6 +67,9 @@ export default {
       message: '登录成功',
       type: 'success'
     })*/
+  },
+  beforeDestroy() {
+    this.$bus.$off('toggle')
   }
 }
 </script>

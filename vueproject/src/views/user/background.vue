@@ -1,5 +1,5 @@
 <script>
-
+  import 'animate.css'
   export default {
     name: "background",
     data(){
@@ -11,9 +11,9 @@
 </script>
 
 <template>
-  <el-row style="display: flex; justify-content: center">
+  <el-row id="background" style="display: flex; justify-content: center">
     <el-col :span="16">
-      <el-card class="box-card" style="margin-top: 20px">
+      <el-card class="box-card animate__animated animate__swing" style="margin-top: 20px">
         <h1 style="font-size: 30px;margin-bottom: 20px;font-weight: bold;">背景介绍</h1>
 
         <p class="p1">目前中国在世界上的形象很大程度上仍是“他塑”而非“自塑”，在国际上有时还处于有理说不出、说了传不开的境地，存在着信息流进流出的逆差、中国的真实形象和西方的主观印象的“反差”、软实力和硬实力的“落差”。十八大以来，中央多次在重要会议上论及国际传播，习近平总书记多次在重要场合阐释国际传播。2021年国际传播工作纳入《中华人民共和国国民经济和社会发展第十四个五年规划和2035年远景目标纲要》；同年5月，十九届中央政治局第三十次集体学习以国际传播为主题。国际传播已经成为国家文化体制改革和中国共产党治国理政工作的顶层设计，诸多有针对性的举措纷纷出台。</p>
@@ -54,5 +54,9 @@ h1{
   line-height:35px;
   letter-spacing: -0.03em;
   word-spacing: -0.15em;
+}
+
+#background {
+  overflow: hidden;
 }
 </style>

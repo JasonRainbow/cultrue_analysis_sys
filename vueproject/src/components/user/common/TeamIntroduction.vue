@@ -1,7 +1,7 @@
 <template>
-  <el-row style="display: flex; justify-content: center">
+  <el-row id="team_intro" style="display: flex; justify-content: center">
     <el-col :span="16">
-      <el-card class="box-card" style="margin-top: 20px">
+      <el-card class="box-card animate__animated animate__swing" style="margin-top: 20px">
         <h1 style="font-size: 30px;margin-bottom: 20px;font-weight: bold;">团队介绍</h1>
 
         <p class="p1">《中国语言文化作品国际传播效果分析系统》是由湖南师范大学信息科学与工程学院马华教授指导的核心开发团队完成的。马华教授曾主持国家自然科学基金面上项目、湖南省自然科学基金面上项目等省部级科研课题近十项，近年来，以第一作者在IEEE Transactions on Services Computing、IEEE Transactions on Systems Man Cybernetics:Systems、IEEE Transactions on Parallel and Distributed Systems、IEEE Transactions on Learning Technologies
@@ -25,8 +25,10 @@
 </template>
 
 <script>
+import 'animate.css'
 export default {
-  name: "TeamIntroduction"
+  name: "TeamIntroduction",
+
 }
 </script>
 
@@ -57,5 +59,14 @@ h1{
   letter-spacing: -0.03em;
   word-spacing: -0.15em;
 }
-</style>
 
+/*!* This changes all the animations globally *!
+.animate__animated.animate__swing {
+  --animate-duration: 800ms;
+  --animate-delay: 2s;
+}*/
+
+#team_intro {
+  overflow: hidden;
+}
+</style>

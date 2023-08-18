@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@jiaminghi/data-view": "^2.10.0",
+    "animate.css": "^4.1.1",
     "echarts": "^5.3.3",
     "echarts-wordcloud": "^2.1.0",
     "element-ui": "^2.3.2",
@@ -22,6 +23,7 @@
     "vue-cropper": "0.5.5",
     "vue-router": "^3.0.1",
     "vue-seamless-scroll": "^1.1.23",
+    "vuescroll": "^4.18.0",
     "vuex": "^3.0.1"
   },
   "devDependencies": {

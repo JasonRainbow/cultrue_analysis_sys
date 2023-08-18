@@ -2,7 +2,7 @@
   <div id="app">
     <el-row style="display: flex; justify-content: center">
       <el-col :span="16" :xs="24">
-        <el-card class="box-card grid-content" shadow="always">
+        <el-card class="box-card grid-content animate__animated animate__bounceIn" shadow="always">
           <div style="margin-top: 20px; font-size: 20px; text-indent: 2em; font-family: SimSun-ExtB;">
             <p>
               为了方便从宏观上查看近几年各国对于我国语言文化作品的情感态度，
@@ -33,7 +33,7 @@ export default {
   data() {
     return {
       countries: [
-        '全球',
+        // '全球',
         /*'美国',
         '英国',
         '法国',
@@ -62,13 +62,14 @@ export default {
   mounted() {
 
   },
-  created() {
-    getPolarityCountries().then((res)=>{
+  async created() {
+    await getPolarityCountries().then((res)=>{
       if (res.code === "0") {
         this.countries = ["全球"]
         this.countries = this.countries.concat(res.data)
       }
     })
+    // console.log(this.countries)
   },
   methods: {
     toAssess(country) {

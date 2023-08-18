@@ -8,25 +8,54 @@
     <!-- 搜索筛选 -->
     <el-form :inline="true" :model="search_data" class="user-search">
       <el-form-item label="搜索：">
-        <el-input size="small" v-model="search_data.searchWorkName" placeholder="请输入作品名"></el-input>
+        <el-input size="small"
+                  v-model="search_data.searchWorkName"
+                  placeholder="请输入作品名"
+                  @keypress.enter.native="search"
+                  clearable
+        >
+
+        </el-input>
       </el-form-item>
       <el-form-item label="">
-        <el-input size="small" v-model="search_data.searchCountry" placeholder="请输入评论所属的国家"></el-input>
+        <el-input size="small"
+                  v-model="search_data.searchCountry"
+                  placeholder="请输入评论所属的国家"
+                  @keypress.enter.native="search"
+                  clearable
+        >
+
+        </el-input>
       </el-form-item>
       <el-form-item label="">
-        <el-input size="small" v-model="search_data.searchPlatform" placeholder="请输入评论所属的平台"></el-input>
+        <el-input size="small"
+                  v-model="search_data.searchPlatform"
+                  placeholder="请输入评论所属的平台"
+                  @keypress.enter.native="search"
+                  clearable
+        >
+
+        </el-input>
       </el-form-item>
       <el-form-item label="">
-        <el-input size="small" v-model="search_data.searchContent" placeholder="请输入评论的内容"></el-input>
+        <el-input size="small"
+                  v-model="search_data.searchContent"
+                  placeholder="请输入评论的内容"
+                  @keypress.enter.native="search"
+                  clearable
+        >
+
+        </el-input>
       </el-form-item>
       <el-form-item label="">
         <el-date-picker
+          size="small"
           v-model="search_data.searchTime"
           align="right"
           type="date"
           placeholder="请选择评论发布的日期"
           value-format="yyyy-MM-dd"
-          :picker-options="pickerOptions">
+          :picker-options="pickerOptions" @change="search">
         </el-date-picker>
       </el-form-item>
       <el-form-item>

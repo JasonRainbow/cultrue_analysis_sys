@@ -8,10 +8,10 @@
     <!-- 搜索筛选 -->
     <el-form :inline="true" :model="search_data" class="user-search">
       <el-form-item label="搜索：">
-        <el-input size="small" v-model="search_data.searchUsername" placeholder="输入用户名"></el-input>
+        <el-input size="small" v-model="search_data.searchUsername" placeholder="输入用户名" @keypress.enter.native="search" clearable></el-input>
       </el-form-item>
       <el-form-item label="">
-        <el-input size="small" v-model="search_data.searchName" placeholder="输入用户昵称"></el-input>
+        <el-input size="small" v-model="search_data.searchName" placeholder="输入用户昵称" @keypress.enter.native="search" clearable></el-input>
       </el-form-item>
       <el-form-item>
         <el-button size="small" plain type="primary" round icon="el-icon-search" @click="search">搜索</el-button>

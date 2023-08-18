@@ -3,21 +3,21 @@
     <el-row>
       <el-col :span="15" :xs="24">
         <el-form-item label="旧密码" prop="oldPwd">
-          <el-input v-model="user.oldPwd" placeholder="请输入旧密码" type="password" show-password/>
+          <el-input id="oldPwd" v-model="user.oldPwd" placeholder="请输入旧密码" type="password" show-password/>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="15" :xs="24">
         <el-form-item label="新密码" prop="newPwd">
-          <el-input v-model="user.newPwd" placeholder="请输入新密码" type="password" show-password/>
+          <el-input id="newPwd" v-model="user.newPwd" placeholder="请输入新密码" type="password" show-password/>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="15" :xs="24">
         <el-form-item label="确认密码" prop="confirmPassword">
-          <el-input v-model="user.confirmPassword" placeholder="请确认新密码" type="password" show-password/>
+          <el-input id="confirmPassword" v-model="user.confirmPassword" placeholder="请确认新密码" type="password" show-password/>
         </el-form-item>
       </el-col>
     </el-row>

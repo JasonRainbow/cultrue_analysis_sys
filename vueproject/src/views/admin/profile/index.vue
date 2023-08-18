@@ -2,7 +2,7 @@
   <div class="app-container">
     <el-row :gutter="20">
       <el-col :span="8" :xs="24">
-        <el-card class="box-card">
+        <el-card class="box-card animate__animated animate__slideInLeft">
           <div slot="header" class="clearfix">
             <span>个人信息</span>
           </div>
@@ -32,7 +32,7 @@
         </el-card>
       </el-col>
       <el-col :span="16" :xs="24">
-        <el-card>
+        <el-card class="animate__animated animate__slideInRight">
           <div slot="header" class="clearfix">
             <span>基本资料</span>
           </div>
@@ -87,3 +87,9 @@ export default {
   }
 };
 </script>
+
+<style scoped lang="css">
+.app-container {
+  overflow: hidden;
+}
+</style>

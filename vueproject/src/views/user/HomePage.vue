@@ -15,7 +15,7 @@
         <el-card class="box-card grid-content" shadow="always">
           <div class="card-title">热点文化作品</div>
           <el-card v-for="item in messages" :key="item.id"
-                   class="box-card2" shadow="hover"
+                   class="box-card2 animate__animated animate__slideInLeft" shadow="hover"
           >
             <el-row>
               <el-col :span="6" class="left-des" style="display: inline">
@@ -64,11 +64,11 @@
             </el-select>
           </div>
           <div class="show-chart1">
-            <pie :work-id="workId" width="540px" height="500px" :key="workId"></pie>
+            <pie ref="pie_chart" :work-id="workId" width="540px" height="500px" :key="workId"></pie>
           </div>
           <div class="show-chart1" style="display: flex; justify-content: center; margin-top: 80px">
 <!--            引入子组件-->
-            <HomePageLineChart :work-id="workId" :key="workId"></HomePageLineChart>
+            <HomePageLineChart ref="line_chart" :work-id="workId" :key="workId"></HomePageLineChart>
           </div>
         </el-card>
       </el-col>
@@ -110,7 +110,7 @@ export default {
       loading: false,
       noMore: false,
       messages: [
-        {
+        /*{
           id: null,
           title: "",
           content: "",
@@ -118,7 +118,7 @@ export default {
           citeUrl: "",
           postTime: "",
           category: ""
-        }
+        }*/
       ],
       currentPage: 1,
       totalRecords: 10,
@@ -172,14 +172,14 @@ export default {
       this.searchParams.pageNum = val
       this.load()
     },
-    getWorkData: function () {
+    getWorkData: async function () {
       let userId = null;
       let loginUser = localStorage.getItem("user");
       if (loginUser) {
         loginUser = JSON.parse(loginUser) // 解析存储在浏览器中的用户数据
         userId = loginUser.id
       }
-      getMonitorWorkByUserId({userId: userId}).then((res)=>{ // 获取监测作品
+      await getMonitorWorkByUserId({userId: userId}).then((res)=>{ // 获取监测作品
         if (res.code === "0") {
           this.works = res.data.map((item)=>{
             return {id: item.id, name: item.name}
@@ -191,10 +191,13 @@ export default {
       })
     }
   },
-  created() {
+  async created() {
     this.load()
-    this.getWorkData()
-  }
+    await this.getWorkData()
+    // console.log(this)
+    // console.log(this.works)
+    // console.log("hotwork")
+  },
 }
 </script>
 
