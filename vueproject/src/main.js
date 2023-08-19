@@ -77,11 +77,14 @@ router.beforeEach((to, from, next) => {
         if (to.meta.requireAuth) { // 判断该路由是否需要登录权限
           if (to.path === "/personal") { // 访问个人中心页面
             if (Boolean(localStorage.getItem("user"))) {
-              let user = JSON.parse(localStorage.getItem("user"));
-              if (user.avatar == null || user.avatar === "") {
-                user.avatar = require("./assets/img/avatar.jpeg")
+              let user = store.state.user
+              if (!user) {
+                // console.log("存储user到vuex")
+                user = store.state.user = JSON.parse(localStorage.getItem("user"))
               }
-              store.state.user = user
+              if (user.avatar == null || user.avatar === "") {
+                store.state.user.avatar = require("./assets/img/avatar.jpeg")
+              }
               next()
             } else {
               next({

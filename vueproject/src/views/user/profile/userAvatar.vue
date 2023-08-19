@@ -158,7 +158,7 @@ export default {
                 this.$message.success("修改成功");
                 this.visible = false;
                 updateUserInfo();
-                this.$store.state.user.avatar = this.options.img
+                // this.$store.state.user.avatar = this.options.img
                 // console.log(this.options.img)
               } else {
                 this.$message.error("修改失败！" + res.msg)
@@ -172,7 +172,7 @@ export default {
     },
     // 实时预览
     realTime(data) {
-      console.log(data)
+      // console.log(data)
       this.previews = data;
     },
     // 关闭窗口

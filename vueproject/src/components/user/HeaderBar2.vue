@@ -78,8 +78,7 @@ export default {
       if(user.avatar == null || user.avatar === ""){  //头像为空
         user.avatar = require("../../assets/img/avatar.jpeg")  //默认头像
       }
-      // this.$store.state.user = user;
-      return user
+      return this.$store.state.user = user
     },
     judgeLogin(){ //判断用户是否登录
       this.loginFlag = Boolean(localStorage.getItem("user"));
@@ -95,6 +94,7 @@ export default {
       let user_stored = this.$store.state.user
       // console.log(user_stored)
       if (user_stored) {
+        // console.log("存储在vuex的信息")
         if (!user_stored.avatar) {
           user_stored.avatar = require("../../assets/img/avatar.jpeg")  //默认头像
           this.$store.state.user = user_stored
@@ -102,6 +102,7 @@ export default {
         return user_stored
       }
       else {
+        // console.log("存储在localStorage的信息")
         return this.getUserInfo()
       }
     }

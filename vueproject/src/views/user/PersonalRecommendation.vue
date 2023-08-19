@@ -83,7 +83,7 @@ export default {
         let user=JSON.parse(userMessage)
         if(userMessage){
             this.isLogin=true
-            console.log(user.username)
+            // console.log(user.username)
         }
         else{
             this.isLogin=false
