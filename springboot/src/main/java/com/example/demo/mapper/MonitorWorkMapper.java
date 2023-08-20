@@ -1,6 +1,8 @@
 package com.example.demo.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.demo.entity.Admin;
 import com.example.demo.entity.MonitorWork;
 import org.apache.ibatis.annotations.Param;
 
@@ -9,6 +11,8 @@ import java.util.List;
 public interface MonitorWorkMapper extends BaseMapper<MonitorWork> {
     // 根据用户id查询出他所申请的监测作品，包括默认用户root所申请的监测作品
     List<MonitorWork> selectByUserId(Integer userId);
+
+    Page<MonitorWork> selectByUserIdPaging(Page<MonitorWork> page, @Param("userId") Integer userId);
 
     String findWorkName(Integer workId);
 

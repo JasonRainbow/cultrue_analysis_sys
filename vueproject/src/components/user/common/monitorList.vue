@@ -1,8 +1,12 @@
 <script>
-import {getMonitorWorkByUserId} from "../../../api/monitor_workAPI";
+import {getMonitorWorkByUserIdPaging} from "../../../api/monitor_workAPI";
+import Pagination from "../../Pagination";
 
 export default {
   name: "monitorList",
+  components: {
+    Pagination
+  },
   props: {
     userId: {
       type: Number,
@@ -10,20 +14,41 @@ export default {
     },
     //
   },
+  watch: {
+    userId(newVal, oldVal) {
+      this.createList()
+    }
+  },
   data() {
     return {
       monitorList: [],
-      visible: false
+      visible: false,
+      loading: false,
+      // 分页参数
+      pageparm: {
+        currentPage: 1,
+        pageSize: 10,
+        total: 10
+      }
     }
 
   },
   methods: {
     createList() {
-      let queryParam = {userId: this.userId}
+      let queryParam = {
+        userId: this.userId,
+        pageNum: this.pageparm.currentPage,
+        pageSize: this.pageparm.pageSize
+      }
+      this.loading = true
       // console.log(queryParam)
-      getMonitorWorkByUserId(queryParam).then((res) => {
+      getMonitorWorkByUserIdPaging(queryParam).then((res) => {
         if (res.code === '0') {
-          this.monitorList = res.data;
+          this.monitorList = res.data.records;
+          this.pageparm.total = res.data.total
+          this.pageparm.currentPage = res.data.current
+          this.pageparm.pageSize = res.data.size
+          this.loading = false
           // console.log(this.monitorList);
           // console.log(this.userId);
         }
@@ -35,17 +60,17 @@ export default {
     },
     back() {
 
+    },
+    // 分页
+    callFather(parm) {
+      this.createList()
     }
   },
   created() {
-    // this.createList();
+    this.createList();
   },
-  watch: {
-    userId(newUserId, oldUserId) {
-      // console.log(oldUserId)
-      // console.log(newUserId)
-      this.createList()
-    }
+  mounted() {
+    // console.log(this.userId)
   }
 }
 </script>
@@ -53,48 +78,32 @@ export default {
 <template>
   <div>
     <el-card class="box-card1">
-      <div slot="header" class="clearfix">
-        <!--        <div>
-                  <el-button @click="back">返回</el-button>
-                </div>-->
-        <div class="div1">
-          作品名称
-        </div>
-        <div class="div1">
-          作品类型
-        </div>
-        <div class="div1">
-          创建时间
-        </div>
-        <div class="div1">
-          是否完成评论爬取
-        </div>
-        <div class="div1">
-          是否完成情感分析
-        </div>
-      </div>
-      <div v-for="(w,index) in monitorList" :key="index" class="text item">
-        <el-card class="box-card2" shadow="hover">
-          <!--          <div slot="header" class="clearfix">
-                      <el-button style="float: right; padding: 3px 0" type="text" @click="dialogVisible_click(w.name)">删除</el-button>
-                    </div>-->
-          <div class="div1">
-            {{ w.name }}
-          </div>
-          <div class="div1">
-            {{ w.category }}
-          </div>
-          <div class="div1">
-            {{ w.createTime }}
-          </div>
-          <div class="div1">
-            {{ w.crawlOk == 0 ? '否' : '是' }}
-          </div>
-          <div class="div1">
-            {{ w.sentimentOk == 0 ? '否' : '是' }}
-          </div>
-        </el-card>
-      </div>
+      <el-table size="large" :data="monitorList" highlight-current-row v-loading="loading"
+                border element-loading-text="拼命加载中" style="width: 100%;">
+        <el-table-column prop="name" label="作品名称" min-width="200">
+        </el-table-column>
+        <el-table-column prop="category" label="作品类型" width="100">
+        </el-table-column>
+        <el-table-column prop="createTime" sortable label="创建时间" width="140">
+          <template slot-scope="scope">
+            <span>{{parseTime(scope.row.createTime, '{y}-{m}-{d}')}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="crawlOk" label="是否完成评论爬取" width="130">
+          <template slot-scope="scope">
+            <div v-show="scope.row.crawlOk === 1" style="color: #67C23A">是</div>
+            <div v-show="scope.row.crawlOk === 0" style="color: #F56C6C">否</div>
+          </template>
+        </el-table-column>
+        <el-table-column prop="sentimentOk" label="是否完成情感分析" width="130">
+          <template slot-scope="scope">
+            <div v-show="scope.row.sentimentOk === 1" style="color: #67C23A">是</div>
+            <div v-show="scope.row.sentimentOk === 0" style="color: #F56C6C">否</div>
+          </template>
+        </el-table-column>
+      </el-table>
+      <!-- 分页组件 -->
+      <Pagination v-bind:child-msg="pageparm" @callFather="callFather"></Pagination>
     </el-card>
   </div>
 </template>
@@ -123,7 +132,7 @@ export default {
 }
 
 .box-card1 {
-  width: 1300px;
+  width: 100%;
 }
 
 * {

@@ -1,5 +1,5 @@
 {
-  "name": "vue-ele-project",
+  "name": "culture-analysis-system",
   "version": "1.0.0",
   "description": "culture-analysis-system",
   "author": "huangzhixiang",
@@ -58,7 +58,6 @@
     "sass-loader": "^7.3.1",
     "semver": "^5.3.0",
     "shelljs": "^0.7.6",
-    "svg-sprite-loader": "^5.2.1",
     "uglifyjs-webpack-plugin": "^1.1.1",
     "url-loader": "^0.5.8",
     "vue-loader": "^13.3.0",

@@ -72,7 +72,9 @@
           </div>
         </el-card>
       </el-col>
-      <el-col :span="17" :xs="24" :sm="24" :lg="17" :offset="3" style="margin-top: 20px">
+    </el-row>
+    <el-row :gutter="40" type="flex" justify="center">
+      <el-col :span="18" :xs="24" :sm="24" :lg="18" style="margin-top: 20px">
         <el-card class="box-card grid-content" shadow="always">
           <div class="card-title">热点评论</div>
           <HotComment></HotComment>

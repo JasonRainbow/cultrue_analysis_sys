@@ -41,7 +41,7 @@
             <span>个人信息</span>
             <el-button style="float: right" type="danger" size="mini" @click="logout">退出登录</el-button>
           </div>
-          <el-tabs v-model="activeTab">
+          <el-tabs v-model="activeTab" type="border-card" id="info-tab">
             <el-tab-pane label="基本资料" name="userinfo">
               <userInfo :user="user" />
             </el-tab-pane>
@@ -89,20 +89,26 @@ export default {
   },
   created() {
     this.getUser();
+
     // console.log(this.$route.query.id)
     // console.log(this.$route.query.name)
     // console.log("test")
   },
+  mounted() {
+    // console.log('aaa', this.user)
+  },
   methods: {
     getUser() {
-      getUserProfile().then(res=>{
+      /*getUserProfile().then(res=>{
         if (res.code === "0") {
           this.user = res.data;
           // console.log(this.user)
         } else {
           console.log(res.msg)
         }
-      })
+      })*/
+      // this.user = JSON.parse(localStorage.getItem("user"))
+      this.user = this.$store.state.user
     },
     logout() {
       this.$confirm('退出登录, 是否继续?', '提示', {
@@ -139,5 +145,9 @@ export default {
 
 .app-container {
   overflow: hidden;
+}
+
+#info-tab {
+  //background-color: #f1f1f5;
 }
 </style>

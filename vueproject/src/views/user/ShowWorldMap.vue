@@ -168,7 +168,8 @@ export default {
     },
     goback() {
       console.log("返回")
-      this.$router.push({path: "/big-screen"})
+      // this.$router.push({path: "/big-screen"})
+      this.$router.back()
     },
   },
   beforeMount() {

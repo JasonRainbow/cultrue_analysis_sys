@@ -28,4 +28,14 @@
         from monitor_work
         where id = #{workId}
     </select>
+    <select id="selectByUserIdPaging" resultType="com.example.demo.entity.MonitorWork">
+        select *
+        from monitor_work
+        where id in (
+            select workId from monitor_request mr
+                                   inner join user us on (mr.userId = us.id)
+            where us.username = 'root' or us.id = #{userId}
+        )
+    </select>
+
 </mapper>

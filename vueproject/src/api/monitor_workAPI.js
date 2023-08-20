@@ -35,6 +35,10 @@ export const getMonitorWorkByUserId = (params)=>{
   return req("get", "/monitor-work/byUserId", params, null);
 }
 
+export const getMonitorWorkByUserIdPaging = (params)=>{
+  return req("get", "/monitor-work/byUserIdPaging", params, null);
+}
+
 // 获取指定文化作品的平台来源统计信息  请求参数 workId
 export const countMonitorWorkPlatform = (params)=>{
   return req("get", "/monitor-work/countPlatform", params, null);

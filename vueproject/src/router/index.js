@@ -40,12 +40,14 @@ import NotLogin from "../views/user/NotLogin";
 import ShowWorldMap from "../views/user/ShowWorldMap";
 import TeamIntroduction from "../components/user/common/TeamIntroduction";
 import PersonalRecommendation from "../views/user/PersonalRecommendation.vue";
+import store from "../vuex/store";
 
 // 启用路由
 Vue.use(Router);
 
 // 导出路由
-export default new Router({
+const router =  new Router({
+  mode: 'hash',
   routes: [
     {
     path: '/admin/login',
@@ -53,6 +55,7 @@ export default new Router({
     component: Login2,
     hidden: true,
     meta: {
+      title: '管理员登录',
       requireAuth: false
     }
   }, {
@@ -61,6 +64,7 @@ export default new Router({
     component: UserLogin,
     hidden: true,
     meta: {
+      title: '用户登录',
       requireAuth: false
     }
   },{
@@ -69,6 +73,7 @@ export default new Router({
       component: UserRegister,
       hidden: true,
       meta: {
+        title: '用户注册',
         requireAuth: false
       }
     },{
@@ -78,12 +83,13 @@ export default new Router({
     iconCls: 'el-icon-tickets',
     redirect: '/admin/home',
     meta: {
+      title: '后台管理首页',
       requireAuth: true,
     },
     children: [
       {
         path: '/admin/home',
-        name: '首页',
+        name: '后台管理首页',
         component: AdminHome,
         meta: {
           requireAuth: true
@@ -91,21 +97,21 @@ export default new Router({
       },
       {
         path: '/admin/profile',
-        name: '管理员个人信息',
+        name: '管理员个人中心',
         component: AdminProfile,
         meta: {
           requireAuth: true
         }
       }, {
         path: '/admin/users',
-        name: '用户管理',
+        name: '用户信息管理',
         component: userAdmin,
         meta: {
           requireAuth: true
         }
       }, {
         path: '/admin/admins',
-        name: '管理员信息',
+        name: '管理员信息管理',
         component: adminInfo,
         meta: {
           requireAuth: true
@@ -219,7 +225,7 @@ export default new Router({
         },
         {
           path: "/personal",
-          name: "个人中心",
+          name: "用户个人中心",
           component: PersonalCenter,
           meta: {
             requireAuth: true
@@ -227,7 +233,7 @@ export default new Router({
         },
         {
           path: "/sentiment-assessment",
-          name: "国际传播效果评估",
+          name: "传播效果评估展示",
           component: AssessmentDetailChart,
           meta: {
             requireAuth: false
@@ -265,14 +271,6 @@ export default new Router({
           }
         },
         {
-          path: "/hotcomment",
-          name: "热点评论",
-          component: HotComment,
-          meta: {
-            requireAuth: false
-          }
-        },
-        {
           path: "/not-login",
           name: "未登录",
           component: NotLogin,
@@ -284,3 +282,74 @@ export default new Router({
     }
   ]
 })
+
+// 对路由进行权限控制
+// 全局路由拦截器  前置路由守卫
+router.beforeEach((to, from, next) => {
+  if (to.matched.length !== 0) { // 路由能够匹配
+    if (to.meta.requireAuth) { // 判断该路由是否需要登录权限
+      if (to.path === "/personal") { // 访问个人中心页面
+        if (Boolean(localStorage.getItem("user"))) {
+          let user = store.state.user
+          if (!user) {
+            // console.log("存储user到vuex")
+            user = store.state.user = JSON.parse(localStorage.getItem("user"))
+          }
+          if (user.avatar == null || user.avatar === "") {
+            store.state.user.avatar = require("../assets/img/avatar.jpeg")
+          }
+          next()
+        } else {
+          next({
+            path: "/not-login",
+            query: { redirect: to.fullPath }
+          })
+        }
+      }
+      else if (Boolean(localStorage.getItem("admin"))) { // 通过vuex state获取当前的user是否存在
+        const admin = JSON.parse(localStorage.getItem("admin"));
+        console.log(admin)
+        if (admin.avatar == null || admin.avatar === "") {
+          admin.avatar = require("../assets/img/avatar.jpeg")
+        }
+        store.state.admin = admin;
+        next();
+      } else {
+        next({
+          path: '/admin/login',
+          query: { redirect: to.fullPath } // 将跳转的路由path作为参数，登录成功后跳转到该路由
+        })
+      }
+
+    } else {
+      /*if (Boolean(localStorage.getItem("admin"))) { // 判断是否登录
+          if (to.path != "/" && to.path != "/login") { //判断是否要跳到登录界面
+              next();
+          } else {
+              /!**
+               * 防刷新，如果登录，修改路由跳转到登录页面，修改路由为登录后的首页
+               *!/
+              next({
+                  path: '/admin/home'
+              })
+          }
+      } else {
+          next();
+      }*/
+      next();
+
+    }
+  } else {
+    next({
+      path: '/',
+      query: { redirect: to.fullPath } // 将跳转的路由path作为参数，登录成功后跳转到该路由
+    })
+  }
+})
+
+// 全局后置路由守卫——初始化的时候被调用、每次路由切换后被调用
+router.afterEach((to, from)=>{
+  document.title = to.name
+})
+
+export default router

@@ -31,7 +31,7 @@
     </el-card>
   </div>
   <div v-else style="height:600px">
-        <a href="#/login" style="text-align: center;"><h1 style="font-size: xx-large;font-weight: bolder;padding-top: 100px">您还没有登录，点击可前往登录</h1></a>
+        <a @click="gotoLogin" style="text-align: center;"><h1 style="font-size: xx-large;font-weight: bolder;padding-top: 100px">您还没有登录，点击可前往登录</h1></a>
   </div>
 </template>
 
@@ -97,11 +97,7 @@ export default {
 
         },
         handleScroll (e) {
-            if (document.documentElement.scrollTop > 50) {
-                this.isActive = true
-            } else {
-                this.isActive = false
-            }
+            this.isActive = document.documentElement.scrollTop > 50;
         },
         toTop(step){
             //参数step表示时间间隔的幅度大小，以此来控制速度
@@ -113,6 +109,9 @@ export default {
                 clearTimeout(time);
             }
         },
+      gotoLogin() {
+          this.$router.push({name: '用户登录'})
+      }
     }
 }
 </script>

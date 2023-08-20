@@ -104,9 +104,19 @@ public class MonitorWorkController {
 
     // 通过用户的id获取用户申请的监测作品信息
     @GetMapping("/byUserId")
-    @ApiOperation(value = "根据用户ID查询用户申请的监测作品信息")
+    @ApiOperation(value = "查询用户申请的监测作品信息")
     public Result<?> findAllByUserId(@RequestParam(required = false, defaultValue = "-1") Integer userId) {
         List<MonitorWork> monitorWorks = monitorWorkMapper.selectByUserId(userId);
+        return Result.success(monitorWorks);
+    }
+
+    // 通过用户的id获取用户申请的监测作品信息  分页查询
+    @GetMapping("/byUserIdPaging")
+    @ApiOperation(value = "查询用户申请的监测作品信息（分页）")
+    public Result<?> findAllByUserIdPaging(@RequestParam(required = false, defaultValue = "-1") Integer userId,
+                                           @RequestParam(required = false, defaultValue = "1") Integer pageNum,
+                                           @RequestParam(required = false, defaultValue = "10") Integer pageSize) {
+        Page<MonitorWork> monitorWorks = monitorWorkMapper.selectByUserIdPaging(new Page<>(pageNum, pageSize), userId);
         return Result.success(monitorWorks);
     }
 

@@ -5,7 +5,9 @@
         <HeaderBar2></HeaderBar2>
       </el-header>
       <el-main>
-        <router-view></router-view>
+        <keep-alive :include="['EffectPage', 'HomePage']">
+          <router-view></router-view>
+        </keep-alive>
       </el-main>
       <el-footer class="no-padding" style="margin-top: 20px"><MyFooter></MyFooter></el-footer>
     </el-container>

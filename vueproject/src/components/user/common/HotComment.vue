@@ -114,75 +114,83 @@ import {getHotCommentsByPage} from "../../../api/commentAPI";
   <div class="div1">
 <!--    <el-page-header @back="goBack" content="详情页面" style="margin: auto">
     </el-page-header>-->
-    <div>
-      <table style="margin: auto">
-        <tr>
-          <td>请输入作品名：</td>
-          <td><el-input v-model="workName" placeholder="请输入内容"></el-input></td>
-          <td>请输入评论内容：</td>
-          <td><el-input v-model="commentContent" placeholder="请输入内容"></el-input></td>
-        </tr>
-        <tr>
-          <td>请输入评论发布国家</td>
-          <td><el-input v-model="country" placeholder="请输入内容"></el-input></td>
-          <td>请输入评论发布平台：</td>
-          <td><el-input v-model="platform" placeholder="请输入内容"></el-input></td>
-        </tr>
-        <tr>
-          <td>请输入评论发布时间</td>
-          <td><!--<el-input v-model="time" placeholder="请输入内容"></el-input>-->
-            <el-date-picker
-              v-model="time"
-              align="right"
-              type="date"
-              placeholder="选择日期"
-              :picker-options="pickerOptions"
-              format="yyyy-MM-dd"
-              value-format="yyyy-MM-dd">
-            </el-date-picker>
-          </td>
-          <td>确定：</td>
-          <td><el-button type="primary" round plain style="margin-left: 20px" @click="search">查询</el-button></td>
-        </tr>
-      </table>
+    <div style="margin-bottom: 10px">
+      <el-form :inline="true" style="margin: 20px">
+        <el-form-item label="搜索：">
+          <el-input
+            v-model="workName"
+            style="width: 130px"
+            placeholder="请输入作品名"
+            @keyup.enter.native="search"
+            clearable
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="">
+          <el-input
+            v-model="commentContent"
+            style="width: 150px"
+            clearable
+            placeholder="请输入评论内容"
+            @keyup.enter.native="search"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="">
+          <el-input
+            v-model="country"
+            style="width: 180px"
+            clearable
+            placeholder="请输入评论发布国家"
+            @keyup.enter.native="search"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="">
+          <el-date-picker
+            style="width: 180px"
+            v-model="time"
+            align="right"
+            type="date"
+            placeholder="选择评论发布日期"
+            :picker-options="pickerOptions"
+            @change="search"
+            clearable
+            format="yyyy-MM-dd"
+            value-format="yyyy-MM-dd">
+          </el-date-picker>
+          <el-button type="primary" round plain style="margin-left: 20px" @click="search">查询</el-button>
+        </el-form-item>
+      </el-form>
     </div>
-    <el-card class="box-card1" style="margin: auto">
-      <div slot="header" class="clearfix">
-        <span>评论详情</span>
-<!--        <el-button style="float: right; padding: 3px 0" type="text">批量处理</el-button>-->
-      </div>
-      <div v-for="(c,index) in works.records" :key="index" class="text item">
-
-        <el-card class="box-card2" shadow="hover">
-          <div slot="header" class="clearfix">
-            <span>{{c.monitorWork.name}}</span>
-<!--            <el-button style="float: right; padding: 3px 0" type="text" @click="Delete">删除</el-button>-->
+    <div v-for="(c,index) in works.records"
+         :key="index"
+         class="text item"
+    >
+      <el-card class="box-card2" shadow="hover" style="background-color: #F2F6FC">
+        <div slot="header" class="clearfix">
+          <span>{{c.monitorWork.name}}</span>
+          <!--            <el-button style="float: right; padding: 3px 0" type="text" @click="Delete">删除</el-button>-->
+        </div>
+        <div class="text item">
+          <div class="div2">
+            {{c.content}}
           </div>
-          <div class="text item">
-            <div class="div2">
-              {{c.content}}
-            </div>
-            <div class="div3">
-              点赞数：{{c.likes}}
-            </div>
-            <div class="div3">
-              情感：{{c.sentiment==null?'未分析':c.sentiment}}
-            </div>
-            <div class="div3">
-              发布地：{{c.country}}
-            </div>
-            <div class="div3">
-              发布平台：{{c.platform}}
-            </div>
-            <div class="div3">
-              发布时间：{{c.postTime}}
-            </div>
-            </div>
-        </el-card>
-
-
-      </div>
-    </el-card>
+          <div class="div3">
+            点赞数：{{c.likes}}
+          </div>
+          <div class="div3">
+            情感：{{c.sentiment==null?'未分析':c.sentiment}}
+          </div>
+          <div class="div3">
+            发布地：{{c.country}}
+          </div>
+          <div class="div3">
+            发布平台：{{c.platform}}
+          </div>
+          <div class="div3">
+            发布时间：{{c.postTime}}
+          </div>
+        </div>
+      </el-card>
+    </div>
 
     <el-pagination
       background
@@ -217,9 +225,6 @@ import {getHotCommentsByPage} from "../../../api/commentAPI";
     clear: both
   }
 
-  .box-card1{
-    width: 1000px;
-  }
   .div3{
     display:inline-block;
     float:right;
@@ -227,9 +232,5 @@ import {getHotCommentsByPage} from "../../../api/commentAPI";
   }
   .div2{
     margin-bottom: 30px;
-  }
-  table{
-    width:800px;
-    padding-left: 10px;
   }
 </style>

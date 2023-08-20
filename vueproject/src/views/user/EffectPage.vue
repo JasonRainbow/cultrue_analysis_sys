@@ -109,6 +109,6 @@ export default {
 }
 
 .item-card:hover {
-  background-color: #1ab394;
+  background-color: #3976b8;
 }
 </style>

@@ -1,5 +1,4 @@
 import {getAdminProfile} from "../api/adminAPI";
-import store from "../vuex/store";
 import {getUserProfile} from "../api/userAPI";
 
 /**
