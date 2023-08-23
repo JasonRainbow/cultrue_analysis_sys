@@ -5,6 +5,6 @@
     <select id="selectByWorkIdAndSubject" resultType="com.example.demo.entity.SubjectAnalysis">
         select *
         from subject_analysis
-        where workId = #{workId} and subject = #{subject};
+        where workId = #{workId} and subject = #{subject}
     </select>
 </mapper>

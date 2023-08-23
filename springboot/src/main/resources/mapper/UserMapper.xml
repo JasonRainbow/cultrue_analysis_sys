@@ -36,6 +36,6 @@
             select userId
             from monitor_request
             where workId = #{workId}
-        ) and email is not null;
+        ) and email is not null
     </select>
 </mapper>

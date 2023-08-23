@@ -69,8 +69,8 @@ export default {
         }
       },
       grid: {
-        left: '5%',
-        right: '5%',
+        left: '3%',
+        right: '3%',
         bottom: '1%',
         containLabel: true
       },
@@ -82,7 +82,7 @@ export default {
             alignWithLabel: true
           },
           axisLabel:{
-            fontSize: this.divWidth * 0.0247
+            fontSize: this.divWidth * 0.021
           }
         }
       ],

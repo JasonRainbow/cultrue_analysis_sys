@@ -56,6 +56,6 @@
         <if test="time != null and time != ''">
             and time = #{time}
         </if>
-        group by country;
+        group by country
     </select>
 </mapper>
