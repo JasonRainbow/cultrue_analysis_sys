@@ -152,6 +152,55 @@ export default {
           accountNum: "0",
         },
         {
+          name: "新加坡",
+          value: 0,
+          cityName: "(亚洲)新加坡",
+          proportion: "0%",
+          accountNum: "0",
+        },
+        {
+          name: "赤道几内亚",
+          value: 0,
+          cityName: "(非洲)赤道几内亚",
+          proportion: "0%",
+          accountNum: "0",
+        },
+        {
+          name: "文莱",
+          value: 0,
+          cityName: "(亚洲)文莱",
+          proportion: "0%",
+          accountNum: "0",
+        },
+        {
+          name: "东帝汶",
+          value: 0,
+          cityName: "(大洋洲)东帝汶",
+          proportion: "0%",
+          accountNum: "0",
+        },
+        {
+          name: "南极洲",
+          value: 0,
+          cityName: "(南极洲)南极洲",
+          proportion: "0%",
+          accountNum: "0",
+        },
+        {
+          name: "马尔维纳斯群岛（福克兰）",
+          value: 0,
+          cityName: "(非洲)马尔维纳斯群岛（福克兰）",
+          proportion: "0%",
+          accountNum: "0",
+        },
+        {
+          name: "南乔治亚岛和南桑威奇群岛",
+          value: 0,
+          cityName: "(非洲)南乔治亚岛和南桑威奇群岛",
+          proportion: "0%",
+          accountNum: "0",
+        },
+        {
           name: "阿富汗",
           value: 0, //账户余额
           cityName: "(亚洲)阿富汗", //位置 和国家
@@ -1534,7 +1583,7 @@ export default {
         },
         geo: {
           map: 'world', //引入地图数据
-          roam: false, //不开启缩放和平移
+          roam: true, //不开启缩放和平移
           zoom: 1, //视角缩放比例
           label: {
             show: false,//是否在地图上显示国家名字
@@ -1871,6 +1920,7 @@ export default {
       emotionArray.forEach(item => {
         item.value = (item.value/sum)*100;
       })
+      // console.log(emotionArray)
       return emotionArray
     },
     //填充worldMap的数据
@@ -1915,7 +1965,7 @@ export default {
       for (let i = 0; i < this.dataList.length; i++) {
         if (countryEmotion[this.dataList[i].name]!=null){
           // console.log("5555")
-          this.dataList[i].value = Math.floor(countryEmotion[this.dataList[i].name])
+          this.dataList[i].value = Math.round(countryEmotion[this.dataList[i].name] * 100) / 100
           // console.log( this.dataList[i].value)
         }else {
           this.dataList[i].value=0
