@@ -171,7 +171,10 @@ public class RawCommentController {
         List<RawComment> all = rawCommentMapper.selectList(null);
         for (RawComment rawComment : all) {
             Map<String, Object> row = new LinkedHashMap<>();
+            row.put("评论ID", rawComment.getId());
+            row.put("所属作品ID", rawComment.getWorkId());
             row.put("评论内容", rawComment.getContent());
+            row.put("翻译后的评论内容", rawComment.getTranslated());
             row.put("评论点赞数", rawComment.getLikes());
             row.put("评论的情感倾向", rawComment.getSentiment());
             row.put("评论所属国家", rawComment.getCountry());

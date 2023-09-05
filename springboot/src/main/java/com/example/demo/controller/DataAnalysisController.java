@@ -46,4 +46,14 @@ public class DataAnalysisController {
         }
         return Result.error("-1", "细腻情感分析失败，请稍后重试");
     }
+
+    @GetMapping("/analyze-subject")
+    @ApiOperation(value = "对作品的评论进行主题情感分析")
+    public Result<?> analyzeSubjectPolarity(@RequestParam Integer workId) {
+        boolean success = dataAnalysisService.analyzeSubjectByWorkId(workId);
+        if (success) {
+            return Result.success();
+        }
+        return Result.error("-1", "主题情感分析失败，请稍后重试");
+    }
 }

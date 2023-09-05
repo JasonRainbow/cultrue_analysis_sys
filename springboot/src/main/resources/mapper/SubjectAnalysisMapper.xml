@@ -7,4 +7,10 @@
         from subject_analysis
         where workId = #{workId} and subject = #{subject}
     </select>
+    <select id="selectSubjectsByWorkId" resultType="java.lang.String" parameterType="java.lang.Integer">
+        select distinct subject
+        from subject_analysis
+        where workId = #{workId}
+        order by subject
+    </select>
 </mapper>

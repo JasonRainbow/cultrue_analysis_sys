@@ -98,6 +98,7 @@
           <el-button size="small" type="danger" round @click="beginCountWordFreq(scope.row)">词频统计</el-button>
           <el-button size="small" type="info" round @click="beginPolarityAnalysis(scope.row)">情感极性分析</el-button>
           <el-button size="small" type="warning" round @click="beginSentimentAnalysis(scope.row)">细腻情感分析</el-button>
+          <el-button size="small" type="success" round @click="beginSubjectAnalysis(scope.row)">主题情感分析</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -223,7 +224,14 @@
 <script>
 import Pagination from "../../components/Pagination";
 import {addMonitorWork, deleteMonitorWork, getMonitorWorkByPage, updateMonitorWork} from "../../api/monitor_workAPI";
-import {analyze_polarity, analyze_sentiment, count_word_freq, scrap_comment, scrap_score} from "../../api/otherAPI";
+import {
+  analyze_polarity,
+  analyze_sentiment,
+  analyze_subject,
+  count_word_freq,
+  scrap_comment,
+  scrap_score
+} from "../../api/otherAPI";
 
 export default {
   name: "MonitorWorkAdmin",
@@ -477,6 +485,25 @@ export default {
             }
           })
         }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消'
+        })
+      })
+    },
+    // 主题情感分析
+    beginSubjectAnalysis(row) {
+      this.$confirm('是否开始对《' + row.name + '》的评论进行主题情感分析？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(()=>{
+        analyze_subject({workId: row.id}).then(res=>{
+          if (res.code === "0") {
+            this.$message.success("开始进行评论主题情感分析")
+          }
+        })
+      }).catch(()=>{
         this.$message({
           type: 'info',
           message: '已取消'

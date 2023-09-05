@@ -128,6 +128,30 @@ public class DataAnalysisService {
         return res > 0;
     }
 
+    // 对作品的评论进行主题情感分析，并进行统计
+    public boolean analyzeSubjectByWorkId(Integer workId) {
+        Map<String, String> param = new HashMap<>();
+        param.put("workId", workId.toString());
+        new Thread(()->{
+            try {
+                String res = httpUtils.get_https(address2 + "/subject_analysis", param);
+                JsonParser jsonParser = JsonParserFactory.getJsonParser();
+                Map<String, Object> objectMap = jsonParser.parseMap(res);
+                String code = objectMap.get("code").toString(); // 返回响应码
+                String workName = monitorWorkMapper.selectById(workId).getName(); // 获取作品名称
+                String message = String.format("《%s》的主题情感分析完成", workName);
+                boolean success = emailUtil.sendEmails(code, workId, message);
+                /*if (success) {
+                    monitorWorkMapper.updateSentimentState(workId, 1);
+                }*/
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println("主题情感分析失败");
+            }
+        }).start();
+        return true;
+    }
+
     //根据作品编号和排名进行细腻情感至评分的映射 返回评分
     private float sentiToScore(int workId, String platform) {
         int count = 0;

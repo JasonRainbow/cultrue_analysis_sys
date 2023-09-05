@@ -106,7 +106,8 @@ export default {
         {
           name: 'Score',
           type: 'bar',
-          barWidth: '60%',
+          barWidth: '45%',
+          barMaxWidth: 50, // 柱子的最大宽度
           data: [4.5, 3.2, 4.5, 3.9,4.9]
         }
       ],

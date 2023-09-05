@@ -29,3 +29,8 @@ export const analyze_polarity = params=>{
 export const analyze_sentiment = params=>{
   return req("get", "/analysis/analyze-sentiment", params, null);
 }
+
+// 主题情感分析
+export const analyze_subject = params=>{
+  return req("get", "/analysis/analyze-subject", params, null)
+}

@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import {subjectAnalysisByWorkId} from "../../../api/SubjectAnalysisAPI";
+import {getSubjectsByWorkId, subjectAnalysisByWorkId} from "../../../api/SubjectAnalysisAPI";
 
 export default {
   name:'Subject',
@@ -154,6 +154,18 @@ export default {
       this.option.series[0].name = this.value
       this.createGraph()
     },
+    getSubjects() {
+      getSubjectsByWorkId({workId: this.workId}).then(res=>{
+        if (res.code === "0") {
+          this.options = res.data.map(item=>{
+            return {value: item, label: item}
+          })
+        }
+      })
+    }
+  },
+  created() {
+    this.getSubjects()
   }
 }
 </script>

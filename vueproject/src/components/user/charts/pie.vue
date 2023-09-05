@@ -153,7 +153,8 @@ export default {
                   label: {
                     show: true,
                     fontSize: 20,
-                    fontWeight: 'bold'
+                    fontWeight: 'bold',
+                    formatter: '{b}: {d}%'
                   }
                 },
                 labelLine: {
