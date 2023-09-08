@@ -35,7 +35,7 @@
         </if>
         group by country
         having cnt > 3
-        order by cnt desc) as tab;
+        order by cnt desc) as tab
     </select>
 
     <select id="selectAllPlatform" resultType="java.lang.String">

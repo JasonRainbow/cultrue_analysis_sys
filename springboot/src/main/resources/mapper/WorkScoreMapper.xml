@@ -8,6 +8,6 @@
         FROM `work_score`
         where workId = #{workId}
         group by platform
-        order by score desc;
+        order by score desc
     </select>
 </mapper>

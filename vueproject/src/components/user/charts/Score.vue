@@ -69,8 +69,8 @@ export default {
         }
       },
       grid: {
-        left: '5%',
-        right: '5%',
+        left: '3%',
+        right: '3%',
         bottom: '1%',
         containLabel: true
       },
@@ -82,7 +82,7 @@ export default {
             alignWithLabel: true
           },
           axisLabel:{
-            fontSize: this.divWidth * 0.0247
+            fontSize: this.divWidth * 0.021
           }
         }
       ],
@@ -106,7 +106,8 @@ export default {
         {
           name: 'Score',
           type: 'bar',
-          barWidth: '60%',
+          barWidth: '45%',
+          barMaxWidth: 50, // 柱子的最大宽度
           data: [4.5, 3.2, 4.5, 3.9,4.9]
         }
       ],

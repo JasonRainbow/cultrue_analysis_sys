@@ -21,6 +21,7 @@
                 inner join user us on (mr.userId = us.id)
             where us.username = 'root' or us.id = #{userId}
             )
+        order by id
     </select>
 
     <select id="findWorkName" resultType="string">
@@ -36,6 +37,7 @@
                                    inner join user us on (mr.userId = us.id)
             where us.username = 'root' or us.id = #{userId}
         )
+        order by id
     </select>
 
 </mapper>

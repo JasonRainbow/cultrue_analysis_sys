@@ -80,7 +80,6 @@
         <if test="offset != -1">
             limit 0,#{offset}
         </if>
-        ;
     </select>
     <select id="selectMonthInterval" resultType="com.example.demo.entity.vo.PolarityMonthlyVO">
         select date_tab.`year_month` as postTime, sum(positive) as positive,
@@ -99,7 +98,7 @@
                      ) as pa
                      on(DATE_FORMAT(pa.time, "%Y-%m") = date_tab.`year_month`)
         group by postTime
-        order by postTime;
+        order by postTime
     </select>
     <select id="selectCountries" resultType="java.lang.String" parameterType="java.lang.Integer">
         select country from
@@ -109,6 +108,6 @@
         </if>
         group by country
         having posCnt > 3
-        order by posCnt desc) as tab;
+        order by posCnt desc) as tab
     </select>
 </mapper>

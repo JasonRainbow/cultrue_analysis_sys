@@ -97,10 +97,10 @@
 <template>
   <div class="div1">
     <el-row class="demo-autocomplete" style="margin-left: 40px;margin-top: 40px">
-      <el-col :span="12">
+      <el-col :span="8">
         <div class="sub-title">请输入作品名:</div>
       </el-col>
-      <el-col :span="12">
+      <el-col :span="16">
         <el-autocomplete
           class="inline-input"
           v-model="state1"
@@ -111,10 +111,10 @@
       </el-col>
     </el-row>
     <el-row class="demo-autocomplete" style="margin-left: 40px">
-      <el-col :span="12">
+      <el-col :span="8">
         <div class="sub-title">请输入作品类型:</div>
       </el-col>
-      <el-col :span="12">
+      <el-col :span="16">
         <el-autocomplete
           class="inline-input"
           v-model="state2"
@@ -126,10 +126,10 @@
       </el-col>
     </el-row>
     <el-row class="demo-autocomplete" style="margin-left: 40px">
-      <el-col :span="12">
+      <el-col :span="8">
         <div class="sub-title">请输入对作品说明:</div>
       </el-col>
-      <el-col :span="12">
+      <el-col :span="16">
         <el-autocomplete
           class="inline-input"
           v-model="state3"
@@ -148,27 +148,28 @@
 
 <style scoped>
   .div1{
-    border:1px solid black;
-    margin:20px auto auto auto;
-    width:500px;
-    height:300px;
+    border:3px dashed #2d7390;
+    margin:2% auto 2% auto;
+    width:60%;
+    height:80%;
     border-radius: 10px;
   }
   .div2{
-    margin-top: 30px;
+    margin-top: 4%;
+    margin-bottom: 2%;
     text-align: center;
   }
   .demo-autocomplete{
-    width:300px;
+    width:100%;
     margin-top: 20px;
   }
   .sub-title{
     display: inline-block;
     text-align: center;
-    padding-top: 8px;
-    //display:
+    padding-top: 5%;
+    /*display:*/
   }
   .inline-input{
-    width:250px;
+    width:70%;
   }
 </style>

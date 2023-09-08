@@ -45,4 +45,11 @@ public class SubjectAnalysisController {
         resList.add(resData3);
         return Result.success(resList);
     }
+
+    @GetMapping("/getSubjectsByWorkId")
+    @ApiOperation(value = "查询作品评论包含的主题")
+    public Result<?> getSubjects(@RequestParam Integer workId) {
+        List<String> subjects = subjectAnalysisMapper.selectSubjectsByWorkId(workId);
+        return Result.success(subjects);
+    }
 }

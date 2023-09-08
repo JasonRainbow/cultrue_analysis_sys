@@ -127,6 +127,15 @@ import {getHotCommentsByPage} from "../../../api/commentAPI";
         </el-form-item>
         <el-form-item label="">
           <el-input
+            v-model="platform"
+            style="width: 150px"
+            placeholder="请输入发布平台"
+            @keyup.enter.native="search"
+            clearable
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="">
+          <el-input
             v-model="commentContent"
             style="width: 150px"
             clearable
