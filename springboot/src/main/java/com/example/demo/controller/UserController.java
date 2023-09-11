@@ -9,9 +9,10 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.common.Result;
 import com.example.demo.entity.*;
+import com.example.demo.entity.UserRecord;
 import com.example.demo.enums.PwdEnum;
 import com.example.demo.mapper.UserMapper;
-import com.example.demo.utils.AliOssUtil;
+import com.example.demo.mapper.UserRecordMapper;
 import com.example.demo.utils.TokenUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -39,6 +40,9 @@ public class UserController extends BaseController {
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder; //注入bcryct加密
+
+    @Autowired
+    private UserRecordMapper userRecordMapper;
 
     @PostMapping("/login")
     @ApiOperation(value = "用户登录")
@@ -311,6 +315,26 @@ public class UserController extends BaseController {
             userMapper.insert(user);
         }
         return Result.success();
+    }
+
+    @GetMapping(value = "/selectChanged")
+    public Result recordUserSelect(@RequestParam Integer userId,@RequestParam Integer workId){
+        System.out.println("成功收到");
+        if(userId==null)
+            return Result.error("用户未登录","-1");
+        userRecordMapper.addUserRecord(new UserRecord(null,userId,workId,new Date()));
+        return Result.success();
+    }
+
+    @GetMapping(value = "/selectAllRecordByUserId")
+    public Result findAllRecordByUserId(@RequestParam Integer userId,
+                                        @RequestParam(required = false, defaultValue = "1") Integer pageNum,
+                                        @RequestParam(required = false, defaultValue = "10") Integer pageSize){
+        System.out.println("成功收到");
+        if(userId==null)
+            return Result.error("用户未登录","-1");
+        System.out.println(userRecordMapper.selectRecordByUserIdPaging(new Page<>(pageNum,pageSize),userId));
+        return Result.success(userRecordMapper.selectRecordByUserIdPaging(new Page<>(pageNum,pageSize),userId));
     }
 
 }

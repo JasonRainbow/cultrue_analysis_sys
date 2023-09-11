@@ -32,7 +32,7 @@
                   <div class="report-bottom">
                     <span>{{item.category}}</span>
                     <span style="margin-left: 15px">{{item.postTime}}</span>
-                    <span style="float: right"><a :href="item.citeUrl" target="_blank">查看详情</a></span>
+                    <span style="float: right" @click="clickDetails(item.id)"><a :href="item.citeUrl" target="_blank" >查看详情</a></span>
                   </div>
                 </div>
               </el-col>
@@ -54,7 +54,7 @@
           <div class="card-title">传播效果展示</div>
           <div style="margin-bottom: 15px">
             <span style="margin-right: 15px" class="font-bold">监测作品切换：</span>
-            <el-select v-model="workId" placeholder="请选择作品类型">
+            <el-select v-model="workId" placeholder="请选择作品类型" @change="selectChanged">
               <el-option
                 v-for="work in works"
                 :key="work.id"
@@ -91,6 +91,7 @@ import pie from "../../components/user/charts/pie";
 import {getMonitorWorkByUserId} from "../../api/monitor_workAPI";
 import HomePageLineChart from "../../components/user/charts/HomePageLineChart";
 import HotComment from "../../components/user/common/HotComment";
+import {recordUserSelect} from "../../api/userAPI";
 
 export default {
   name: "HomePage",
@@ -130,10 +131,38 @@ export default {
           id: 1,
           name: "流浪地球"
         }
-      ]
+      ],
+      userId:null
     }
   },
   methods: {
+    getUserId(){
+      let loginUser = localStorage.getItem("user");
+      if (loginUser) {
+        loginUser = JSON.parse(loginUser) // 解析存储在浏览器中的用户数据
+        this.userId = loginUser.id
+      }
+    },
+    selectChanged(){
+      this.getUserId()
+      recordUserSelect({userId: this.userId, workId:this.workId}).then((res)=>{ // 获取监测作品
+        if (res.code === "0") {
+          console.log("记录成功")
+        } else {
+          console.log(res.msg)
+        }
+      })
+    },
+    clickDetails(workId){
+      this.getUserId()
+      recordUserSelect({userId: this.userId, workId:workId}).then((res)=>{ // 获取监测作品
+        if (res.code === "0") {
+          console.log("记录成功")
+        } else {
+          console.log(res.msg)
+        }
+      })
+    },
     load(){
       //如果是第一次加载，交给mounted而不是交给scroll的加载
       //或者loading = true表示当前正在加载，不要再触发方法，滚动条此时还在底部
@@ -150,7 +179,7 @@ export default {
               //把数据拼上去
               let res_data = res.data.records
               this.totalRecords = res.data.total
-              // console.log(res_data)
+              console.log("热点作品",res.data)
               /*let titles = res_data.map((item)=>{
                 return item.title
               })*/
@@ -200,6 +229,9 @@ export default {
     // console.log(this.works)
     // console.log("hotwork")
   },
+  mounted(){
+    this.selectChanged()
+  }
 }
 </script>
 
