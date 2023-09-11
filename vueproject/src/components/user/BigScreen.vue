@@ -81,7 +81,7 @@
               <dv-border-box-12 style="padding:12px;width:100%;height:100%">
                 <div style="margin-bottom: 5px;height:100%">
                   <span :style="{'margin-right': '8px', 'height': '45%', 'font-size': screenWidth * 0.0118 + 'px'}" class="font-bold">监测作品切换：</span>
-                  <el-select v-model="workId" :size="inputSize" placeholder="请选择作品类型" style="height: 45%">
+                  <el-select v-model="workId" :size="inputSize" placeholder="请选择作品类型" style="height: 45%"  @change="selectChanged">
                     <el-option
                       v-for="work in works"
                       :key="work.id"
@@ -170,8 +170,10 @@ import DataSourcePieChart from "./charts/DataSourcePieChart";
 import MessageChart from "./charts/MessageChart";
 import Subject from "./charts/Subject";
 import Score from "./charts/Score";
-
+import {recordUserSelect} from "../../api/userAPI";
 import {getMonitorWorkByUserId} from "../../api/monitor_workAPI";
+
+
 export default {
   name: 'BigScreen',
   components: {
@@ -244,6 +246,7 @@ export default {
     this.timeInterval();
     this.cancelLoading();
     this.resizeScreen();
+    this.selectChanged();
     // console.log(this.screenWidth)
   },
   beforeDestroy () {
@@ -354,6 +357,21 @@ export default {
     goback() {
       console.log("返回")
       this.$router.push({path: "/home"})
+    },
+    selectChanged(){
+        let userId = null;
+        let loginUser = localStorage.getItem("user");
+        if (loginUser) {
+            loginUser = JSON.parse(loginUser) // 解析存储在浏览器中的用户数据
+            userId = loginUser.id
+        }
+        recordUserSelect({userId: userId, workId:this.workId}).then((res)=>{ // 获取监测作品
+            if (res.code === "0") {
+               console.log("记录成功")
+            } else {
+                console.log(res.msg)
+            }
+        })
     }
   }
 }

@@ -1,42 +1,97 @@
 <template>
-  <div v-if="isLogin">
-        <div id="toTop" @click="toTop(step)" v-if="isActive">
-            <img style="height: 45px;width: 45px;" src="../../assets/img/top.png" alt="">
+  <div v-if="isLogin" style="width:100%">
+    <div id="div2">
+      <el-card class="box-card3">
+        <div slot="header" class="clearfix">
+          <span>浏览记录</span>
+<!--          <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button>-->
         </div>
-
-    <h1 style="margin-left: 10%;margin-top: 1.5%;font-size: xx-large;font-weight: bolder">{{ value }}推荐文化作品</h1>
-    <div id="div1">
-        <span style="margin-right: 8px;font-size: x-large;" class="font-bold">传播国家切换：</span>
-        <el-select v-model="value" filterable placeholder="请选择" @change="selectChanged" style="align-items: center;">
-            <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
-            </el-option>
-            </el-select>
+        <div v-for="(item,index) in workRecord.records" :key="index" class="text item">
+          <el-card class="box-card1">
+            <div class="text item">
+<!--              {{item.name}}-->
+              <div style="display: inline-block;float: left;width: 30%">{{item.name}}</div>
+              <div style="display: inline-block;float: left;width: 30%">{{item.category}}</div>
+<!--              <div style="display: inline-block;float: left;width: 40%">{{parseTime(item.accessTime, '{y}-{m}-{d} {H}:{m}:{s}')}}</div>-->
+              <div style="display: inline-block;float: left;width: 40%">{{timestampToTime(item.accessTime)}}</div>
+            </div>
+          </el-card>
+        </div>
+        <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="currentPage"
+          :page-sizes="[10, 20, 30, 40]"
+          :page-size="pageSize"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="workRecord.total"
+          style="text-align: center">
+        </el-pagination>
+      </el-card>
     </div>
-    <el-card class="box-card" v-for="(item,index) in works" :key="index" >
+    <div id="div3">
+      <h2 style="text-align: center;margin-bottom: 5px">监测作品列表</h2>
+      <monitor-list :user-id="userId"></monitor-list>
+    </div>
+    <div id="div4">
+      <h1 style="text-align: center;margin-bottom: 5px;font-size: 30px">作品推荐</h1>
+      <el-card class="box-card2" v-for="(item,index) in works" :key="index" >
         <el-row>
-            <el-col :span="4" >
-                <img :src="item.imageUrl" alt="作品介绍图片" style="width: 150px;height: 150px;"/>
-            </el-col>
-            <el-col :span="20">
-                <div>
-                    <h3 style="margin: 10px auto 10px;">{{item.workname}}</h3>
-                    <span>{{item.introduction}}</span>
-                </div>
-            </el-col>
+          <el-col :span="4" >
+            <img :src="item.imageUrl" alt="作品介绍图片" style="width: 150px;height: 150px;"/>
+          </el-col>
+          <el-col :span="20">
+            <div>
+              <h3 style="margin: 10px auto 10px;">{{item.workname}}</h3>
+              <span>{{item.introduction}}</span>
+            </div>
+          </el-col>
         </el-row>
-    </el-card>
+      </el-card>
+    </div>
   </div>
+<!--        <div id="toTop" @click="toTop(step)" v-if="isActive">-->
+<!--            <img style="height: 45px;width: 45px;" src="../../assets/img/top.png" alt="">-->
+<!--        </div>-->
+
+<!--    <h1 style="margin-left: 10%;margin-top: 1.5%;font-size: xx-large;font-weight: bolder">{{ value }}推荐文化作品</h1>-->
+<!--    <div id="div1">-->
+<!--        <span style="margin-right: 8px;font-size: x-large;" class="font-bold">传播国家切换：</span>-->
+<!--        <el-select v-model="value" filterable placeholder="请选择" @change="selectChanged" style="align-items: center;">-->
+<!--            <el-option-->
+<!--            v-for="item in options"-->
+<!--            :key="item.value"-->
+<!--            :label="item.label"-->
+<!--            :value="item.value">-->
+<!--            </el-option>-->
+<!--            </el-select>-->
+<!--    </div>-->
+<!--    <el-card class="box-card" v-for="(item,index) in works" :key="index" >-->
+<!--        <el-row>-->
+<!--            <el-col :span="4" >-->
+<!--                <img :src="item.imageUrl" alt="作品介绍图片" style="width: 150px;height: 150px;"/>-->
+<!--            </el-col>-->
+<!--            <el-col :span="20">-->
+<!--                <div>-->
+<!--                    <h3 style="margin: 10px auto 10px;">{{item.workname}}</h3>-->
+<!--                    <span>{{item.introduction}}</span>-->
+<!--                </div>-->
+<!--            </el-col>-->
+<!--        </el-row>-->
+<!--    </el-card>-->
+<!--  </div>-->
   <div v-else style="height:600px">
         <a @click="gotoLogin" style="text-align: center;"><h1 style="font-size: xx-large;font-weight: bolder;padding-top: 100px">您还没有登录，点击可前往登录</h1></a>
   </div>
 </template>
 
 <script>
+import {findAllRecordByUserId} from "../../api/userAPI";
+import Pagination from "../../components/Pagination.vue";
+import MonitorList from "../../components/user/common/monitorList.vue";
+
 export default {
+  components: {MonitorList, Pagination},
     data(){
         return {
             options: [{
@@ -75,24 +130,62 @@ export default {
                 }
             ],
             isActive:false,
-            step:80
+            step:80,
+            workRecord:{},
+            pageSize:10,
+            userId:null,
+            currentPage:1
         }
     },
     created(){
         let userMessage=localStorage.getItem("user")
         let user=JSON.parse(userMessage)
         if(userMessage){
-            this.isLogin=true
+            this.isLogin=true;
+            this.userId=user.id
             // console.log(user.username)
         }
         else{
             this.isLogin=false
         }
+        this.getRecord()
     },
     mounted(){
         window.addEventListener('scroll', this.handleScroll)
     },
     methods:{
+      timestampToTime(date) {
+        let d = new Date(date);
+        let month = (d.getMonth() + 1) < 10 ? '0'+(d.getMonth() + 1) : (d.getMonth() + 1);
+        let day = d.getDate()<10 ? '0'+d.getDate() : d.getDate();
+        let hours = d.getHours()<10 ? '0'+d.getHours() : d.getHours();
+        let min = d.getMinutes()<10 ? '0'+d.getMinutes() : d.getMinutes();
+        let sec = d.getSeconds()<10 ? '0'+d.getSeconds() : d.getSeconds();
+        let times=d.getFullYear() + '-' + month + '-' + day + ' ' + hours + ':' + min + ':' + sec;
+        return times
+      },
+
+      getRecord(){
+        findAllRecordByUserId({userId: this.userId, pageNum:this.currentPage, pageSize:this.pageSize}).then((res)=>{ // 获取监测作品
+          if (res.code === "0") {
+            console.log("记录成功")
+            console.log(res.data)
+            this.workRecord=res.data
+            this.currentPage=res.data.current
+            console.log(this.workRecord)
+          } else {
+            console.log(res.msg)
+          }
+        })
+      },
+      handleSizeChange(val) {
+        this.pageSize=val
+        this.getRecord();
+      },
+      handleCurrentChange(val) {
+        this.currentPage=val,
+        this.getRecord();
+      },
         selectChanged(){
 
         },
@@ -123,11 +216,11 @@ export default {
       margin-top: 1.5%;
     }
 
-    .box-card {
-        width:80%;
-        margin:10px auto auto auto;
-        height:200px
-    }
+    //.box-card {
+    //    width:80%;
+    //    margin:10px auto auto auto;
+    //    height:200px
+    //}
     #toTop{
         position: fixed;
         right: 45px;
@@ -137,6 +230,58 @@ export default {
         z-index: 99999999;
         box-shadow: 0px 0px 4px 4px #ecefef;
         border-radius: 600px;
+    }
+
+    #div2{
+      width:45%;
+      display: inline-block;
+      margin-top: 25px;
+      margin-left: 45px;
+    }
+
+    #div3{
+      width:45%;
+      display:inline-block;
+      float: right;
+      margin-left: 4%;
+      margin-top: 15px;
+      margin-right: 45px;
+    }
+
+    #div4{
+      width:100%;
+      margin-top: 10px;
+    }
+
+    .text {
+      font-size: 14px;
+    }
+
+    .item {
+      margin-bottom: 18px;
+    }
+
+    .clearfix:before,
+    .clearfix:after {
+      display: table;
+      content: "";
+    }
+    .clearfix:after {
+      clear: both
+    }
+
+    .box-card {
+      width: 100%;
+    }
+
+    .box-card1 {
+      width: 100%;
+      height:45px;
+    }
+    .box-card2 {
+      width:80%;
+      margin:10px auto auto auto;
+      height:200px
     }
 
 </style>

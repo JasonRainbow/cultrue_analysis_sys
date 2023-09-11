@@ -48,3 +48,11 @@ export const exportUserInfo=  params=>{
 export const exportUserInfoTemplate = params=>{
   return req("get", "/user/importTemplate", null, null)
 };
+
+export const recordUserSelect = (params)=>{
+  return req("get", "/user/selectChanged", params, null);
+}
+
+export const findAllRecordByUserId = (params)=>{
+  return req("get", "/user/selectAllRecordByUserId", params, null);
+}
