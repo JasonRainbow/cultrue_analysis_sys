@@ -34,6 +34,7 @@
       <monitor-list :user-id="userId"></monitor-list>
     </div>
     <div id="div4">
+      <h1 style="text-align: center;margin-bottom: 5px;font-size: 30px">作品推荐</h1>
       <el-card class="box-card2" v-for="(item,index) in works" :key="index" >
         <el-row>
           <el-col :span="4" >
@@ -232,15 +233,19 @@ export default {
     }
 
     #div2{
-      width:48%;
-      display: inline-block
+      width:45%;
+      display: inline-block;
+      margin-top: 25px;
+      margin-left: 45px;
     }
 
     #div3{
-      width:48%;
+      width:45%;
       display:inline-block;
       float: right;
       margin-left: 4%;
+      margin-top: 15px;
+      margin-right: 45px;
     }
 
     #div4{
