@@ -318,7 +318,7 @@ public class UserController extends BaseController {
     }
 
     @GetMapping(value = "/selectChanged")
-    public Result recordUserSelect(@RequestParam Integer userId,@RequestParam Integer workId){
+    public Result<?> recordUserSelect(@RequestParam Integer userId,@RequestParam Integer workId){
         System.out.println("成功收到");
         if(userId==null)
             return Result.error("用户未登录","-1");
@@ -336,13 +336,13 @@ public class UserController extends BaseController {
     }
 
     @GetMapping(value = "/selectAllRecordByUserId")
-    public Result findAllRecordByUserId(@RequestParam Integer userId,
+    public Result<?> findAllRecordByUserId(@RequestParam Integer userId,
                                         @RequestParam(required = false, defaultValue = "1") Integer pageNum,
                                         @RequestParam(required = false, defaultValue = "10") Integer pageSize){
         System.out.println("成功收到");
         if(userId==null)
             return Result.error("用户未登录","-1");
-        System.out.println(userRecordMapper.selectRecordByUserIdPaging(new Page<>(pageNum,pageSize),userId));
+//        System.out.println(userRecordMapper.selectRecordByUserIdPaging(new Page<>(pageNum,pageSize),userId));
         return Result.success(userRecordMapper.selectRecentRecordByUserIdPaging(new Page<>(pageNum,pageSize),userId));
     }
 

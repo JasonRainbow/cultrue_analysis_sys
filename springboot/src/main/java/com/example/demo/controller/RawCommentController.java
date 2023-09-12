@@ -116,7 +116,7 @@ public class RawCommentController {
                                    @RequestParam(required = false, defaultValue = "") String searchTime,
                                    @RequestParam(required = false, defaultValue = "1") Integer pageNum,
                                    @RequestParam(required = false, defaultValue = "10") Integer pageSize) {
-        Page<RawComment> res = rawCommentMapper.selectPage3(new Page<>(pageNum, pageSize),
+        Page<RawComment> res = rawCommentMapper.selectHotComments(new Page<>(pageNum, pageSize),
                 searchWorkName, searchContent,
                 searchCountry, searchPlatform, searchTime);
         return Result.success(res);

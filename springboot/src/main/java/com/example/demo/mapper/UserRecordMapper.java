@@ -2,10 +2,7 @@ package com.example.demo.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.example.demo.entity.User;
-import com.example.demo.entity.UserRecentRecord;
-import com.example.demo.entity.UserRecord;
-import com.example.demo.entity.workRecord;
+import com.example.demo.entity.*;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
@@ -22,5 +19,5 @@ public interface UserRecordMapper extends BaseMapper<User> {
 
     int updateUserRecentRecord(@Param("userId") Integer userId, @Param("workId") Integer workId, @Param("date") Date date);
 
-    Page<UserRecentRecord> selectRecentRecordByUserIdPaging(Page<workRecord> page, @Param("userId") Integer userId);
+    Page<workRecentRecord> selectRecentRecordByUserIdPaging(Page<workRecentRecord> page, @Param("userId") Integer userId);
 }
