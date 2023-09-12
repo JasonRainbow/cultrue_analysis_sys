@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : 远程mysql
+ Source Server         : mysql
  Source Server Type    : MySQL
- Source Server Version : 50740
- Source Host           : 120.79.225.116:3306
+ Source Server Version : 80031
+ Source Host           : localhost:3306
  Source Schema         : analysis_sys_db
 
  Target Server Type    : MySQL
- Target Server Version : 50740
+ Target Server Version : 80031
  File Encoding         : 65001
 
- Date: 11/08/2023 14:59:58
+ Date: 12/09/2023 17:11:39
 */
 
 SET NAMES utf8mb4;
@@ -22,17 +22,17 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------
 DROP TABLE IF EXISTS `admin`;
 CREATE TABLE `admin`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '自增id',
+  `id` int(0) NOT NULL AUTO_INCREMENT COMMENT '自增id',
   `username` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '管理员的账号',
   `password` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '管理员的密码',
   `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '管理员的姓名',
-  `level` tinyint(4) NOT NULL COMMENT '管理员的权限级别',
+  `level` tinyint(0) NOT NULL COMMENT '管理员的权限级别',
   `avatar` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '头像的url',
   `phone` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '手机号码',
   `email` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '邮箱',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `unique_admin_u`(`username`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of admin
@@ -45,52 +45,23 @@ INSERT INTO `admin` VALUES (11, 'hzx', '$2a$10$0DdzGYL3gx5BT2g84esALuHUDTbweBhAO
 INSERT INTO `admin` VALUES (12, 'admin4', '$2a$10$vhUKXNvuUjDGJohCH64txOOsw2An/WbJQbbAoECaISTRnOO9z7/O2', '管理员4', 2, NULL, NULL, NULL);
 
 -- ----------------------------
--- Table structure for hot_work
--- ----------------------------
-DROP TABLE IF EXISTS `hot_work`;
-CREATE TABLE `hot_work`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '热点文化作品编号，主键，自增',
-  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '热点文化作品名',
-  `category` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '文化作品的类别',
-  `title` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '热点文化作品介绍标题',
-  `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '热点文化作品介绍详情',
-  `citeUrl` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '热点文化作品介绍的网址',
-  `imgUrl` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '热点文化作品介绍相关的图片url',
-  `postTime` date NULL DEFAULT NULL COMMENT '热点文化作品介绍发布日期',
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `uniq_hoot_workname`(`name`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of hot_work
--- ----------------------------
-INSERT INTO `hot_work` VALUES (1, '西游记', '影视', '西游记（电视剧）', '电视剧《西游记》，总长达25个小时，几乎包括了百回小说《西游记》里所有精彩篇章，塑造了众多色彩绚丽的屏幕形象。该片采用实景为主，内外景结合的拍摄方法。既有金碧辉煌的灵宵宝殿，祥云飘渺的瑶池仙境，金镶玉砌的东海龙宫等棚内场景，又有风光倚丽的园林妙景，名山绝胜以及扬名远近的寺刹道观。', 'https://tv.cctv.com/2012/12/03/VIDA1354534828865268.shtml', 'http://hzx-oss.oss-cn-guangzhou.aliyuncs.com/images/hot_img5_2-1679407100514123776.jpg?Expires=1720859229&OSSAccessKeyId=LTAI5tQcjbvbjA5JjMMkUkc1&Signature=YrlBp89xeSLpnBSgjYsIo%2Fnjw%2BY%3D', '2020-07-04');
-INSERT INTO `hot_work` VALUES (2, '李子柒短视频', '影视', '李子柒刷新吉尼斯世界纪录', '吉尼斯世界纪录官方微博2月2日宣布，1月25日，中国短视频博主@李子柒 以1410万的YouTube订阅量刷新了由她创下的“最多订阅量的YouTube中文频道”的吉尼斯世界纪录称号。', 'https://language.chinadaily.com.cn/a/202102/03/WS601a13f1a31024ad0baa6fcb.html', 'http://hzx-oss.oss-cn-guangzhou.aliyuncs.com/images/hot_img1_2-1676058324466483200.jpg?Expires=1720060819&OSSAccessKeyId=LTAI5tQcjbvbjA5JjMMkUkc1&Signature=lUVjR6Lsd1ffnqL4H77W%2FKh3ZJ4%3D', '2021-02-18');
-INSERT INTO `hot_work` VALUES (3, '舌尖上的中国', '影视', '舌尖上的中国，味到深处即是家', '一个让人“痛并快乐着”的时间段，捧红了一部“垂涎欲滴”的纪录片。《舌尖上的中国》触动了无数人的味蕾，“大晚上的播这种片子真是虐心”；它也让无数网友欢欣鼓舞，无论是立意还是画面都堪称精品；它更激发了海外游子们思乡之情，“我的胃刚刚在求我回国”。透过屏幕，观众们仿佛嗅到了那股味道，那是历史的味道、时间的味道、家的味道。', 'http://news.cntv.cn/special/thinkagain/tastingchina/index.shtml', 'http://hzx-oss.oss-cn-guangzhou.aliyuncs.com/images/hot_img2-1676056811530698752.jpeg?Expires=1720060458&OSSAccessKeyId=LTAI5tQcjbvbjA5JjMMkUkc1&Signature=DWNxAfRm0OBbToE1HrdmpGieItU%3D', '2019-07-17');
-INSERT INTO `hot_work` VALUES (4, '流浪地球', '影视', '《流浪地球》影评：科幻希望，合格的里程碑', '春节假期过半，想必很多人的朋友圈都被这部大场面大制作的《流浪地球》霸屏了。\r\n\r\n尊重原著的设定，外加导演组对影片的理解和心意，让一切都恰到好处。不管是很早就喜欢上了刘慈欣作品的科幻迷，还是因为吴京等人而来的影迷，都证明了这是一部口碑颇高的影片。', 'https://zhuanlan.zhihu.com/p/56400500', 'http://hzx-oss.oss-cn-guangzhou.aliyuncs.com/images/hot_img3-1676056955420491776.jpeg?Expires=1720060493&OSSAccessKeyId=LTAI5tQcjbvbjA5JjMMkUkc1&Signature=0i1DH%2FCcLVVMBFf8jIRmg7xM02s%3D', '2021-05-15');
-INSERT INTO `hot_work` VALUES (5, '如果国宝会说话', '影视', '【评析】《如果国宝会说话》 让国宝文物“活”起来、“火”起来', '近日，中央电视台纪录频道推出大型系列纪录片《如果国宝会说话》。该片以传记体的方式，在每集五分钟的篇幅里分别讲述了一批国宝级文物的故事。这些国宝文物来自全国各大博物馆，其中很多都是镇馆之宝，它们身上所承载的各类信息，从不同角度和侧面记录、见证了中华文化的发展历程。节目在讲故事的过程中，用全新的视角和手法展现文物之美、阐释物质文物的精神内涵，让观众从中感受文物的审美价值、人文价值、艺术价值和文化价值。', 'https://mp.weixin.qq.com/s?__biz=MzI3NTE2NTQyNw==&mid=2650741673&idx=1&sn=faa99ac8e1aaa25a556fca4f0240fab9&chksm=f3034235c474cb23bab12b1c430fc2c707542d3a60ab45eca2c27999f60b5c93c17ce9d721dd&scene=27', 'http://hzx-oss.oss-cn-guangzhou.aliyuncs.com/images/hot_img4-1676057065667772416.jpeg?Expires=1720060519&OSSAccessKeyId=LTAI5tQcjbvbjA5JjMMkUkc1&Signature=ggjlVdc4OAsbui8w41xHtu%2FlTmI%3D', '2020-03-03');
-INSERT INTO `hot_work` VALUES (6, '大唐玄奘', '影视', '真实版的西游记《大唐玄奘》深度影评', '这是一部真实版《西游记》影片，讲述的是唐代高僧玄奘西行古印度取经的故事。影片基本上是以一个传记的结构，介绍了玄奘从洛阳到古印度的历程、玄奘在古印度学习佛经的情形以及玄奘带著657部佛经返回大唐所做出的贡献。', 'https://www.sohu.com/a/239722561_100127699', 'http://hzx-oss.oss-cn-guangzhou.aliyuncs.com/images/hotwork7_2-1676058407631142912.jpg?Expires=1720060839&OSSAccessKeyId=LTAI5tQcjbvbjA5JjMMkUkc1&Signature=Deen43A4uIojDAp4FYa0kwTSrs8%3D', '2022-02-09');
-INSERT INTO `hot_work` VALUES (7, '哪吒之魔童降世', '影视', '《哪吒之魔童降世》广受好评，评分达8.6，高于《大圣归来》', '作为首部IMAX国产动画电影，电影《哪吒之魔童降世》这一次可谓是“来势汹汹”，很多观众在观看了电影之后，给出的评分都非常高。而在豆瓣评分上，大家也可以看到，《哪吒之魔童降世》已经达到了8.6分的高分，超过了此前口碑佳作《大圣归来》的8.3分。', 'https://mbd.baidu.com/newspage/data/landingsuper?wfr=spider&for=pc&third=baijiahao&baijiahao_id=1639469725056856491&id=1639469725056856491&c_source=kunlun&c_score=0.999100&p_tk=4902drLFl9%2BC8Qzac%2FeOFdV%2Bs9WddPkVUoEmhi7EF0KmDm8KNSWOiQrCIslUH%2BVS8mGemWbGR25zKI%2Brsb4qSeBbo6MyM4o5jpRxAH3y39saljz%2BBVSCkam%2FLxIvEq3BTzBvzPILRKyGcRAhH8W8ROcmJO2LjVj7yq87jrOx%2BK1alCs%3D&p_timestamp=1688295290&p_sign=4b9e11f1619621d6925ed9e9b78ee8f1&p_signature=a89e62e3644ef40aba7958b38dc0d6b1&__pc2ps_ab=4902drLFl9%2BC8Qzac%2FeOFdV%2Bs9WddPkVUoEmhi7EF0KmDm8KNSWOiQrCIslUH%2BVS8mGemWbGR25zKI%2Brsb4qSeBbo6MyM4o5jpRxAH3y39saljz%2BBVSCkam%2FLxIvEq3BTzBvzPILRKyGcRAhH8W8ROcmJO2LjVj7yq87jrOx%2BK1alCs%3D|1688295290|a89e62e3644ef40aba7958b38dc0d6b1|4b9e11f1619621d6925ed9e9b78ee8f1', 'http://hzx-oss.oss-cn-guangzhou.aliyuncs.com/images/hot_img6-1676058710812213248.jpeg?Expires=1720060911&OSSAccessKeyId=LTAI5tQcjbvbjA5JjMMkUkc1&Signature=uzh5MtXbv%2BQpKkuFXd22XRFnM2o%3D', '2021-11-11');
-INSERT INTO `hot_work` VALUES (8, '三国演义', '影视', '三国演义（1994年中国中央电视台制作出品电视剧）', '《三国演义》是由中国电视剧制作中心、中国中央电视台制作的84集电视连续剧，改编自中国明朝罗贯中同名文学名著《三国演义》，于1994年10月23日在CCTV-1首播。该剧由王扶林担任总导演，蔡晓晴、张绍林、孙光明、张中一、沈好放担任分部导演，孙彦军领衔主演，唐国强、鲍国安、吴晓东、陆树铭、李靖飞、洪宇宙、魏宗万、张光北、闫怀礼、徐少华、刘大刚、何冰、王刚、朱军、高亚麟、濮存昕、王卫国等联合主演，总投资1.7亿元人民币。 该剧共分为第一部《群雄逐鹿》（1-23集）、第二部《赤壁鏖战》（24-47集）、第三部《三足鼎立》（48-64集）、第四部《南征北战》（65-77集）、第五部《三分归一》（78-84集）五个单元。着重表现各个政治集团间错综复杂、紧张尖锐的斗争——这种斗争发展成为连接不断的对政治权力的争夺和军事冲突，造就了从东汉末年到西晋初年将近一个世纪中的风云变幻。', 'https://baike.baidu.com/item/%E4%B8%89%E5%9B%BD%E6%BC%94%E4%B9%89/7088688?fr=aladdin', 'http://hzx-oss.oss-cn-guangzhou.aliyuncs.com/images/%E4%B8%89%E5%9B%BD%E6%BC%94%E4%B9%89%E4%BB%8B%E7%BB%8D-1677923654046412800.jpg?Expires=1720505548&OSSAccessKeyId=LTAI5tQcjbvbjA5JjMMkUkc1&Signature=3MMynSwgFGe%2Bh0GZu7FYHGEbwuw%3D', '2021-05-05');
-
--- ----------------------------
 -- Table structure for monitor_request
 -- ----------------------------
 DROP TABLE IF EXISTS `monitor_request`;
 CREATE TABLE `monitor_request`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '监测请求ID，主键，自增',
-  `userId` int(11) NOT NULL COMMENT '用户的ID，外键',
-  `workId` int(11) NOT NULL COMMENT '监测作品的编号，外键',
-  `createTime` datetime NOT NULL COMMENT '创建请求的时间',
-  `checked` tinyint(4) NULL DEFAULT NULL COMMENT '是否通过审核，0或1',
-  `complete` tinyint(4) NULL DEFAULT NULL COMMENT '是否完成监测，0或1',
+  `id` int(0) NOT NULL AUTO_INCREMENT COMMENT '监测请求ID，主键，自增',
+  `userId` int(0) NOT NULL COMMENT '用户的ID，外键',
+  `workId` int(0) NOT NULL COMMENT '监测作品的编号，外键',
+  `createTime` datetime(0) NOT NULL COMMENT '创建请求的时间',
+  `checked` tinyint(0) NULL DEFAULT NULL COMMENT '是否通过审核，0或1',
+  `complete` tinyint(0) NULL DEFAULT NULL COMMENT '是否完成监测，0或1',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `unique_monitor_req`(`userId`, `workId`) USING BTREE,
   INDEX `foreignkey_req_work`(`workId`) USING BTREE,
   INDEX `foreignkey_req_user`(`userId`) USING BTREE,
   CONSTRAINT `foreignkey_req_user` FOREIGN KEY (`userId`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
   CONSTRAINT `foreignkey_req_work` FOREIGN KEY (`workId`) REFERENCES `monitor_work` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 44 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 44 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of monitor_request
@@ -119,54 +90,64 @@ INSERT INTO `monitor_request` VALUES (43, 26, 19, '2023-08-03 11:27:06', 0, 0);
 -- ----------------------------
 DROP TABLE IF EXISTS `monitor_work`;
 CREATE TABLE `monitor_work`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '监测作品ID，主键，自增',
+  `id` int(0) NOT NULL AUTO_INCREMENT COMMENT '监测作品ID，主键，自增',
   `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '监测作品的名称',
   `category` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '文化作品的类别',
-  `createTime` datetime NULL DEFAULT NULL COMMENT '监测作品的创建时间',
-  `endTime` datetime NULL DEFAULT NULL COMMENT '完成作品监测的时间',
-  `crawlOk` tinyint(4) NULL DEFAULT NULL COMMENT '是否完成数据爬取，0或1',
-  `sentimentOk` tinyint(4) NULL DEFAULT NULL COMMENT '是否完成情感分析，0或1',
-  `polarityOk` tinyint(4) NULL DEFAULT NULL COMMENT '是否完成情感极性分析，0或1',
-  `wordFreqOk` tinyint(4) NULL DEFAULT NULL COMMENT '是否完成词频统计，0或1',
-  `allDone` tinyint(4) NULL DEFAULT NULL COMMENT '是否完成所有监测工作，0或1',
+  `createTime` datetime(0) NULL DEFAULT NULL COMMENT '监测作品的创建时间',
+  `endTime` datetime(0) NULL DEFAULT NULL COMMENT '完成作品监测的时间',
+  `crawlOk` tinyint(0) NULL DEFAULT NULL COMMENT '是否完成数据爬取，0或1',
+  `sentimentOk` tinyint(0) NULL DEFAULT NULL COMMENT '是否完成情感分析，0或1',
+  `polarityOk` tinyint(0) NULL DEFAULT NULL COMMENT '是否完成情感极性分析，0或1',
+  `wordFreqOk` tinyint(0) NULL DEFAULT NULL COMMENT '是否完成词频统计，0或1',
+  `allDone` tinyint(0) NULL DEFAULT NULL COMMENT '是否完成所有监测工作，0或1',
+  `title` varchar(150) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '文化作品介绍标题',
+  `content` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL COMMENT '文化作品介绍详情',
+  `citeUrl` varchar(1000) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '热点文化作品介绍的网址',
+  `imgUrl` varchar(500) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '文化作品介绍相关的图片url',
+  `postTime` datetime(0) NULL DEFAULT NULL COMMENT '热点文化作品介绍发布日期',
+  `isHotWork` tinyint(0) NULL DEFAULT NULL COMMENT '是否为热点文化作品,0或1',
+  `labels` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '作品所属类别',
+  `effectScore` decimal(4, 3) UNSIGNED NULL DEFAULT NULL COMMENT '作品传播效果得分',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uniq_workname`(`name`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 20 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 20 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of monitor_work
 -- ----------------------------
-INSERT INTO `monitor_work` VALUES (1, '西游记', '影视', '2023-07-01 00:00:00', NULL, 1, 1, 1, 0, 0);
-INSERT INTO `monitor_work` VALUES (2, '流浪地球1', '影视', '2023-07-01 00:00:00', NULL, 1, 1, 1, 0, 0);
-INSERT INTO `monitor_work` VALUES (4, '流浪地球2', '影视', '2023-07-02 19:41:52', NULL, 1, 0, 0, 0, 0);
-INSERT INTO `monitor_work` VALUES (5, '李子柒短视频', '影视', '2023-07-02 19:45:32', NULL, 1, 0, 0, 0, 0);
-INSERT INTO `monitor_work` VALUES (6, '敢教日月换新天', '影视', '2023-07-03 02:57:02', NULL, 0, 0, 0, 0, 0);
-INSERT INTO `monitor_work` VALUES (7, '三体英文版(Death\'s End)', '书籍', '2023-07-03 15:43:43', NULL, 0, 0, 0, 0, 0);
-INSERT INTO `monitor_work` VALUES (8, '红楼梦', '书籍', '2023-07-06 15:43:56', NULL, 0, 0, 0, 0, 0);
-INSERT INTO `monitor_work` VALUES (9, '三国演义', '书籍', '2023-07-06 15:47:02', NULL, 0, 0, 0, 0, 0);
-INSERT INTO `monitor_work` VALUES (16, '超级工程', '影视', '2023-07-09 18:11:48', NULL, 0, 0, 0, 0, 0);
-INSERT INTO `monitor_work` VALUES (17, '水浒传', '影视', '2023-07-09 18:31:41', NULL, 0, 0, 0, 0, 0);
-INSERT INTO `monitor_work` VALUES (18, '舌尖上的中国', '影视', '2023-07-13 01:13:18', NULL, 0, 0, 0, 0, 0);
-INSERT INTO `monitor_work` VALUES (19, '哪吒之魔童降世', '影视', '2023-08-03 11:27:06', NULL, 0, 0, 0, 0, 0);
+INSERT INTO `monitor_work` VALUES (1, '西游记', '影视', '2023-07-01 00:00:00', NULL, 1, 1, 1, 0, 0, '西游记（电视剧）', '电视剧《西游记》，总长达25个小时，几乎包括了百回小说《西游记》里所有精彩篇章，塑造了众多色彩绚丽的屏幕形象。该片采用实景为主，内外景结合的拍摄方法。既有金碧辉煌的灵宵宝殿，祥云飘渺的瑶池仙境，金镶玉砌的东海龙宫等棚内场景，又有风光倚丽的园林妙景，名山绝胜以及扬名远近的寺刹道观。', 'https://tv.cctv.com/2012/12/03/VIDA1354534828865268.shtml', 'http://hzx-oss.oss-cn-guangzhou.aliyuncs.com/images/hot_img5_2-1679407100514123776.jpg?Expires=1720859229&OSSAccessKeyId=LTAI5tQcjbvbjA5JjMMkUkc1&Signature=YrlBp89xeSLpnBSgjYsIo%2Fnjw%2BY%3D', '2020-07-04 00:00:00', 1, '动作 冒险 古装', NULL);
+INSERT INTO `monitor_work` VALUES (2, '流浪地球1', '影视', '2023-07-01 00:00:00', NULL, 1, 1, 1, 0, 0, '《流浪地球》影评：科幻希望，合格的里程碑', '春节假期过半，想必很多人的朋友圈都被这部大场面大制作的《流浪地球》霸屏了。\r\n\r\n尊重原著的设定，外加导演组对影片的理解和心意，让一切都恰到好处。不管是很早就喜欢上了刘慈欣作品的科幻迷，还是因为吴京等人而来的影迷，都证明了这是一部口碑颇高的影片。', 'https://zhuanlan.zhihu.com/p/56400500', 'http://hzx-oss.oss-cn-guangzhou.aliyuncs.com/images/hot_img3-1676056955420491776.jpeg?Expires=1720060493&OSSAccessKeyId=LTAI5tQcjbvbjA5JjMMkUkc1&Signature=0i1DH%2FCcLVVMBFf8jIRmg7xM02s%3D', '2021-05-15 00:00:00', 1, '科幻 冒险 灾难', NULL);
+INSERT INTO `monitor_work` VALUES (4, '流浪地球2', '影视', '2023-07-02 19:41:52', NULL, 1, 0, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, '科幻 冒险 灾难', NULL);
+INSERT INTO `monitor_work` VALUES (5, '李子柒短视频', '影视', '2023-07-02 19:45:32', NULL, 1, 0, 0, 0, 0, '李子柒刷新吉尼斯世界纪录', '吉尼斯世界纪录官方微博2月2日宣布，1月25日，中国短视频博主@李子柒 以1410万的YouTube订阅量刷新了由她创下的“最多订阅量的YouTube中文频道”的吉尼斯世界纪录称号。', 'https://language.chinadaily.com.cn/a/202102/03/WS601a13f1a31024ad0baa6fcb.html', 'http://hzx-oss.oss-cn-guangzhou.aliyuncs.com/images/hot_img1_2-1676058324466483200.jpg?Expires=1720060819&OSSAccessKeyId=LTAI5tQcjbvbjA5JjMMkUkc1&Signature=lUVjR6Lsd1ffnqL4H77W%2FKh3ZJ4%3D', '2021-02-18 00:00:00', 1, '现实 生活', NULL);
+INSERT INTO `monitor_work` VALUES (6, '敢教日月换新天', '影视', '2023-07-03 02:57:02', NULL, 0, 0, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, '纪录片', NULL);
+INSERT INTO `monitor_work` VALUES (7, '三体英文版(Death\'s End)', '书籍', '2023-07-03 15:43:43', NULL, 0, 0, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, '剧情 科幻', NULL);
+INSERT INTO `monitor_work` VALUES (8, '红楼梦', '书籍', '2023-07-06 15:43:56', NULL, 0, 0, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, '剧情 爱情 古装', NULL);
+INSERT INTO `monitor_work` VALUES (9, '三国演义', '影视', '2023-07-06 15:47:02', NULL, 0, 0, 0, 0, 0, '三国演义（1994年中国中央电视台制作出品电视剧）', '《三国演义》是由中国电视剧制作中心、中国中央电视台制作的84集电视连续剧，改编自中国明朝罗贯中同名文学名著《三国演义》，于1994年10月23日在CCTV-1首播。该剧由王扶林担任总导演，蔡晓晴、张绍林、孙光明、张中一、沈好放担任分部导演，孙彦军领衔主演，唐国强、鲍国安、吴晓东、陆树铭、李靖飞、洪宇宙、魏宗万、张光北、闫怀礼、徐少华、刘大刚、何冰、王刚、朱军、高亚麟、濮存昕、王卫国等联合主演，总投资1.7亿元人民币。 该剧共分为第一部《群雄逐鹿》（1-23集）、第二部《赤壁鏖战》（24-47集）、第三部《三足鼎立》（48-64集）、第四部《南征北战》（65-77集）、第五部《三分归一》（78-84集）五个单元。着重表现各个政治集团间错综复杂、紧张尖锐的斗争——这种斗争发展成为连接不断的对政治权力的争夺和军事冲突，造就了从东汉末年到西晋初年将近一个世纪中的风云变幻。', 'https://baike.baidu.com/item/%E4%B8%89%E5%9B%BD%E6%BC%94%E4%B9%89/7088688?fr=aladdin', 'http://hzx-oss.oss-cn-guangzhou.aliyuncs.com/images/%E4%B8%89%E5%9B%BD%E6%BC%94%E4%B9%89%E4%BB%8B%E7%BB%8D-1677923654046412800.jpg?Expires=1720505548&OSSAccessKeyId=LTAI5tQcjbvbjA5JjMMkUkc1&Signature=3MMynSwgFGe%2Bh0GZu7FYHGEbwuw%3D', '2021-05-05 00:00:00', 1, '剧情 历史 战争', NULL);
+INSERT INTO `monitor_work` VALUES (16, '超级工程', '影视', '2023-07-09 18:11:48', NULL, 0, 0, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, '纪录片', NULL);
+INSERT INTO `monitor_work` VALUES (17, '水浒传', '影视', '2023-07-09 18:31:41', NULL, 0, 0, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, '剧情 历史 古装', NULL);
+INSERT INTO `monitor_work` VALUES (18, '舌尖上的中国', '影视', '2023-07-13 01:13:18', NULL, 0, 0, 0, 0, 0, '舌尖上的中国，味到深处即是家', '一个让人“痛并快乐着”的时间段，捧红了一部“垂涎欲滴”的纪录片。《舌尖上的中国》触动了无数人的味蕾，“大晚上的播这种片子真是虐心”；它也让无数网友欢欣鼓舞，无论是立意还是画面都堪称精品；它更激发了海外游子们思乡之情，“我的胃刚刚在求我回国”。透过屏幕，观众们仿佛嗅到了那股味道，那是历史的味道、时间的味道、家的味道。', 'http://news.cntv.cn/special/thinkagain/tastingchina/index.shtml', 'http://hzx-oss.oss-cn-guangzhou.aliyuncs.com/images/hot_img2-1676056811530698752.jpeg?Expires=1720060458&OSSAccessKeyId=LTAI5tQcjbvbjA5JjMMkUkc1&Signature=DWNxAfRm0OBbToE1HrdmpGieItU%3D', '2019-07-17 00:00:00', 1, '纪录片', NULL);
+INSERT INTO `monitor_work` VALUES (19, '哪吒之魔童降世', '影视', '2023-08-03 11:27:06', NULL, 0, 0, 0, 0, 0, '《哪吒之魔童降世》广受好评，评分达8.6，高于《大圣归来》', '作为首部IMAX国产动画电影，电影《哪吒之魔童降世》这一次可谓是“来势汹汹”，很多观众在观看了电影之后，给出的评分都非常高。而在豆瓣评分上，大家也可以看到，《哪吒之魔童降世》已经达到了8.6分的高分，超过了此前口碑佳作《大圣归来》的8.3分。', 'https://mbd.baidu.com/newspage/data/landingsuper?wfr=spider&for=pc&third=baijiahao&baijiahao_id=1639469725056856491&id=1639469725056856491&c_source=kunlun&c_score=0.999100&p_tk=4902drLFl9%2BC8Qzac%2FeOFdV%2Bs9WddPkVUoEmhi7EF0KmDm8KNSWOiQrCIslUH%2BVS8mGemWbGR25zKI%2Brsb4qSeBbo6MyM4o5jpRxAH3y39saljz%2BBVSCkam%2FLxIvEq3BTzBvzPILRKyGcRAhH8W8ROcmJO2LjVj7yq87jrOx%2BK1alCs%3D&p_timestamp=1688295290&p_sign=4b9e11f1619621d6925ed9e9b78ee8f1&p_signature=a89e62e3644ef40aba7958b38dc0d6b1&__pc2ps_ab=4902drLFl9%2BC8Qzac%2FeOFdV%2Bs9WddPkVUoEmhi7EF0KmDm8KNSWOiQrCIslUH%2BVS8mGemWbGR25zKI%2Brsb4qSeBbo6MyM4o5jpRxAH3y39saljz%2BBVSCkam%2FLxIvEq3BTzBvzPILRKyGcRAhH8W8ROcmJO2LjVj7yq87jrOx%2BK1alCs%3D|1688295290|a89e62e3644ef40aba7958b38dc0d6b1|4b9e11f1619621d6925ed9e9b78ee8f1', 'http://hzx-oss.oss-cn-guangzhou.aliyuncs.com/images/hot_img6-1676058710812213248.jpeg?Expires=1720060911&OSSAccessKeyId=LTAI5tQcjbvbjA5JjMMkUkc1&Signature=uzh5MtXbv%2BQpKkuFXd22XRFnM2o%3D', '2021-11-11 00:00:00', 1, '剧情 喜剧 动画 科幻', NULL);
+INSERT INTO `monitor_work` VALUES (20, '如果国宝会说话', '影视', '2023-09-12 14:27:06', NULL, 0, 0, 0, 0, 0, '【评析】《如果国宝会说话》 让国宝文物“活”起来、“火”起来', '近日，中央电视台纪录频道推出大型系列纪录片《如果国宝会说话》。该片以传记体的方式，在每集五分钟的篇幅里分别讲述了一批国宝级文物的故事。这些国宝文物来自全国各大博物馆，其中很多都是镇馆之宝，它们身上所承载的各类信息，从不同角度和侧面记录、见证了中华文化的发展历程。节目在讲故事的过程中，用全新的视角和手法展现文物之美、阐释物质文物的精神内涵，让观众从中感受文物的审美价值、人文价值、艺术价值和文化价值。', 'https://mp.weixin.qq.com/s?__biz=MzI3NTE2NTQyNw==&mid=2650741673&idx=1&sn=faa99ac8e1aaa25a556fca4f0240fab9&chksm=f3034235c474cb23bab12b1c430fc2c707542d3a60ab45eca2c27999f60b5c93c17ce9d721dd&scene=27', 'http://hzx-oss.oss-cn-guangzhou.aliyuncs.com/images/hot_img4-1676057065667772416.jpeg?Expires=1720060519&OSSAccessKeyId=LTAI5tQcjbvbjA5JjMMkUkc1&Signature=ggjlVdc4OAsbui8w41xHtu%2FlTmI%3D', '2020-03-03 00:00:00', 1, '纪录片 短片', NULL);
+INSERT INTO `monitor_work` VALUES (21, '大唐玄奘', '影视', '2023-09-12 14:30:06', NULL, 0, 0, 0, 0, 0, '真实版的西游记《大唐玄奘》深度影评', '这是一部真实版《西游记》影片，讲述的是唐代高僧玄奘西行古印度取经的故事。影片基本上是以一个传记的结构，介绍了玄奘从洛阳到古印度的历程、玄奘在古印度学习佛经的情形以及玄奘带著657部佛经返回大唐所做出的贡献。', 'https://www.sohu.com/a/239722561_100127699', 'http://hzx-oss.oss-cn-guangzhou.aliyuncs.com/images/hotwork7_2-1676058407631142912.jpg?Expires=1720060839&OSSAccessKeyId=LTAI5tQcjbvbjA5JjMMkUkc1&Signature=Deen43A4uIojDAp4FYa0kwTSrs8%3D', '2022-02-09 00:00:00', 1, '历史', NULL);
 
 -- ----------------------------
 -- Table structure for polarity_analy
 -- ----------------------------
 DROP TABLE IF EXISTS `polarity_analy`;
 CREATE TABLE `polarity_analy`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '分析编号，主键，自增',
-  `workId` int(11) NOT NULL COMMENT '所属监测作品的编号，外键',
+  `id` int(0) NOT NULL AUTO_INCREMENT COMMENT '分析编号，主键，自增',
+  `workId` int(0) NOT NULL COMMENT '所属监测作品的编号，外键',
   `country` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '情感极性分析的评论所属国家',
   `time` date NOT NULL COMMENT '情感极性分析的评论发布时间',
   `platform` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '情感极性分析评论来自的平台',
-  `positive` int(11) NULL DEFAULT NULL COMMENT '积极的评论数',
-  `negative` int(11) NULL DEFAULT NULL COMMENT '消极的评论数',
-  `neutrality` int(11) NULL DEFAULT NULL COMMENT '中立的评论数',
+  `positive` int(0) NULL DEFAULT NULL COMMENT '积极的评论数',
+  `negative` int(0) NULL DEFAULT NULL COMMENT '消极的评论数',
+  `neutrality` int(0) NULL DEFAULT NULL COMMENT '中立的评论数',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `unique_polarityrecord`(`workId`, `country`, `time`, `platform`) USING BTREE,
   INDEX `foreignkey_polarity_work`(`workId`) USING BTREE,
   CONSTRAINT `foreignkey_polarity_work` FOREIGN KEY (`workId`) REFERENCES `monitor_work` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 3289 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 3289 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of polarity_analy
@@ -3454,11 +3435,11 @@ INSERT INTO `polarity_analy` VALUES (3288, 18, '法国', '2023-07-18', 'Twitter'
 -- ----------------------------
 DROP TABLE IF EXISTS `raw_comment`;
 CREATE TABLE `raw_comment`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '评论编号，主键，自增',
+  `id` int(0) NOT NULL AUTO_INCREMENT COMMENT '评论编号，主键，自增',
   `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '评论的内容',
   `translated` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '翻译成中文后的评论',
-  `likes` int(11) NULL DEFAULT NULL COMMENT '评论的点赞数',
-  `workId` int(11) NOT NULL COMMENT '所属监测作品的编号，外键',
+  `likes` int(0) NULL DEFAULT NULL COMMENT '评论的点赞数',
+  `workId` int(0) NOT NULL COMMENT '所属监测作品的编号，外键',
   `sentiment` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '评论的情感倾向',
   `country` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '评论所属的国家',
   `platform` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '评论所在的平台',
@@ -3466,7 +3447,7 @@ CREATE TABLE `raw_comment`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `foreignkey_work`(`workId`) USING BTREE,
   CONSTRAINT `foreignkey_work` FOREIGN KEY (`workId`) REFERENCES `monitor_work` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 9063 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 9063 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of raw_comment
@@ -8825,26 +8806,89 @@ INSERT INTO `raw_comment` VALUES (5837, '一想到逆天改命的电影，就想
 INSERT INTO `raw_comment` VALUES (5838, '生而为魔又如何？生而为妖又如何？不论是哪吒还是敖丙，首先命运并不是他们自己所能选择的，而他们一开始都性本善，哪吒只是想和普通人一样玩耍，敖丙只是想不负龙族和父亲的重望。两个男孩能成为朋友并不完全因为灵珠和魔丸互相的吸引力，而是他们的内心世界能达到共鸣，在这...  ', '生而为魔又如何？生而为妖又如何？不论是哪吒还是敖丙，首先命运并不是他们自己所能选择的，而他们一开始都性本善，哪吒只是想和普通人一样玩耍，敖丙只是想不负龙族和父亲的重望。两个男孩能成为朋友并不完全因为灵珠和魔丸互相的吸引力，而是他们的内心世界能达到共鸣，在这...  ', 5, 19, '积极', '中国', '豆瓣', '2019-07-28');
 
 -- ----------------------------
+-- Table structure for raw_work
+-- ----------------------------
+DROP TABLE IF EXISTS `raw_work`;
+CREATE TABLE `raw_work`  (
+  `id` int(0) NOT NULL AUTO_INCREMENT COMMENT '作品编号，主键，自增',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '作品名称',
+  `category` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '作品类型',
+  `label` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '作品标签',
+  `workUrl` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '作品链接',
+  `imgUrl` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '作品图片链接',
+  `content` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '作品内容简介',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 126 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of raw_work
+-- ----------------------------
+INSERT INTO `raw_work` VALUES (1, '太白金星有点烦', '文学', '冒险 神话', 'https://book.douban.com/subject/36328704/', 'https://img9.doubanio.com/view/subject/s/public/s34544956.jpg', '太白金星李长庚最近有点烦。 天庭和西天联合推出了“西天取经”的重大项目，他受命策划九九八十一难，确保唐僧能安全走完流程，平稳取经成佛。老神仙本以为一切尽在掌...');
+INSERT INTO `raw_work` VALUES (2, '长安的荔枝', '文学', '历史 古装', 'https://book.douban.com/subject/36104107/', 'https://img2.doubanio.com/view/subject/s/public/s34327482.jpg', '大唐天宝十四年，长安城的小吏李善德突然接到一个任务：要在贵妃诞日之前，从岭南运来新鲜荔枝。荔枝“一日色变，两日香变，三日味变”，而岭南距长安五千余里，山水迢...');
+INSERT INTO `raw_work` VALUES (3, '鳄鱼', '文学', '农村 现实 人性', 'https://book.douban.com/subject/36398795/', 'https://img2.doubanio.com/view/subject/s/public/s34545983.jpg', '◑莫言获诺奖十年后再推重磅力作 ◑从小说家到戏剧家——莫言的华丽转型。 ◑心有大舞台，比小说还精彩！ “在莎士比亚故居的莎翁塑像前，我曾发下誓言，用我的后半...');
+INSERT INTO `raw_work` VALUES (4, '我在北京送快递', '文学', '现实 ', 'https://book.douban.com/subject/36150423/', 'https://img1.doubanio.com/view/subject/s/public/s34522268.jpg', '进入社会工作至今的二十年间，胡安焉走南闯北，辗转于广东、广西、云南、上海、北京等地，做过快递员、夜班拣货工人、便利店店员、保安、自行车店销售、服装店销售、加...');
+INSERT INTO `raw_work` VALUES (5, '额尔古纳河右岸', '文学', '爱情', 'https://book.douban.com/subject/34432750/', 'https://img9.doubanio.com/view/subject/s/public/s33450235.jpg', '《额尔古纳河右岸》是一部描写鄂温克人生存现状及百年沧桑的长篇小说，展示了弱小民族在严酷的自然环境和现代文明的挤压下的顽强生命力和不屈不挠的民族精神，以及丰富...');
+INSERT INTO `raw_work` VALUES (6, '如雪如山', '文学', '女性 生存', 'https://book.douban.com/subject/35875393/', 'https://img2.doubanio.com/view/subject/s/public/s34201041.jpg', '○ 没有一个女人，是微不足道的 ○ 她们隐秘的悲喜与爱憎，如此迥异，又彼此相通 ○ 李敬泽、梁永安、张莉、笛安 众多名家诚意推荐 ○ 青年实力作家 张天翼 ...');
+INSERT INTO `raw_work` VALUES (7, '活着', '文学', '农村 现实', 'https://book.douban.com/subject/4913064/', 'https://img1.doubanio.com/view/subject/s/public/s29053580.jpg', '《活着(新版)》讲述了农村人福贵悲惨的人生遭遇。福贵本是个阔少爷，可他嗜赌如命，终于赌光了家业，一贫如洗。他的父亲被他活活气死，母亲则在穷困中患了重病，福贵...');
+INSERT INTO `raw_work` VALUES (8, '秋园', '文学', '女性 生存 现实', 'https://book.douban.com/subject/34998019/', 'https://img1.doubanio.com/view/subject/s/public/s33640730.jpg', '听八旬奶奶讲述她和妈妈的故事。 1914年，世上有了“秋园”这个人。1918年，汉语有了“她”这个字。秋园，她来过，挣扎过，绝望过，幸福过。今天，她80岁的...');
+INSERT INTO `raw_work` VALUES (9, '兄弟', '文学', '历史 人性 现实', 'https://book.douban.com/subject/20441957/', 'https://img1.doubanio.com/view/subject/s/public/s24936189.jpg', '《余华作品:兄弟》是余华作品。《余华作品:兄弟》讲述了这是两个时代相遇以后出生的小说，前一个是文革中的故事，那是一个精神狂热、本能压抑和命运惨烈的时代，相当...');
+INSERT INTO `raw_work` VALUES (10, '许三观卖血记', '文学', '现实  灾难', 'https://book.douban.com/subject/4760224/', 'https://img1.doubanio.com/view/subject/s/public/s24575140.jpg', '《许三观卖血记》是余华1995年创作的一部长篇小说。《许三观卖血记》以博大的温情描绘了磨难中的人生，以激烈的故事形式表达了人在面对厄运时求生的欲望。小说讲述...');
+INSERT INTO `raw_work` VALUES (11, '老派少女购物路线', '文学', '散文 女性', 'https://book.douban.com/subject/36235328/', 'https://img2.doubanio.com/view/subject/s/public/s34408242.jpg', '“我认识我妈的时候，她早已是妈妈了。” 《老派少女购物路线》是作家洪爱珠首部散文著作。母亲病逝后，她将绵长思念化作珍珠化石般晶莹剔透的文字，记录下母亲给予她...');
+INSERT INTO `raw_work` VALUES (12, '在细雨中呼喊', '文学', '现实 人性 农村', 'https://book.douban.com/subject/20421947/', 'https://img2.doubanio.com/view/subject/s/public/s29032782.jpg', '《在细雨中呼喊》是二十世纪九十年代的经典文本，是余华的第一部长篇力作。小说描述了一位江南少年的成长经历和心灵历程。《在细雨中呼喊 》的结构来自于对时间的感受...');
+INSERT INTO `raw_work` VALUES (13, '棋王·树王·孩子王 : 阿城文集 之一', '文学', '哲思', 'https://book.douban.com/subject/26734559/', 'https://img2.doubanio.com/view/subject/s/public/s28688273.jpg', '此次出版的是阿城先生亲自编订的最新版本，增添了许多以往版本所不具备的内容。 内容包括以往版本都有的《棋王》《树王》《孩子王》三篇中篇小说，以及以往版本所不具...');
+INSERT INTO `raw_work` VALUES (14, '我与地坛', '文学', '散文  哲思 人生', 'https://book.douban.com/subject/6079389/', 'https://img1.doubanio.com/view/subject/s/public/s6313029.jpg', '《我与地坛(纪念版)》是史铁生文学作品中，充满哲思又极为人性化的代表作之一。其前两段被纳入人民教育出版社的高一教材中。前两部分注重讲地坛和他与母亲的后悔，对...');
+INSERT INTO `raw_work` VALUES (15, '檀香刑', '文学', '历史 战争', 'https://book.douban.com/subject/26905337/', 'https://img1.doubanio.com/view/subject/s/public/s33562530.jpg', '《檀香刑》，给人一种穿行在现实与幻象之中的错觉。故事的地基架构在1900年戊戌变法前后、八国联军攻陷北京、慈禧太后仓皇出逃、德国人在山东强行修建胶济铁路的大...');
+INSERT INTO `raw_work` VALUES (16, '生死疲劳', '文学', '历史 奇幻', 'https://book.douban.com/subject/35587028/', 'https://img1.doubanio.com/view/subject/s/public/s34086258.jpg', '◆ 不看不知道，莫言真幽默！在极度痛苦时笑出声来，获得内心深处的解脱。 ◆ 莫言：“诺奖的评委主要是因为读完了《生死疲劳》，才把这个奖项授给了我。” ◆ 不...');
+INSERT INTO `raw_work` VALUES (17, '燕食记', '文学', '历史 饮食', 'https://book.douban.com/subject/36021908/', 'https://img1.doubanio.com/view/subject/s/public/s34273798.jpg', '----------------------------------------------- 名家推荐 人间味是食知味，人间事终究是调鼎鼐、烹小鲜。《燕食...');
+INSERT INTO `raw_work` VALUES (18, '平凡的世界', '文学', '历史 现实 农村', 'https://book.douban.com/subject/10517238/', 'https://img9.doubanio.com/view/subject/s/public/s8865866.jpg', '《平凡的世界(套装共3册)》是一部现实主义小说，也是小说化的家族史。作家高度浓缩了中国西北农村的历史变迁过程，作品达到了思想性与艺术性的高度统一，特别是主人...');
+INSERT INTO `raw_work` VALUES (19, '边城', '文学', '人性 爱情 ', 'https://book.douban.com/subject/1057244/', 'https://img1.doubanio.com/view/subject/s/public/s1595557.jpg', '《边城》是沈从文的代表作，写于一九三三年至一九三四年初。这篇作品如沈从文的其他湘西作品，着眼于普通人、善良人的命运变迁，描摹了湘女翠翠阴差阳错的生活悲剧，诚...');
+INSERT INTO `raw_work` VALUES (20, '夜晚的潜水艇', '文学', '奇幻', 'https://book.douban.com/subject/35005045/', 'https://img1.doubanio.com/view/subject/s/public/s33718940.jpg', '★ 《亚洲周刊》2020年度十大小说 ★ 豆瓣读书2020年度中国文学（小说类）Top1 ★ 2021年宝珀理想国文学奖首奖作品 ★ 2020年单向街书店文...');
+INSERT INTO `raw_work` VALUES (39, '绿毛水怪', '文学', '爱情', 'https://book.douban.com/subject/30163860/', 'https://img1.doubanio.com/view/subject/s/public/s29774838.jpg', '王小波短篇小说集，其中同名小说《绿毛水怪》是王小波小说处女作，可以一窥作者创作的源头及其后的发展走向。小说中肆意的想象力、幽默的调侃以及人对自我意志的彰显，...');
+INSERT INTO `raw_work` VALUES (40, '晚春', '文学', '历史 战争', 'https://book.douban.com/subject/36389993/', 'https://img2.doubanio.com/view/subject/s/public/s34515983.jpg', '🌱内容简介： ✉️父亲信中所说的危难，是真实还是妄想； 🌄四人的潭柘寺之旅，在黄昏闭馆后通往何处； 🍸九十年代的法国留学生，过着怎样一种生活； 🌓土耳其的夜...');
+INSERT INTO `raw_work` VALUES (66, '消失的她', '影视', '悬疑 犯罪', 'https://movie.douban.com/subject/35660795/', 'https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2893270877.webp', '东南亚某国，年轻男子何非（朱一龙 饰）疯狂寻找失踪的妻子李木子，然而当地警局视若罔闻，令他出离愤怒。可就在某个清晨，何非突然发现身边躺着一名陌生女子，更令他毛骨悚然的是，女子居然声称是他的妻子李木子（文咏珊 饰）。慌乱之余，何找来华人警察郑成（杜江 饰），试图揭穿假冒者的骗局，谁知种种迹象表明，对面的陌生人真实不虚。隐隐之中，何非认为妻子被犯罪团伙绑架，他只得求助干练的金牌律师陈麦（倪妮 饰）追索真相。在调查中过程中，细微线索逐渐浮出水面，而更加黑暗的真相也开始暴露在阳光之下……\n本片改编自前苏联电影《为单身汉设下的陷阱》。');
+INSERT INTO `raw_work` VALUES (67, '八角笼中', '影视', '剧情 动作', 'https://movie.douban.com/subject/35765480/', 'https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2893476407.webp', '电影讲述了向腾辉（王宝强 饰）倾注心血想把当地无人照料的孩子培养成才，这让生活本没有出路的孩子们看到了一丝通向未来的曙光。然而，随着往日的表演视频被爆出，这些“残忍、血腥”的画面刺激了不明真相的人们的神经。一夜之间，舆论开始发酵。向腾辉的生活、孩子们的前途都陷入到人们以善良为名编织的大网中，让他们难以挣脱，重回泥沼，关于未来，他们的“出路”又将在哪……');
+INSERT INTO `raw_work` VALUES (68, '流浪地球2', '影视', '科幻 冒险 灾难', 'https://movie.douban.com/subject/35267208/', 'https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2885955777.webp', '在并不遥远的未来，太阳急速衰老与膨胀，再过几百年整个太阳系将被它吞噬毁灭。为了应对这场史无前例的危机，地球各国放下芥蒂，成立联合政府，试图寻找人类存续的出路。通过摸索与考量，最终推着地球逃出太阳系的“移山计划”获得压倒性胜利。人们着手建造上万台巨大的行星发动机，带着地球踏上漫漫征程。满腔赤诚的刘培强（吴京 饰）和韩朵朵（王智 饰）历经层层考验成为航天员大队的一员，并由此相知相恋。但是漫漫征途的前方，仿佛有一股神秘的力量不断破坏者人类的自救计划。看似渺小的刘培强、量子科学家图恒宇（刘德华 饰）、联合政府中国代表周喆直（李雪健 饰）以及无数平凡的地球人，构成了这项伟大计划的重要一环……\n本片根据刘慈欣同名科幻小说改编。');
+INSERT INTO `raw_work` VALUES (69, '关于我和鬼变成家人的那件事 關於我和鬼變成家人的那件事', '影视', '喜剧 悬疑 同性 奇幻', 'https://movie.douban.com/subject/35698284/', 'https://img9.doubanio.com/view/photo/s_ratio_poster/public/p2881995796.webp', '吴明翰（许光汉 饰）是一名脾气耿直的警察，一次在出警中，他偶然捡到了地上的红包，哪知道被牵扯到了一桩冥婚之中，而他要结婚的对象，竟然是名叫毛邦羽（林柏宏 饰）的男人。吴明翰虽然内心一百个不情愿，但很快他就发现，如果不完婚，那么坏运气会一直跟随着他，无奈之下，吴明翰只得在灵堂中和毛邦宇举行了仪式。\n第二天，毛邦宇的鬼魂出现在了吴明翰的面前，想要结束这场荒唐的闹剧，吴明翰必须帮助毛邦宇完成遗愿，他给动物慈善组织捐款、去探望毛邦宇在世时的男友、查找导致毛邦宇死亡的车祸事件真相，在此过程中，吴明翰和毛邦宇从“假夫妻”变成了“真朋友”。');
+INSERT INTO `raw_work` VALUES (70, '满江红', '影视', '剧情 喜剧 悬疑 古装', 'https://movie.douban.com/subject/35766491/', 'https://img2.doubanio.com/view/photo/s_ratio_poster/public/p2887555071.webp', '南宋绍兴年间，一代忠良岳鹏举物故，引无数良臣赤子扼腕叹息。四年后，奸相秦桧（雷佳音 饰）率兵与金国相约会谈。谁知会谈前夜，金国使者在秦桧驻地为人所害。事态紧急，亲兵营副统领孙均（易烊千玺 饰）得知不成器的老舅——小兵张大（沈腾 饰）了解线索，遂将其带到秦桧处。秦桧命二人一个时辰内找出真凶，否则一律处死。时间飞速流逝，舞姬瑶琴（王佳怡 饰）、更夫丁三旺（潘斌龙 饰）、马夫刘喜（余皑磊 饰）接连卷入其中，而宰相府总管何立（张译 饰）与副总管武义淳（岳云鹏 饰）相继入场，又将这场波谲云诡的调查涂满血腥。\n谁是真正凶手？他们行刺所为何事？奸相内心深处又藏着什么不可告人的秘密？');
+INSERT INTO `raw_work` VALUES (71, '宇宙探索编辑部', '影视', '喜剧 科幻', 'https://movie.douban.com/subject/34941536/', 'https://img9.doubanio.com/view/photo/s_ratio_poster/public/p2889865405.webp', '唐志军（杨皓宇 饰）是一家诞生于上世纪八十年代的科幻杂志——《宇宙探索》编辑部的主编。现如今的杂志社日渐式微，唐志军也终成落魄潦倒，鳏寡孤独之人。但他却依然几十年如一日的痴迷于寻找地外文明。终于有一天，他接收到了一个疑似来自宇宙深处的异常信号，于是他召集同是天涯沦落人的伙伴们，带着那一个困惑他终生的问题，再一次踏上寻找外星人的旅途。');
+INSERT INTO `raw_work` VALUES (72, '长安三万里', '影视', '动画 历史', 'https://movie.douban.com/subject/36035676/', 'https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2893820209.webp', '安史之乱爆发后数年，吐蕃大军攻打西南。大唐节度使高适交战不利，长安岌岌可危。困守孤城的高适向监军太监回忆起自己与李白的一生往事。');
+INSERT INTO `raw_work` VALUES (73, '人生大事', '影视', '剧情 家庭', 'https://movie.douban.com/subject/35460157/', 'https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2874262709.webp', '殡葬师莫三妹（朱一龙 饰）在刑满释放不久后的一次出殡中，遇到了孤儿武小文（杨恩又 饰），小文的出现，意外地改变了莫三妹对职业和生活的态度。');
+INSERT INTO `raw_work` VALUES (74, '独行月球', '影视', '喜剧 科幻', 'https://movie.douban.com/subject/35183042/', 'https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2876409008.webp', '科学家观测发现一个震惊世人的现象，一颗巨大的小行星正向地球袭来，人类即将遭遇灭顶之灾。为了挽救这场危机，人类提出了大胆的“月盾计划”。独孤月（沈腾 饰）是该计划的一名中级维修工，遥远的月球上，他偷偷暗恋美丽飒爽的指挥长马蓝星（马丽 饰），但是对方却从未将其放在眼里。某天，陨石群提前到达月球表面。驻守月球的人类急速撤离，却偏偏将独孤月遗忘在这里。荒凉的月球上，除了独孤月外，还有一只脾气并不太好的袋鼠。遥远的绝地，独孤月和袋鼠展开了别开生面的求生之旅……\n本片根据韩国漫画家赵石创作的同名漫画改编。');
+INSERT INTO `raw_work` VALUES (75, '无名', '影视', '剧情 悬疑 历史', 'https://movie.douban.com/subject/35372742/', 'https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2886187418.webp', '影片通过对上世纪二十年代开始奋斗在上海的中国共产党领导下的中共特科，在隐蔽战线与各方势力殊死较量过程的再现，表现了在走向胜利过程中不可或缺的党的秘密战线上那些无名英雄，他们不可取代的贡献。全面抗战爆发后，中国共产党领导的中共特科在上海周旋于重庆、汪伪、日本间谍机构之间，通过错综复杂的敌后情报系统，策反敌人，获取情报，诛杀汉奸，建立更广泛的统一战线，直至抗战胜利的前夜…...');
+INSERT INTO `raw_work` VALUES (76, '长津湖', '影视', '剧情 历史 战争', 'https://movie.douban.com/subject/25845392/', 'https://img9.doubanio.com/view/photo/s_ratio_poster/public/p2681329386.webp', '电影以抗美援朝战争第二次战役中的长津湖战役为背景，讲述了一段波澜壮阔的历史：71年前，中国人民志愿军赴朝作战，在极寒严酷环境下，东线作战部队凭着钢铁意志和英勇无畏的战斗精神一路追击，奋勇杀敌，扭转了战场态势，打出了军威国威。');
+INSERT INTO `raw_work` VALUES (77, '扬名立万', '影视', '剧情 喜剧 悬疑', 'https://movie.douban.com/subject/35422807/', 'https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2881817779.webp', '故事发生在民国时期，在一幢空旷而又略带阴森的别墅内，某晚意外集结了一群电影工作者。原来向来跟风讨巧的投资人陆子野（陈明昊 饰）看中了一起真实的谋杀案，于是找来编剧李家辉（尹正 饰）、导演郑千里（喻恩泰 饰）、男星关静年（杨皓宇 饰）、女演员苏梦蝶（邓家佳 饰）等业内人士，共同谋划这部话题之作。甚至为了追求轰动性和真实性，陆子野居然想方设法把该案凶手也带来别墅。一时间，众人瞠目结舌，大惊失色。更劲爆的是他们所在的别墅正式案发现场！\n胆大妄为的一群人不得不小心翼翼重现犯罪过程，而他们似乎也走入了一张无形的罗网之中……');
+INSERT INTO `raw_work` VALUES (78, '保你平安', '影视', '剧情 喜剧', 'https://movie.douban.com/subject/35457272/', 'https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2889498097.webp', '人过中年的魏平安（董成鹏 饰）半生潦倒，一文不名。当年为朋友出头锒铛入狱，妻子也带着女儿改嫁他人。而今他干起墓地推销工作，虽然拮据，幸而乐观。这一天，他得知消息，自己曾经的客户韩露（宋茜 饰）要被强制迁出现在的墓位，理由是有传言她生前曾是一名风尘女子，而力主将她赶走的正是担心脏了自家风水的财团老板冯总（马丽 饰）。平安在韩露生前与之接触较多，深信这是一个善良纯洁的女子，为此他想方设法要还这个可怜女孩以清白。与此同时，关于韩露的谣言愈演愈烈，网络上每个人都成为道德审判家，每个人又不屑他人的名誉与清白。\n渺小卑微的平安，为了自己所认为的“正确的事”，与一双双无形的黑手展开较量……');
+INSERT INTO `raw_work` VALUES (79, '我爱你！', '影视', '剧情 爱情 家庭', 'https://movie.douban.com/subject/35818074/', 'https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2888042597.webp', '空巢老人常为戒（倪大红 饰）和拾废品的孤寡老太李慧如（惠英红 饰）不打不相识，却渐渐互生情愫；年迈的谢定山（梁家辉 饰）、赵欢欣（叶童 饰）夫妻俩靠收卖废品为生，妻子赵欢欣更是一直深受疾病的困扰……四位老人，两对爱人，在步入生命终章之时，他们用力而纯粹地相爱。哪怕不再有明天，也要对彼此说出那句“我爱你！”。\n故事改编自韩国同名漫画。');
+INSERT INTO `raw_work` VALUES (80, '爱情神话', '影视', '剧情 喜剧 爱情', 'https://movie.douban.com/subject/35376457/', 'https://img2.doubanio.com/view/photo/s_ratio_poster/public/p2772925591.webp', '离异多年的画家老白（徐峥 饰）经朋友介绍认识了同样离异，带着一个孩子的李小姐（马伊琍 饰），老白对李小姐一见倾心，可是李小姐似乎对这段感情有所顾虑，一直止步不前。老白在家里开设了美术班，教成年人画画，格洛瑞亚（倪虹洁 饰）是他的学生之一。热情奔放的格洛瑞亚虽然已经结婚，但是丈夫远在国外常年不回家，她似乎对老白有着超越了师生的感情。\n蓓蓓（吴越 饰）是老白的前妻，两人虽然已经离婚多年，而且是蓓蓓背叛了老白，但老白的母亲还是希望两人有朝一日可以复婚。在上海的弄堂里，一个男人和三个女人的故事徐徐拉开序幕。');
+INSERT INTO `raw_work` VALUES (81, '万里归途', '影视', '剧情 战争', 'https://movie.douban.com/subject/26654184/', 'https://img2.doubanio.com/view/photo/s_ratio_poster/public/p2880793132.webp', '电影根据真实事件改编。\n努米亚共和国爆发战乱，前驻地外交官宗大伟（张译 饰）与外交部新人成朗（王俊凯 饰）受命前往协助撤侨。任务顺利结束，却得知还有一批被困同胞，正在白婳（殷桃 饰）的带领下，前往边境撤离点。情急之下，两人放弃了回家机会，逆行进入战区。赤手空拳的外交官，穿越战火和荒漠，面对反叛军的枪口，如何带领同胞走出一条回家之路……');
+INSERT INTO `raw_work` VALUES (82, '奇迹·笨小孩', '影视', '剧情', 'https://movie.douban.com/subject/35312437/', 'https://img2.doubanio.com/view/photo/s_ratio_poster/public/p2842327103.webp', '二十岁的景浩（易烊千玺 饰）独自带着年幼的妹妹来到深圳生活，兄妹俩生活温馨却拮据。为了妹妹高昂的手术费，机缘巧合之下，景浩得到一个机会，本以为美好生活即将来临，却不料遭遇重创。在时间和金钱的双重压力下，毫无退路的景浩决定孤注一掷，而他陷入困境的平凡人生，又能否燃起希望的火花？\n电影《奇迹》是中宣部国家电影局2021年重点电影项目，也是2021年重点建党百年献礼片，描述十八大以后新时代年轻人在深圳创业的影片。');
+INSERT INTO `raw_work` VALUES (83, '深海', '影视', '动画 奇幻', 'https://movie.douban.com/subject/26649682/', 'https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2885941329.webp', '在大海的最深处，藏着所有秘密。一位现代少女（参宿）误入梦幻的深海世界，却因此邂逅了一段独特的生命旅程。');
+INSERT INTO `raw_work` VALUES (84, '隐入尘烟', '影视', '剧情', 'https://movie.douban.com/subject/35131346/', 'https://img9.doubanio.com/view/photo/s_ratio_poster/public/p2875299554.webp', '偏远贫穷的西北农村，祖辈劳作的农民生于土，归于土。贫困户马有铁（武仁林 饰）与哥嫂同住，木讷憨厚，所陪伴他的只有那头同样任劳任怨的小毛驴。而手脚残疾且不能生育的曹贵英（海清 饰）更是自幼备受白眼和欺凌。这两个孤寂之人，在家人的撮合下，仿佛丢掉包袱一般被撮合到了一起。有铁珍惜这卑微而难得的“家”，大大的红喜字被他一次次小心翼翼揭下来，重新贴在下一个栖身之所的墙壁上。为了讨回村民的欠款，有铁甘愿被一次次剥削自己的熊猫血。为了生活更加幸福，他们养鸡、养猪、盖房、种地……\n两个渺小而可怜的人啊，笨拙地、卑微地却又倔强地追索着遥远而易碎的幸福。');
+INSERT INTO `raw_work` VALUES (85, '毒舌律师 毒舌大狀', '影视', '剧情', 'https://movie.douban.com/subject/35914259/', 'https://img9.doubanio.com/view/photo/s_ratio_poster/public/p2886619074.webp', '一宗国际名模涉嫌虐待女儿的冤案，竟成了法律界、权贵与名媛之间的角力场！社会金字塔顶层的钟氏家族，如何用尽权力与资源去自保？以林凉水（黄子华 饰）为代表的律师们又如何在重重困难下伸张正义？');
+INSERT INTO `raw_work` VALUES (105, '这个杀手不太冷静', '影视', '喜剧', 'https://movie.douban.com/subject/35505100/', 'https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2814949620.webp', '魏成功（魏翔 饰）非常热爱表演，然而其貌不扬的他往往只能够在电影里觅得一个跑龙套的角色，可即便如此，魏成功还是无比认真的对待着自己的每一个甚至连名字都没有的角色，这股子劲头引起了当红女明星米兰（马丽 饰）的注意。\n米兰的弟弟米勒（黄才伦 饰）是一名电影导演，黑帮大佬哈维（陈明昊 饰）给他的电影投资了不菲的资金，哪知道亏得底裤都不剩，哈维一直爱慕着米兰，想要娶她为妻，可是米兰誓死不从。这一天，当哈维决定和姐弟两算总账之际，米兰告诉哈维自己认识他一直想要寻找的杀手卡尔（艾伦 饰）。哈维给了米兰一天的时间，让他把卡尔带到自己面前，实际上并不认识卡尔的米兰决定让魏成功来扮演这位冷酷的杀手。');
+INSERT INTO `raw_work` VALUES (125, '长津湖之水门桥', '影视', '剧情 历史 战争', 'https://movie.douban.com/subject/35613853/', 'https://img2.doubanio.com/view/photo/s_ratio_poster/public/p2846021991.webp', '电影以抗美援朝战争第二次战役中的长津湖战役为背景，讲述了在结束了新兴里和下碣隅里的战斗之后，七连战士们又接到了更艰巨的任务……');
+
+-- ----------------------------
 -- Table structure for sentiment_analy
 -- ----------------------------
 DROP TABLE IF EXISTS `sentiment_analy`;
 CREATE TABLE `sentiment_analy`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '情感分析编号，主键，自增',
-  `workId` int(11) NOT NULL COMMENT '所属监测作品的编号，外键',
+  `id` int(0) NOT NULL AUTO_INCREMENT COMMENT '情感分析编号，主键，自增',
+  `workId` int(0) NOT NULL COMMENT '所属监测作品的编号，外键',
   `country` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '情感分析的评论所属国家',
   `time` date NOT NULL COMMENT '情感分析的评论发布时间',
   `platform` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '情感分析评论来自的平台',
-  `happy` int(11) NULL DEFAULT NULL COMMENT '开心的评论数',
-  `amazed` int(11) NULL DEFAULT NULL COMMENT '惊讶的评论数',
-  `neutrality` int(11) NULL DEFAULT NULL COMMENT '中立的评论数',
-  `sad` int(11) NULL DEFAULT NULL COMMENT '伤心的评论数',
-  `angry` int(11) NULL DEFAULT NULL COMMENT '愤怒的评论数',
-  `fear` int(11) NULL DEFAULT NULL COMMENT '恐惧的评论数',
+  `happy` int(0) NULL DEFAULT NULL COMMENT '开心的评论数',
+  `amazed` int(0) NULL DEFAULT NULL COMMENT '惊讶的评论数',
+  `neutrality` int(0) NULL DEFAULT NULL COMMENT '中立的评论数',
+  `sad` int(0) NULL DEFAULT NULL COMMENT '伤心的评论数',
+  `angry` int(0) NULL DEFAULT NULL COMMENT '愤怒的评论数',
+  `fear` int(0) NULL DEFAULT NULL COMMENT '恐惧的评论数',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `unique_key_senti`(`workId`, `country`, `time`, `platform`) USING BTREE,
   INDEX `foreignkey_senti_work`(`workId`) USING BTREE,
   CONSTRAINT `foreignkey_senti_work` FOREIGN KEY (`workId`) REFERENCES `monitor_work` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 5016 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 5016 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sentiment_analy
@@ -12214,18 +12258,18 @@ INSERT INTO `sentiment_analy` VALUES (5015, 1, '中国', '2023-07-27', 'Twitter'
 -- ----------------------------
 DROP TABLE IF EXISTS `subject_analysis`;
 CREATE TABLE `subject_analysis`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '自增主键',
-  `workId` int(11) NOT NULL COMMENT '作品ID，外键',
+  `id` int(0) NOT NULL AUTO_INCREMENT COMMENT '自增主键',
+  `workId` int(0) NOT NULL COMMENT '作品ID，外键',
   `subject` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '评论主题',
-  `positive` int(11) NULL DEFAULT NULL COMMENT '积极关键词数',
-  `negative` int(11) NULL DEFAULT NULL COMMENT '消极关键词数',
-  `neutrality` int(11) NULL DEFAULT NULL COMMENT '中立评论数',
+  `positive` int(0) NULL DEFAULT NULL COMMENT '积极关键词数',
+  `negative` int(0) NULL DEFAULT NULL COMMENT '消极关键词数',
+  `neutrality` int(0) NULL DEFAULT NULL COMMENT '中立评论数',
   `keywords` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '主题关键词',
   `wordFreq` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '关键词的词频',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `subject_analysis_unique`(`workId`, `subject`) USING BTREE COMMENT '作品某个主题的分析唯一',
   CONSTRAINT `subject_analysis_foreign` FOREIGN KEY (`workId`) REFERENCES `monitor_work` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of subject_analysis
@@ -12250,7 +12294,7 @@ INSERT INTO `subject_analysis` VALUES (14, 7, '故事情节', 440, 145, 89, NULL
 -- ----------------------------
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '自增主键',
+  `id` int(0) NOT NULL AUTO_INCREMENT COMMENT '自增主键',
   `username` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '用户的登录账号，唯一',
   `name` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '用户的姓名',
   `password` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '用户的登录密码',
@@ -12260,7 +12304,7 @@ CREATE TABLE `user`  (
   `avatar` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '用户的头像url',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `unique_user_u`(`username`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 78 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 78 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of user
@@ -12306,12 +12350,45 @@ INSERT INTO `user` VALUES (74, 'hzx111', '黄志祥', '$2a$10$5n/qdpqg7oOHgLEBr/
 INSERT INTO `user` VALUES (77, 'tang', 'tang', '$2a$10$zqNRA4xU1p9glozH564JG.5sEocO3mWr7h3GAdtNFqLhBqsBUjbha', 'hunnu', '2770165557@qq.com', '13307339791', NULL);
 
 -- ----------------------------
+-- Table structure for user_recent_record
+-- ----------------------------
+DROP TABLE IF EXISTS `user_recent_record`;
+CREATE TABLE `user_recent_record`  (
+  `id` int(0) NOT NULL AUTO_INCREMENT COMMENT 'id,自增',
+  `userId` int(0) NOT NULL COMMENT '用户id',
+  `workId` int(0) NOT NULL COMMENT '作品id',
+  `visitCounts` int(0) NOT NULL COMMENT '用户访问该作品的次数',
+  `recentVisit` datetime(0) NOT NULL COMMENT '用户最新查看该作品时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of user_recent_record
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for user_record
+-- ----------------------------
+DROP TABLE IF EXISTS `user_record`;
+CREATE TABLE `user_record`  (
+  `id` int(0) NOT NULL AUTO_INCREMENT COMMENT 'id,自动递增',
+  `userId` int(0) NOT NULL COMMENT '用户id',
+  `workId` int(0) NOT NULL COMMENT '用户查看的作品id',
+  `accessTime` datetime(0) NOT NULL COMMENT '用户查看作品的时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 34 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of user_record
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for word_freq_analy
 -- ----------------------------
 DROP TABLE IF EXISTS `word_freq_analy`;
 CREATE TABLE `word_freq_analy`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '词频统计编号，主键，自增',
-  `workId` int(11) NOT NULL COMMENT '监测作品的编号，外键',
+  `id` int(0) NOT NULL AUTO_INCREMENT COMMENT '词频统计编号，主键，自增',
+  `workId` int(0) NOT NULL COMMENT '监测作品的编号，外键',
   `country` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '词频统计的评论所属国家',
   `time` date NOT NULL COMMENT '词频统计的评论发布时间',
   `platform` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '词频统计的评论来自的平台',
@@ -12322,7 +12399,7 @@ CREATE TABLE `word_freq_analy`  (
   UNIQUE INDEX `unique_wordfreq`(`workId`, `country`, `time`, `platform`) USING BTREE,
   INDEX `foreignkey_freq_work`(`workId`) USING BTREE,
   CONSTRAINT `foreignkey_freq_work` FOREIGN KEY (`workId`) REFERENCES `monitor_work` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 7051 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 7051 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of word_freq_analy
@@ -15833,15 +15910,15 @@ INSERT INTO `word_freq_analy` VALUES (7050, 18, '中国', '2021-11-08', 'Twitter
 -- ----------------------------
 DROP TABLE IF EXISTS `work_score`;
 CREATE TABLE `work_score`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '自增主键',
-  `workId` int(11) NOT NULL COMMENT '作品ID，非空',
+  `id` int(0) NOT NULL AUTO_INCREMENT COMMENT '自增主键',
+  `workId` int(0) NOT NULL COMMENT '作品ID，非空',
   `score` decimal(2, 1) NOT NULL DEFAULT 0.0 COMMENT '作品评分',
   `platform` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '评分所属平台',
-  `createTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '作品评分爬取时间',
+  `createTime` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '作品评分爬取时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `work_score_foreign`(`workId`) USING BTREE,
   CONSTRAINT `work_score_foreign` FOREIGN KEY (`workId`) REFERENCES `monitor_work` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 27 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 27 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of work_score

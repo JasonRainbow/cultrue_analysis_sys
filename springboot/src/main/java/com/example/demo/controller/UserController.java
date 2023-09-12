@@ -323,6 +323,15 @@ public class UserController extends BaseController {
         if(userId==null)
             return Result.error("用户未登录","-1");
         userRecordMapper.addUserRecord(new UserRecord(null,userId,workId,new Date()));
+        int count=userRecordMapper.selectUserRecentRecord(userId,workId);
+        if(count==0){
+            userRecordMapper.addUserRecentRecord(new UserRecentRecord(null,userId,workId,1, new Date()));
+        }
+        else{
+            System.out.println("更新用户最近访问");
+            userRecordMapper.updateUserRecentRecord(userId,workId,new Date());
+        }
+        System.out.println(count);
         return Result.success();
     }
 
@@ -334,7 +343,7 @@ public class UserController extends BaseController {
         if(userId==null)
             return Result.error("用户未登录","-1");
         System.out.println(userRecordMapper.selectRecordByUserIdPaging(new Page<>(pageNum,pageSize),userId));
-        return Result.success(userRecordMapper.selectRecordByUserIdPaging(new Page<>(pageNum,pageSize),userId));
+        return Result.success(userRecordMapper.selectRecentRecordByUserIdPaging(new Page<>(pageNum,pageSize),userId));
     }
 
 }

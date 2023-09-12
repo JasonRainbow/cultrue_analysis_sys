@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 @Data
-@TableName("hot_work")
+@TableName("monitor_work")
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -45,4 +45,6 @@ public class HotWork {
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     @ApiModelProperty(value = "发布日期")
     private Date postTime; // 发布日期
+
+    private Integer isHotWork;
 }

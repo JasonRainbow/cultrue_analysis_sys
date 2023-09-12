@@ -3,12 +3,24 @@ package com.example.demo.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.entity.User;
+import com.example.demo.entity.UserRecentRecord;
 import com.example.demo.entity.UserRecord;
 import com.example.demo.entity.workRecord;
 import org.apache.ibatis.annotations.Param;
 
-public interface UserRecordMapper extends BaseMapper<User> {
-    int addUserRecord(UserRecord userRecord);
+import java.util.Date;
 
+public interface UserRecordMapper extends BaseMapper<User> {
+    //添加用户查看记录
+    int addUserRecord(UserRecord userRecord);
+    //分页查询用户的查看记录
     Page<workRecord> selectRecordByUserIdPaging(Page<workRecord> page, @Param("userId") Integer userId);
+
+    int selectUserRecentRecord(@Param("userId") Integer userId, @Param("workId") Integer workId);
+
+    int addUserRecentRecord(UserRecentRecord userRecentRecord);
+
+    int updateUserRecentRecord(@Param("userId") Integer userId, @Param("workId") Integer workId, @Param("date") Date date);
+
+    Page<UserRecentRecord> selectRecentRecordByUserIdPaging(Page<workRecord> page, @Param("userId") Integer userId);
 }

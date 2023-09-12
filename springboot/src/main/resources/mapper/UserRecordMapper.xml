@@ -7,6 +7,22 @@
     </insert>
 
     <select id="selectRecordByUserIdPaging" resultType="com.example.demo.entity.workRecord">
-        select name,category,accessTime from user_record inner join hot_work on user_record.workId=hot_work.id where userId=#{userId} order by accessTime desc
+        select name,category,accessTime from user_record inner join monitor_work on user_record.workId=monitor_work.id where userId=#{userId} order by accessTime desc
+    </select>
+
+    <select id="selectUserRecentRecord" resultType="java.lang.Integer">
+        select count(*) from user_recent_record where userId=#{userId} and workId=#{workId}
+    </select>
+
+    <insert id="addUserRecentRecord">
+        insert into user_recent_record values(null,#{userId},#{workId},#{visitCounts},#{recentVisit})
+    </insert>
+
+    <update id="updateUserRecentRecord">
+        update user_recent_record set visitCounts=visitCounts+1,recentVisit=#{date} where userId=#{userId} and workId=#{workId}
+    </update>
+
+    <select id="selectRecentRecordByUserIdPaging" resultType="com.example.demo.entity.workRecentRecord">
+        select name,category,visitCounts,recentVisit from user_recent_record inner join monitor_work on user_recent_record.workId=monitor_work.id where userId=#{userId} order by recentVisit desc
     </select>
 </mapper>
