@@ -12,6 +12,9 @@ export default {
       type: Number,
       default: null
     },
+    showAll:{
+      default: false
+    }
     //
   },
   watch: {
@@ -96,6 +99,18 @@ export default {
           </template>
         </el-table-column>
         <el-table-column prop="sentimentOk" label="是否完成情感分析" width="130">
+          <template slot-scope="scope">
+            <div v-show="scope.row.sentimentOk === 1" style="color: #67C23A">是</div>
+            <div v-show="scope.row.sentimentOk === 0" style="color: #F56C6C">否</div>
+          </template>
+        </el-table-column>
+        <el-table-column prop="polarityOk" label="是否完成极性情感分析" width="160" v-if="showAll">
+          <template slot-scope="scope">
+            <div v-show="scope.row.sentimentOk === 1" style="color: #67C23A">是</div>
+            <div v-show="scope.row.sentimentOk === 0" style="color: #F56C6C">否</div>
+          </template>
+        </el-table-column>
+        <el-table-column prop="wordFreqOk" label="是否完成词频分析" width="130" v-if="showAll">
           <template slot-scope="scope">
             <div v-show="scope.row.sentimentOk === 1" style="color: #67C23A">是</div>
             <div v-show="scope.row.sentimentOk === 0" style="color: #F56C6C">否</div>

@@ -3,17 +3,24 @@
     <div id="div2">
       <el-card class="box-card3">
         <div slot="header" class="clearfix">
-          <span>浏览记录</span>
+          <span style="font-size: x-large">浏览记录</span>
 <!--          <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button>-->
+        </div>
+        <div style="margin-bottom: 30px" class="text item">
+          <div style="display: inline-block;float: left;width: 25%;text-align: center">作品名称</div>
+          <div style="display: inline-block;float: left;width: 25%;text-align: center">作品类别</div>
+          <div style="display: inline-block;float: left;width: 25%;text-align: center">浏览次数</div>
+          <div style="display: inline-block;float: left;width: 25%;text-align: center">最近访问</div>
         </div>
         <div v-for="(item,index) in workRecord.records" :key="index" class="text item">
           <el-card class="box-card1">
             <div class="text item">
 <!--              {{item.name}}-->
-              <div style="display: inline-block;float: left;width: 30%">{{item.name}}</div>
-              <div style="display: inline-block;float: left;width: 30%">{{item.category}}</div>
+              <div style="display: inline-block;float: left;width: 25%;text-align: center">{{item.name}}</div>
+              <div style="display: inline-block;float: left;width: 25%;text-align: center">{{item.category}}</div>
 <!--              <div style="display: inline-block;float: left;width: 40%">{{parseTime(item.accessTime, '{y}-{m}-{d} {H}:{m}:{s}')}}</div>-->
-              <div style="display: inline-block;float: left;width: 40%">{{timestampToTime(item.accessTime)}}</div>
+              <div style="display: inline-block;float: left;width: 25%;text-align: center">{{item.visitCounts}}</div>
+              <div style="display: inline-block;float: left;width: 25%;text-align: center">{{timestampToTime(item.recentVisit)}}</div>
             </div>
           </el-card>
         </div>
@@ -31,7 +38,7 @@
     </div>
     <div id="div3">
       <h2 style="text-align: center;margin-bottom: 5px">监测作品列表</h2>
-      <monitor-list :user-id="userId"></monitor-list>
+      <monitorList :user-id="userId" :showAll="true"></monitorList>
     </div>
     <div id="div4">
       <h1 style="text-align: center;margin-bottom: 5px;font-size: 30px">作品推荐</h1>
@@ -250,7 +257,8 @@ export default {
 
     #div4{
       width:100%;
-      margin-top: 10px;
+      margin-top: 20px;
+      float: left;
     }
 
     .text {
@@ -258,7 +266,7 @@ export default {
     }
 
     .item {
-      margin-bottom: 18px;
+      margin-bottom: 12px;
     }
 
     .clearfix:before,
