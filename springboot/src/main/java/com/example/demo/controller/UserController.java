@@ -318,6 +318,7 @@ public class UserController extends BaseController {
     }
 
     @GetMapping(value = "/selectChanged")
+    @ApiOperation(value = "记录用户的浏览操作")
     public Result<?> recordUserSelect(@RequestParam Integer userId,@RequestParam Integer workId){
 //        System.out.println("成功收到");
         if(userId==null)
@@ -336,6 +337,7 @@ public class UserController extends BaseController {
     }
 
     @GetMapping(value = "/selectAllRecordByUserId")
+    @ApiOperation(value = "查询用户的作品浏览记录")
     public Result<?> findAllRecordByUserId(@RequestParam Integer userId,
                                         @RequestParam(required = false, defaultValue = "1") Integer pageNum,
                                         @RequestParam(required = false, defaultValue = "10") Integer pageSize){

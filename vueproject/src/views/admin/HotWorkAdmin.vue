@@ -35,6 +35,8 @@
 <!--        <el-button size="small" icon="el-icon-upload" plain round type="success" @click="handleImport">导入数据</el-button>-->
         <el-button size="small" icon="el-icon-download" plain round type="warning" @click="handleExport">导出数据
         </el-button>
+        <el-button size="small" icon="el-icon-refresh" round type="success" @click="updateHotWorks">更新热点文化作品
+        </el-button>
       </el-form-item>
     </el-form>
     <!--列表-->
@@ -168,7 +170,7 @@
 
 <script>
 import Pagination from "../../components/Pagination";
-import {addHotWork, deleteHotWorkById, getHotWorkByPage, updateHotWork} from "../../api/hotworkAPI";
+import {addHotWork, deleteHotWorkById, getHotWorkByPage, updateAllHotWorks, updateHotWork} from "../../api/hotworkAPI";
 
 export default {
   name: "HotWorkAdmin",
@@ -301,6 +303,19 @@ export default {
     }
   },
   methods: {
+    updateHotWorks() {
+      this.$confirm('是否要更新热点文化作品？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(()=>{
+        updateAllHotWorks({maxNum: 10}).then((res)=>{
+          if (res.code === "0") {
+            this.get_data(this.search_data)
+          }
+        })
+      })
+    },
     handleAvatarSuccess(res, file) {
       // console.log((res))
       if (res.code === "0") {

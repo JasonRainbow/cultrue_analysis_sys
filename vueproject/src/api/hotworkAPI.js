@@ -32,3 +32,8 @@ export const updateHotWork = (params)=>{
   return req("put", "/hot-work/update", null, params);
 }
 
+// 修改热点文化作品信息
+export const updateAllHotWorks = (params)=>{
+  return req("get", "/hot-work/updateHotWork", params, null);
+}
+
