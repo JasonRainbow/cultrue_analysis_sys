@@ -110,4 +110,11 @@
         having posCnt > 3
         order by posCnt desc) as tab
     </select>
+    <select id="selectWorksPolarity" resultType="com.example.demo.entity.PolarityAnalysis">
+        SELECT workId, sum(positive) as positive,
+               sum(negative) as negative,
+               sum(neutrality) as neutrality
+        FROM `polarity_analy`
+        group by workId
+    </select>
 </mapper>

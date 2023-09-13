@@ -36,4 +36,7 @@ public interface PolarityAnalysisMapper extends BaseMapper<PolarityAnalysis> {
 
     // 查询国家列表
     List<String> selectCountries(Integer workId);
+
+    // 统计每个作品的积极、消极、中立情感总数
+    List<PolarityAnalysis> selectWorksPolarity();
 }

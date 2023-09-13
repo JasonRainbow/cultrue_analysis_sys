@@ -23,7 +23,7 @@
               <div style="color: #000000; font-weight: bold; font-size: large;margin-bottom: 20px">关于项目</div>
               <div style="color: #a0a3b4; font-size: small; margin-bottom: 15px">基于Vue2 + ElementUI + SpringBoot、爬虫技术、
                 情感分析的中国语言文化作品国际传播效果分析系统，如果喜欢就点个星星支持一下。</div>
-              <div style="cursor: pointer"><a href="https://www.baidu.com" target="_blank"><i class="el-icon-star-off"></i></a></div>
+              <div style="cursor: pointer"><a href="https://github.com/HZXhuang/cultrue_analysis_sys" target="_blank"><i class="el-icon-star-off"></i></a></div>
             </div>
           </el-card>
         </transition>

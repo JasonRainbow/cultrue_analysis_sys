@@ -10,7 +10,9 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.common.Result;
 import com.example.demo.entity.HotWork;
+import com.example.demo.entity.PolarityAnalysis;
 import com.example.demo.mapper.HotWorkMapper;
+import com.example.demo.mapper.PolarityAnalysisMapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -26,6 +28,7 @@ import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 // 热点文化作品信息
 @RequestMapping("/api/hot-work")
@@ -34,6 +37,9 @@ import java.util.*;
 public class HotWorkController {
     @Autowired
     private HotWorkMapper hotWorkMapper;
+
+    @Autowired
+    private PolarityAnalysisMapper polarityAnalysisMapper;
 
     // 查询所有的热点作品信息
     @GetMapping("/all")
@@ -82,6 +88,35 @@ public class HotWorkController {
             return Result.success();
         }
         return Result.error("-1", "该热点作品已经被删除了");
+    }
+
+    // 更新热点文化作品
+    @GetMapping("/updateHotWork")
+    @ApiOperation(value = "更新热点文化作品")
+    public Result<?> updateHotWorks(@RequestParam(required = false, defaultValue = "10") Integer maxNum) {
+        List<PolarityAnalysis> worksPolarity = polarityAnalysisMapper.selectWorksPolarity();
+        Map<Integer, Double> workEffects = new HashMap<>();
+        int cnt = 0;
+        for(PolarityAnalysis item: worksPolarity) {
+            workEffects.put(item.getWorkId(), item.getPositive() * 1.0 / (
+                    item.getPositive() + item.getNegative() + item.getNeutrality()
+                    ));
+        }
+        List<Map.Entry<Integer, Double>> entries = new ArrayList<>(workEffects.entrySet());
+        // 以得分值对列表排序
+        entries.sort((Map.Entry<Integer, Double> x1, Map.Entry<Integer, Double> x2)
+                -> x1.getValue() < x2.getValue() ? 1: -1);
+        hotWorkMapper.deleteAllHotWorks();
+        // 更新监测作品的热点信息和传播效果得分
+        for(Map.Entry<Integer, Double> item: entries) {
+            cnt++;
+            if (cnt <= maxNum) {
+                hotWorkMapper.updateIsHotWork(item.getKey());
+            }
+            hotWorkMapper.updateEffectScore(item.getKey(), item.getValue());
+        }
+
+        return Result.success();
     }
 
     /*// 新增热点文化作品

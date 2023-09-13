@@ -2,7 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.example.demo.mapper.HotWorkMapper">
 
-    <delete id="deleteByIds" parameterType="java.lang.String">
+    <update id="deleteByIds" parameterType="java.lang.String">
         update monitor_work set isHotWork = 0 where id in ${ids};
-    </delete>
+    </update>
+    <update id="updateIsHotWork" parameterType="java.lang.Integer">
+        update monitor_work set isHotWork = 1 where id = ${workId}
+    </update>
+    <update id="updateEffectScore" parameterType="java.lang.Double">
+        update monitor_work set effectScore = ${score} where id = ${workId}
+    </update>
+    <update id="deleteAllHotWorks">
+        update monitor_work set isHotWork = 0 where isHotWork = 1;
+    </update>
+
 </mapper>
