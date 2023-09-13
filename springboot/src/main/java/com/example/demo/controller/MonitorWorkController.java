@@ -10,6 +10,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.common.Result;
 import com.example.demo.entity.dto.CommentPlatformDto;
 import com.example.demo.entity.MonitorWork;
+import com.example.demo.entity.vo.RecommendWorkVO;
 import com.example.demo.mapper.MonitorWorkMapper;
 import com.example.demo.mapper.RawCommentMapper;
 import io.swagger.annotations.Api;
@@ -127,6 +128,20 @@ public class MonitorWorkController {
         List<CommentPlatformDto> platformDtos = rawCommentMapper.countPlatformByWorkId(workId);
         return Result.success(platformDtos);
     }
+
+    // 获取指定用户的推荐作品
+    @GetMapping("/recommendByUserId")
+    @ApiOperation(value = "查询指定用户的推荐作品")
+    public Result<?> recommendByUserId(@RequestParam Integer userId) {
+        List<RecommendWorkVO> recommendWorkVOS = monitorWorkMapper.selectRecommendWorksByUserId(userId);
+        if (recommendWorkVOS.size() == 0) {
+            // 默认用户的推荐
+            return Result.success(monitorWorkMapper.selectRecommendWorksByUserId(22));
+        } else {
+            return Result.success(recommendWorkVOS);
+        }
+    }
+
 
     /**
      * Excel导出

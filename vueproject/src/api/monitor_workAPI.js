@@ -45,3 +45,8 @@ export const countMonitorWorkPlatform = (params)=>{
 }
 
 
+// 获取指定用户的推荐作品列表
+export const getRecommendWorksByUserId = (params)=>{
+  return req("get", "/monitor-work/recommendByUserId", params, null)
+}
+

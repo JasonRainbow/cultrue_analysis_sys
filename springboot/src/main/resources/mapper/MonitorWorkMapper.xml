@@ -39,5 +39,20 @@
         )
         order by id
     </select>
+    <select id="selectRecommendWorksByUserId" resultType="com.example.demo.entity.vo.RecommendWorkVO"
+            parameterType="java.lang.Integer">
+        select rw.*, user.username, mw.name as workName,
+               mw.category,
+               mw.labels,
+               mw.postTime,
+               mw.content,
+               mw.citeUrl,
+               mw.imgUrl
+        from (
+                 select * from recommend_work where userId = ${userId}
+             ) as rw
+            inner join monitor_work as mw
+            inner join user on(rw.workId=mw.id and rw.userId=user.id);
+    </select>
 
 </mapper>

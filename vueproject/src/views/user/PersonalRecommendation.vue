@@ -7,16 +7,17 @@
           <el-card class="box-card2">
             <el-row>
               <el-col :span="5">
-                <img :src="item.imageUrl" alt="作品介绍图片" style="height: 160px; width: 130px; margin-top: 12px"/>
+                <img :src="item.imgUrl" alt="作品介绍图片" style="height: 160px; width: 130px; margin-top: 12px"/>
               </el-col>
               <el-col :span="19">
                 <div style="margin-left: 20px">
-                  <h3 style="margin: 10px auto 10px;">{{ item.workname }}</h3>
-                  <div class="report-content">{{ item.introduction }}</div>
+                  <h3 style="margin: 10px auto 10px;">{{ item.workName }}</h3>
+                  <div class="report-content">{{ item.content }}</div>
                   <div class="report-bottom">
                     <span>{{ item.category }}</span>
                     <span style="margin-left: 15px">{{ item.postTime }}</span>
-                    <span style="float: right" @click=""><a :href="item.citeUrl" target="_blank">查看详情</a></span>
+                    <span style="margin-left: 15px; color: #934819">{{ item.labels }}</span>
+                    <span style="float: right" @click="clickDetails(item.workId)"><a :href="item.citeUrl" target="_blank">查看详情</a></span>
                   </div>
                 </div>
               </el-col>
@@ -109,9 +110,10 @@
 </template>
 
 <script>
-import {findAllRecordByUserId} from "../../api/userAPI";
+import {findAllRecordByUserId, recordUserSelect} from "../../api/userAPI";
 import Pagination from "../../components/Pagination.vue";
 import MonitorList from "../../components/user/common/monitorList.vue";
+import {getRecommendWorksByUserId} from "../../api/monitor_workAPI";
 
 export default {
   components: {MonitorList, Pagination},
@@ -137,25 +139,25 @@ export default {
       isLogin: false,
       works: [
         {
-          workname: '西游记',
-          introduction: '电视剧《西游记》，总长达25个小时，几乎包括了百回小说《西游记》里所有精彩篇章，塑造了众多色彩绚丽的屏幕形象。该片采用实景为主，内外景结合的拍摄方法。既有金碧辉煌的灵宵宝殿，祥云飘渺的瑶池仙境，金镶玉砌的东海龙宫等棚内场景，又有风光倚丽的园林妙景，名山绝胜以及扬名远近的寺刹道观。',
-          imageUrl: 'http://hzx-oss.oss-cn-guangzhou.aliyuncs.com/images/hot_img5_2-1676058242249736192.jpg?Expires=1720060799&OSSAccessKeyId=LTAI5tQcjbvbjA5JjMMkUkc1&Signature=bDhXYZW8U0DSYZfVuWM9rcukKsg%3D',
+          workName: '西游记',
+          content: '电视剧《西游记》，总长达25个小时，几乎包括了百回小说《西游记》里所有精彩篇章，塑造了众多色彩绚丽的屏幕形象。该片采用实景为主，内外景结合的拍摄方法。既有金碧辉煌的灵宵宝殿，祥云飘渺的瑶池仙境，金镶玉砌的东海龙宫等棚内场景，又有风光倚丽的园林妙景，名山绝胜以及扬名远近的寺刹道观。',
+          imgUrl: 'http://hzx-oss.oss-cn-guangzhou.aliyuncs.com/images/hot_img5_2-1676058242249736192.jpg?Expires=1720060799&OSSAccessKeyId=LTAI5tQcjbvbjA5JjMMkUkc1&Signature=bDhXYZW8U0DSYZfVuWM9rcukKsg%3D',
           category: '影视',
           postTime: '2020-03-01',
           citeUrl: 'https://baidu.com'
         },
         {
-          workname: '流浪地球',
-          introduction: '春节假期过半，想必很多人的朋友圈都被这部大场面大制作的《流浪地球》霸屏了。 尊重原著的设定，外加导演组对影片的理解和心意，让一切都恰到好处。不管是很早就喜欢上了刘慈欣作品的科幻迷，还是因为吴京等人而来的影迷，都证明了这是一部口碑颇高的影片。',
-          imageUrl: 'http://hzx-oss.oss-cn-guangzhou.aliyuncs.com/images/hot_img3-1676056955420491776.jpeg?Expires=1720060493&OSSAccessKeyId=LTAI5tQcjbvbjA5JjMMkUkc1&Signature=0i1DH%2FCcLVVMBFf8jIRmg7xM02s%3D',
+          workName: '流浪地球',
+          content: '春节假期过半，想必很多人的朋友圈都被这部大场面大制作的《流浪地球》霸屏了。 尊重原著的设定，外加导演组对影片的理解和心意，让一切都恰到好处。不管是很早就喜欢上了刘慈欣作品的科幻迷，还是因为吴京等人而来的影迷，都证明了这是一部口碑颇高的影片。',
+          imgUrl: 'http://hzx-oss.oss-cn-guangzhou.aliyuncs.com/images/hot_img3-1676056955420491776.jpeg?Expires=1720060493&OSSAccessKeyId=LTAI5tQcjbvbjA5JjMMkUkc1&Signature=0i1DH%2FCcLVVMBFf8jIRmg7xM02s%3D',
           category: '影视',
           postTime: '2020-03-01',
           citeUrl: 'https://baidu.com'
         },
         {
-          workname: '三国演义',
-          introduction: '《三国演义》是由中国电视剧制作中心、中国中央电视台制作的84集电视连续剧，改编自中国明朝罗贯中同名文学名著《三国演义》，于1994年10月23日在CCTV-1首播。该剧由王扶林担任总导演，蔡晓晴、张绍林、孙光明、张中一、沈好放担任分部导演，孙彦军领衔主演，唐国强、鲍国安、吴晓东、洪宇宙、魏宗万、张光北、刘大刚、何冰、王刚、朱军、高亚麟等联合主演。 该剧共分为第一部《群雄逐鹿》（1-23集）、第二部《赤壁鏖战》（24-47集）、第三部《三足鼎立》（48-64集）、第四部《南征北战》（65-77集）、第五部《三分归一》（78-84集）五个单元。着重表现各个政治集团间错综复杂、紧张尖锐的斗争——这种斗争发展成为连接不断的对政治权力的争夺和军事冲突，造就了从东汉末年到西晋初年将近一个世纪中的风云变幻。',
-          imageUrl: 'http://hzx-oss.oss-cn-guangzhou.aliyuncs.com/images/%E4%B8%89%E5%9B%BD%E6%BC%94%E4%B9%89%E4%BB%8B%E7%BB%8D-1677923654046412800.jpg?Expires=1720505548&OSSAccessKeyId=LTAI5tQcjbvbjA5JjMMkUkc1&Signature=3MMynSwgFGe%2Bh0GZu7FYHGEbwuw%3D',
+          workName: '三国演义',
+          content: '《三国演义》是由中国电视剧制作中心、中国中央电视台制作的84集电视连续剧，改编自中国明朝罗贯中同名文学名著《三国演义》，于1994年10月23日在CCTV-1首播。该剧由王扶林担任总导演，蔡晓晴、张绍林、孙光明、张中一、沈好放担任分部导演，孙彦军领衔主演，唐国强、鲍国安、吴晓东、洪宇宙、魏宗万、张光北、刘大刚、何冰、王刚、朱军、高亚麟等联合主演。 该剧共分为第一部《群雄逐鹿》（1-23集）、第二部《赤壁鏖战》（24-47集）、第三部《三足鼎立》（48-64集）、第四部《南征北战》（65-77集）、第五部《三分归一》（78-84集）五个单元。着重表现各个政治集团间错综复杂、紧张尖锐的斗争——这种斗争发展成为连接不断的对政治权力的争夺和军事冲突，造就了从东汉末年到西晋初年将近一个世纪中的风云变幻。',
+          imgUrl: 'http://hzx-oss.oss-cn-guangzhou.aliyuncs.com/images/%E4%B8%89%E5%9B%BD%E6%BC%94%E4%B9%89%E4%BB%8B%E7%BB%8D-1677923654046412800.jpg?Expires=1720505548&OSSAccessKeyId=LTAI5tQcjbvbjA5JjMMkUkc1&Signature=3MMynSwgFGe%2Bh0GZu7FYHGEbwuw%3D',
           category: '影视',
           postTime: '2020-03-01',
           citeUrl: 'https://baidu.com'
@@ -180,6 +182,7 @@ export default {
       this.isLogin = false
     }
     this.getRecord()
+    this.getRecommendWorks()
   },
   mounted() {
     window.addEventListener('scroll', this.handleScroll)
@@ -196,16 +199,34 @@ export default {
       return times
     },
 
+    clickDetails(workId){
+      recordUserSelect({userId: this.userId, workId:workId}).then((res)=>{ // 获取监测作品
+        if (res.code === "0") {
+          // console.log("记录成功")
+          this.getRecord()
+        } else {
+          console.log(res.msg)
+        }
+      })
+    },
+
     getRecord() {
       findAllRecordByUserId({userId: this.userId, pageNum: this.currentPage, pageSize: this.pageSize}).then((res) => { // 获取监测作品
         if (res.code === "0") {
-          console.log("记录成功")
-          console.log(res.data)
+          // console.log("记录成功")
+          // console.log(res.data)
           this.workRecord = res.data
           this.currentPage = res.data.current
-          console.log(this.workRecord)
+          // console.log(this.workRecord)
         } else {
           console.log(res.msg)
+        }
+      })
+    },
+    getRecommendWorks() {
+      getRecommendWorksByUserId({userId: this.userId}).then((res)=>{
+        if (res.code === "0") {
+          this.works = res.data
         }
       })
     },

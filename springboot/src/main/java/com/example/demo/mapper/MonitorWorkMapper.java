@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.entity.Admin;
 import com.example.demo.entity.MonitorWork;
+import com.example.demo.entity.vo.RecommendWorkVO;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -30,4 +31,6 @@ public interface MonitorWorkMapper extends BaseMapper<MonitorWork> {
     //情感分析是否完成
     boolean updateSentimentState(@Param("workId") Integer workId,
                                 @Param("state") Integer state);
+
+    List<RecommendWorkVO> selectRecommendWorksByUserId(@Param("userId") Integer userId);
 }
