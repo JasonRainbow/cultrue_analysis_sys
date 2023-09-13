@@ -19,12 +19,13 @@
           >
             <el-row>
               <el-col :span="6" class="left-des" style="display: inline">
-                <img :src="item.imgUrl" alt="作品介绍图片" style="width: 80px;height: 100px"/>
+<!--               referrerpolicy="no-referrer" 不携带引源信息 -->
+                <img :src="item.imgUrl" referrerpolicy="no-referrer" alt="作品介绍图片" style="width: 80px;height: 100px"/>
               </el-col>
               <el-col :span="18">
                 <div class="right-des" style="display: inline">
                   <div class="report-title">
-                    {{item.title}}
+                    {{item.name}}
                   </div>
                   <div class="report-content">
                     {{item.content}}
@@ -39,6 +40,7 @@
             </el-row>
           </el-card>
           <el-pagination
+            style="margin-bottom: 5px"
             small
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
@@ -107,7 +109,7 @@ export default {
         searchName: null,
         searchCategory: null,
         pageNum: 1,
-        pageSize: 6
+        pageSize: 7
       },
       offset: 1,
       loading: false,
@@ -230,7 +232,7 @@ export default {
     // console.log("hotwork")
   },
   mounted(){
-    this.selectChanged()
+    // this.selectChanged()
   }
 }
 </script>
@@ -250,7 +252,7 @@ export default {
 
 .box-card2 {
   background-color: #F2F6FC;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   max-height: 160px;
   overflow: hidden;
 }
@@ -259,7 +261,7 @@ export default {
   font-size: 23px;
   color: #1f2d3d;
   font-family: 微软雅黑;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
 }
 
 .show-chart1 {

@@ -319,7 +319,7 @@ public class UserController extends BaseController {
 
     @GetMapping(value = "/selectChanged")
     public Result<?> recordUserSelect(@RequestParam Integer userId,@RequestParam Integer workId){
-        System.out.println("成功收到");
+//        System.out.println("成功收到");
         if(userId==null)
             return Result.error("用户未登录","-1");
         userRecordMapper.addUserRecord(new UserRecord(null,userId,workId,new Date()));
@@ -328,10 +328,10 @@ public class UserController extends BaseController {
             userRecordMapper.addUserRecentRecord(new UserRecentRecord(null,userId,workId,1, new Date()));
         }
         else{
-            System.out.println("更新用户最近访问");
+//            System.out.println("更新用户最近访问");
             userRecordMapper.updateUserRecentRecord(userId,workId,new Date());
         }
-        System.out.println(count);
+//        System.out.println(count);
         return Result.success();
     }
 
@@ -339,11 +339,10 @@ public class UserController extends BaseController {
     public Result<?> findAllRecordByUserId(@RequestParam Integer userId,
                                         @RequestParam(required = false, defaultValue = "1") Integer pageNum,
                                         @RequestParam(required = false, defaultValue = "10") Integer pageSize){
-        System.out.println("成功收到");
+//        System.out.println("成功收到");
         if(userId==null)
             return Result.error("用户未登录","-1");
 //        System.out.println(userRecordMapper.selectRecordByUserIdPaging(new Page<>(pageNum,pageSize),userId));
         return Result.success(userRecordMapper.selectRecentRecordByUserIdPaging(new Page<>(pageNum,pageSize),userId));
     }
-
 }

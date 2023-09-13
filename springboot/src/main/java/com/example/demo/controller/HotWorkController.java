@@ -39,7 +39,9 @@ public class HotWorkController {
     @GetMapping("/all")
     @ApiOperation(value = "查询所有热点文化作品信息")
     public Result<?> findAll() {
-        List<HotWork> hotWorks = hotWorkMapper.selectList(null);
+        LambdaQueryWrapper<HotWork> queryWrapper = Wrappers.<HotWork>lambdaQuery()
+                .eq(HotWork::getIsHotWork, 1);
+        List<HotWork> hotWorks = hotWorkMapper.selectList(queryWrapper);
         return Result.success(hotWorks);
     }
 
@@ -70,14 +72,19 @@ public class HotWorkController {
     @ApiOperation(value = "根据ID删除热点文化作品")
     @ApiImplicitParam(name = "ids", value = "热点文化作品ID数组")
     public Result<?> deleteById(@PathVariable Long[] ids) {
-        int res = hotWorkMapper.deleteBatchIds(Arrays.asList(ids)); // 批量删除
-        if (res > 0) {
+        StringBuilder idList = new StringBuilder("(");
+        for (Long id: ids) {
+            idList.append(id).append(",");
+        }
+        idList.setCharAt(idList.length() - 1, ')');
+        boolean res = hotWorkMapper.deleteByIds(idList.toString());
+        if (res) {
             return Result.success();
         }
         return Result.error("-1", "该热点作品已经被删除了");
     }
 
-    // 新增热点文化作品
+    /*// 新增热点文化作品
     @PostMapping("/add")
     @ApiOperation(value = "新增热点文化作品信息")
     public Result<?> add(@RequestBody HotWork hotWork) {
@@ -86,9 +93,9 @@ public class HotWorkController {
             return Result.success();
         }
         return Result.error("-1", "插入热点作品失败");
-    }
+    }*/
 
-    // 修改热点文化作品信息
+    /*// 修改热点文化作品信息
     @PutMapping("/update")
     @ApiOperation(value = "修改热点文化作品信息")
     public Result<?> update(@RequestBody HotWork hotWork) {
@@ -97,7 +104,7 @@ public class HotWorkController {
             return Result.success();
         }
         return Result.error("-1", "修改热点文化作品失败");
-    }
+    }*/
 
     /**
      * Excel导出
@@ -116,7 +123,6 @@ public class HotWorkController {
             Map<String, Object> row = new LinkedHashMap<>();
             row.put("热点文化作品名称", hotWork.getName());
             row.put("作品类型", hotWork.getCategory());
-            row.put("作品介绍标题", hotWork.getTitle());
             row.put("作品介绍内容", hotWork.getContent());
             row.put("作品介绍网址", hotWork.getCiteUrl());
             row.put("作品介绍图片url", hotWork.getImgUrl());
@@ -153,7 +159,6 @@ public class HotWorkController {
         Map<String, Object> row = new LinkedHashMap<>();
         row.put("热点文化作品名称", "");
         row.put("作品类型", "");
-        row.put("作品介绍标题", "");
         row.put("作品介绍内容", "");
         row.put("作品介绍网址", "");
         row.put("作品介绍图片url", "");
@@ -193,11 +198,10 @@ public class HotWorkController {
             HotWork hotWork = new HotWork();
             hotWork.setName(row.get(0).toString());
             hotWork.setCategory(row.get(1).toString());
-            hotWork.setTitle(row.get(2).toString());
-            hotWork.setContent(row.get(3).toString());
-            hotWork.setCiteUrl(row.get(4).toString());
-            hotWork.setImgUrl(row.get(5).toString());
-            hotWork.setPostTime(sdf.parse(row.get(6).toString()));
+            hotWork.setContent(row.get(2).toString());
+            hotWork.setCiteUrl(row.get(3).toString());
+            hotWork.setImgUrl(row.get(4).toString());
+            hotWork.setPostTime(sdf.parse(row.get(5).toString()));
             saveList.add(hotWork);
         }
         for (HotWork hotWork : saveList) {

@@ -31,6 +31,12 @@ public class MonitorWork {
     @ApiModelProperty(value = "作品类型")
     private String category; // 类别
 
+    @ApiModelProperty(value = "作品标签")
+    private String labels; // 作品标签
+
+    @ApiModelProperty(value = "传播效果得分")
+    private Float effectScore; // 传播效果得分
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @ApiModelProperty(value = "监测作品的创建时间")
     private Date createTime; // 监测作品的创建时间

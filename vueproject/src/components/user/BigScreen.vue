@@ -246,7 +246,7 @@ export default {
     this.timeInterval();
     this.cancelLoading();
     this.resizeScreen();
-    this.selectChanged();
+    // this.selectChanged();
     // console.log(this.screenWidth)
   },
   beforeDestroy () {

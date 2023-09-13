@@ -48,6 +48,10 @@
       </el-table-column>
       <el-table-column prop="category" label="作品类型" width="80">
       </el-table-column>
+      <el-table-column prop="labels" label="作品标签" width="120">
+      </el-table-column>
+      <el-table-column prop="effectScore" label="传播效果得分" width="120">
+      </el-table-column>
       <el-table-column sortable prop="createTime" label="创建时间" width="140">
         <template slot-scope="scope">
           <div>{{ parseTime(scope.row.createTime, '{y}-{m}-{d} {h}:{i}:{s}') }}</div>

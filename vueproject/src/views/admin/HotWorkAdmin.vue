@@ -29,10 +29,10 @@
       </el-form-item>
       <el-form-item>
         <el-button size="small" type="primary" plain round icon="el-icon-search" @click="search">搜索</el-button>
-        <el-button size="small" type="primary" plain round icon="el-icon-plus" @click="handleEdit()">添加</el-button>
+<!--        <el-button size="small" type="primary" plain round icon="el-icon-plus" @click="handleEdit()">添加</el-button>-->
         <el-button size="small" type="danger" :disabled="multiple" round icon="el-icon-delete" @click="deleteRow">删除
         </el-button>
-        <el-button size="small" icon="el-icon-upload" plain round type="success" @click="handleImport">导入数据</el-button>
+<!--        <el-button size="small" icon="el-icon-upload" plain round type="success" @click="handleImport">导入数据</el-button>-->
         <el-button size="small" icon="el-icon-download" plain round type="warning" @click="handleExport">导出数据
         </el-button>
       </el-form-item>
@@ -48,11 +48,11 @@
       </el-table-column>
       <el-table-column prop="category" label="作品类型" width="100">
       </el-table-column>
-      <el-table-column prop="title" label="作品介绍标题" width="140">
+      <el-table-column prop="labels" label="作品标签" width="140">
       </el-table-column>
       <el-table-column prop="content" label="作品介绍内容" width="200">
       </el-table-column>
-      <el-table-column align="center" sortable prop="postTime" label="作品介绍时间" min-width="100">
+      <el-table-column align="center" sortable prop="postTime" label="作品发行时间" min-width="100">
         <template slot-scope="scope">
           <div>{{ parseTime(scope.row.postTime, '{y}-{m}-{d}') }}</div>
         </template>
@@ -61,8 +61,8 @@
       </el-table-column>
       <el-table-column fixed="right" align="center" label="操作" min-width="150">
         <template slot-scope="scope">
-          <el-button size="small" round type="primary" icon="el-icon-edit"
-                     @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+<!--          <el-button size="small" round type="primary" icon="el-icon-edit"
+                     @click="handleEdit(scope.$index, scope.row)">编辑</el-button>-->
           <el-button size="small" round icon="el-icon-delete" type="danger" @click="deleteRow(scope.row)">删除</el-button>
         </template>
       </el-table-column>
@@ -86,10 +86,10 @@
             />
           </el-select>
         </el-form-item>
-        <el-form-item label="作品介绍标题" prop="title">
+<!--        <el-form-item label="作品介绍标题" prop="title">
           <el-input size="small" v-model="editForm.title" auto-complete="off"
                     placeholder="请输入热点文化作品介绍标题"></el-input>
-        </el-form-item>
+        </el-form-item>-->
         <el-form-item label="作品介绍内容" prop="content">
           <el-input size="small" v-model="editForm.content" auto-complete="off"
                     placeholder="请输入热点文化作品介绍内容"></el-input>
@@ -132,7 +132,7 @@
       </div>
     </el-dialog>
     <!-- 用户导入对话框 -->
-    <el-dialog :title="upload.title" :visible.sync="upload.open" width="400px" append-to-body>
+<!--    <el-dialog :title="upload.title" :visible.sync="upload.open" width="400px" append-to-body>
       <el-upload
         ref="upload"
         :limit="1"
@@ -162,7 +162,7 @@
         <el-button type="primary" @click="submitFileForm">确 定</el-button>
         <el-button @click="upload.open = false">取 消</el-button>
       </div>
-    </el-dialog>
+    </el-dialog>-->
   </div>
 </template>
 

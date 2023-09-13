@@ -30,8 +30,8 @@ public class HotWork {
     @ApiModelProperty(value = "作品类型")
     private String category; // 作品类型
 
-    @ApiModelProperty(value = "作品介绍标题")
-    private String title; // 作品介绍标题
+    @ApiModelProperty(value = "作品标签")
+    private String labels; // 作品标签
 
     @ApiModelProperty(value = "作品介绍内容")
     private String content; // 作品介绍内容
