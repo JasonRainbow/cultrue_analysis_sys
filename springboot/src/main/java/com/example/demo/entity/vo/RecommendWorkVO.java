@@ -51,4 +51,6 @@ public class RecommendWorkVO {
 
     @ApiModelProperty(value = "作品推荐指数")
     private Float score; // 作品推荐指数
+
+    private Boolean isMonitor;
 }

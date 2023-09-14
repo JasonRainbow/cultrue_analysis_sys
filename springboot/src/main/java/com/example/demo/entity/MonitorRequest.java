@@ -48,4 +48,11 @@ public class MonitorRequest {
 
     @ApiModelProperty(value = "是否完成监测")
     private Short complete = 0; // 是否完成
+
+    public MonitorRequest(Integer id, Integer userId, Integer workId, Date createTime) {
+        this.id = id;
+        this.userId = userId;
+        this.workId = workId;
+        this.createTime = createTime;
+    }
 }

@@ -18,6 +18,8 @@
                     <span style="margin-left: 15px">{{ item.postTime }}</span>
                     <span style="margin-left: 15px; color: #934819">{{ item.labels }}</span>
                     <span style="float: right" @click="clickDetails(item.workId)"><a :href="item.citeUrl" target="_blank">查看详情</a></span>
+                    <span v-if="item.isMonitor" style="float:right;margin-right: 15px;"><a>已申请监测</a></span>
+                    <span v-if="!item.isMonitor" style="float:right;margin-right: 15px;" @click="addMonitorRequest(item.workId,index),item.isMonitor=true"><a>申请监测</a></span>
                   </div>
                 </div>
               </el-col>
@@ -114,6 +116,7 @@ import {findAllRecordByUserId, recordUserSelect} from "../../api/userAPI";
 import Pagination from "../../components/Pagination.vue";
 import MonitorList from "../../components/user/common/monitorList.vue";
 import {getRecommendWorksByUserId} from "../../api/monitor_workAPI";
+import {clickAddMonitorRequest} from "../../api/monitor_requestAPI";
 
 export default {
   components: {MonitorList, Pagination},
@@ -168,7 +171,11 @@ export default {
       workRecord: {},
       pageSize: 10,
       userId: null,
-      currentPage: 1
+      currentPage: 1,
+      addParam:{
+        userId:null,
+        workId:null,
+      },
     }
   },
   created() {
@@ -188,6 +195,33 @@ export default {
     window.addEventListener('scroll', this.handleScroll)
   },
   methods: {
+    addMonitorRequest(workId,index){
+      this.addParam.userId=this.userId,
+      this.addParam.workId=workId,
+      clickAddMonitorRequest(this.addParam).then((res) => {
+        console.log(this.addParam);
+        if (res.code === "0") {
+          console.log("add_success");
+          this.$message({
+            message: '申请监测成功',
+            center: true,
+            type:'success',
+          });
+          const h = this.$createElement;
+          // this.$message({
+          //   message: h('p', null, [
+          //     h('span', null, '申请监测'),
+          //     h('i', { style: 'color: teal' }, '成功')
+          //   ]),
+          //   type:'success',
+          // });
+
+        } else {
+          console.log("add_failure");
+          console.log(res.data);
+        }
+      });
+    },
     timestampToTime(date) {
       let d = new Date(date);
       let month = (d.getMonth() + 1) < 10 ? '0' + (d.getMonth() + 1) : (d.getMonth() + 1);
@@ -227,6 +261,7 @@ export default {
       getRecommendWorksByUserId({userId: this.userId}).then((res)=>{
         if (res.code === "0") {
           this.works = res.data
+          console.log(res.data)
         }
       })
     },

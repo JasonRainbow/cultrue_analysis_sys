@@ -5,12 +5,15 @@ import cn.hutool.core.io.IoUtil;
 import cn.hutool.poi.excel.ExcelUtil;
 import cn.hutool.poi.excel.ExcelWriter;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.common.Result;
+import com.example.demo.entity.MonitorRequest;
 import com.example.demo.entity.dto.CommentPlatformDto;
 import com.example.demo.entity.MonitorWork;
 import com.example.demo.entity.vo.RecommendWorkVO;
+import com.example.demo.mapper.MonitorRequestMapper;
 import com.example.demo.mapper.MonitorWorkMapper;
 import com.example.demo.mapper.RawCommentMapper;
 import io.swagger.annotations.Api;
@@ -37,6 +40,9 @@ public class MonitorWorkController {
 
     @Autowired
     private RawCommentMapper rawCommentMapper;
+
+    @Autowired
+    private MonitorRequestMapper monitorRequestMapper;
 
     // 查询所有的监测作品信息
     @GetMapping("/all")
@@ -133,11 +139,37 @@ public class MonitorWorkController {
     @GetMapping("/recommendByUserId")
     @ApiOperation(value = "查询指定用户的推荐作品")
     public Result<?> recommendByUserId(@RequestParam Integer userId) {
+        System.out.println(userId);
         List<RecommendWorkVO> recommendWorkVOS = monitorWorkMapper.selectRecommendWorksByUserId(userId);
         if (recommendWorkVOS.size() == 0) {
+            List<RecommendWorkVO> recommendWorks = monitorWorkMapper.selectRecommendWorksByUserId(22);
+            for(int i=0;i<recommendWorks.size();i++){
+                QueryWrapper<MonitorRequest> query1 = new QueryWrapper<>();
+                query1.eq("userId", userId);
+                query1.eq("workId", recommendWorks.get(i).getWorkId());
+                List<MonitorRequest> monitorRequests = monitorRequestMapper.selectList(query1);
+                if(monitorRequests.size()==0){
+                    recommendWorks.get(i).setIsMonitor(false);
+                }
+                else{
+                    recommendWorks.get(i).setIsMonitor(true);
+                }
+            }
             // 默认用户的推荐
-            return Result.success(monitorWorkMapper.selectRecommendWorksByUserId(22));
+            return Result.success(recommendWorks);
         } else {
+            for(int j=0;j<recommendWorkVOS.size();j++){
+                QueryWrapper<MonitorRequest> query1 = new QueryWrapper<>();
+                query1.eq("userId", userId);
+                query1.eq("workId", recommendWorkVOS.get(j).getWorkId());
+                List<MonitorRequest> monitorRequests = monitorRequestMapper.selectList(query1);
+                if(monitorRequests.size()==0){
+                    recommendWorkVOS.get(j).setIsMonitor(false);
+                }
+                else{
+                    recommendWorkVOS.get(j).setIsMonitor(true);
+                }
+            }
             return Result.success(recommendWorkVOS);
         }
     }
