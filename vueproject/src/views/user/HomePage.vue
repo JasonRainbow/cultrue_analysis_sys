@@ -146,7 +146,7 @@ export default {
       }
     },
     selectChanged(){
-      this.getUserId()
+      if (!this.userId) return // 用户没有登录，不记录浏览
       recordUserSelect({userId: this.userId, workId:this.workId}).then((res)=>{ // 获取监测作品
         if (res.code === "0") {
           console.log("记录成功")
@@ -156,7 +156,7 @@ export default {
       })
     },
     clickDetails(workId){
-      this.getUserId()
+      if (!this.userId) return
       recordUserSelect({userId: this.userId, workId:workId}).then((res)=>{ // 获取监测作品
         if (res.code === "0") {
           console.log("记录成功")
@@ -181,7 +181,7 @@ export default {
               //把数据拼上去
               let res_data = res.data.records
               this.totalRecords = res.data.total
-              console.log("热点作品",res.data)
+              // console.log("热点作品",res.data)
               /*let titles = res_data.map((item)=>{
                 return item.title
               })*/
@@ -225,6 +225,7 @@ export default {
     }
   },
   async created() {
+    this.getUserId()
     this.load()
     await this.getWorkData()
     // console.log(this)

@@ -188,6 +188,7 @@ export default {
     } else {
       this.isLogin = false
     }
+    if (!this.isLogin) return // 用户没有登录，不获取浏览记录和推荐作品
     this.getRecord()
     this.getRecommendWorks()
   },
@@ -234,6 +235,7 @@ export default {
     },
 
     clickDetails(workId){
+      if (!this.userId) return // 用户没有登录，不记录浏览
       recordUserSelect({userId: this.userId, workId:workId}).then((res)=>{ // 获取监测作品
         if (res.code === "0") {
           // console.log("记录成功")

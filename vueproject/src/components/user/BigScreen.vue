@@ -189,6 +189,7 @@ export default {
   },
   data () {
     return {
+      userId: null,
       inputSize: 'small',
       loading: true,
       // 装饰8颜色
@@ -228,6 +229,7 @@ export default {
     }
   },
   created () {
+    this.getUser()
     this.getWorkData()
   },
   mounted(){
@@ -359,19 +361,21 @@ export default {
       this.$router.push({path: "/home"})
     },
     selectChanged(){
-        let userId = null;
-        let loginUser = localStorage.getItem("user");
-        if (loginUser) {
-            loginUser = JSON.parse(loginUser) // 解析存储在浏览器中的用户数据
-            userId = loginUser.id
-        }
-        recordUserSelect({userId: userId, workId:this.workId}).then((res)=>{ // 获取监测作品
+        if (!this.userId) return // 用户没有登录，不记录浏览
+        recordUserSelect({userId: this.userId, workId:this.workId}).then((res)=>{ // 获取监测作品
             if (res.code === "0") {
                console.log("记录成功")
             } else {
                 console.log(res.msg)
             }
         })
+    },
+    getUser() {
+      let loginUser = localStorage.getItem("user");
+      if (loginUser) {
+        loginUser = JSON.parse(loginUser) // 解析存储在浏览器中的用户数据
+        this.userId = loginUser.id
+      }
     }
   }
 }
