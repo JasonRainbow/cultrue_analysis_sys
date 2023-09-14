@@ -35,6 +35,7 @@ public class HttpUtils {
 
     public String generateRequestParameters(String protocol, String uri, Map<String, String> params) {
         StringBuilder sb = new StringBuilder(protocol).append("://").append(uri);
+        if (params == null) return sb.toString();
         sb.append("?");
         for (Map.Entry map : params.entrySet()) {
             sb.append(map.getKey())
