@@ -35,4 +35,7 @@ export const updateMonitorRequest = (params)=>{
   return req("put", "/monitor-request/update", null, params);
 }
 
+export const clickAddMonitorRequest = (params)=>{
+  return req("post", "/monitor-request/click-add", null, params);
+}
 //

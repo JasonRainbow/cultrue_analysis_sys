@@ -176,4 +176,22 @@ public class MonitorRequestController {
         writer.close();
         IoUtil.close(System.out);
     }
+
+    @PostMapping("/click-add")
+    public Result<?> clickAdd(@RequestBody MonitorRequest monitorRequest) {
+        System.out.println("成功收到请求");
+        QueryWrapper<MonitorRequest> query1 = new QueryWrapper<>();
+        query1.eq("userId", monitorRequest.getUserId());
+        query1.eq("workId", monitorRequest.getWorkId());
+        // System.out.println(monitorRequest.getUserId());
+        // System.out.println(monitorRequest.getWorkId());
+        List<MonitorRequest> monitorRequests = monitorRequestMapper.selectList(query1);
+        if(monitorRequests==null || monitorRequests.size()==0){
+            monitorRequestMapper.insert(new MonitorRequest(null,monitorRequest.getUserId(),monitorRequest.getWorkId(),new Date()));
+            return Result.success();
+        }
+        else{
+            return Result.error("-1", "监测请求已存在");
+        }
+    }
 }
