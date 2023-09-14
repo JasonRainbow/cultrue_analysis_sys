@@ -139,7 +139,7 @@ public class MonitorWorkController {
     @GetMapping("/recommendByUserId")
     @ApiOperation(value = "查询指定用户的推荐作品")
     public Result<?> recommendByUserId(@RequestParam Integer userId) {
-        System.out.println(userId);
+//        System.out.println(userId);
         List<RecommendWorkVO> recommendWorkVOS = monitorWorkMapper.selectRecommendWorksByUserId(userId);
         if (recommendWorkVOS.size() == 0) {
             List<RecommendWorkVO> recommendWorks = monitorWorkMapper.selectRecommendWorksByUserId(22);

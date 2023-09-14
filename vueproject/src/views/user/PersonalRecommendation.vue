@@ -18,8 +18,8 @@
                     <span style="margin-left: 15px">{{ item.postTime }}</span>
                     <span style="margin-left: 15px; color: #934819">{{ item.labels }}</span>
                     <span style="float: right" @click="clickDetails(item.workId)"><a :href="item.citeUrl" target="_blank">查看详情</a></span>
-                    <span v-if="item.isMonitor" style="float:right;margin-right: 15px;"><a>已申请监测</a></span>
-                    <span v-if="!item.isMonitor" style="float:right;margin-right: 15px;" @click="addMonitorRequest(item.workId,index),item.isMonitor=true"><a>申请监测</a></span>
+                    <span v-show="item.isMonitor" style="float:right;margin-right: 15px; color: #9e9923">已申请监测</span>
+                    <span v-show="!item.isMonitor" style="float:right;margin-right: 15px;" @click="addMonitorRequest(item.workId,index),item.isMonitor=true"><a>申请监测</a></span>
                   </div>
                 </div>
               </el-col>

@@ -38,7 +38,8 @@ const whiteUrls = ["/user/login", '/user/register',
   '/user/selectChanged', '/user/selectAllRecordByUserId'
   ]
 
-const userAuth = ["/user/pass", "/user/profile", '/monitor-work/recommendByUserId']
+const userAuth = ["/user/pass", "/user/profile",
+  '/monitor-work/recommendByUserId', '/monitor-request/click-add']
 
 let downloadLoadingInstance;
 

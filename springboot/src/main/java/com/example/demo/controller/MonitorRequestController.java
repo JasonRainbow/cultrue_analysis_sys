@@ -179,7 +179,7 @@ public class MonitorRequestController {
 
     @PostMapping("/click-add")
     public Result<?> clickAdd(@RequestBody MonitorRequest monitorRequest) {
-        System.out.println("成功收到请求");
+//        System.out.println("成功收到请求");
         QueryWrapper<MonitorRequest> query1 = new QueryWrapper<>();
         query1.eq("userId", monitorRequest.getUserId());
         query1.eq("workId", monitorRequest.getWorkId());
