@@ -13,6 +13,7 @@ import com.example.demo.entity.UserRecord;
 import com.example.demo.enums.PwdEnum;
 import com.example.demo.mapper.UserMapper;
 import com.example.demo.mapper.UserRecordMapper;
+import com.example.demo.service.DataAnalysisService;
 import com.example.demo.utils.TokenUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -43,6 +44,13 @@ public class UserController extends BaseController {
 
     @Autowired
     private UserRecordMapper userRecordMapper;
+
+    @Autowired
+    private DataAnalysisService dataAnalysisService;
+
+    private int currentCnt = 0; // 记录所有用户的浏览作品次数
+
+    private static final int cntLimit = 10; // 浏览次数限制，超过这个值就更新用户的推荐作品，运行推荐算法
 
     @PostMapping("/login")
     @ApiOperation(value = "用户登录")
@@ -323,6 +331,12 @@ public class UserController extends BaseController {
 //        System.out.println("成功收到");
         if(userId==null)
             return Result.error("用户未登录","-1");
+        this.currentCnt++;
+        // 超过界线，更新推荐列表
+        if (this.currentCnt > cntLimit) {
+            this.currentCnt = 0;
+            dataAnalysisService.updateRecommendation();
+        }
         userRecordMapper.addUserRecord(new UserRecord(null,userId,workId,new Date()));
         int count=userRecordMapper.selectUserRecentRecord(userId,workId);
         if(count==0){

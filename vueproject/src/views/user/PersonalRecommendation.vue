@@ -2,7 +2,7 @@
   <div v-if="isLogin" style="width:100%">
     <div id="div4">
       <h1 style="text-align: center;margin-bottom: 5px;font-size: 30px">作品推荐</h1>
-      <el-row>
+      <el-row :gutter="0" style="width: 93%; margin: auto;">
         <el-col :span="14" :xs="24" :sm="24" :lg="12" v-for="(item,index) in works" :key="index">
           <el-card class="box-card2">
             <el-row>
@@ -10,7 +10,7 @@
                 <img :src="item.imgUrl" alt="作品介绍图片" style="height: 160px; width: 130px; margin-top: 12px"/>
               </el-col>
               <el-col :span="19">
-                <div style="margin-left: 20px">
+                <div style="margin-left: 25px">
                   <h3 style="margin: 10px auto 10px;">{{ item.workName }}</h3>
                   <div class="report-content">{{ item.content }}</div>
                   <div class="report-bottom">
@@ -138,7 +138,7 @@ export default {
       value: '中国',
       isLogin: false,
       works: [
-        {
+        /*{
           workName: '西游记',
           content: '电视剧《西游记》，总长达25个小时，几乎包括了百回小说《西游记》里所有精彩篇章，塑造了众多色彩绚丽的屏幕形象。该片采用实景为主，内外景结合的拍摄方法。既有金碧辉煌的灵宵宝殿，祥云飘渺的瑶池仙境，金镶玉砌的东海龙宫等棚内场景，又有风光倚丽的园林妙景，名山绝胜以及扬名远近的寺刹道观。',
           imgUrl: 'http://hzx-oss.oss-cn-guangzhou.aliyuncs.com/images/hot_img5_2-1676058242249736192.jpg?Expires=1720060799&OSSAccessKeyId=LTAI5tQcjbvbjA5JjMMkUkc1&Signature=bDhXYZW8U0DSYZfVuWM9rcukKsg%3D',
@@ -161,7 +161,7 @@ export default {
           category: '影视',
           postTime: '2020-03-01',
           citeUrl: 'https://baidu.com'
-        }
+        }*/
       ],
       isActive: false,
       step: 80,
@@ -320,7 +320,7 @@ export default {
 }
 
 .box-card2 {
-  width: 90%;
+  width: 95%;
   margin: 10px auto auto auto;
   height: 210px
 }

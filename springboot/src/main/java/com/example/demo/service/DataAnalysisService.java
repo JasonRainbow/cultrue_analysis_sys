@@ -152,6 +152,20 @@ public class DataAnalysisService {
         return true;
     }
 
+    // 向另一个服务器发送请求，更新推荐列表
+    public boolean updateRecommendation() {
+        // 创建一个线程去发送http请求
+        new Thread(()->{
+            try {
+                httpUtils.get(address1 + "/recommend", null);
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println("更新推荐列表失败");
+            }
+        }).start();
+        return true;
+    }
+
     //根据作品编号和排名进行细腻情感至评分的映射 返回评分
     private float sentiToScore(int workId, String platform) {
         int count = 0;
