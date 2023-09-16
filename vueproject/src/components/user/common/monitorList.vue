@@ -32,20 +32,21 @@ export default {
         currentPage: 1,
         pageSize: 10,
         total: 10
+      },
+      queryParam: {
+        userId: null,
+        pageNum: 1,
+        pageSize: 10
       }
     }
 
   },
   methods: {
     createList() {
-      let queryParam = {
-        userId: this.userId,
-        pageNum: this.pageparm.currentPage,
-        pageSize: this.pageparm.pageSize
-      }
+      this.queryParam.userId = this.userId
       this.loading = true
       // console.log(queryParam)
-      getMonitorWorkByUserIdPaging(queryParam).then((res) => {
+      getMonitorWorkByUserIdPaging(this.queryParam).then((res) => {
         if (res.code === '0') {
           this.monitorList = res.data.records;
           this.pageparm.total = res.data.total
@@ -66,6 +67,8 @@ export default {
     },
     // 分页
     callFather(parm) {
+      this.queryParam.pageNum = parm.currentPage
+      this.queryParam.pageSize = parm.pageSize
       this.createList()
     }
   },
