@@ -46,28 +46,28 @@ import store from "../vuex/store";
 Vue.use(Router);
 
 // 导出路由
-const router =  new Router({
+const router = new Router({
   mode: 'hash',
   routes: [
     {
-    path: '/admin/login',
-    name: '管理员登录',
-    component: Login2,
-    hidden: true,
-    meta: {
-      title: '管理员登录',
-      requireAuth: false
-    }
-  }, {
-    path: '/login',
-    name: '用户登录',
-    component: UserLogin,
-    hidden: true,
-    meta: {
-      title: '用户登录',
-      requireAuth: false
-    }
-  },{
+      path: '/admin/login',
+      name: '管理员登录',
+      component: Login2,
+      hidden: true,
+      meta: {
+        title: '管理员登录',
+        requireAuth: false
+      }
+    }, {
+      path: '/login',
+      name: '用户登录',
+      component: UserLogin,
+      hidden: true,
+      meta: {
+        title: '用户登录',
+        requireAuth: false
+      }
+    }, {
       path: '/register',
       name: '用户注册',
       component: UserRegister,
@@ -76,112 +76,112 @@ const router =  new Router({
         title: '用户注册',
         requireAuth: false
       }
-    },{
-    path: '/admin',
-    name: '后台管理系统',
-    component: index,
-    iconCls: 'el-icon-tickets',
-    redirect: '/admin/home',
-    meta: {
-      title: '后台管理首页',
-      requireAuth: true,
+    }, {
+      path: '/admin',
+      name: '后台管理系统',
+      component: index,
+      iconCls: 'el-icon-tickets',
+      redirect: '/admin/home',
+      meta: {
+        title: '后台管理首页',
+        requireAuth: true,
+      },
+      children: [
+        {
+          path: '/admin/home',
+          name: '后台管理首页',
+          component: AdminHome,
+          meta: {
+            requireAuth: true
+          }
+        },
+        {
+          path: '/admin/profile',
+          name: '管理员个人中心',
+          component: AdminProfile,
+          meta: {
+            requireAuth: true
+          }
+        }, {
+          path: '/admin/users',
+          name: '用户信息管理',
+          component: userAdmin,
+          meta: {
+            requireAuth: true
+          }
+        }, {
+          path: '/admin/admins',
+          name: '管理员信息管理',
+          component: adminInfo,
+          meta: {
+            requireAuth: true
+          }
+        },
+        {
+          path: '/admin/hotwork',
+          name: '热点文化作品管理',
+          component: HotWorkAdmin,
+          meta: {
+            requireAuth: true
+          }
+        },
+        {
+          path: '/admin/monitor-work',
+          name: '监测文化作品管理',
+          component: MonitorWorkAdmin,
+          meta: {
+            requireAuth: true
+          }
+        },
+        {
+          path: '/admin/monitor-request',
+          name: '监测请求管理',
+          component: MonitorRequestAdmin,
+          meta: {
+            requireAuth: true
+          }
+        },
+        {
+          path: '/admin/comments',
+          name: '作品评论管理',
+          component: CommentAdmin,
+          meta: {
+            requireAuth: true
+          }
+        },
+        {
+          path: '/admin/sentiment',
+          name: '情感分析管理',
+          component: SentimentAdmin,
+          meta: {
+            requireAuth: true
+          }
+        },
+        {
+          path: '/admin/polarity',
+          name: '情感极性分析管理',
+          component: PolarityAdmin,
+          meta: {
+            requireAuth: true
+          }
+        },
+        {
+          path: '/admin/word-freq',
+          name: '词频统计管理',
+          component: WordFreqAdmin,
+          meta: {
+            requireAuth: true
+          }
+        },
+        {
+          path: '/charts/statistics',
+          name: '数据可视化',
+          component: statistics,
+          meta: {
+            requireAuth: true
+          }
+        }]
     },
-    children: [
-      {
-        path: '/admin/home',
-        name: '后台管理首页',
-        component: AdminHome,
-        meta: {
-          requireAuth: true
-        }
-      },
-      {
-        path: '/admin/profile',
-        name: '管理员个人中心',
-        component: AdminProfile,
-        meta: {
-          requireAuth: true
-        }
-      }, {
-        path: '/admin/users',
-        name: '用户信息管理',
-        component: userAdmin,
-        meta: {
-          requireAuth: true
-        }
-      }, {
-        path: '/admin/admins',
-        name: '管理员信息管理',
-        component: adminInfo,
-        meta: {
-          requireAuth: true
-        }
-      },
-      {
-        path: '/admin/hotwork',
-        name: '热点文化作品管理',
-        component: HotWorkAdmin,
-        meta: {
-          requireAuth: true
-        }
-      },
-      {
-        path: '/admin/monitor-work',
-        name: '监测文化作品管理',
-        component: MonitorWorkAdmin,
-        meta: {
-          requireAuth: true
-        }
-      },
-      {
-        path: '/admin/monitor-request',
-        name: '监测请求管理',
-        component: MonitorRequestAdmin,
-        meta: {
-          requireAuth: true
-        }
-      },
-      {
-        path: '/admin/comments',
-        name: '作品评论管理',
-        component: CommentAdmin,
-        meta: {
-          requireAuth: true
-        }
-      },
-      {
-        path: '/admin/sentiment',
-        name: '情感分析管理',
-        component: SentimentAdmin,
-        meta: {
-          requireAuth: true
-        }
-      },
-      {
-        path: '/admin/polarity',
-        name: '情感极性分析管理',
-        component: PolarityAdmin,
-        meta: {
-          requireAuth: true
-        }
-      },
-      {
-        path: '/admin/word-freq',
-        name: '词频统计管理',
-        component: WordFreqAdmin,
-        meta: {
-          requireAuth: true
-        }
-      },
-      {
-        path: '/charts/statistics',
-        name: '数据可视化',
-        component: statistics,
-        meta: {
-          requireAuth: true
-        }
-      }]
-  },
     {
       path: "/big-screen",
       name: "大屏模式",
@@ -246,7 +246,7 @@ const router =  new Router({
           meta: {
             requireAuth: false
           }
-        },{
+        }, {
           path: "/team",
           name: "团队介绍",
           component: TeamIntroduction,
@@ -302,11 +302,10 @@ router.beforeEach((to, from, next) => {
         } else {
           next({
             path: "/not-login",
-            query: { redirect: to.fullPath }
+            query: {redirect: to.fullPath}
           })
         }
-      }
-      else if (Boolean(localStorage.getItem("admin"))) { // 通过vuex state获取当前的user是否存在
+      } else if (Boolean(localStorage.getItem("admin"))) { // 通过vuex state获取当前的user是否存在
         const admin = JSON.parse(localStorage.getItem("admin"));
         console.log(admin)
         if (admin.avatar == null || admin.avatar === "") {
@@ -317,7 +316,7 @@ router.beforeEach((to, from, next) => {
       } else {
         next({
           path: '/admin/login',
-          query: { redirect: to.fullPath } // 将跳转的路由path作为参数，登录成功后跳转到该路由
+          query: {redirect: to.fullPath} // 将跳转的路由path作为参数，登录成功后跳转到该路由
         })
       }
 
@@ -342,13 +341,13 @@ router.beforeEach((to, from, next) => {
   } else {
     next({
       path: '/',
-      query: { redirect: to.fullPath } // 将跳转的路由path作为参数，登录成功后跳转到该路由
+      query: {redirect: to.fullPath} // 将跳转的路由path作为参数，登录成功后跳转到该路由
     })
   }
 })
 
 // 全局后置路由守卫——初始化的时候被调用、每次路由切换后被调用
-router.afterEach((to, from)=>{
+router.afterEach((to, from) => {
   document.title = to.name
 })
 

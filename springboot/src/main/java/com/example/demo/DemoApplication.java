@@ -6,7 +6,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
 @SpringBootApplication
-@PropertySource(value = "classpath:application.properties", encoding = "UTF-8")
+@PropertySource(value = "classpath:application.yml", encoding = "UTF-8")
 @PropertySource(value = "classpath:application-prod.properties", encoding = "UTF-8")
 @EnableWebSecurity   //开启security
 public class DemoApplication {

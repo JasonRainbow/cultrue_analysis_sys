@@ -40,7 +40,7 @@ public class UserController extends BaseController {
     UserMapper userMapper;
 
     @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder; //注入bcryct加密
+    private BCryptPasswordEncoder bCryptPasswordEncoder; //注入bcrypt加密
 
     @Autowired
     private UserRecordMapper userRecordMapper;
