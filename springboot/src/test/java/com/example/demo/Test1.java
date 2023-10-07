@@ -1,5 +1,10 @@
 package com.example.demo;
 
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONReader;
+import com.example.demo.common.Result;
+import com.example.demo.entity.User;
+import com.example.demo.entity.dto.LoginDto;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.text.SimpleDateFormat;
@@ -19,5 +24,10 @@ public class Test1 {
 //        String s = "1 2 3  4 5 6 7  7 9  20";
 //        String[] split = s.split("\\s+");
 //        System.out.println(Arrays.toString(split));
+//        Result success = Result.success(new User());
+//        success.put("name", "hzx").put("password", "123456");
+//        System.out.println(success);
+        Object loginDto = JSON.parseObject("{\"username\":\"hzx\",\"password\":\"123456\"}", Object.class, JSONReader.Feature.SupportAutoType);
+        System.out.println((LoginDto)loginDto);
     }
 }

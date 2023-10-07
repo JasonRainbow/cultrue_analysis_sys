@@ -42,7 +42,7 @@ public class HotWorkController {
     // 查询所有的热点作品信息
     @GetMapping("/all")
     @ApiOperation(value = "查询所有热点文化作品信息")
-    public Result<?> findAll() {
+    public Result findAll() {
         LambdaQueryWrapper<HotWork> queryWrapper = Wrappers.<HotWork>lambdaQuery()
                 .eq(HotWork::getIsHotWork, 1);
         List<HotWork> hotWorks = hotWorkMapper.selectList(queryWrapper);
@@ -51,7 +51,7 @@ public class HotWorkController {
 
     @GetMapping("/id/{id}")
     @ApiOperation(value = "根据ID查询热点文化作品信息")
-    public Result<?> findById(@PathVariable Long id) {
+    public Result findById(@PathVariable Long id) {
         HotWork hotWork = hotWorkMapper.selectById(id);
         return Result.success(hotWork);
     }
@@ -59,7 +59,7 @@ public class HotWorkController {
     // 分页 搜索查询
     @GetMapping("/byPage")
     @ApiOperation(value = "分页查询热点文化作品信息")
-    public Result<?> findPage(@RequestParam(required = false, defaultValue = "") String searchName,
+    public Result findPage(@RequestParam(required = false, defaultValue = "") String searchName,
                               @RequestParam(required = false, defaultValue = "") String searchCategory,
                               @RequestParam(required = false, defaultValue = "1") Integer pageNum,
                               @RequestParam(required = false, defaultValue = "10") Integer pageSize) {
@@ -75,7 +75,7 @@ public class HotWorkController {
     @DeleteMapping("/delete/{ids}")
     @ApiOperation(value = "根据ID删除热点文化作品")
     @ApiImplicitParam(name = "ids", value = "热点文化作品ID数组")
-    public Result<?> deleteById(@PathVariable Long[] ids) {
+    public Result deleteById(@PathVariable Long[] ids) {
         StringBuilder idList = new StringBuilder("(");
         for (Long id: ids) {
             idList.append(id).append(",");
@@ -91,7 +91,7 @@ public class HotWorkController {
     // 更新热点文化作品
     @GetMapping("/updateHotWork")
     @ApiOperation(value = "更新热点文化作品")
-    public Result<?> updateHotWorks(@RequestParam(required = false, defaultValue = "10") Integer maxNum) {
+    public Result updateHotWorks(@RequestParam(required = false, defaultValue = "10") Integer maxNum) {
         List<PolarityAnalysis> worksPolarity = polarityAnalysisMapper.selectWorksPolarity();
         Map<Integer, Double> workEffects = new HashMap<>();
         int cnt = 0;
@@ -221,7 +221,7 @@ public class HotWorkController {
      */
     @PostMapping("/import")
     @ApiOperation(value = "导入热点文化作品信息")
-    public Result<?> upload(MultipartFile file) throws IOException, ParseException {
+    public Result upload(MultipartFile file) throws IOException, ParseException {
         InputStream inputStream = file.getInputStream();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         // 获取excel表中的每一行数据

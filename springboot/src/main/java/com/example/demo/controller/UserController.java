@@ -10,15 +10,19 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.common.Result;
 import com.example.demo.entity.*;
 import com.example.demo.entity.UserRecord;
+import com.example.demo.entity.model.LoginUser;
 import com.example.demo.enums.PwdEnum;
 import com.example.demo.mapper.UserMapper;
 import com.example.demo.mapper.UserRecordMapper;
 import com.example.demo.service.DataAnalysisService;
-import com.example.demo.utils.TokenUtils;
+import com.example.demo.utils.JwtUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -54,7 +58,7 @@ public class UserController extends BaseController {
 
     @PostMapping("/login")
     @ApiOperation(value = "用户登录")
-    public Result<?> login(@RequestBody User userParam) {
+    public Result login(@RequestBody User userParam) {
         User res = userMapper.selectByUsername(userParam.getUsername());
         /*QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("username", userParam.getUsername());
@@ -71,14 +75,14 @@ public class UserController extends BaseController {
         }
 
         // 生成token
-        String token = TokenUtils.genToken(res);
-        res.setToken(token);
+//        String token = JwtUtil.genToken(res);
+//        res.setToken(token);
         return Result.success(res);
     }
 
     @PostMapping("/register")
     @ApiOperation(value = "用户注册")
-    public Result<?> register(@RequestBody User user) {
+    public Result register(@RequestBody User user) {
         User res = userMapper.selectOne(Wrappers.<User>lambdaQuery().eq(User::getUsername, user.getUsername()));
         if (res != null) {
             return Result.error("-1", "用户名重复");
@@ -100,18 +104,13 @@ public class UserController extends BaseController {
 
         userMapper.insert(userInfo);
 
-        /*UserRole userRole = UserRole.builder()
-                .userId(userInfo.getId())
-                .roleId(RoleEnum.USER.getRoleId())
-                .build();
-        userRoleMapper.insert(userRole);*/
         return Result.success();
     }
 
     // 更新用户的信息  根据id
     @PutMapping("/update")
     @ApiOperation(value = "修改用户信息")
-    public Result<?> update(@RequestBody User user) {
+    public Result update(@RequestBody User user) {
         /*if (user.getPassword() == null) {
             user.setPassword(bCryptPasswordEncoder.encode(PwdEnum.PASSWORD.getPassword()));
         }*/
@@ -123,7 +122,7 @@ public class UserController extends BaseController {
     @DeleteMapping("/delete/{ids}")
     @ApiOperation(value = "根据ID删除用户")
     @ApiImplicitParam(name = "ids", value = "用户ID数组")
-    public Result<?> delete(@PathVariable Integer[] ids) {
+    public Result delete(@PathVariable Integer[] ids) {
         int res = userMapper.deleteBatchIds(Arrays.asList(ids));
         if (res > 0) {
             return Result.success();
@@ -134,20 +133,19 @@ public class UserController extends BaseController {
     // 更改用户密码
     @PutMapping("/pass")
     @ApiOperation(value = "更改用户密码")
-    public Result<?> pass(@RequestBody Map<String, Object> map) {
-        User loginUser = TokenUtils.getLoginUser();
-        if (loginUser == null) {
-            return Result.error("-1", "未找到用户");
-        }
+    public Result pass(@RequestBody Map<String, Object> map) {
+        // 从上下文中取出Authentication认证对象
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        LoginUser loginUser = (LoginUser) authentication.getPrincipal(); // 获取用户对象
         String password = loginUser.getPassword(); // 获取用户的密码
-        if (!TokenUtils.matchPassword(map.get("oldPwd").toString(), password)) {
+        if (!JwtUtil.matchPassword(map.get("oldPwd").toString(), password)) {
             return Result.error("-1", "修改密码失败，旧密码错误！");
         }
-        if (TokenUtils.matchPassword(map.get("newPwd").toString(), password)) {
+        if (JwtUtil.matchPassword(map.get("newPwd").toString(), password)) {
             return Result.error("-1", "新密码不能与旧密码相同！");
         }
         map.put("newPwd", (bCryptPasswordEncoder.encode(map.get("newPwd").toString())));
-        map.put("id", loginUser.getId());
+        map.put("id", loginUser.getUser().getId());
         userMapper.updatePass(map);
         return Result.success();
     }
@@ -155,7 +153,7 @@ public class UserController extends BaseController {
     // 重置用户的密码
     @PutMapping("/resetPwd")
     @ApiOperation(value = "重置用户密码")
-    public Result<?> resetPwd(@RequestParam Integer userId) {
+    public Result resetPwd(@RequestParam Integer userId) {
         User user = userMapper.selectById(userId);
         if (user == null) {
             return Result.error("-1", "未找到用户");
@@ -169,25 +167,24 @@ public class UserController extends BaseController {
     // 获取当前登录的用户个人信息
     @GetMapping("/profile")
     @ApiOperation(value = "查询当前登录的用户个人信息")
-    public Result<?> getProfile() {
-        String token = TokenUtils.getToken();
-        User loginUser = TokenUtils.getLoginUser();
+    public Result getProfile() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        LoginUser loginUser = (LoginUser) authentication.getPrincipal(); // 获取用户对象
         if (loginUser == null) {
             return Result.error("-1", "用户不存在");
         }
-        loginUser.setToken(token); // 设置token
-        return Result.success(loginUser);
+        return Result.success(loginUser.getUser());
     }
 
     @GetMapping("/id/{id}")
     @ApiOperation(value = "根据ID查询用户信息")
-    public Result<?> getById(@PathVariable Long id) {
+    public Result getById(@PathVariable Long id) {
         return Result.success(userMapper.selectById(id));
     }
 
     @GetMapping("/all")
     @ApiOperation(value = "查询所有用户信息")
-    public Result<?> findAll() {
+    public Result findAll() {
         return Result.success(userMapper.selectList(null));
     }
 
@@ -198,8 +195,7 @@ public class UserController extends BaseController {
      */
     @GetMapping("/countWorkUnit")
     @ApiOperation(value = "统计用户部门分布信息")
-    public Result<?> count() {
-//        User user = getUser(); // 当前登录的用户信息
+    public Result count() {
         return Result.success(userMapper.countWorkUnit());
     }
 
@@ -214,7 +210,8 @@ public class UserController extends BaseController {
      */
     @GetMapping("/byPage")
     @ApiOperation(value = "分页模糊查询用户信息")
-    public Result<?> findPage(@RequestParam(defaultValue = "1") Integer pageNum,
+    @PreAuthorize("hasRole('ROLE_admin')")
+    public Result findPage(@RequestParam(defaultValue = "1") Integer pageNum,
                               @RequestParam(defaultValue = "10") Integer pageSize,
                               @RequestParam(defaultValue = "") String searchUsername,
                               @RequestParam(defaultValue = "") String searchName) {
@@ -304,7 +301,7 @@ public class UserController extends BaseController {
      */
     @PostMapping("/import")
     @ApiOperation(value = "导入用户信息")
-    public Result<?> upload(MultipartFile file) throws IOException {
+    public Result upload(MultipartFile file) throws IOException {
         InputStream inputStream = file.getInputStream();
         List<List<Object>> lists = ExcelUtil.getReader(inputStream).read(1);
         List<User> saveList = new ArrayList<>();
@@ -327,7 +324,7 @@ public class UserController extends BaseController {
 
     @GetMapping(value = "/selectChanged")
     @ApiOperation(value = "记录用户的浏览操作")
-    public Result<?> recordUserSelect(@RequestParam Integer userId,@RequestParam Integer workId){
+    public Result recordUserSelect(@RequestParam Integer userId,@RequestParam Integer workId){
 //        System.out.println("成功收到");
         if(userId==null)
             return Result.error("用户未登录","-1");
@@ -352,7 +349,7 @@ public class UserController extends BaseController {
 
     @GetMapping(value = "/selectAllRecordByUserId")
     @ApiOperation(value = "查询用户的作品浏览记录")
-    public Result<?> findAllRecordByUserId(@RequestParam Integer userId,
+    public Result findAllRecordByUserId(@RequestParam Integer userId,
                                         @RequestParam(required = false, defaultValue = "1") Integer pageNum,
                                         @RequestParam(required = false, defaultValue = "10") Integer pageSize){
 //        System.out.println("成功收到");

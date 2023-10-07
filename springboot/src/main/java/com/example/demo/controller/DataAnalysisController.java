@@ -19,7 +19,7 @@ public class DataAnalysisController {
 
     @GetMapping("/count-word-freq")
     @ApiOperation(value = "对作品的评论进行词频统计")
-    public Result<?> countWordFreq(@RequestParam Integer workId) {
+    public Result countWordFreq(@RequestParam Integer workId) {
         boolean success = dataAnalysisService.countWordFreq(workId);
         if (success) {
             return Result.success();
@@ -29,7 +29,7 @@ public class DataAnalysisController {
 
     @GetMapping("/analyze-polarity")
     @ApiOperation(value = "对作品的评论进行情感极性分析")
-    public Result<?> analyzePolarity(@RequestParam Integer workId) {
+    public Result analyzePolarity(@RequestParam Integer workId) {
         boolean success = dataAnalysisService.polarityAnalysis(workId);
         if (success) {
             return Result.success();
@@ -39,7 +39,7 @@ public class DataAnalysisController {
 
     @GetMapping("/analyze-sentiment")
     @ApiOperation(value = "对作品的评论进行细腻情感分析")
-    public Result<?> analyzeSentiment(@RequestParam Integer workId) {
+    public Result analyzeSentiment(@RequestParam Integer workId) {
         boolean success = dataAnalysisService.sentimentAnalysis(workId);
         if (success) {
             return Result.success();
@@ -49,7 +49,7 @@ public class DataAnalysisController {
 
     @GetMapping("/analyze-subject")
     @ApiOperation(value = "对作品的评论进行主题情感分析")
-    public Result<?> analyzeSubjectPolarity(@RequestParam Integer workId) {
+    public Result analyzeSubjectPolarity(@RequestParam Integer workId) {
         boolean success = dataAnalysisService.analyzeSubjectByWorkId(workId);
         if (success) {
             return Result.success();

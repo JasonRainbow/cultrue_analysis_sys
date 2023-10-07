@@ -9,7 +9,7 @@ import com.aliyun.oss.model.DownloadFileRequest;
 import com.aliyun.oss.model.GenericRequest;
 import com.aliyun.oss.model.OSSObjectSummary;
 import com.aliyun.oss.model.ObjectListing;
-import com.example.demo.utils.config.OssConfigProperties;
+import com.example.demo.config.OssConfigProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,7 +1,8 @@
-package com.example.demo.common.config;
+package com.example.demo.config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -13,6 +14,7 @@ import java.util.Map;
  */
 @ConfigurationProperties(prefix = "my.swagger")
 @Data
+@Configuration
 public class SwaggerProperties {
     private String title = "在线接口文档"; //标题
     private String group = ""; //自定义组名

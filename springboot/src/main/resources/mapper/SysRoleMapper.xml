@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.mapper.SysRoleMapper">
+    <select id="selectRolesByUsername" resultType="com.example.demo.entity.SysRole"
+            parameterType="java.lang.String">
+        select distinct r.*
+        from sys_role r
+            left join sys_user_role sur on (r.id = sur.roleId)
+            left join user u on (sur.userId = u.id)
+        where u.username = #{username}
+    </select>
+</mapper>

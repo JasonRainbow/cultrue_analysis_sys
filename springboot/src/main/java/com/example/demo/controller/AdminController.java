@@ -2,21 +2,17 @@ package com.example.demo.controller;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.io.IoUtil;
-import cn.hutool.core.util.StrUtil;
 import cn.hutool.poi.excel.ExcelUtil;
 import cn.hutool.poi.excel.ExcelWriter;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.common.Result;
 import com.example.demo.entity.Admin;
-import com.example.demo.entity.User;
 import com.example.demo.enums.PwdEnum;
 import com.example.demo.mapper.AdminMapper;
-import com.example.demo.utils.AdminTokenUtils;
 import com.example.demo.utils.AliOssUtil;
-import com.example.demo.utils.TokenUtils;
+import com.example.demo.utils.JwtUtil;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -42,7 +38,7 @@ public class AdminController {
 
     @PostMapping("/login")
     @ApiOperation(value = "管理员登录", notes = "管理员登录的接口")
-    public Result<?> login(@RequestBody Admin adminParam) {
+    public Result login(@RequestBody Admin adminParam) {
         Admin admin = adminMapper.selectByUsername(adminParam.getUsername()); // 通过管理员账号username查询
         if (admin == null) {
             return Result.error("-1", "管理员用户不存在！");
@@ -52,8 +48,8 @@ public class AdminController {
             return Result.error("-1", "密码错误！");
         }
         // 生成token
-        String token = TokenUtils.genToken(admin);
-        admin.setToken(token);
+//        String token = JwtUtil.genToken(admin);
+//        admin.setToken(token);
 //        System.out.println(token);
 
         return Result.success(admin); // 返回成功
@@ -62,7 +58,7 @@ public class AdminController {
     // 注册
     @PostMapping("/register")
     @ApiOperation(value = "管理员注册", notes = "管理员注册的接口")
-    public Result<?> register(@RequestBody Admin admin) {
+    public Result register(@RequestBody Admin admin) {
         // 双冒号 lambda表达式
         Admin res = adminMapper.selectOne(Wrappers.<Admin>lambdaQuery().eq(Admin::getUsername, admin.getUsername()));
         if (res != null) {
@@ -88,7 +84,7 @@ public class AdminController {
     // 保存（更新）管理员信息
     @ApiOperation(value = "修改管理员信息", notes = "修改管理员信息")
     @PutMapping("/update")
-    public Result<?> save(@RequestBody Admin admin) {
+    public Result save(@RequestBody Admin admin) {
         /*if (admin.getPassword() == null) {
             admin.setPassword(bCryptPasswordEncoder.encode(PwdEnum.PASSWORD.getPassword()));
         }*/
@@ -101,7 +97,7 @@ public class AdminController {
     // 重置管理员的密码
     @PutMapping("/resetPwd")
     @ApiOperation(value = "重置管理员密码", notes = "重置管理员密码的接口")
-    public Result<?> resetPwd(@RequestParam(name = "管理员ID") Integer adminId) {
+    public Result resetPwd(@RequestParam(name = "管理员ID") Integer adminId) {
         Admin admin = adminMapper.selectById(adminId);
         if (admin == null) {
             return Result.error("-1", "未找到用户");
@@ -115,18 +111,18 @@ public class AdminController {
     // 上传管理员的头像接口
     @PostMapping("/uploadAvatar")
     @ApiOperation(value = "上传管理员头像", notes = "上传管理员头像到OSS")
-    public Result<?> uploadAvatar(MultipartFile file) {
+    public Result uploadAvatar(MultipartFile file) {
         if (!file.isEmpty()) {
-            Admin loginAdmin = TokenUtils.getLoginAdmin();
-            if (loginAdmin == null) {
-                return Result.error("401", "管理员未登录");
-            }
-            String avatar = AliOssUtil.upload("images/", file); // 上传文件到阿里云OSS存储服务器
-            loginAdmin.setAvatar(avatar);
-            int res = adminMapper.updateById(loginAdmin);
-            if (res > 0) {
-                return Result.success(avatar);
-            }
+//            Admin loginAdmin = JwtUtil.getLoginAdmin();
+//            if (loginAdmin == null) {
+//                return Result.error("401", "管理员未登录");
+//            }
+//            String avatar = AliOssUtil.upload("images/", file); // 上传文件到阿里云OSS存储服务器
+//            loginAdmin.setAvatar(avatar);
+//            int res = adminMapper.updateById(loginAdmin);
+//            if (res > 0) {
+//                return Result.success(avatar);
+//            }
             return Result.error("-1", "上传管理员头像失败");
         }
 
@@ -136,24 +132,24 @@ public class AdminController {
     // 更改管理员密码
     @PutMapping("/pass")
     @ApiOperation(value = "更改管理员密码", notes = "更改管理员密码的接口")
-    public Result<?> pass(@RequestBody Map<String, Object> map) {
-        Admin loginAdmin = TokenUtils.getLoginAdmin();
-        if (loginAdmin == null) {
-            return Result.error("-1", "未找到管理员");
-        }
-        String password = loginAdmin.getPassword(); // 获取管理员的密码
-        if (!TokenUtils.matchPassword(map.get("oldPwd").toString(), password)) {
-            return Result.error("-1", "修改密码失败，旧密码错误！");
-        }
-        if (TokenUtils.matchPassword(map.get("newPwd").toString(), password)) {
-            return Result.error("-1", "新密码不能与旧密码相同！");
-        }
-        map.put("newPwd", (bCryptPasswordEncoder.encode(map.get("newPwd").toString())));
-        map.put("id", loginAdmin.getId());
-        int res = adminMapper.updatePass(map);
-        if (res > 0) {
-            return Result.success();
-        }
+    public Result pass(@RequestBody Map<String, Object> map) {
+//        Admin loginAdmin = JwtUtil.getLoginAdmin();
+//        if (loginAdmin == null) {
+//            return Result.error("-1", "未找到管理员");
+//        }
+//        String password = loginAdmin.getPassword(); // 获取管理员的密码
+//        if (!JwtUtil.matchPassword(map.get("oldPwd").toString(), password)) {
+//            return Result.error("-1", "修改密码失败，旧密码错误！");
+//        }
+//        if (JwtUtil.matchPassword(map.get("newPwd").toString(), password)) {
+//            return Result.error("-1", "新密码不能与旧密码相同！");
+//        }
+//        map.put("newPwd", (bCryptPasswordEncoder.encode(map.get("newPwd").toString())));
+//        map.put("id", loginAdmin.getId());
+//        int res = adminMapper.updatePass(map);
+//        if (res > 0) {
+//            return Result.success();
+//        }
         return Result.error("-1", "修改失败");
     }
 
@@ -161,7 +157,7 @@ public class AdminController {
     @DeleteMapping("/delete/{ids}")
     @ApiOperation(value = "删除管理员", notes = "删除指定管理员的接口")
     @ApiImplicitParam(name = "ids", value = "管理员ID数组", type = "Integer[]")
-    public Result<?> delete(@PathVariable Integer[] ids) {
+    public Result delete(@PathVariable Integer[] ids) {
         int res = adminMapper.deleteBatchIds(Arrays.asList(ids));
         if (res > 0) {
             return Result.success();
@@ -172,27 +168,28 @@ public class AdminController {
     @GetMapping("/id/{id}") // 查询指定id的管理员
     @ApiOperation(value = "根据ID查询管理员", notes = "根据ID查询管理员的接口")
     @ApiImplicitParam(name = "id", value = "管理员ID", type = "Integer")
-    public Result<?> getById(@PathVariable Integer id) {
+    public Result getById(@PathVariable Integer id) {
         return Result.success(adminMapper.selectById(id));
     }
 
     @GetMapping("/all") // 查询所有
     @ApiOperation(value = "查询所有管理员", notes = "查询所有管理员的接口")
-    public Result<?> findAll() {
+    public Result findAll() {
         return Result.success(adminMapper.selectList(null));
     }
 
     // 获取当前登录的管理员的个人信息
     @GetMapping("/profile")
     @ApiOperation(value = "获取登录的管理员的个人信息", notes = "获取登录的管理员的个人信息的接口")
-    public Result<?> getProfile() {
-        String token = TokenUtils.getToken();
-        Admin loginAdmin = TokenUtils.getLoginAdmin();
-        if (loginAdmin == null) {
-            return Result.error("-1", "管理员不存在");
-        }
-        loginAdmin.setToken(token); // 设置token
-        return Result.success(loginAdmin);
+    public Result getProfile() {
+//        String token = JwtUtil.getToken();
+//        Admin loginAdmin = JwtUtil.getLoginAdmin();
+//        if (loginAdmin == null) {
+//            return Result.error("-1", "管理员不存在");
+//        }
+//        loginAdmin.setToken(token); // 设置token
+//        return Result.success(loginAdmin);
+        return null;
     }
 
     /**
@@ -205,7 +202,7 @@ public class AdminController {
      */
     @GetMapping("/byPage")
     @ApiOperation(value = "分页模糊查询所有管理员信息", notes = "分页查询所有管理员的接口")
-    public Result<?> findPage(@RequestParam(defaultValue = "1") Integer pageNum,
+    public Result findPage(@RequestParam(defaultValue = "1") Integer pageNum,
                               @RequestParam(defaultValue = "10") Integer pageSize,
                               @RequestParam(defaultValue = "") String searchUsername,
                               @RequestParam(defaultValue = "") String searchName) {
@@ -294,7 +291,7 @@ public class AdminController {
      */
     @PostMapping("/import")
     @ApiOperation(value = "导入管理员信息", notes = "管理员信息导入的接口")
-    public Result<?> upload(MultipartFile file) throws IOException {
+    public Result upload(MultipartFile file) throws IOException {
         InputStream inputStream = file.getInputStream();
         List<List<Object>> lists = ExcelUtil.getReader(inputStream).read(1);
         List<Admin> saveList = new ArrayList<>();

@@ -47,7 +47,7 @@ public class MonitorWorkController {
     // 查询所有的监测作品信息
     @GetMapping("/all")
     @ApiOperation(value = "查询所有监测作品信息")
-    public Result<?> findAll() {
+    public Result findAll() {
         List<MonitorWork> monitorWorks = monitorWorkMapper.selectList(null);
         return Result.success(monitorWorks);
     }
@@ -55,7 +55,7 @@ public class MonitorWorkController {
     // 根据作品id查询指定的文化作品
     @GetMapping("/id/{id}")
     @ApiOperation(value = "根据ID查询指定文化作品信息")
-    public Result<?> findById(@PathVariable Long id) {
+    public Result findById(@PathVariable Long id) {
         MonitorWork monitorWork = monitorWorkMapper.selectById(id);
         return Result.success(monitorWork);
     }
@@ -63,7 +63,7 @@ public class MonitorWorkController {
     // 分页 搜索查询
     @GetMapping("/byPage")
     @ApiOperation(value = "分页查询监测作品信息")
-    public Result<?> findPage(@RequestParam(required = false, defaultValue = "") String searchName,
+    public Result findPage(@RequestParam(required = false, defaultValue = "") String searchName,
                               @RequestParam(required = false, defaultValue = "") String searchCategory,
                               @RequestParam(required = false, defaultValue = "1") Integer pageNum,
                               @RequestParam(required = false, defaultValue = "10") Integer pageSize) {
@@ -78,7 +78,7 @@ public class MonitorWorkController {
     @DeleteMapping("/delete/{ids}")
     @ApiOperation(value = "根据ID删除指定监测作品")
     @ApiImplicitParam(name = "ids", value = "监测作品ID数组")
-    public Result<?> deleteById(@PathVariable Long[] ids) {
+    public Result deleteById(@PathVariable Long[] ids) {
         int res = monitorWorkMapper.deleteBatchIds(Arrays.asList(ids));
         if (res > 0) {
             return Result.success();
@@ -89,7 +89,7 @@ public class MonitorWorkController {
     // 新增监测文化作品
     @PostMapping("/add")
     @ApiOperation(value = "新增监测作品")
-    public Result<?> add(@RequestBody MonitorWork monitorWork) {
+    public Result add(@RequestBody MonitorWork monitorWork) {
         monitorWork.setCreateTime(new Date());
         int res = monitorWorkMapper.insert(monitorWork);
         if (res > 0) {
@@ -101,7 +101,7 @@ public class MonitorWorkController {
     // 修改监测作品信息
     @PutMapping("/update")
     @ApiOperation(value = "修改监测作品信息")
-    public Result<?> update(@RequestBody MonitorWork monitorWork) {
+    public Result update(@RequestBody MonitorWork monitorWork) {
         int res = monitorWorkMapper.updateById(monitorWork);
         if (res > 0) {
             return Result.success();
@@ -112,7 +112,7 @@ public class MonitorWorkController {
     // 通过用户的id获取用户申请的监测作品信息
     @GetMapping("/byUserId")
     @ApiOperation(value = "查询用户申请的监测作品信息")
-    public Result<?> findAllByUserId(@RequestParam(required = false, defaultValue = "-1") Integer userId) {
+    public Result findAllByUserId(@RequestParam(required = false, defaultValue = "-1") Integer userId) {
         List<MonitorWork> monitorWorks = monitorWorkMapper.selectByUserId(userId);
         return Result.success(monitorWorks);
     }
@@ -120,7 +120,7 @@ public class MonitorWorkController {
     // 通过用户的id获取用户申请的监测作品信息  分页查询
     @GetMapping("/byUserIdPaging")
     @ApiOperation(value = "查询用户申请的监测作品信息（分页）")
-    public Result<?> findAllByUserIdPaging(@RequestParam(required = false, defaultValue = "-1") Integer userId,
+    public Result findAllByUserIdPaging(@RequestParam(required = false, defaultValue = "-1") Integer userId,
                                            @RequestParam(required = false, defaultValue = "1") Integer pageNum,
                                            @RequestParam(required = false, defaultValue = "10") Integer pageSize) {
         Page<MonitorWork> monitorWorks = monitorWorkMapper.selectByUserIdPaging(new Page<>(pageNum, pageSize), userId);
@@ -130,7 +130,7 @@ public class MonitorWorkController {
     // 获取指定文化作品的平台来源统计信息
     @GetMapping("/countPlatform")
     @ApiOperation(value = "根据作品ID查询平台来源统计信息")
-    public Result<?> countPlatform(@RequestParam Integer workId) {
+    public Result countPlatform(@RequestParam Integer workId) {
         List<CommentPlatformDto> platformDtos = rawCommentMapper.countPlatformByWorkId(workId);
         return Result.success(platformDtos);
     }
@@ -138,7 +138,7 @@ public class MonitorWorkController {
     // 获取指定用户的推荐作品
     @GetMapping("/recommendByUserId")
     @ApiOperation(value = "查询指定用户的推荐作品")
-    public Result<?> recommendByUserId(@RequestParam Integer userId) {
+    public Result recommendByUserId(@RequestParam Integer userId) {
 //        System.out.println(userId);
         List<RecommendWorkVO> recommendWorkVOS = monitorWorkMapper.selectRecommendWorksByUserId(userId);
         if (recommendWorkVOS.size() == 0) {
@@ -256,7 +256,7 @@ public class MonitorWorkController {
      */
     @PostMapping("/import")
     @ApiOperation(value = "导入监测作品信息")
-    public Result<?> upload(MultipartFile file) throws IOException {
+    public Result upload(MultipartFile file) throws IOException {
         InputStream inputStream = file.getInputStream();
         // 获取excel表中的每一行数据
         List<List<Object>> lists = ExcelUtil.getReader(inputStream).read(1);

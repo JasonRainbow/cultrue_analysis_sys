@@ -29,7 +29,7 @@ public class DataCrawlController {
 
     @GetMapping("/crawl-comments")
     @ApiOperation(value = "爬取关于指定作品的网络评论")
-    public Result<?> crawlComments(@RequestParam Integer workId,
+    public Result crawlComments(@RequestParam Integer workId,
                                    @RequestParam String keyword,
                                    @RequestParam String platform) {
         String baseUri = scrap_hots + "";
@@ -68,7 +68,7 @@ public class DataCrawlController {
 
     @GetMapping("/crawl-scores")
     @ApiOperation(value = "爬取关于指定作品的网络平台得分")
-    public Result<?> crawlScores(@RequestParam Integer workId,
+    public Result crawlScores(@RequestParam Integer workId,
                                  @RequestParam String keyword,
                                  @RequestParam String platform,
                                  @RequestParam(defaultValue = "1", required = false) Integer fromNet) {

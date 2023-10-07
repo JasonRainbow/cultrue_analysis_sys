@@ -25,7 +25,7 @@ public class SubjectAnalysisController {
 
     @GetMapping("/polarityByWorkIdAndSubject")
     @ApiOperation(value = "查询作品的指定主题情感倾向")
-    public Result<?> findByWorkIdAndSubject(@RequestParam Integer workId,
+    public Result findByWorkIdAndSubject(@RequestParam Integer workId,
                                             @RequestParam String subject) {
         SubjectAnalysis analysis = subjectAnalysisMapper
                 .selectByWorkIdAndSubject(workId, subject);
@@ -48,7 +48,7 @@ public class SubjectAnalysisController {
 
     @GetMapping("/getSubjectsByWorkId")
     @ApiOperation(value = "查询作品评论包含的主题")
-    public Result<?> getSubjects(@RequestParam Integer workId) {
+    public Result getSubjects(@RequestParam Integer workId) {
         List<String> subjects = subjectAnalysisMapper.selectSubjectsByWorkId(workId);
         return Result.success(subjects);
     }

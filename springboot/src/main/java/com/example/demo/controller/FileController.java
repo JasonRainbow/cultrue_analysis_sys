@@ -41,7 +41,7 @@ public class FileController extends BaseController {
      */
     @PostMapping("/upload")
     @ApiOperation(value = "上传文件到本地接口")
-    public Result<?> upload(MultipartFile file) throws IOException {
+    public Result upload(MultipartFile file) throws IOException {
         String originalFilename = file.getOriginalFilename();  // 获取源文件的名称
         // 定义文件的唯一标识（前缀）
         String flag = IdUtil.fastSimpleUUID();
@@ -122,7 +122,7 @@ public class FileController extends BaseController {
      */
     @PostMapping("/upload/oss")
     @ApiOperation(value = "上传文件到OSS接口")
-    public Result<?> ossUpload(MultipartFile file) {
+    public Result ossUpload(MultipartFile file) {
         return Result.success(AliOssUtil.upload("images/", file));  // 返回结果 url
     }
 
@@ -133,7 +133,7 @@ public class FileController extends BaseController {
      */
     @DeleteMapping("/delete/oss")
     @ApiOperation(value = "从OSS删除文件接口")
-    public Result<?> ossUpload(@RequestBody FileVO fileVO) {
+    public Result ossUpload(@RequestBody FileVO fileVO) {
         AliOssUtil.delete(fileVO.getFilekey());
         return Result.success();
     }

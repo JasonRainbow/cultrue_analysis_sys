@@ -45,7 +45,7 @@ public class PolarityAnalysisController {
     // 查询所有的情感极性分析结果
     @GetMapping("/all")
     @ApiOperation(value = "查询所有情感极性分析结果")
-    public Result<?> findAll() {
+    public Result findAll() {
         List<PolarityAnalysis> polarityAnalyses = polarityAnalysisMapper.findAll();
         return Result.success(polarityAnalyses);
     }
@@ -53,7 +53,7 @@ public class PolarityAnalysisController {
     // 根据id查询情感极性分析结果
     @GetMapping("/id/{id}")
     @ApiOperation(value = "根据ID查询情感极性分析结果")
-    public Result<?> findById(@PathVariable Long id) {
+    public Result findById(@PathVariable Long id) {
         PolarityAnalysis polarityAnalysis = polarityAnalysisMapper.selectById(id);
         return Result.success(polarityAnalysis);
     }
@@ -61,7 +61,7 @@ public class PolarityAnalysisController {
     // 分页 搜索查询
     @GetMapping("/byPage")
     @ApiOperation(value = "分页模糊查询情感极性分析结果")
-    public Result<?> findPage(@RequestParam(required = false, defaultValue = "") String searchWorkName,
+    public Result findPage(@RequestParam(required = false, defaultValue = "") String searchWorkName,
                               @RequestParam(required = false, defaultValue = "") String searchCountry,
                               @RequestParam(required = false, defaultValue = "") String searchPlatform,
                               @RequestParam(required = false, defaultValue = "") String searchTime,
@@ -79,7 +79,7 @@ public class PolarityAnalysisController {
     // 精确多条件兼容查询
     @GetMapping("/query-list")
     @ApiOperation(value = "多条件精确查询情感极性分析结果")
-    public Result<?> findAllQuery(@RequestParam(required = false, defaultValue = "0") Integer searchWorkId,
+    public Result findAllQuery(@RequestParam(required = false, defaultValue = "0") Integer searchWorkId,
                                   @RequestParam(required = false, defaultValue = "") String searchCountry,
                                   @RequestParam(required = false, defaultValue = "") String searchPlatform,
                                   @RequestParam(required = false, defaultValue = "") String searchTime) {
@@ -103,7 +103,7 @@ public class PolarityAnalysisController {
     // 统计指定极性情感在各个国家的分布情况
     @GetMapping("/getDistribute")
     @ApiOperation(value = "统计指定极性情感在各个国家的分布情况")
-    public Result<?> getPolarityDistribute(@RequestParam Integer searchWorkId,
+    public Result getPolarityDistribute(@RequestParam Integer searchWorkId,
                                            @RequestParam(defaultValue = "积极", required = false) String selectEmotion,
                                            @RequestParam(defaultValue = "6", required = false) Integer offset) {
         return Result.success(polarityAnalysisMapper.findPolarityDis(searchWorkId, selectEmotion, offset));
@@ -112,14 +112,14 @@ public class PolarityAnalysisController {
     // 查询国家列表
     @GetMapping("/getCountries")
     @ApiOperation(value = "查询经过情感极性分析了的国家列表")
-    public Result<?> getCountries(@RequestParam(defaultValue = "-1", required = false) Integer workId) {
+    public Result getCountries(@RequestParam(defaultValue = "-1", required = false) Integer workId) {
         return Result.success(polarityAnalysisMapper.selectCountries(workId));
     }
 
     // 统计不同情感极性的评论数
     @GetMapping("/countDaily")
     @ApiOperation(value = "统计不同情感极性的评论数")
-    public Result<?> countDaily(@RequestParam Integer workId,
+    public Result countDaily(@RequestParam Integer workId,
                                 @RequestParam String country,
                                 @RequestParam String postTime
     ) {
@@ -141,7 +141,7 @@ public class PolarityAnalysisController {
     // 统计指定时间段内情感极性的评论数
     @GetMapping("/countDayInterval")
     @ApiOperation(value = "统计指定时间段内情感极性的评论数")
-    public Result<?> countDayInterval(@RequestParam Integer workId,
+    public Result countDayInterval(@RequestParam Integer workId,
                                       @RequestParam(required = false, defaultValue = "") String country,
                                       @RequestParam String startTime,
                                       @RequestParam(required = false, defaultValue = "7") Integer dayInterval
@@ -165,7 +165,7 @@ public class PolarityAnalysisController {
     // 统计最近一年的极性情感分析结果
     @GetMapping("/countMonthInterval")
     @ApiOperation(value = "统计最近一年的极性情感分析结果")
-    public Result<?> countMonthInterval(@RequestParam(required = false, defaultValue = "") String searchCountry,
+    public Result countMonthInterval(@RequestParam(required = false, defaultValue = "") String searchCountry,
                                       @RequestParam(required = false, defaultValue = "12") Integer offset
     ) {
         List<Integer> offsets = new ArrayList<>();
@@ -179,7 +179,7 @@ public class PolarityAnalysisController {
     @DeleteMapping("/delete/{ids}")
     @ApiOperation(value = "根据ID删除指定情感极性分析结果")
     @ApiImplicitParam(name = "ids", value = "情感极性分析ID数组")
-    public Result<?> deleteById(@PathVariable Long[] ids) {
+    public Result deleteById(@PathVariable Long[] ids) {
         int res = polarityAnalysisMapper.deleteBatchIds(Arrays.asList(ids));
         if (res > 0) {
             return Result.success();
@@ -190,7 +190,7 @@ public class PolarityAnalysisController {
     // 新增情感极性分析
     @PostMapping("/add")
     @ApiOperation(value = "新增情感极性分析")
-    public Result<?> add(@RequestBody PolarityAnalysis polarityAnalysis) {
+    public Result add(@RequestBody PolarityAnalysis polarityAnalysis) {
         int res = polarityAnalysisMapper.insert(polarityAnalysis);
         if (res > 0) {
             return Result.success();
@@ -201,7 +201,7 @@ public class PolarityAnalysisController {
     // 修改情感极性分析结果
     @PutMapping("/update")
     @ApiOperation(value = "修改情感极性分析结果")
-    public Result<?> update(@RequestBody PolarityAnalysis polarityAnalysis) {
+    public Result update(@RequestBody PolarityAnalysis polarityAnalysis) {
         int res = polarityAnalysisMapper.updateById(polarityAnalysis);
         if (res > 0) {
             return Result.success();
@@ -295,7 +295,7 @@ public class PolarityAnalysisController {
      */
     @PostMapping("/import")
     @ApiOperation(value = "导入情感极性分析结果")
-    public Result<?> upload(MultipartFile file) throws IOException, ParseException {
+    public Result upload(MultipartFile file) throws IOException, ParseException {
         InputStream inputStream = file.getInputStream();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         // 获取excel表中的每一行数据

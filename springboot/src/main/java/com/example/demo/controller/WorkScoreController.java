@@ -23,7 +23,7 @@ public class WorkScoreController {
 
     @GetMapping("/findByWorkId")
     @ApiOperation(value = "查询作品的得分情况")
-    public Result<?> findByWorkId(@RequestParam Integer workId) {
+    public Result findByWorkId(@RequestParam Integer workId) {
         List<WorkScore> workScores = workScoreMapper.countScoreByWorkId(workId);
         if (workScores.size() == 0) return Result.success();
         float meanScore = 0;

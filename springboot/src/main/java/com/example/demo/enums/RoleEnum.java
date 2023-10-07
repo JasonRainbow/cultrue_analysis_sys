@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * @author 太好听了吧
+ * @author hzx
  * @version 1.0
  * @Description 角色枚举
  * @Date 2021/12/3 21:40

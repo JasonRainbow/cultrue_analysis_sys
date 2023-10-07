@@ -1,4 +1,4 @@
-package com.example.demo.common.config;
+package com.example.demo.config;
 
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;

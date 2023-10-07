@@ -47,7 +47,7 @@ public class WordFreqAnalysisController {
     // 查询所有的词频统计结果
     @GetMapping("/all")
     @ApiOperation(value = "查询所有词频统计结果")
-    public Result<?> findAll() {
+    public Result findAll() {
         List<WordFreqAnalysis> wordFreqAnalyses = wordFreqAnalysisMapper.selectList(null);
         return Result.success(wordFreqAnalyses);
     }
@@ -55,7 +55,7 @@ public class WordFreqAnalysisController {
     // 根据词频统计id查询词频统计结果
     @GetMapping("/id/{id}")
     @ApiOperation(value = "根据ID查询词频统计结果")
-    public Result<?> findById(@PathVariable Long id) {
+    public Result findById(@PathVariable Long id) {
         WordFreqAnalysis wordFreqAnalysis = wordFreqAnalysisMapper.selectById(id);
         return Result.success(wordFreqAnalysis);
     }
@@ -63,7 +63,7 @@ public class WordFreqAnalysisController {
     // 分页 搜索查询
     @GetMapping("/byPage")
     @ApiOperation(value = "分页模糊查询词频统计结果")
-    public Result<?> findPage(@RequestParam(required = false, defaultValue = "") String searchWorkName,
+    public Result findPage(@RequestParam(required = false, defaultValue = "") String searchWorkName,
                               @RequestParam(required = false, defaultValue = "") String searchCountry,
                               @RequestParam(required = false, defaultValue = "") String searchPlatform,
                               @RequestParam(required = false, defaultValue = "") String searchTime,
@@ -81,7 +81,7 @@ public class WordFreqAnalysisController {
     // 查询指定作品的词频统计结果
     @GetMapping("/query-res")
     @ApiOperation(value = "多条件精确查询词频统计结果")
-    public Result<?> getWordFreq(@RequestParam Integer searchWorkId,
+    public Result getWordFreq(@RequestParam Integer searchWorkId,
                                  @RequestParam(required = false, defaultValue = "") String searchTime,
                                  @RequestParam(required = false, defaultValue = "") String searchCountry,
                                  @RequestParam(required = false, defaultValue = "") String searchPlatform) throws ParseException {
@@ -133,7 +133,7 @@ public class WordFreqAnalysisController {
     @DeleteMapping("/delete/{ids}")
     @ApiOperation(value = "根据ID删除词频统计结果")
     @ApiImplicitParam(name = "ids", value = "词频统计ID数组")
-    public Result<?> deleteById(@PathVariable Long[] ids) {
+    public Result deleteById(@PathVariable Long[] ids) {
         int res = wordFreqAnalysisMapper.deleteBatchIds(Arrays.asList(ids)); // 兼容批量删除
         if (res > 0) {
             return Result.success();
@@ -144,7 +144,7 @@ public class WordFreqAnalysisController {
     // 新增词频统计结果
     @PostMapping("/add")
     @ApiOperation(value = "新增词频统计结果")
-    public Result<?> add(@RequestBody WordFreqAnalysis wordFreqAnalysis) {
+    public Result add(@RequestBody WordFreqAnalysis wordFreqAnalysis) {
         int res = wordFreqAnalysisMapper.insert(wordFreqAnalysis);
         if (res > 0) {
             return Result.success();
@@ -155,7 +155,7 @@ public class WordFreqAnalysisController {
     // 修改词频统计结果
     @PutMapping("/update")
     @ApiOperation(value = "修改词频统计结果")
-    public Result<?> update(@RequestBody WordFreqAnalysis wordFreqAnalysis) {
+    public Result update(@RequestBody WordFreqAnalysis wordFreqAnalysis) {
         int res = wordFreqAnalysisMapper.updateById(wordFreqAnalysis);
         if (res > 0) {
             return Result.success();
@@ -250,7 +250,7 @@ public class WordFreqAnalysisController {
      */
     @PostMapping("/import")
     @ApiOperation(value = "导入词频统计结果")
-    public Result<?> upload(MultipartFile file) throws IOException, ParseException {
+    public Result upload(MultipartFile file) throws IOException, ParseException {
         InputStream inputStream = file.getInputStream();
         // 获取excel表中的每一行数据
         List<List<Object>> lists = ExcelUtil.getReader(inputStream).read(1);

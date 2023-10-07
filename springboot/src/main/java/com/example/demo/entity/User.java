@@ -10,18 +10,28 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * User实体类
+ */
 @TableName("user")
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @ApiModel(value = "用户实体", description = "用户实体")
-public class User {
+public class User implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     @TableId(type = IdType.AUTO)
     @ApiModelProperty(value = "主键")
     private Integer id;

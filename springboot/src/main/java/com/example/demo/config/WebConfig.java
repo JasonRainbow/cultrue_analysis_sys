@@ -1,8 +1,10 @@
-package com.example.demo.common.config;
+package com.example.demo.config;
 
 import com.example.demo.common.AuthInterceptor;
 import org.springframework.context.annotation.Bean;
+
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -17,7 +19,7 @@ public class WebConfig implements WebMvcConfigurer {
      */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(authInterceptor()).addPathPatterns("/**")
+//        registry.addInterceptor(authInterceptor()).addPathPatterns("/**")
 //        registry.addInterceptor(authInterceptor())
 //                .addPathPatterns("/**/update", "/**/add", "/**/delete/**",
 //                        "/**/import", "/**/export", "/**/importTemplate") // 拦截请求
@@ -35,6 +37,30 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addResourceHandler("doc.html").addResourceLocations("classpath:/META-INF/resources/");
         registry.addResourceHandler("/favicon.ico").addResourceLocations("classpath:/META-INF/resources/");
         registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
+    }
+
+    /**
+     * 解决跨域问题
+     * @param registry
+     */
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                //允许任何域名
+                .allowedOriginPatterns("*")
+                //允许任何方法
+                .allowedMethods("PUT", "DELETE", "GET", "POST", "OPTIONS")
+                //允许任何头
+                .allowedHeaders("*")
+                //暴露头
+                .exposedHeaders("access-control-allow-headers",
+                        "access-control-allow-methods",
+                        "access-control-allow-origin",
+                        "access-control-max-age",
+                        "X-Frame-Options")
+                // 是否允许证书（cookies）
+                .allowCredentials(true)
+                .maxAge(3600);
     }
 
     @Bean

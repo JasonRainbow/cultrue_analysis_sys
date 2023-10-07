@@ -38,7 +38,7 @@ public class SentimentAnalysisController {
     // 查询所有的情感分析结果
     @GetMapping("/all")
     @ApiOperation(value = "查询所有情感分析结果")
-    public Result<?> findAll() {
+    public Result findAll() {
         List<SentimentAnalysis> sentimentAnalyses = sentimentAnalysisMapper.findAll();
         return Result.success(sentimentAnalyses);
     }
@@ -46,7 +46,7 @@ public class SentimentAnalysisController {
     // 根据情感分析id查询情感分析结果
     @GetMapping("/id/{id}")
     @ApiOperation(value = "根据ID查询情感分析结果")
-    public Result<?> findById(@PathVariable Long id) {
+    public Result findById(@PathVariable Long id) {
         SentimentAnalysis sentimentAnalysis = sentimentAnalysisMapper.selectById(id);
         return Result.success(sentimentAnalysis);
     }
@@ -54,7 +54,7 @@ public class SentimentAnalysisController {
     // 分页 模糊查询
     @GetMapping("/byPage")
     @ApiOperation(value = "分页模糊查询情感分析结果")
-    public Result<?> findPage(@RequestParam(required = false, defaultValue = "") String searchWorkName,
+    public Result findPage(@RequestParam(required = false, defaultValue = "") String searchWorkName,
                               @RequestParam(required = false, defaultValue = "") String searchCountry,
                               @RequestParam(required = false, defaultValue = "") String searchPlatform,
                               @RequestParam(required = false, defaultValue = "") String searchTime,
@@ -71,7 +71,7 @@ public class SentimentAnalysisController {
     // 精确多条件兼容查询
     @GetMapping("/query-list")
     @ApiOperation(value = "多条件精确查询情感分析结果")
-    public Result<?> findAllQuery(@RequestParam Integer searchWorkId,
+    public Result findAllQuery(@RequestParam Integer searchWorkId,
                                   @RequestParam(required = false, defaultValue = "") String searchCountry,
                                   @RequestParam(required = false, defaultValue = "") String searchPlatform,
                                   @RequestParam(required = false, defaultValue = "") String searchTime) {
@@ -96,7 +96,7 @@ public class SentimentAnalysisController {
     // 根据作品ID和日期查询各个国家的情感分析结果
     @GetMapping("/getWorldSentiment")
     @ApiOperation(value = "查询各个国家的情感分析结果")
-    public Result<?> getWorldSentiment(@RequestParam Integer searchWorkId,
+    public Result getWorldSentiment(@RequestParam Integer searchWorkId,
                                        @RequestParam(defaultValue = "", required = false) String searchTime) {
         List<SentimentAnalysis> res = sentimentAnalysisMapper.findByWorkIdAndTime(searchWorkId, searchTime);
         return Result.success(res);
@@ -106,7 +106,7 @@ public class SentimentAnalysisController {
     // 统计不同情感倾向的评论数
     @GetMapping("/countDaily")
     @ApiOperation(value = "统计不同情感倾向的评论数")
-    public Result<?> countDaily(@RequestParam Integer workId,
+    public Result countDaily(@RequestParam Integer workId,
                                 @RequestParam(required = false, defaultValue = "") String country,
                                 @RequestParam(required = false, defaultValue = "") String postTime
                                 ) {
@@ -136,7 +136,7 @@ public class SentimentAnalysisController {
     @DeleteMapping("/delete/{ids}")
     @ApiOperation(value = "根据ID删除指定情感分析结果")
     @ApiImplicitParam(name = "ids", value = "情感分析ID数组")
-    public Result<?> deleteById(@PathVariable Long[] ids) {
+    public Result deleteById(@PathVariable Long[] ids) {
         int res = sentimentAnalysisMapper.deleteBatchIds(Arrays.asList(ids));
         if (res > 0) {
             return Result.success();
@@ -147,7 +147,7 @@ public class SentimentAnalysisController {
     // 新增情感分析结果
     @PostMapping("/add")
     @ApiOperation(value = "新增情感分析结果")
-    public Result<?> add(@RequestBody SentimentAnalysis sentimentAnalysis) {
+    public Result add(@RequestBody SentimentAnalysis sentimentAnalysis) {
         int res = sentimentAnalysisMapper.insert(sentimentAnalysis);
         if (res > 0) {
             return Result.success();
@@ -158,7 +158,7 @@ public class SentimentAnalysisController {
     // 修改情感分析结果
     @PutMapping("/update")
     @ApiOperation(value = "修改情感分析结果")
-    public Result<?> update(@RequestBody SentimentAnalysis sentimentAnalysis) {
+    public Result update(@RequestBody SentimentAnalysis sentimentAnalysis) {
         int res = sentimentAnalysisMapper.updateById(sentimentAnalysis);
         if (res > 0) {
             return Result.success();
@@ -259,7 +259,7 @@ public class SentimentAnalysisController {
      */
     @PostMapping("/import")
     @ApiOperation(value = "导入情感分析结果")
-    public Result<?> upload(MultipartFile file) throws IOException, ParseException {
+    public Result upload(MultipartFile file) throws IOException, ParseException {
         InputStream inputStream = file.getInputStream();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         // 获取excel表中的每一行数据

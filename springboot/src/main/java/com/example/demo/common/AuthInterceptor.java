@@ -1,17 +1,5 @@
 package com.example.demo.common;
 
-import cn.hutool.core.util.StrUtil;
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTVerifier;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.example.demo.entity.Admin;
-import com.example.demo.entity.User;
-import com.example.demo.enums.RoleEnum;
-import com.example.demo.exception.CustomException;
-import com.example.demo.mapper.UserMapper;
-import com.example.demo.utils.TokenUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
