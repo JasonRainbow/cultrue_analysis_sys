@@ -51,7 +51,7 @@ public class LoginServiceImpl implements LoginService {
      * @return json响应返回结果
      */
     @Override
-    public Result doLogin(LoginDto loginDto) {
+    public Result doLogin(LoginDto loginDto, boolean adminLogin) {
         /**
          * 因为使用了全局异常处理，GlobalExceptionHandler会自动捕获controller层抛出的异常
          * authenticationManager.authenticate 这个方法 如果认证失败会抛出AuthenticationException异常
@@ -82,6 +82,10 @@ public class LoginServiceImpl implements LoginService {
         }
         // 此时已经认证成功
         LoginUser authUser = (LoginUser) authentication.getPrincipal();
+        ResponseUserVO responseUserVO = new ResponseUserVO(authUser);
+        if (adminLogin && !responseUserVO.getIsAdmin()) { // 管理员登录，但是用户不是管理员
+            throw new CustomException(ResponseStatusEnum.LOGIN_NOT_ADMIN);
+        }
         String username = authUser.getUsername();
         String token = JwtUtil.createJWT(username);
 
@@ -96,7 +100,7 @@ public class LoginServiceImpl implements LoginService {
         Result result = Result.success(ResponseStatusEnum.LOGIN_SUCCESS.getCode(),
                 ResponseStatusEnum.LOGIN_SUCCESS.getMsg());
         result.put(GlobalConstants.TOKEN, token);
-        result.put("user", new ResponseUserVO(authUser));
+        result.put("user", responseUserVO);
 
         return result;
     }

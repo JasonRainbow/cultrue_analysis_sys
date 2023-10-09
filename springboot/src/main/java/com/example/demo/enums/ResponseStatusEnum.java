@@ -28,6 +28,7 @@ public enum ResponseStatusEnum implements CommonResp{
     AUTHENTICATE_FAIL("1016", "认证失败，无法访问系统资源"),
 
     REQUEST_BODY_MISSING("1017", "请求数据体缺失"),
+    LOGIN_NOT_ADMIN("1018", "管理员登录失败，不是管理员"),
 
 
     /** 20XX 表示服务器错误 */

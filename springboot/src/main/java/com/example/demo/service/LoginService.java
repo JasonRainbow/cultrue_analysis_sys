@@ -10,7 +10,7 @@ public interface LoginService {
      * @param loginDto 登录用户对象
      * @return
      */
-    Result doLogin(LoginDto loginDto);
+    Result doLogin(LoginDto loginDto, boolean adminLogin);
 
     /**
      * 处理用户退出登录
