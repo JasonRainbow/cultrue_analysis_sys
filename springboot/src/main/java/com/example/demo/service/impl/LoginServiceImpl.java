@@ -4,6 +4,7 @@ import com.example.demo.common.Result;
 import com.example.demo.constant.GlobalConstants;
 import com.example.demo.entity.dto.LoginDto;
 import com.example.demo.entity.model.LoginUser;
+import com.example.demo.entity.vo.ResponseUserVO;
 import com.example.demo.enums.ResponseStatusEnum;
 import com.example.demo.exception.CustomException;
 import com.example.demo.service.LoginService;
@@ -95,6 +96,7 @@ public class LoginServiceImpl implements LoginService {
         Result result = Result.success(ResponseStatusEnum.LOGIN_SUCCESS.getCode(),
                 ResponseStatusEnum.LOGIN_SUCCESS.getMsg());
         result.put(GlobalConstants.TOKEN, token);
+        result.put("user", new ResponseUserVO(authUser));
 
         return result;
     }

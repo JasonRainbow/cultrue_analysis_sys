@@ -149,3 +149,9 @@ my:
 scrap_host: 426qb33844.goho.co
 remote_host1: 47.115.211.201:5000
 remote_host2: 426qb33844.goho.co
+
+# 都可以访问的接口
+interceptorconfig:
+  path:
+    # 这些路径可以匿名访问
+    permitAll: /api/login,/api/register

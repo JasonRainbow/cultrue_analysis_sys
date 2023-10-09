@@ -2,6 +2,7 @@ package com.example.demo.config;
 
 import com.example.demo.config.authentication.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -39,6 +40,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private MySessionInformationExpiredStrategy mySessionInformationExpiredStrategy; // 检测异地登录
 
+    @Value("${interceptorconfig.path.permitAll}")
+    private String[] permitAll;
+
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
@@ -50,8 +54,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 // 设置不需要认证的URL
                 .authorizeRequests()
-                // 允许未登录的用户进行访问  匿名访问
-                .antMatchers(new String[]{"/api/login"}).anonymous()
+                // 允许未登录的用户进行访问  都可以访问 匿名和认证  如果用anonymous()则必须匿名，不能认证访问
+                .antMatchers(permitAll).permitAll()
                 // 其余的url都要认证才能访问
                 .anyRequest().authenticated()
                 // 关闭csrf跨域

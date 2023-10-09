@@ -5,10 +5,7 @@ import com.example.demo.enums.ResponseStatusEnum;
 import com.example.demo.utils.JsonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.DisabledException;
-import org.springframework.security.authentication.InternalAuthenticationServiceException;
-import org.springframework.security.authentication.LockedException;
+import org.springframework.security.authentication.*;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
@@ -42,6 +39,9 @@ public class MyAuthenticationEntryPoint implements AuthenticationEntryPoint {
         } else if (e instanceof LockedException) {
             // 账号锁定
             result = Result.error(ResponseStatusEnum.USER_ACCOUNT_LOCKED);
+        } else if (e instanceof InsufficientAuthenticationException) {
+            // 认证失败
+            result = Result.error(ResponseStatusEnum.AUTHENTICATE_FAIL);
         } else {
             // 其他错误
             result = Result.error(ResponseStatusEnum.USER_NOT_LOGIN);

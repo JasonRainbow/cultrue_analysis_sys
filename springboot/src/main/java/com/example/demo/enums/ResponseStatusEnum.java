@@ -25,6 +25,7 @@ public enum ResponseStatusEnum implements CommonResp{
     USER_ACCOUNT_LOGIN_IN_OTHER_PLACE("1013","账号超时或账号在另一个地方登陆，建议修改密码"),
     TOKEN_NOT_VALID("1014","非法Token，请重新登陆"),
     TOKEN_EXPIRED("1015", "token过期"),
+    AUTHENTICATE_FAIL("1016", "认证失败，无法访问系统资源"),
 
 
     /** 20XX 表示服务器错误 */

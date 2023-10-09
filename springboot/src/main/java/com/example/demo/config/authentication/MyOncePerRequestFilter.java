@@ -48,44 +48,40 @@ public class MyOncePerRequestFilter extends OncePerRequestFilter {
         // header的值是在yml文件中定义的 “Authorization”
         String token = request.getHeader(header);
 //        System.out.println("MyOncePerRequestFilter-token = " + token);
+
         if (!StrUtil.isEmpty(token)) {
             String username = null;
             try {
                 Claims claims = JwtUtil.parseJWT(token); // 这里会检查token是否过期，过期会抛出异常
                 username = claims.getSubject();
-            } catch (Exception e) {
-                e.printStackTrace();
-//                throw new ServicesException("非法Token，请重新登陆", RespBeanEnum.ERROR);
-                JsonUtil.writeJson(request,response, Result.error(ResponseStatusEnum.TOKEN_NOT_VALID.getCode(),
-                        ResponseStatusEnum.TOKEN_NOT_VALID.getMsg()));
-                return;
+            } catch (Exception ignored) {
+
             }
-            String redisToken = redisCache.getCacheObject(GlobalConstants.REDIS_TOKEN_PREFIX + username);
+            if (username != null) { // 携带了token并且能够正常解析
+                String redisToken = redisCache.getCacheObject(GlobalConstants.REDIS_TOKEN_PREFIX + username);
 //            System.out.println("MyOncePerRequestFilter-redisToken = " + redisToken);
-            if (StrUtil.isEmpty(redisToken)) {
-                //token令牌验证失败
-//                throw new ServicesException(RespBeanEnum.TOKEN_VALIDATE_FAILED);
-
-                //输出JSON
-                JsonUtil.writeJson(request,response, Result.error(ResponseStatusEnum.TOKEN_EXPIRED.getCode(),
-                        ResponseStatusEnum.TOKEN_EXPIRED.getMsg()));
-                return;
-            }
-
-            //对比前端发送请求携带的的token是否与redis中存储的一致
-            if (!Objects.isNull(redisToken) && redisToken.equals(token)) {
-                LoginUser authUser = redisCache.getCacheObject(GlobalConstants.REDIS_USER_DETAILS_PREFIX + username);
-//                System.out.println("MyOncePerRequestFilter-authUser = " + authUser);
-                if (Objects.isNull(authUser)) {
-                    JsonUtil.writeJson(request,response, Result.error(ResponseStatusEnum.USER_NOT_LOGIN,
-                            ResponseStatusEnum.USER_NOT_LOGIN.getMsg()));
+                if (StrUtil.isEmpty(redisToken)) {
+                    //输出JSON
+                    JsonUtil.writeJson(request,response, Result.error(ResponseStatusEnum.TOKEN_EXPIRED.getCode(),
+                            ResponseStatusEnum.TOKEN_EXPIRED.getMsg()));
                     return;
                 }
-                checkTokenExpiration(redisToken, username);
-                UsernamePasswordAuthenticationToken authenticationToken =
-                        new UsernamePasswordAuthenticationToken(authUser, null, authUser.getAuthorities());
-                System.out.println(authenticationToken);
-                SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+
+                //对比前端发送请求携带的的token是否与redis中存储的一致
+                if (!Objects.isNull(redisToken) && redisToken.equals(token)) {
+                    LoginUser authUser = redisCache.getCacheObject(GlobalConstants.REDIS_USER_DETAILS_PREFIX + username);
+//                System.out.println("MyOncePerRequestFilter-authUser = " + authUser);
+                    if (Objects.isNull(authUser)) {
+                        JsonUtil.writeJson(request,response, Result.error(ResponseStatusEnum.USER_NOT_LOGIN,
+                                ResponseStatusEnum.USER_NOT_LOGIN.getMsg()));
+                        return;
+                    }
+                    checkTokenExpiration(redisToken, username);
+                    UsernamePasswordAuthenticationToken authenticationToken =
+                            new UsernamePasswordAuthenticationToken(authUser, null, authUser.getAuthorities());
+                    System.out.println(authenticationToken);
+                    SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                }
             }
         }
         chain.doFilter(request, response);
