@@ -16,12 +16,12 @@ public enum RoleEnum {
     /**
      * 管理员
      */
-    ADMIN(1, "管理员", "admin"),
+    ADMIN(1, "超级管理员", "ROLE_admin"),
 
     /**
      * 普通用户
      */
-    USER(2, "普通用户", "user");
+    USER(2, "普通用户", "ROLE_common");
 
 
     /**
@@ -38,4 +38,8 @@ public enum RoleEnum {
      * 权限标签
      */
     private final String label;
+
+    public String getLabel() {
+        return label;
+    }
 }

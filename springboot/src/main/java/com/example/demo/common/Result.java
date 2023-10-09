@@ -49,6 +49,11 @@ public class Result {
         this.data = data;
     }
 
+    public Result(CommonResp commonResp) {
+        this.setCode(commonResp.getCode());
+        this.setMsg(commonResp.getMsg());
+    }
+
     public static Result success() {
         return Result.success(null);
     }
