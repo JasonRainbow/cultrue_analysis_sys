@@ -8,24 +8,24 @@
           </div>
           <div>
             <div class="text-center">
-              <userAvatar :admin="admin" />
+              <userAvatar />
             </div>
             <ul class="list-group list-group-striped">
               <li class="list-group-item">
                 <i class="el-icon-user"></i>用户名
-                <div class="pull-right">{{ admin.username }}</div>
+                <div class="pull-right">{{ user.username }}</div>
               </li>
               <li class="list-group-item">
                 <i class="el-icon-postcard"></i>用户昵称
-                <div class="pull-right">{{ admin.name }}</div>
+                <div class="pull-right">{{ user.name }}</div>
               </li>
               <li class="list-group-item">
                 <i class="el-icon-mobile"></i>手机号码
-                <div class="pull-right">{{ admin.phone }}</div>
+                <div class="pull-right">{{ user.phone }}</div>
               </li>
               <li class="list-group-item">
                 <i class="el-icon-message"></i>用户邮箱
-                <div class="pull-right">{{ admin.email }}</div>
+                <div class="pull-right">{{ user.email }}</div>
               </li>
             </ul>
           </div>
@@ -38,7 +38,7 @@
           </div>
           <el-tabs v-model="activeTab">
             <el-tab-pane label="基本资料" name="userinfo">
-              <userInfo :admin="admin" />
+              <userInfo :admin="user" />
             </el-tab-pane>
             <el-tab-pane label="修改密码" name="resetPwd">
               <resetPwd />
@@ -54,8 +54,8 @@
 import userAvatar from "./userAvatar";
 import userInfo from "./userInfo";
 import resetPwd from "./resetPwd";
-import {getAdminProfile} from "../../../api/adminAPI";
 import SvgIcon from '../../../components/SvgIcon'
+import {getUserProfile} from "../../../api/userAPI";
 
 export default {
   name: "Profile",
@@ -67,7 +67,7 @@ export default {
   },
   data() {
     return {
-      admin: {},
+      user: {},
       roleGroup: "管理员",
       postGroup: "",
       activeTab: "userinfo"
@@ -75,13 +75,14 @@ export default {
   },
   created() {
     this.getAdmin();
-    // console.log("test")
   },
   methods: {
+    // 获取个人信息
     getAdmin() {
-      getAdminProfile().then(res=>{
-        this.admin = res.data;
-        console.log(this.admin)
+      getUserProfile().then(res=>{
+        if (res.code === "0") {
+          this.user = res.data;
+        }
       })
     }
   }

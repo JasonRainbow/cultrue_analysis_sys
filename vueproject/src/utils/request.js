@@ -3,6 +3,7 @@ import router from "@/router";
 import { Message, Loading, Notification } from 'element-ui'
 import { saveAs } from 'file-saver'
 import {getToken} from "./auth";
+import store from "../vuex/store";
 
 let errorCode = {
   '401': '认证失败，无法访问系统资源',
@@ -40,7 +41,7 @@ request.interceptors.request.use(config => {
     config.headers['Content-Type'] = 'application/json;charset=utf-8';
     // 取出localStorage里面缓存的管理员信息
     // console.log(adminJson)
-    const token = getToken()
+    const token = store.state.token
     if (!whiteUrls.includes(config.url) && token) {  // 校验请求白名单
       config.headers['Authorization'] = token;  // 设置请求头  加上token凭证
     }
@@ -68,20 +69,38 @@ request.interceptors.response.use(
             res = res ? JSON.parse(res) : res
         }*/
         // 验证token
-        if (res.code === '401') {
+        if (res.code === '1015') {
             console.error("token过期，请重新登录")
             router.push("/admin/login")
-        } else if (res.code !== "0") {
+        }
+        else if (res.code === "1016") { // 用户认证失败，即用户没有登录
+          console.log("用户认证失败")
+          handle_un_auth()
+        }
+        else if (res.code !== "0") {
           Notification.error(res.msg)
           return Promise.reject(new Error(res.msg))
         }
         return res;
     },
     error => {
+      let { message } = error
         console.log('err' + error) // for debug
+        if (message.includes("Request failed with status code 401")) {
+          handle_un_auth()
+        }
         return Promise.reject(error)
     }
 )
+
+const handle_un_auth = ()=>{
+  store.dispatch("ClearUserInfo").then(()=>{
+
+  })
+  if (router.history.current.path !== "/home") {
+    router.push("/home")
+  }
+}
 
 const req = (method, url, params, reqBody) => {
   return request({

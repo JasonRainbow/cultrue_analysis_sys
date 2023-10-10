@@ -40,7 +40,8 @@ import ShowWorldMap from "../views/user/ShowWorldMap";
 import TeamIntroduction from "../components/user/common/TeamIntroduction";
 import PersonalRecommendation from "../views/user/PersonalRecommendation.vue";
 import store from "../vuex/store";
-import {hasLogin, isCurrentAdmin, parseLocalSession} from "../utils/auth";
+import {hasLogin, isCurrentAdmin} from "../utils/auth";
+import {Message} from "element-ui";
 
 // 启用路由
 Vue.use(Router);
@@ -309,12 +310,14 @@ router.beforeEach((to, from, next) => {
             path: "/admin/login",
             query: {redirect: to.fullPath}
           })
+          return;
         }
         if (!isCurrentAdmin()) {
           next({
             path: "/",
             query: {redirect: to.fullPath}
           })
+          return;
         }
       } else {
         if (!authenticated) {
@@ -322,16 +325,8 @@ router.beforeEach((to, from, next) => {
             path: "/not-login",
             query: {redirect: to.fullPath}
           })
+          return;
         }
-      }
-
-      let user = store.state.user
-      if (!user) {
-        // console.log("存储user到vuex")
-        user = store.state.user = parseLocalSession("user")
-      }
-      if (!user.avatar) {
-        store.state.user.avatar = require("../assets/img/avatar.jpeg")
       }
       next()
     } else {
@@ -340,13 +335,35 @@ router.beforeEach((to, from, next) => {
           path: "/admin/home",
           redirect: to.fullPath
         })
+        return;
       } else if (to.path === "/login" && authenticated) { // 用户已登录访问登录用户登录页面
         next({ // 重定向到网页客户端首页
           path: "/",
           redirect: to.fullPath
         })
+        return;
       }
       next(); // 不需要登录，且路由合法，直接放行
+    }
+    if (authenticated) {
+      let user = store.state.user
+      if (!user) {
+        let interrupt = false
+        store.dispatch("GetUserInfo").then((res)=>{
+
+        }).catch((err)=>{ // 获取用户个人信息出现错误，可能是用户认证失败
+          // 退出登录
+          store.dispatch("Logout").then(()=>{
+            Message.error(err.message)
+            next({ path: "/"} ) // 重定向到首页
+            interrupt = true
+          })
+        })
+      }
+    } else {
+      store.dispatch("ClearUserInfo").then((res)=>{
+
+      })
     }
   } else { // 没有匹配的路由，重定向到首页
     next({

@@ -13,7 +13,7 @@ export default {
 <template>
   <el-row style="display: flex; justify-content: center" id="question">
     <el-col :span="16">
-      <el-card class="box-card animate__animated animate__wobble">
+      <el-card class="box-card animate__animated animate__swing">
         <h1>《中国文化国际传播分析系统》常见问题及解答</h1>
         <h1>Chinese Culture International Communication Analysis System FAQ</h1>
         <p class="p1">为了响应国家提高中国形象的对外传播以及中国文化的对外传播效果，提高中国的国际话语权和影响力的要求，中国文化国际传播分析系统结合大数据、人工智能等成熟技术对中国的各种文化作品在国际上的传播效果进行精准分析，作为本系统的开发人员，我们本着科学、负责任的态度对这个系统的相关问题进行解答。</p>

@@ -63,9 +63,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // 关闭session
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         ;
-        http.sessionManagement()
-                .maximumSessions(1) // 最多只能一个用户登录一个账号
-                .expiredSessionStrategy(mySessionInformationExpiredStrategy); // 异地登录的逻辑处理
+//        http.sessionManagement()
+//                .maximumSessions(1) // 最多只能一个用户登录一个账号
+//                .expiredSessionStrategy(mySessionInformationExpiredStrategy); // 异地登录的逻辑处理
 
         // 在UsernamePasswordAuthenticationFilter前添加认证过滤器
         http.addFilterBefore(myOncePerRequestFilter, UsernamePasswordAuthenticationFilter.class);

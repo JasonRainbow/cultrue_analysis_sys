@@ -30,7 +30,7 @@ export const userLogin = params=>{
 };
 
 // 获取用户的个人信息的接口
-export const getUserProfile = (params)=>{
+export const getUserProfile = ()=>{
   return req("get", "/user/profile", null, null)
 }
 

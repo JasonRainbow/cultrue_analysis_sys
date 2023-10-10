@@ -17,7 +17,7 @@ public class ResponseUserVO {
 
     private String username; // 用户名
 
-    private String nickName; // 用户昵称
+    private String nickname; // 用户昵称
 
     private String avatar; // 用户头像
 
@@ -28,7 +28,7 @@ public class ResponseUserVO {
     public ResponseUserVO(LoginUser loginUser) {
         this.id = loginUser.getUser().getId();
         this.username = loginUser.getUsername();
-        this.nickName = loginUser.getUser().getName();
+        this.nickname = loginUser.getUser().getName();
         this.avatar = loginUser.getUser().getAvatar();
         this.email = loginUser.getUser().getEmail();
         this.phone = loginUser.getUser().getPhone();

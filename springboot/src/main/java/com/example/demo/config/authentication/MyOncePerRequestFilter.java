@@ -75,7 +75,7 @@ public class MyOncePerRequestFilter extends OncePerRequestFilter {
                     checkTokenExpiration(redisToken, username);
                     UsernamePasswordAuthenticationToken authenticationToken =
                             new UsernamePasswordAuthenticationToken(authUser, null, authUser.getAuthorities());
-                    System.out.println(authenticationToken);
+//                    System.out.println(authenticationToken);
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                 }
             }

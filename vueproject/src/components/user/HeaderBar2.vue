@@ -5,8 +5,8 @@
     </div>
     <div id="show-login-div">
       <div id="user-info" v-if="loginFlag"> <!--显示登录用户-->
-        <el-avatar size="medium" :src="this.user.avatar" id="inner-user-avatar"></el-avatar>
-        <div id="inner-user-nick">{{user.name}}</div>
+        <el-avatar size="medium" :src="avatar" id="inner-user-avatar"></el-avatar>
+        <div id="inner-user-nick">{{ nickname }}</div>
       </div>
       <div v-else>  <!--未登录可前往登录-->
         <router-link to="/login" style="color: #6dcdcd; font-weight: bold">前往登录>></router-link>
@@ -28,6 +28,8 @@
 </template>
 
 <script>
+import {hasLogin} from "../../utils/auth";
+
 export default {
   name: "HeaderBar2",
   props: {
@@ -66,6 +68,8 @@ export default {
       },
       activeIndex: 0,
       loginFlag: true,
+      avatar: this.$store.getters.avatar,
+      nickname: this.$store.getters.nickname
     }
   },
   methods: {
@@ -73,46 +77,14 @@ export default {
       this.activeIndex = index
       // sessionStorage.setItem("activeIndex", index)
     },
-    getUserInfo() {
-      const user = JSON.parse(localStorage.getItem("user"));
-      if(user.avatar == null || user.avatar === ""){  //头像为空
-        user.avatar = require("../../assets/img/avatar.jpeg")  //默认头像
-      }
-      return this.$store.state.user = user
-    },
     judgeLogin(){ //判断用户是否登录
-      this.loginFlag = Boolean(localStorage.getItem("user"));
+      this.loginFlag = hasLogin()
     }
   },
   computed: {
     itemWidth() {
       return 90 / this.items.length;
     },
-    // 获取用户信息的计算属性
-    user() {
-      if (!this.loginFlag) return null
-      let user_stored = this.$store.state.user
-      // console.log(user_stored)
-      if (user_stored) {
-        // console.log("存储在vuex的信息")
-        if (!user_stored.avatar) {
-          user_stored.avatar = require("../../assets/img/avatar.jpeg")  //默认头像
-          this.$store.state.user = user_stored
-        }
-        return user_stored
-      }
-      else {
-        // console.log("存储在localStorage的信息")
-        return this.getUserInfo()
-      }
-    }
-  },
-  updated() {
-    /*if (this.loginFlag) {
-      this.getUserInfo()
-    }
-    this.judgeLogin()
-    this.activeIndex = this.routes_map[this.$route.path]*/
   },
   created() {
     this.judgeLogin()

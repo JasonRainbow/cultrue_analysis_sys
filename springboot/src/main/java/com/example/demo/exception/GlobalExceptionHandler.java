@@ -22,7 +22,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(RuntimeException.class)
     public Result handler(RuntimeException e) {
         log.error("运行时异常：", e);
-        return Result.error("-1", e.getMessage());
+        return Result.error("-1", "后台运行异常，请联系系统管理员！");
     }
 
     /**
@@ -33,7 +33,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public Result handler(Exception e) {
         log.error("系统异常：", e);
-        return Result.error("-1", e.getMessage());
+        return Result.error("-1", "系统异常，请联系系统管理员！");
     }
 
     //统一异常处理@ExceptionHandler,主要用于Exception  自定义异常

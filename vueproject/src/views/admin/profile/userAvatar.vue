@@ -64,11 +64,6 @@ import {userUpdate} from "../../../api/userAPI";
 
 export default {
   components: {VueCropper},
-  props: {
-    user: {
-      type: Object
-    }
-  },
   data() {
     return {
       // 是否显示弹出层
@@ -78,8 +73,8 @@ export default {
       // 弹出层标题
       title: "修改头像",
       options: {
-        img: this.$store.state.admin.avatar, //裁剪图片的地址
-        // img: '',
+        // 头像
+        img: this.$store.getters.avatar, //裁剪图片的地址
         autoCrop: true, // 是否默认生成截图框
         autoCropWidth: 250, // 默认生成截图框宽度
         autoCropHeight: 250, // 默认生成截图框高度
@@ -131,7 +126,7 @@ export default {
     },
     // 上传预处理
     beforeUpload(file) {
-      if (file.type.indexOf("image/") == -1) {
+      if (file.type.indexOf("image/") === -1) {
         this.$message.error("文件格式错误，请上传图片类型,如：JPG，PNG后缀的文件。");
       } else {
         const reader = new FileReader();
@@ -157,42 +152,20 @@ export default {
           updateAdminInfo();
           this.$store.state.admin.avatar = this.options.img
         });*/
-        fileUpload(formData).then(res => { // 上传管理员头像到本地服务器
-            if (res.code === "0") {
-              this.open = false;
-              this.options.img = res.data;
-              this.$store.state.admin.avatar = this.options.img; // 设置头像
-              let store_admin = JSON.parse(localStorage.getItem("admin"))
-              store_admin.avatar = this.options.img
-              adminUpdate(store_admin).then((res) => { // 保存用户的头像信息
-                if (res.code === "0") {
-                  this.$message.success("修改成功");
-                  this.visible = false;
-                  this.$store.state.admin.avatar = this.options.img
-                  updateAdminInfo();
-                  // console.log("刷新前")
-                  // location.reload()
-                  // console.log("刷新后")
-                  // console.log(this.options.img)
-                } else {
-                  this.$message.error("修改失败！" + res.msg)
-                }
-              })
-            } else {
-              console.log(res.msg)
-            }
+        this.$store.dispatch("uploadAvatar", formData).then((res)=>{
+          if (res.code === "0") {
+            this.open = false
           }
-        );
+        })
       });
     },
     // 实时预览
     realTime(data) {
-      console.log(data)
       this.previews = data;
     },
     // 关闭窗口
     closeDialog() {
-      this.options.img = this.$store.state.admin.avatar
+      this.options.img = this.$store.getters.avatar
       this.visible = false;
       window.removeEventListener("resize", this.resizeHandler)
     }
