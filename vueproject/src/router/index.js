@@ -41,7 +41,7 @@ import TeamIntroduction from "../components/user/common/TeamIntroduction";
 import PersonalRecommendation from "../views/user/PersonalRecommendation.vue";
 import store from "../vuex/store";
 import {hasLogin, isCurrentAdmin} from "../utils/auth";
-import {Message} from "element-ui";
+import {Message, Notification} from "element-ui";
 
 // 启用路由
 Vue.use(Router);
@@ -313,9 +313,9 @@ router.beforeEach((to, from, next) => {
           return;
         }
         if (!isCurrentAdmin()) {
+          Notification.error("你不是超级管理员，不能访问后台管理系统！")
           next({
             path: "/",
-            query: {redirect: to.fullPath}
           })
           return;
         }

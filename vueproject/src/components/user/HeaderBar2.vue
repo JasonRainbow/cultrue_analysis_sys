@@ -68,8 +68,6 @@ export default {
       },
       activeIndex: 0,
       loginFlag: true,
-      avatar: this.$store.getters.avatar,
-      nickname: this.$store.getters.nickname
     }
   },
   methods: {
@@ -85,6 +83,12 @@ export default {
     itemWidth() {
       return 90 / this.items.length;
     },
+    avatar() {
+      return this.$store.getters.avatar
+    },
+    nickname() {
+      return this.$store.getters.nickname
+    }
   },
   created() {
     this.judgeLogin()

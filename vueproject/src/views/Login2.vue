@@ -113,11 +113,11 @@ export default {
       this.$refs['form'].validate((valid) => {
         if (valid) {
           if (!this.form.validCode) {
-            this.$message.error("请填写验证码")
+            this.$notify.error("请填写验证码")
             return
           }
           if(this.form.validCode.toLowerCase() !== this.validCode.toLowerCase()) {
-            this.$message.error("验证码错误")
+            this.$notify.error("验证码错误")
             return
           }
           this.$store.dispatch("Login", {

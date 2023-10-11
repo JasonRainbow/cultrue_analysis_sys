@@ -71,11 +71,16 @@ request.interceptors.response.use(
         // 验证token
         if (res.code === '1015') {
             console.error("token过期，请重新登录")
-            router.push("/admin/login")
+            handle_un_auth()
+            router.push("/home")
         }
         else if (res.code === "1016") { // 用户认证失败，即用户没有登录
           console.log("用户认证失败")
-          handle_un_auth()
+          if (router.history.current.path !== "/home") {
+            Message.error("token过期，请重新登陆！")
+            handle_un_auth()
+            router.push("/home")
+          }
         }
         else if (res.code !== "0") {
           Notification.error(res.msg)
@@ -88,6 +93,8 @@ request.interceptors.response.use(
         console.log('err' + error) // for debug
         if (message.includes("Request failed with status code 401")) {
           handle_un_auth()
+        } else if (message.includes("timeout")) { // 请求响应超时
+          Notification.error("请求超时，请联系系统管理员！")
         }
         return Promise.reject(error)
     }

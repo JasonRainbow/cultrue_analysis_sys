@@ -144,6 +144,8 @@ export default {
         this.$store.dispatch("uploadAvatar", formData).then((res)=>{
           if (res.code === "0") {
             this.open = false
+            this.visible = false;
+            this.options.img = res.data;
           }
         })
       });

@@ -35,13 +35,19 @@ export default {
       collapsed: true,
       imgshow: require('../assets/img/show.png'),
       imgsq: require('../assets/img/sq.png'),
-      avatar: this.$store.getters.avatar,
-      nickname: this.$store.getters.nickname
     }
   },
   // 创建完毕状态(里面是操作)
   created() {
 
+  },
+  computed: {
+    avatar() {
+      return this.$store.getters.avatar
+    },
+    nickname() {
+      return this.$store.getters.nickname
+    }
   },
   methods: {
     // 退出登录
@@ -53,11 +59,12 @@ export default {
       })
         .then(() => {
           setTimeout(() => { // 管理员退出登录
-            this.$store.commit('admin_logout', 'false')
-            this.$router.push({ path: '/admin/login' })
-            this.$message({
-              type: 'success',
-              message: '已退出登录!'
+            this.$store.dispatch("Logout").then(()=>{
+              this.$message({
+                type: 'success',
+                message: '已退出登录!'
+              })
+              this.$router.push("/admin/login") // 跳转到登录页面
             })
           }, 1000)
         })

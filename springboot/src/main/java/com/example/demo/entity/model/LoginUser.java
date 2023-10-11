@@ -3,6 +3,7 @@ package com.example.demo.entity.model;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.example.demo.entity.User;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -14,9 +15,12 @@ import java.util.Collection;
  * 实现UserDetails，仿写User
  */
 @Data
+@Builder
 @AllArgsConstructor // 全参构造
 @NoArgsConstructor  // 无参构造
 public class LoginUser implements UserDetails {
+
+    private String UUID;
 
     private User user;
 

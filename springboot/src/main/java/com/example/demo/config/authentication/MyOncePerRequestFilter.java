@@ -40,6 +40,9 @@ public class MyOncePerRequestFilter extends OncePerRequestFilter {
     @Autowired
     private RedisCache redisCache;
 
+    @Autowired
+    private JwtUtil jwtUtil;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
@@ -48,8 +51,14 @@ public class MyOncePerRequestFilter extends OncePerRequestFilter {
         // header的值是在yml文件中定义的 “Authorization”
         String token = request.getHeader(header);
 //        System.out.println("MyOncePerRequestFilter-token = " + token);
-
-        if (!StrUtil.isEmpty(token)) {
+        LoginUser loginUser = jwtUtil.getLoginUser(token);
+        if (loginUser != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            UsernamePasswordAuthenticationToken authenticationToken =
+                    new UsernamePasswordAuthenticationToken(loginUser, null, loginUser.getAuthorities());
+//                    System.out.println(authenticationToken);
+            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+        }
+        /*if (!StrUtil.isEmpty(token)) {
             String username = null;
             LoginUser authUser = null;
             try {
@@ -77,9 +86,11 @@ public class MyOncePerRequestFilter extends OncePerRequestFilter {
                             new UsernamePasswordAuthenticationToken(authUser, null, authUser.getAuthorities());
 //                    System.out.println(authenticationToken);
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                } else {
+
                 }
             }
-        }
+        }*/
         chain.doFilter(request, response);
     }
 

@@ -85,15 +85,13 @@ export default new Vuex.Store({
       return new Promise((resolve, reject)=>{
         fileUpload(formData).then(res => { // 上传用户头像到本地服务器
           if (res.code === "0") {
-            this.options.img = res.data;
             let store_user = state.user
-            store_user.avatar = this.options.img
+            store_user.avatar = res.data
             setLocalStorageItem("user", store_user)
             commit("SET_USER", store_user)
             userUpdate({id: store_user.id, avatar: store_user.avatar}).then((res)=>{ // 保存用户的头像信息
               if (res.code === "0") {
                 Message.success("修改成功");
-                this.visible = false;
               } else {
                 Message.error("修改失败！" + res.msg)
               }

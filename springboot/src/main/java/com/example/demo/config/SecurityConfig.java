@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -37,9 +38,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private MyAccessDeniedHandler myAccessDeniedHandler; // 无权访问
 
-    @Autowired
-    private MySessionInformationExpiredStrategy mySessionInformationExpiredStrategy; // 检测异地登录
-
     @Value("${interceptorconfig.path.permitAll}")
     private String[] permitAll;
 
@@ -56,6 +54,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 // 允许未登录的用户进行访问  都可以访问 匿名和认证  如果用anonymous()则必须匿名，不能认证访问
                 .antMatchers(permitAll).permitAll()
+                // 静态资源，可匿名访问
+                .antMatchers(HttpMethod.GET, "/", "/*.html", "/**/*.html", "/**/*.css", "/**/*.js", "/*.js", "/favicon.ico").permitAll()
+                .antMatchers("/webjars/**", "/*/api-docs", "/swagger-resources/**").permitAll()
                 // 其余的url都要认证才能访问
                 .anyRequest().authenticated()
                 // 关闭csrf跨域
@@ -63,9 +64,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // 关闭session
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         ;
-//        http.sessionManagement()
-//                .maximumSessions(1) // 最多只能一个用户登录一个账号
-//                .expiredSessionStrategy(mySessionInformationExpiredStrategy); // 异地登录的逻辑处理
 
         // 在UsernamePasswordAuthenticationFilter前添加认证过滤器
         http.addFilterBefore(myOncePerRequestFilter, UsernamePasswordAuthenticationFilter.class);
