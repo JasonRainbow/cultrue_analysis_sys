@@ -5,7 +5,7 @@
     </div>
     <div id="show-login-div">
       <div id="user-info" v-if="loginFlag"> <!--显示登录用户-->
-        <el-avatar size="medium" :src="avatar" id="inner-user-avatar"></el-avatar>
+        <el-avatar :size="45" icon="el-icon-user-solid" :src="avatar" id="inner-user-avatar"></el-avatar>
         <div id="inner-user-nick">{{ nickname }}</div>
       </div>
       <div v-else>  <!--未登录可前往登录-->
@@ -77,13 +77,15 @@ export default {
     },
     judgeLogin(){ //判断用户是否登录
       this.loginFlag = hasLogin()
-    }
+    },
   },
   computed: {
     itemWidth() {
       return 90 / this.items.length;
     },
     avatar() {
+      console.log("1111")
+      console.log(this.$store.getters.avatar)
       return this.$store.getters.avatar
     },
     nickname() {
@@ -231,11 +233,11 @@ body {
   top: 25px;
   right: 40px;
 }
-#inner-user-avatar{
+/*#inner-user-avatar{
   height: 50px;
   width:  50px;
   float: left;
-}
+}*/
 #inner-user-nick{
   height: 20px;
   width: 155px;

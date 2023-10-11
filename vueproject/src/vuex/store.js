@@ -66,7 +66,7 @@ export default new Vuex.Store({
     GetUserInfo({ commit }) {
       return new Promise((resolve, reject)=>{
         getUserProfile().then((res)=>{
-          const user = res.data.user // 用户信息
+          const user = res.data // 用户信息
           commit("SET_USER", user) // 提交用户信息到store
           setLocalStorageItem("user", user) // 将用户信息保存到localStorage中
           resolve(res)
@@ -121,7 +121,7 @@ export default new Vuex.Store({
     },
     // 获取用户的昵称
     nickname: state=>{
-      return state.user.nickname ? state.user.nickname : "未知姓名"
+      return state.user && state.user.nickname ? state.user.nickname : "未知姓名"
     }
   }
 })

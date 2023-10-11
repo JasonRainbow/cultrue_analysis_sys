@@ -44,8 +44,6 @@ public class SysServiceTest {
         String token = JwtUtil.createJWT("hzx");
         System.out.println(token);
         char[] chars = token.toCharArray();
-        chars[0] = '1';
-        chars[3] = '3';
         System.out.println(JwtUtil.isVerifiedToken(token));
         System.out.println(JwtUtil.isVerifiedToken(new String(chars)));
     }
