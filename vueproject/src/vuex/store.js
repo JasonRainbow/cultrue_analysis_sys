@@ -121,7 +121,7 @@ export default new Vuex.Store({
     },
     // 获取用户的昵称
     nickname: state=>{
-      return state.user && state.user.nickname ? state.user.nickname : "未知姓名"
+      return state.user && state.user.nickname ? state.user.nickname : "未知昵称"
     }
   }
 })
