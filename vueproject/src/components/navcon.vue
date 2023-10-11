@@ -8,7 +8,7 @@
     </div>
     <screen-full id="screenfull" class="right-menu-item hover-effect" />
     <div class="avatar-wrapper">
-      <el-avatar size="medium" :src="avatar" class="user-avatar"></el-avatar>
+      <el-avatar size="medium" icon="el-icon-user-solid" :src="avatar" class="user-avatar"></el-avatar>
 <!--      <img :src="avatar" class="user-avatar">-->
     </div>
     <el-submenu index="2" style="float: right">

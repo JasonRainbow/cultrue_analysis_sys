@@ -84,8 +84,6 @@ export default {
       return 90 / this.items.length;
     },
     avatar() {
-      console.log("1111")
-      console.log(this.$store.getters.avatar)
       return this.$store.getters.avatar
     },
     nickname() {

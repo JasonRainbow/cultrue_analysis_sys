@@ -7,7 +7,7 @@ public enum ResponseStatusEnum implements CommonResp{
     SUCCESS("0","请求成功!"),
     LOGIN_SUCCESS("0", "登录成功！"),
     LOGOUT_SUCCESS("0", "注销成功！"),
-    ERROR("500","服务器响应错误！"),
+    ERROR("500","服务器系统错误！"),
 
     /** 10XX 表示用户错误*/
     USER_REGISTER_FAILED("1001", "注册失败"),

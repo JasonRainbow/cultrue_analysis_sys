@@ -54,7 +54,7 @@ public class MyOncePerRequestFilter extends OncePerRequestFilter {
         LoginUser loginUser = jwtUtil.getLoginUser(token);
         if (loginUser != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UsernamePasswordAuthenticationToken authenticationToken =
-                    new UsernamePasswordAuthenticationToken(loginUser, null, loginUser.getAuthorities());
+                    new UsernamePasswordAuthenticationToken(loginUser, loginUser.getPassword(), loginUser.getAuthorities());
 //                    System.out.println(authenticationToken);
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         }
