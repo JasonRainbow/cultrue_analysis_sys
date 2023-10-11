@@ -197,10 +197,9 @@ export default {
   },
   methods: {
     addMonitorRequest(workId,index){
-      this.addParam.userId=this.userId,
-      this.addParam.workId=workId,
+      this.addParam.userId=this.userId
+      this.addParam.workId=workId
       clickAddMonitorRequest(this.addParam).then((res) => {
-        console.log(this.addParam);
         if (res.code === "0") {
           console.log("add_success");
           this.$message({
@@ -264,7 +263,6 @@ export default {
       getRecommendWorksByUserId({userId: this.userId}).then((res)=>{
         if (res.code === "0") {
           this.works = res.data
-          console.log(res.data)
         }
       })
     },

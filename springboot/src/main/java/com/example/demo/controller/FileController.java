@@ -56,7 +56,7 @@ public class FileController extends BaseController {
         }
         FileUtil.writeBytes(file.getBytes(), rootFilePath);  // 把文件写入到上传的路径
 //        return Result.success("http://" + ip + ":" + port + "/api/files/" + flag);  // 返回结果 url
-        return Result.success("/api/files/" + flag);  // 返回结果 url
+        return Result.success("/api/files/get/" + flag);  // 返回结果 url
     }
 
     /**
@@ -93,7 +93,7 @@ public class FileController extends BaseController {
      * @param flag
      * @param response
      */
-    @GetMapping("/{flag}")
+    @GetMapping("/get/{flag}")
     @ApiOperation(value = "文件下载接口")
     public void getFiles(@PathVariable String flag, HttpServletResponse response) {
         OutputStream os;  // 新建一个输出流对象

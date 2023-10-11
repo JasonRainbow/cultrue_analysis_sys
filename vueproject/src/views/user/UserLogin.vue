@@ -54,26 +54,12 @@ export default {
       //为表单绑定验证功能
       this.$refs [formName].validate((valid) => {
         if (valid) {
-          userLogin(this.form).then(res => {
-            if (res.code === '0') {
-              this.$message({
-                type: "success",
-                message: "登录成功"
-              })
-              /*localStorage.setItem("user", JSON.stringify(res.data))  // 缓存用户信息
-              this.$store.state.user = res.data*/
-              let user = res.data
-              this.$store.commit("user_login", user)
-              // console.log(res)
-              // 登录成功的时候更新当前路由
-              //登录成功之后进行页面的跳转，跳转到主页
-              this.$router.push({path: '/home'})
-            } else {
-              this.$message({
-                type: "error",
-                message: res.msg
-              })
-            }
+          this.$store.dispatch("Login", {userInfo: this.form}).then((res)=>{
+            this.$message({
+              type: "success",
+              message: "登录成功"
+            })
+            this.$router.push({path: '/home'})
           })
         }else{
           this.dialogVisible = true;

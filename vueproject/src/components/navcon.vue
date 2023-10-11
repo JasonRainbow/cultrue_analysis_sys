@@ -13,7 +13,7 @@
     </div>
     <el-submenu index="2" style="float: right">
       <!-- <template slot="title">{{user.userRealName}}</template> -->
-      <template slot="title">{{this.$store.state.admin.name}}</template>
+      <template slot="title">{{ nickname }}</template>
 <!--      <el-menu-item index="2-1">设置</el-menu-item>-->
       <el-menu-item index="/admin/profile">
         个人中心
@@ -35,13 +35,19 @@ export default {
       collapsed: true,
       imgshow: require('../assets/img/show.png'),
       imgsq: require('../assets/img/sq.png'),
-      avatar: this.$store.state.admin.avatar,
-      user: {}
     }
   },
   // 创建完毕状态(里面是操作)
   created() {
-    this.user = JSON.parse(localStorage.getItem('userdata'))
+
+  },
+  computed: {
+    avatar() {
+      return this.$store.getters.avatar
+    },
+    nickname() {
+      return this.$store.getters.nickname
+    }
   },
   methods: {
     // 退出登录
@@ -53,38 +59,14 @@ export default {
       })
         .then(() => {
           setTimeout(() => { // 管理员退出登录
-            this.$store.commit('admin_logout', 'false')
-            this.$router.push({ path: '/admin/login' })
-            this.$message({
-              type: 'success',
-              message: '已退出登录!'
+            this.$store.dispatch("Logout").then(()=>{
+              this.$message({
+                type: 'success',
+                message: '已退出登录!'
+              })
+              this.$router.push("/admin/login") // 跳转到登录页面
             })
           }, 1000)
-          // window.alert("退出")
-          // loginout()
-          //   .then(res => {
-          //     if (res.success) {
-          //       //如果请求成功就让他2秒跳转路由
-          //       setTimeout(() => {
-          //         this.$store.commit('logout', 'false')
-          //         this.$router.push({ path: '/login' })
-          //         this.$message({
-          //           type: 'success',
-          //           message: '已退出登录!'
-          //         })
-          //       }, 1000)
-          //     } else {
-          //       this.$message.error(res.msg)
-          //       this.logining = false
-          //       return false
-          //     }
-          //   })
-          //   .catch(err => {
-          //     // 获取图形验证码
-          //     this.getcode()
-          //     this.logining = false
-          //     this.$message.error('退出失败，请稍后再试！')
-          //   })
         })
         .catch(() => {
           this.$message({

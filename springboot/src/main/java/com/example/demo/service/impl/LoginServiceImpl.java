@@ -37,13 +37,10 @@ public class LoginServiceImpl implements LoginService {
     private AuthenticationManager authenticationManager; // 认证管理器
 
     @Autowired
-    private UserDetailsService userDetailsService; // 获取用户详细信息的服务
-
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder; // 强哈希散列加密编码器
-
-    @Autowired
     private RedisCache redisCache;
+
+    @Autowired
+    private JwtUtil jwtUtil;
 
     /**
      * 登录方法
@@ -51,7 +48,7 @@ public class LoginServiceImpl implements LoginService {
      * @return json响应返回结果
      */
     @Override
-    public Result doLogin(LoginDto loginDto) {
+    public Result doLogin(LoginDto loginDto, boolean adminLogin) {
         /**
          * 因为使用了全局异常处理，GlobalExceptionHandler会自动捕获controller层抛出的异常
          * authenticationManager.authenticate 这个方法 如果认证失败会抛出AuthenticationException异常
@@ -82,21 +79,21 @@ public class LoginServiceImpl implements LoginService {
         }
         // 此时已经认证成功
         LoginUser authUser = (LoginUser) authentication.getPrincipal();
-        String username = authUser.getUsername();
-        String token = JwtUtil.createJWT(username);
+        ResponseUserVO responseUserVO = new ResponseUserVO(authUser);
+        if (adminLogin && !responseUserVO.getIsAdmin()) { // 管理员登录，但是用户不是管理员
+            throw new CustomException(ResponseStatusEnum.LOGIN_NOT_ADMIN);
+        }
 
-        // 把token和用户信息存到redis中
-        redisCache.setCacheObject(GlobalConstants.REDIS_TOKEN_PREFIX + username, token);
-        redisCache.setCacheObject(GlobalConstants.REDIS_USER_DETAILS_PREFIX + username, authUser);
-//        System.out.println(authUser);
+        // 生成token
+        String jwt = jwtUtil.createJWT(authUser);
 
         // 将用户存入上下文中
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 
         Result result = Result.success(ResponseStatusEnum.LOGIN_SUCCESS.getCode(),
                 ResponseStatusEnum.LOGIN_SUCCESS.getMsg());
-        result.put(GlobalConstants.TOKEN, token);
-        result.put("user", new ResponseUserVO(authUser));
+        result.put(GlobalConstants.TOKEN, jwt);
+        result.put("user", responseUserVO);
 
         return result;
     }
@@ -110,11 +107,10 @@ public class LoginServiceImpl implements LoginService {
         // 从上下文中取出Authentication认证对象
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         LoginUser authUser = (LoginUser) authentication.getPrincipal(); // 获取用户对象
-        String username = authUser.getUsername(); // 获取用户名
+        String UUID = authUser.getUUID(); // 获取用户名
 
         // 删除redis中存的关于这个用户的信息
-        redisCache.deleteObject(GlobalConstants.REDIS_TOKEN_PREFIX + username);
-        redisCache.deleteObject(GlobalConstants.REDIS_USER_DETAILS_PREFIX + username);
+        redisCache.deleteObject(JwtUtil.genTokenKey(UUID));
 
         return Result.success(ResponseStatusEnum.LOGOUT_SUCCESS.getCode(),
                 ResponseStatusEnum.LOGOUT_SUCCESS.getMsg());

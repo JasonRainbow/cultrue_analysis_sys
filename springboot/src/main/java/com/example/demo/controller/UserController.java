@@ -85,7 +85,7 @@ public class UserController extends BaseController {
     public Result register(@RequestBody User user) {
         User res = userMapper.selectOne(Wrappers.<User>lambdaQuery().eq(User::getUsername, user.getUsername()));
         if (res != null) {
-            return Result.error("-1", "用户名重复");
+            return Result.error("-1", "该用户名已存在");
         }
         String password = user.getPassword();
         if (password == null || "".equals(password.trim())) { // 用户输入的密码为空或者空字符串，设置为默认的密码

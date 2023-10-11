@@ -58,15 +58,11 @@ import { VueCropper } from 'vue-cropper'
 import {debounce, updateUserInfo} from "../../../utils/util";
 import {fileUpload} from "../../../api/fileAPI";
 import {userUpdate} from "../../../api/userAPI";
+import {setLocalStorageItem} from "../../../utils/auth";
 
 
 export default {
   components: { VueCropper },
-  props: {
-    user: {
-      type: Object
-    }
-  },
   data() {
     return {
       // 是否显示弹出层
@@ -76,8 +72,7 @@ export default {
       // 弹出层标题
       title: "修改头像",
       options: {
-        img: this.$store.state.user.avatar, //裁剪图片的地址
-        // img: '',
+        img: this.$store.getters.avatar, //裁剪图片的地址
         autoCrop: true, // 是否默认生成截图框
         autoCropWidth: 250, // 默认生成截图框宽度
         autoCropHeight: 250, // 默认生成截图框高度
@@ -146,28 +141,13 @@ export default {
         formData.append("file", data);
         // console.log(formData)
         // console.log(data)
-        fileUpload(formData).then(res => { // 上传用户头像到本地服务器
+        this.$store.dispatch("uploadAvatar", formData).then((res)=>{
           if (res.code === "0") {
-            this.open = false;
+            this.open = false
+            this.visible = false;
             this.options.img = res.data;
-            this.$store.state.user.avatar = this.options.img; // 设置头像
-            let store_user = JSON.parse(localStorage.getItem("user"))
-            store_user.avatar = this.options.img
-            userUpdate(store_user).then((res)=>{ // 保存用户的头像信息
-              if (res.code === "0") {
-                this.$message.success("修改成功");
-                this.visible = false;
-                updateUserInfo();
-                // this.$store.state.user.avatar = this.options.img
-                // console.log(this.options.img)
-              } else {
-                this.$message.error("修改失败！" + res.msg)
-              }
-            })
-          } else {
-            console.log(res.msg)
           }
-        });
+        })
       });
     },
     // 实时预览
@@ -177,8 +157,7 @@ export default {
     },
     // 关闭窗口
     closeDialog() {
-      this.options.img = this.$store.state.user.avatar
-      // console.log(this.options.img)
+      this.options.img = this.$store.getters.avatar
       this.visible = false;
       window.removeEventListener("resize", this.resizeHandler)
     }

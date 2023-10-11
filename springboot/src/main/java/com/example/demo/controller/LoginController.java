@@ -27,7 +27,13 @@ public class LoginController {
     @PostMapping("/login")
     @ApiOperation(value = "登录", notes = "登录的接口")
     public Result login(@RequestBody LoginDto loginDto) {
-        return loginService.doLogin(loginDto);
+        return loginService.doLogin(loginDto, false);
+    }
+
+    @PostMapping("/loginAdmin")
+    @ApiOperation(value = "管理员登录", notes = "管理员登录的接口")
+    public Result loginAdmin(@RequestBody LoginDto loginDto) {
+        return loginService.doLogin(loginDto, true);
     }
 
     @RequestMapping("/logout")

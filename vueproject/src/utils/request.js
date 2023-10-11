@@ -1,7 +1,9 @@
 import axios from 'axios'
 import router from "@/router";
-import { Message, Loading } from 'element-ui'
+import { Message, Loading, Notification } from 'element-ui'
 import { saveAs } from 'file-saver'
+import {getToken} from "./auth";
+import store from "../vuex/store";
 
 let errorCode = {
   '401': '认证失败，无法访问系统资源',
@@ -23,19 +25,8 @@ const request2 = axios.create({
 })
 
 // 请求白名单，如果请求在白名单里面，将不会被拦截校验权限
-const whiteUrls = ["/user/login", '/user/register',
-  '/admin/login', '/admin/register', '/comment/all', '/comment/countries',
-  '/comment/platforms', '/comment/byPage', '/comment/byPage2', '/comment/getHotComment',
-  '/files/upload', '/hot-work/byPage', '/hot-work/id/', '/monitor-request/id/',
-  '/monitor-request/byUserId', '/monitor-request/byPage', '/monitor-request/add',
-  '/monitor-work/all', '/monitor-work/byUserId', '/monitor-work/countPlatform', '/polarity/all',
-  '/polarity/byPage', '/polarity/query-list', '/polarity/countDaily', '/polarity/countDayInterval',
-  '/sentiment/all', '/sentiment/byPage', '/sentiment/query-list', '/sentiment/countDaily',
-  '/user/update', '/word-freq/all', '/word-freq/byPage', '/word-freq/query-res',
-  '/sentiment/getWorldSentiment', '/polarity/getDistribute', '/polarity/countMonthInterval',
-  '/subject-analysis/polarityByWorkIdAndSubject', '/work-score/findByWorkId',
-  '/polarity/getCountries', '/monitor-work/byUserIdPaging', '/subject-analysis/getSubjectsByWorkId',
-  '/user/selectChanged', '/user/selectAllRecordByUserId'
+const whiteUrls = ["/login", '/loginAdmin',
+  '/register'
   ]
 
 const userAuth = ["/user/pass", "/user/profile",
@@ -48,25 +39,11 @@ let downloadLoadingInstance;
 // 比如统一加token，对请求参数统一加密
 request.interceptors.request.use(config => {
     config.headers['Content-Type'] = 'application/json;charset=utf-8';
-    /*if(adminJson ) {
-      let admin = JSON.parse(adminJson);
-      config.headers['token'] = admin.token;  // 设置请求头  加上token凭证
-    }*/
-    if (userAuth.includes(config.url)) {
-      let user = JSON.parse(localStorage.getItem("user"))
-      config.headers['token'] = user.token
-    } else {
-      // 取出localStorage里面缓存的管理员信息
-      // console.log(adminJson)
-      if (!whiteUrls.includes(config.url)) {  // 校验请求白名单
-        let adminJson = localStorage.getItem("admin")
-          if(!adminJson) {
-              router.push("/admin/login")
-          } else {
-              let admin = JSON.parse(adminJson);
-              config.headers['token'] = admin.token;  // 设置请求头  加上token凭证
-          }
-      }
+    // 取出localStorage里面缓存的管理员信息
+    // console.log(adminJson)
+    const token = store.state.token
+    if (!whiteUrls.includes(config.url) && token) {  // 校验请求白名单
+      config.headers['Authorization'] = token;  // 设置请求头  加上token凭证
     }
     return config
 }, error => {
@@ -92,17 +69,45 @@ request.interceptors.response.use(
             res = res ? JSON.parse(res) : res
         }*/
         // 验证token
-        if (res.code === '401') {
+        if (res.code === '1015') {
             console.error("token过期，请重新登录")
-            router.push("/admin/login")
+            handle_un_auth()
+            router.push("/home")
+        }
+        else if (res.code === "1016") { // 用户认证失败，即用户没有登录
+          console.log("用户认证失败")
+          if (router.history.current.path !== "/home") {
+            Message.error("token过期，请重新登陆！")
+            handle_un_auth()
+            router.push("/home")
+          }
+        }
+        else if (res.code !== "0") {
+          Notification.error(res.msg)
+          return Promise.reject(new Error(res.msg))
         }
         return res;
     },
     error => {
+      let { message } = error
         console.log('err' + error) // for debug
+        if (message.includes("Request failed with status code 401")) {
+          handle_un_auth()
+        } else if (message.includes("timeout")) { // 请求响应超时
+          Notification.error("请求超时，请联系系统管理员！")
+        }
         return Promise.reject(error)
     }
 )
+
+const handle_un_auth = ()=>{
+  store.dispatch("ClearUserInfo").then(()=>{
+
+  })
+  if (router.history.current.path !== "/home") {
+    router.push("/home")
+  }
+}
 
 const req = (method, url, params, reqBody) => {
   return request({

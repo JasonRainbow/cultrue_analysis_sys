@@ -55,8 +55,11 @@ public class AuthUserDetailsServiceImpl implements UserDetailsService {
                 authorities.add(new SimpleGrantedAuthority(role.getRoleKey()));
             }
             logger.debug("AuthUserDetailsServiceImpl-loadUserByUsername......user ===> " + user);
-            System.out.println(new LoginUser(user, authorities));
-            return new LoginUser(user, authorities);
+//            System.out.println(new LoginUser(user, authorities));
+            return LoginUser.builder()
+                    .user(user)
+                    .authorities(authorities)
+                    .build();
         }
 
     }
