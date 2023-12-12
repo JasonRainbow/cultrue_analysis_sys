@@ -1,5 +1,7 @@
 import {getAdminProfile} from "../api/adminAPI";
 import {getUserProfile} from "../api/userAPI";
+import store from "../vuex/store";
+import {Message} from "element-ui";
 
 /**
  * 时间戳
@@ -101,21 +103,14 @@ export function parseTime(time, pattern) {
   return time_str
 }
 
-// 更新存储在store中的管理员信息，头像
-export function updateAdminInfo() {
-  getAdminProfile().then(res=>{
-    localStorage.setItem("admin", JSON.stringify(res.data))
-    console.log("更新本地存储的管理员个人信息")
-    location.reload()
-    // console.log(this.$store.state)
-  })
-}
+/**
+ * 更新vuex和localStorage中的用户信息
+ */
+export const updateLocalUserInfo = ()=>{
+  store.dispatch("GetUserInfo").then(()=>{
 
-// 更新store中的用户信息
-export function updateUserInfo() {
-  getUserProfile().then((res)=>{
-    localStorage.setItem("user", JSON.stringify(res.data))
-    console.log("更新本地存储的用户个人信息")
+  }).catch((err)=>{
+    Message.error(err.message)
   })
 }
 

@@ -353,11 +353,7 @@ router.beforeEach((to, from, next) => {
 
         }).catch((err)=>{ // 获取用户个人信息出现错误，可能是用户认证失败
           // 退出登录
-          store.dispatch("Logout").then(()=>{
-            Message.error(err.message)
-            next({ path: "/"} ) // 重定向到首页
-            interrupt = true
-          })
+          Message.error(err.message)
         })
       }
     } else {

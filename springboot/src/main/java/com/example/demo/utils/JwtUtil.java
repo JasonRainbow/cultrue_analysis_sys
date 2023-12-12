@@ -11,6 +11,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -192,6 +193,16 @@ public class JwtUtil {
 
         }
         return loginUser;
+    }
+
+    /**
+     * 设置当前登录的用户
+     * @param loginUser 登录用户
+     */
+    public void setLoginUser(LoginUser loginUser) {
+        if (loginUser != null && StringUtils.isNoneEmpty(loginUser.getUUID())) {
+            refreshToken(loginUser);
+        }
     }
 
     /**

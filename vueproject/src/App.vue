@@ -18,8 +18,8 @@ body {
     width: 100%;
     height: 100%;
     box-sizing: border-box;
-    padding: 0px;
-    margin: 0px;
+    padding: 0;
+    margin: 0;
 }
 #app {
     font-family: "Avenir", Helvetica, Arial, sans-serif;

@@ -17,7 +17,7 @@
               </li>
               <li class="list-group-item">
                 <i class="el-icon-postcard"></i>用户昵称
-                <div class="pull-right">{{ user.name }}</div>
+                <div class="pull-right">{{ user.nickname }}</div>
               </li>
               <li class="list-group-item">
                 <i class="el-icon-mobile"></i>手机号码

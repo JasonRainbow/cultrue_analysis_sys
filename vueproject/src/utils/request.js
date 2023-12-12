@@ -75,7 +75,6 @@ request.interceptors.response.use(
             router.push("/home")
         }
         else if (res.code === "1016") { // 用户认证失败，即用户没有登录
-          console.log("用户认证失败")
           if (router.history.current.path !== "/home") {
             Message.error("token过期，请重新登陆！")
             handle_un_auth()
@@ -104,9 +103,6 @@ const handle_un_auth = ()=>{
   store.dispatch("ClearUserInfo").then(()=>{
 
   })
-  if (router.history.current.path !== "/home") {
-    router.push("/home")
-  }
 }
 
 const req = (method, url, params, reqBody) => {
