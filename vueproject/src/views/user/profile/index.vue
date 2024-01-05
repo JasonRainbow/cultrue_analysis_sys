@@ -135,7 +135,8 @@ export default {
 
 <style scoped lang="scss">
 .box-card {
-  background-color: #dde5f3;
+  //background-color: #dde5f3;
+  background: url("../../../assets/img/card_bg3.jpg") center center;
 }
 
 .app-container {

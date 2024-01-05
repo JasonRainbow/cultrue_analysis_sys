@@ -2,7 +2,9 @@
   <div id="msgChart" style="text-align:center;height: 100%;width: 100%;background-color: #2c3e50; border-radius: 10px"></div>
 </template>
 <script>
-import {polarityCountDayInterval} from "../../../api/polarityAPI";
+
+import {polarityCountMonthInterval} from "../../../api/polarityAPI";
+
 export default{
   name: "MessageChart",
   props:{//用于组件通信
@@ -15,12 +17,12 @@ export default{
     return {
       posData:[],
       negData:[],
+      commentCnt: [],
       divWidth: 475,
       option: null,
       queryMsgParam: {
         workId: this.workId,
-        startTime: '2023-06-28',
-        dayInterval:7
+        offset: 7
       },
       msgChart:{}
     }
@@ -33,7 +35,7 @@ export default{
         left: 'center',
         textStyle: {
           fontSize: this.divWidth * 0.055,
-          color:'#6495ed',
+          color:'#c93838',
           fontWeight:'bolder',
         },
       },
@@ -71,6 +73,7 @@ export default{
           },
           axisLabel: {
             interval:0 ,
+            color: 'rgb(243,177,103)',
             fontWeight: 400,
             fontSize: this.divWidth * 0.024,
             fontFamily: 'Times New Roman',
@@ -105,17 +108,22 @@ export default{
         {
           type: 'value',
           min: 0,
-          max: 350,
+          // max: 350,
           name: '信息量',
+          nameTextStyle: {
+            color: 'rgb(243,140,103)',
+          },
           axisLabel: {
+            color: 'rgb(243,177,103)',
             fontWeight: 600,
             fontSize: this.divWidth * 0.028,
             fontFamily: 'Times New Roman'
           }
         }
       ],
+      backgroundColor: 'rgba(14,115,238,0)',
       series: [
-        {
+        /*{
           name: '积极情感',
           type: 'line',
           smooth: true,
@@ -163,7 +171,32 @@ export default{
             ])
           },
           data: this.negData
-        }
+        }*/
+        {
+          name: '总评论量',
+          type: 'line',
+          smooth: true,
+          symbol: 'circle',
+          symbolSize: this.divWidth * 0.016,
+          stack: "a",
+          sampling: 'average',
+          itemStyle: {
+            color: '#1fe2d9'
+          },
+          areaStyle: {
+            color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [
+              {
+                offset: 0,
+                color: 'rgba(58,77,233,0.8)'
+              },
+              {
+                offset: 1,
+                color: 'rgba(58,77,233,0.3)'
+              }
+            ])
+          },
+          data: this.commentCnt
+        },
       ]
     };
     this.getMsgData()
@@ -192,13 +225,19 @@ export default{
     },
     //获取数据
     getMsgData(){
-      polarityCountDayInterval(this.queryMsgParam).then((res) => {
+      polarityCountMonthInterval(this.queryMsgParam).then((res) => {
         if(res.code === "0"){
-          this.option.series[0].data = res.data.statisticsInfo.map((item) => {
+          /*this.option.series[0].data = res.data.statisticsInfo.map((item) => {
             return item.positive
           })
           this.option.series[1].data = res.data.statisticsInfo.map((item) => {
             return item.negative
+          })*/
+          this.option.xAxis[0].data = res.data.map((item)=>{
+            return item.postTime
+          })
+          this.option.series[0].data = res.data.map((item) => {
+            return item.positive + item.negative + item.neutrality
           })
           this.updateMsgChart()
         }

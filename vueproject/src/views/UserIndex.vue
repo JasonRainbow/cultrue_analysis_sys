@@ -52,7 +52,8 @@ export default {
 
 <style scoped>
 .user-index,el-main{
-  background-color: #ecf5ff;
+  /*background-color: #ecf5ff;*/
+  background: url("../assets/img/main_bg.jpg") center center;
 }
 
 </style>

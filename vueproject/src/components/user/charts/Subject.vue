@@ -1,8 +1,8 @@
 <template>
   <div style="text-align: center;height:100%">
-    <h4 :style="{'margin-bottom': '5px', 'font-size': divWidth * 0.0285 + 'px'}">{{value}} 情感分布</h4>
+    <div :style="{'margin-bottom': '5px', marginLeft: '15px', 'font-size': divWidth * 0.0285 + 'px', fontSize: '19px', textAlign: 'left'}">{{value}} 情感分布</div>
     <span :style="{'margin-right': '4px', 'font-size': divWidth * 0.0280 + 'px'}" class="">指标切换：</span>
-    <el-select v-model="value" :size="inputSize" placeholder="请选择" @change="SelectChanged" style="">
+    <el-select class="custom-select3" v-model="value" :size="inputSize" placeholder="请选择" @change="SelectChanged" style="">
       <el-option
         v-for="item in options"
         :key="item.value"
@@ -171,6 +171,8 @@ export default {
 </script>
 
 <style scoped>
+@import "../../../assets/styles/mystyle.css";
+
 #container1{
   margin-top: 3%;
   height:70%;

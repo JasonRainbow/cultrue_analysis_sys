@@ -513,8 +513,8 @@ export default {
   <div id="div1" style="text-align: center; width: 100%; height: 100%;">
     <div style="text-align: center;width:100%;height:100%">
       <div id="head_div">
-        <h4 :style="{'margin-bottom': '5px', 'font-size': this.divWidth * 0.038 + 'px'}">{{selectCountry}}&nbsp;{{selectTime}} 共现语义网络图</h4>
-        <el-select :size="inputSize" :style="{width: divWidth * 0.25 + 'px'}"
+        <div :style="{'margin-bottom': '5px', 'font-size': this.divWidth * 0.038 + 'px'}">{{selectCountry}}&nbsp;{{selectTime}} 共现语义网络图</div>
+        <el-select class="custom-select3" :size="inputSize" :style="{width: divWidth * 0.25 + 'px'}"
                    v-model="selectCountry"
                    placeholder="请选择国家"
                    @change="countryChanged">
@@ -525,7 +525,7 @@ export default {
             :value="item.value">
           </el-option>
         </el-select>
-        <el-date-picker :style="{width: divWidth * 0.3 + 'px'}"
+        <el-date-picker class="custom-select3" :style="{width: divWidth * 0.32 + 'px'}"
                         :size="inputSize"
                         v-model="selectTime"
                         type="date"
@@ -543,6 +543,8 @@ export default {
 </template>
 
 <style scoped>
+@import "../../../assets/styles/mystyle.css";
+
 #div1 {
   width: 100%;
   height: 100%;

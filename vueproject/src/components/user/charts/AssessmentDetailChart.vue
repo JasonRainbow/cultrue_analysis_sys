@@ -5,7 +5,7 @@
         <el-card class="box-card grid-content" shadow="always">
           <div style="text-align: left">
             <router-link to="/effect">
-              <el-link type="warning" style="font-size: 18px;">返回</el-link>
+              <el-link type="warning" style="font-size: 18px;">&lt;&lt;返回</el-link>
             </router-link>
           </div>
           <h2 style="text-align: center" >{{country}} </h2>
@@ -26,7 +26,12 @@ export default {
       option: {
         legend: {
           left: 'center',
-          data: ['积极情感', '消极情感', '中性情感']
+          data: ['积极情感', '消极情感', '中性情感'],
+          textStyle: {
+            color: '#e2652f',
+            fontSize: 17.5,
+            fontWeight: 'bold'
+          }
         },
         dataset: {
           source: [
@@ -117,10 +122,11 @@ export default {
               focus: 'self'
             },
             label: {
+              position: 'outside',
               formatter: '{b}: {@2022-09} ({d}%)',
               textStyle : {
-                color: "#844400",
-                fontSize : 14
+                color: "#e2652f",
+                fontSize : 18
               }
             },
             encode: {
@@ -302,10 +308,17 @@ export default {
 </script>
 <style scoped>
 .box-card {
-  background-color: #dde5f3;
+  /*background-color: #dde5f3;*/
+  background: url("../../../assets/img/card_bg3.jpg") center center;
+  margin-top: 20px;
 }
 .grid-content {
   border-radius: 4px;
   min-height: 36px;
+}
+
+.box-card /deep/ .el-link--inner {
+  color: #e25f2f;
+  font-weight: bolder;
 }
 </style>

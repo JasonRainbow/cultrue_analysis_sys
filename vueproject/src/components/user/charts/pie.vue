@@ -94,10 +94,11 @@ export default {
             picker.$emit('pick', date);
           }
         }]
-      }
+      },
     }
   },
   async mounted() {
+    this.searchParams.postTime = this.selectTime = this.currentTime
     await this.getAllCountries();
     this.createChart()
   },
@@ -124,7 +125,10 @@ export default {
           this.res_data = res.data
           // console.log(this.res_data)
           // 基于准备好的dom，初始化echarts实例
-          let chart = this.$echarts.init(document.getElementById("pieChat"));
+          this.chart = this.$echarts.getInstanceByDom(document.getElementById("pieChat"))
+          if (this.chart == null || this.chart === "" || this.chart === undefined) {
+            this.chart = this.$echarts.init(document.getElementById("pieChat"));
+          }
           // 指定图表的let chart = this.$echarts.init(document.getElementById("pieChat"));配置项和数据
           let option = {
             tooltip: {
@@ -171,9 +175,9 @@ export default {
               }
             ]
           }
-          chart.setOption(option);
-          window.addEventListener('resize',function(){
-            chart.resize();
+          this.chart.setOption(option);
+          window.addEventListener('resize',()=>{
+            this.chart.resize();
           })
         }
       })
@@ -199,15 +203,17 @@ export default {
   <div id="div1" style="text-align:center">
     <h2>{{ selectCountry }}&nbsp;{{ selectTime }}情感占比</h2>
     <div style="margin-top: 15px">
-    <el-select v-model="selectCountry" placeholder="请选择国家" @change="nationChanged">
-      <el-option
-        v-for="item in countryOptions"
-        :key="item.value"
-        :label="item.label"
-        :value="item.value">
-      </el-option>
-    </el-select>
+      <el-select v-model="selectCountry" class="custom-select" placeholder="请选择国家" @change="nationChanged">
+        <el-option
+          v-for="item in countryOptions"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value">
+        </el-option>
+      </el-select>
+
     <el-date-picker
+      class="custom-select2"
       v-model="selectTime"
       type="date"
       placeholder="请选择日期"
@@ -226,9 +232,12 @@ export default {
   </div>
 </template>
 
-<style>
+<style scoped>
+@import "../../../assets/styles/mystyle.css";
+
    #div1{
      width:500px;
       height:450px;
    }
+
 </style>

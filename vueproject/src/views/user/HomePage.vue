@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-row style="display: flex; justify-content: center">
+    <el-row style="display: flex; justify-content: center; margin-top: 20px">
       <el-col :span="17" :xs="24" align="center">
         <slide-show></slide-show>
       </el-col>
@@ -56,7 +56,7 @@
           <div class="card-title">传播效果展示</div>
           <div style="margin-bottom: 15px">
             <span style="margin-right: 15px" class="font-bold">监测作品切换：</span>
-            <el-select v-model="workId" placeholder="请选择作品类型" @change="selectChanged">
+            <el-select class="custom-select" v-model="workId" placeholder="请选择作品类型" @change="selectChanged">
               <el-option
                 v-for="work in works"
                 :key="work.id"
@@ -248,11 +248,13 @@ export default {
 }
 
 .box-card {
-  background-color: #e7edfd;
+  //background-color: #e7edfd;
+  background: url("../../assets/img/card_bg2.jpg");
 }
 
 .box-card2 {
-  background-color: #F2F6FC;
+  //background-color: #F2F6FC;
+  background: url("../../assets/img/card_bg.png") center center;
   margin-bottom: 15px;
   max-height: 160px;
   overflow: hidden;
@@ -271,7 +273,7 @@ export default {
 
 .report-title {
   font-size: 1.2rem;
-  font-color: #000;
+  color: #c15128;
 }
 
 a {
@@ -316,4 +318,35 @@ a {
   padding: 10px 0;
   background-color: #f9fafc;
 }
+</style>
+
+<style scoped lang="css">
+
+.custom-select /deep/ .el-input__inner {
+  line-height: 46px;
+  color: #fdefd2;
+  font-size: 16px;
+  text-align: center;
+  opacity: 1;
+  border: none;
+  background: url("../../assets/img/nav2_bg.png") center center no-repeat;
+  font-weight: bold;
+}
+
+.custom-select /deep/ .el-input__inner {
+  padding-right: 10px;
+}
+
+.custom-select /deep/ .el-select__caret {
+  color: #f0ae4b;
+  font-weight: 1000;
+  font-size: 20px;
+}
+
+.custom-select /deep/ .el-select-dropdown {
+  background-color: #C03639;
+}
+
+
+
 </style>

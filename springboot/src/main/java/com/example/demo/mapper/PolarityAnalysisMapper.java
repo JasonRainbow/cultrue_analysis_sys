@@ -32,6 +32,7 @@ public interface PolarityAnalysisMapper extends BaseMapper<PolarityAnalysis> {
 
     // 查询一个月份区间的情感极性分析统计信息
     List<PolarityMonthlyVO> selectMonthInterval(@Param("country") String country,
+                                                @Param("workId") Integer workId,
                                                 @Param("offsets") List<Integer> offsets);
 
     // 查询国家列表

@@ -11,6 +11,9 @@ import store from './vuex/store';
 // 引入自定义图标
 import './assets/icons2/iconfont.css'
 
+// 引入自定义样式
+import './assets/styles/mystyle.css'
+
 // 引入全局样式
 import './assets/styles/index.scss' // global css
 import './assets/styles/ruoyi.scss' // ruoyi css
@@ -26,6 +29,7 @@ Vue.prototype.download = download
 Vue.prototype.parseTime = parseTime
 Vue.prototype.timestampToTime = timestampToTime
 Vue.prototype.debounce = debounce
+Vue.prototype.currentTime2 = new Date()
 
 // 引入echarts
 import * as echarts from 'echarts'

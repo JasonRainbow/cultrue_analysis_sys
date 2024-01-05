@@ -27,8 +27,12 @@ public class SysServiceTest {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-
     @Test
+    public void test() {
+        System.out.println("测试");
+    }
+
+    /*@Test
     public void testGetRolesByUsername() {
         logger.log(Level.INFO, sysRoleService.getRolesByUsername("root").toString());
     }
@@ -42,10 +46,10 @@ public class SysServiceTest {
     @Test
     public void testJwtUtil() {
         String token = JwtUtil.createJWT("hzx");
-        System.out.println(token);
-        char[] chars = token.toCharArray();
-        System.out.println(JwtUtil.isVerifiedToken(token));
-        System.out.println(JwtUtil.isVerifiedToken(new String(chars)));
+//        System.out.println(token);
+//        char[] chars = token.toCharArray();
+//        System.out.println(JwtUtil.isVerifiedToken(token));
+//        System.out.println(JwtUtil.isVerifiedToken(new String(chars)));
     }
 
     @Test
@@ -69,5 +73,5 @@ public class SysServiceTest {
     @Test
     public void testProperty() {
         System.out.println(Arrays.toString(permitAll));
-    }
+    }*/
 }

@@ -1,0 +1,61 @@
+.custom-select /deep/ .el-input__inner {
+  /*height: 52px;*/
+  background: url("../../assets/img/inherit.png");
+  background-size:100% 100%;
+  background-repeat:no-repeat;
+  box-sizing: border-box;
+
+  color: #fdefd2;
+  font-size: 15px;
+  width: 200px;
+  height: 38px;
+  font-weight: bold;
+}
+
+.custom-select /deep/ .el-select__caret {
+  color: #f0ae4b;
+  font-weight: 1000;
+  font-size: 16px;
+}
+
+.custom-select2 /deep/ .el-input__inner {
+  background-color: #9e2b2d;
+  color: #fdefd2;
+  height: 38px;
+  font-weight: bold;
+}
+
+.custom-select2 /deep/ .el-input__icon {
+  color: #e2a72f;
+  font-weight: bold;
+}
+
+.custom-input /deep/ .el-input__inner {
+  background-color: #9e2b2d;
+  color: #fdefd2;
+  height: 38px;
+  font-weight: bold;
+}
+
+.el-input__inner::-webkit-input-placeholder {
+  color: #ffd190;
+  font-weight: normal;
+}
+
+.custom-select3 /deep/ .el-input__inner {
+  background: url("../../assets/img/inherit.png");
+  background-size:100% 100%;
+  background-repeat:no-repeat;
+  box-sizing: border-box;
+
+  color: #fdefd2;
+  height: 30px;
+  font-weight: bold;
+  font-size: 14px;
+  border: none;
+}
+
+.custom-select3 /deep/ .el-input__icon {
+  color: #e2a72f;
+  font-weight: bold;
+}

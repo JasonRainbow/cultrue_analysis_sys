@@ -56,8 +56,15 @@
           <!--         左侧部分-->
           <el-col :span="7">
             <div :style="{ height: kHOne + 'px'}">
-              <dv-border-box-12 style="padding:12px;width:100%">
-                <WordCloud :work-id="workId" :key="workId"></WordCloud>
+              <dv-border-box-12 :style="{
+              'padding-top':screenWidth * 0.0052 + 'px',
+               'padding-left': screenWidth * 0.0066 + 'px',
+               'padding-right': screenWidth * 0.0066 + 'px',
+               'font-size': screenWidth * 0.0105 + 'px',
+               'width':'100%'
+              }">
+                各国整体情感排名
+                <SentimentScrollChart :work-id="workId" :key="workId"></SentimentScrollChart>
               </dv-border-box-12>
             </div>
 
@@ -81,7 +88,7 @@
               <dv-border-box-12 style="padding:12px;width:100%;height:100%">
                 <div style="margin-bottom: 5px;height:100%">
                   <span :style="{'margin-right': '8px', 'height': '45%', 'font-size': screenWidth * 0.0118 + 'px'}" class="font-bold">监测作品切换：</span>
-                  <el-select v-model="workId" :size="inputSize" placeholder="请选择作品类型" style="height: 45%"  @change="selectChanged">
+                  <el-select class="custom-select" v-model="workId" :size="inputSize" placeholder="请选择作品类型" style="height: 45%"  @change="selectChanged">
                     <el-option
                       v-for="work in works"
                       :key="work.id"
@@ -128,15 +135,8 @@
           <!--          右侧部分-->
           <el-col :span="8">
             <div :style="{ height: kHSix + 'px'}">
-              <dv-border-box-12 :style="{
-              'padding-top':screenWidth * 0.0052 + 'px',
-               'padding-left': screenWidth * 0.0066 + 'px',
-               'padding-right': screenWidth * 0.0066 + 'px',
-               'font-size': screenWidth * 0.0105 + 'px',
-               'width':'100%'
-              }">
-                各国整体情感排名
-                <SentimentScrollChart :work-id="workId" :key="workId"></SentimentScrollChart>
+              <dv-border-box-12 style="padding:12px;width:100%">
+                <WordCloud :work-id="workId" :key="workId"></WordCloud>
               </dv-border-box-12>
             </div>
             <div :style="{ height: kHSeven + 'px'}">
@@ -381,6 +381,28 @@ export default {
 }
 </script>
 
-<style lang="less" scoped>
+<style lang="css" scoped>
+
+.custom-select /deep/ .el-input__inner {
+  line-height: 46px;
+  height: 36px;
+  color: #fdefd2;
+  font-size: 16px;
+  text-align: center;
+  opacity: 1;
+  border: none;
+  background: url("../../assets/img/nav2_bg.png") center center no-repeat;
+  font-weight: bold;
+}
+
+.custom-select /deep/ .el-input__inner {
+  padding-right: 10px;
+}
+
+.custom-select /deep/ .el-select__caret {
+  color: #f0ae4b;
+  font-weight: 1000;
+  font-size: 20px;
+}
 
 </style>

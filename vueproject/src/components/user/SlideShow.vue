@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-carousel :interval="2000" type="card" height="300px">
+    <el-carousel :interval="4000" height="580px" indicator-position="outside">
       <el-carousel-item v-for="item in show_images" :key="item.id" align="center">
         <img :src="item.path" class="banner_img"/>
       </el-carousel-item>
@@ -36,6 +36,10 @@ export default {
           id: 6,
           path: require('../../assets/img/banner_img6.jpg')
         },
+        {
+          id: 7,
+          path: require('../../assets/img/banner_img7.jpg')
+        },
       ]
     }
   }
@@ -45,8 +49,8 @@ export default {
 <style scoped>
 
 .banner_img {
-  height: 300px;
+  height: 580px;
   width: 100%;
-  border-radius: 30px;
+  border-radius: 20px;
 }
 </style>
