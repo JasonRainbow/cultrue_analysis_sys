@@ -1,8 +1,8 @@
 <template>
   <div id="main_div" style="height: 100%;width:100%">
     <div style="text-align:center;height:30%;">
-      <h4 :style="{'margin-bottom': divWidth * 0.0125 + 'px', 'font-size': divWidth * 0.038 + 'px'}">{{selectCountry}}&nbsp;{{selectDate}}词云图</h4>
-      <el-select :size="inputSize" style="width: 28%" v-model="selectCountry" placeholder="请选择国家" @change="getWordData">
+      <div :style="{'margin-bottom': divWidth * 0.005 + 'px', marginTop: '-3px', 'font-size': divWidth * 0.038 + 'px'}">{{selectCountry}}&nbsp;{{selectDate}}词云图</div>
+      <el-select class="custom-select3" :size="inputSize" style="width: 28%" v-model="selectCountry" placeholder="请选择国家" @change="getWordData">
         <el-option
           v-for="item in countryOptions"
           :key="item.value"
@@ -10,7 +10,7 @@
           :value="item.value">
         </el-option>
       </el-select>
-      <el-select :size="inputSize" style="width: 28%" v-model="queryWordFreqParam.searchPlatform" placeholder="请选择平台" @change="getWordData">
+      <el-select class="custom-select3" :size="inputSize" style="width: 28%" v-model="queryWordFreqParam.searchPlatform" placeholder="请选择平台" @change="getWordData">
         <el-option
           v-for="item in platFormOptions"
           :key="item.value"
@@ -18,7 +18,7 @@
           :value="item.value">
         </el-option>
       </el-select>
-      <el-date-picker style="width: 28%"
+      <el-date-picker class="custom-select3" style="width: 28%"
         :size="inputSize"
         v-model="selectDate"
         align="right"
@@ -29,7 +29,7 @@
         @change="getWordData">
       </el-date-picker>
     </div>
-    <div id="wordCloud" style="height: 70%;width: 100%;margin-top: 0%"></div>
+    <div id="wordCloud" style="height: 70%;width: 100%;margin-top: 3px"></div>
   </div>
 </template>
 
@@ -53,7 +53,7 @@ export default {
       selectCountry:"全球",
       // selectDate:"2023-07-01",
       selectDate: "",
-      selectPlatForm:"Youtube",
+      selectPlatForm:"豆瓣",
       pickerOptions: {
         disabledDate(time) {
           return time.getTime() > Date.now();
@@ -170,7 +170,7 @@ export default {
         searchWorkId:this.workId,
         searchTime: this.selectDate,
         searchCountry: this.selectCountry,
-        searchPlatform:"Youtube"
+        searchPlatform:"豆瓣"
       }
     }
   },
@@ -237,5 +237,6 @@ export default {
 </script>
 
 <style scoped>
+@import "../../../assets/styles/mystyle.css";
 
 </style>

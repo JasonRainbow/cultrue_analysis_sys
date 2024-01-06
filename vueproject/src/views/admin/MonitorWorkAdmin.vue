@@ -260,10 +260,11 @@ export default {
       scrap_option: {
         workId: 0,
         keyword: "",
-        platform: "豆瓣"
+        platform: null
       },
       platforms: [
-        "豆瓣",
+        "豆瓣电影",
+        "豆瓣图书",
         "Twitter",
         "Facebook",
         "Youtube",

@@ -166,13 +166,14 @@ public class PolarityAnalysisController {
     @GetMapping("/countMonthInterval")
     @ApiOperation(value = "统计最近一年的极性情感分析结果")
     public Result countMonthInterval(@RequestParam(required = false, defaultValue = "") String searchCountry,
+                                      @RequestParam(required = false, defaultValue = "") Integer workId,
                                       @RequestParam(required = false, defaultValue = "12") Integer offset
     ) {
         List<Integer> offsets = new ArrayList<>();
         for (int i = 1; i < offset; i++) {
             offsets.add(i);
         }
-        return Result.success(polarityAnalysisMapper.selectMonthInterval(searchCountry, offsets));
+        return Result.success(polarityAnalysisMapper.selectMonthInterval(searchCountry, workId, offsets));
     }
 
     // 根据id删除指定情感极性分析结果

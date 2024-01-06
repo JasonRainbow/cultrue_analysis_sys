@@ -118,8 +118,8 @@ jwt:
   # JWT加解密使用密钥
   secret: abcriskflashcngpobmx
   # JWT的超期限时时间（1000*60*60*24*4）4天，即4天
-#  expiration: 345600000
-  expiration: 21600000
+  expiration: 345600000
+#  expiration: 21600000
   # JWT负载中拿到的开头
   tokenHead: Bearer
 
@@ -147,7 +147,8 @@ my:
       basePackage: com.example.demo.controller
 
 scrap_host: 426qb33844.goho.co
-remote_host1: 47.115.211.201:5000
+#remote_host1: 47.115.211.201:5000
+remote_host1: 426qb33844.goho.co
 remote_host2: 426qb33844.goho.co
 
 # 都可以访问的接口

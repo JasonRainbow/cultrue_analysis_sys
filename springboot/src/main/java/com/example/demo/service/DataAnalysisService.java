@@ -47,7 +47,7 @@ public class DataAnalysisService {
         param.put("workId", workId.toString());
         new Thread(()->{
             try {
-                String res = httpUtils.get(address1 + "/words_freq_sta", param);
+                String res = httpUtils.get_https(address1 + "/words_freq_sta", param);
                 JsonParser jsonParser = JsonParserFactory.getJsonParser();
                 Map<String, Object> objectMap = jsonParser.parseMap(res);
                 String code = objectMap.get("code").toString(); // 返回响应码

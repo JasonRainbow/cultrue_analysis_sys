@@ -92,8 +92,17 @@
             </if>
             ) as date_tab
                  left join (select * from polarity_analy
+                    <if test="(country != null and country != '') or (workId != null and workId != '')">
+                        where
+                    </if>
                      <if test="country != null and country != ''">
-                         where country = #{country}
+                         country = #{country}
+                     </if>
+                    <if test="(country != null and country != '') and (workId != null and workId != '')">
+                         and
+                    </if>
+                     <if test="workId != null and workId != ''">
+                          workId = ${workId}
                      </if>
                      ) as pa
                      on(DATE_FORMAT(pa.time, "%Y-%m") = date_tab.`year_month`)

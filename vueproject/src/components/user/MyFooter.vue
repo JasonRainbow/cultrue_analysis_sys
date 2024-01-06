@@ -149,43 +149,47 @@
               <h1 class="nav__title">Links|友情链接</h1>
               <ul class="nav__ul nav__ul--extra">
                 <li>
-                  <a href="https://news.google.com/">Google News</a>
+                  <a href="https://news.google.com/" target="_blank">Google News</a>
                 </li>
 
                 <li>
-                  <a href="https://www.youtube.com/">Youtube</a>
+                  <a href="https://www.youtube.com/" target="_blank">Youtube</a>
                 </li>
 
                 <li>
-                  <a href="https://twitter.com">Twitter</a>
+                  <a href="https://twitter.com" target="_blank">Twitter</a>
                 </li>
 
                 <li>
-                  <a href="https://instagram.com">Instagram</a>
+                  <a href="https://instagram.com" target="_blank">Instagram</a>
                 </li>
 
                 <li>
-                  <a href="https://global.chinadaily.com.cn">China Daily</a>
+                  <a href="https://facebook.com" target="_blank">Facebook</a>
                 </li>
 
                 <li>
-                  <a href="http://www.github.com">GitHub</a>
+                  <a href="https://global.chinadaily.com.cn" target="_blank">China Daily</a>
                 </li>
 
                 <li>
-                  <a href="https://www.amazon.com">Amazon</a>
+                  <a href="http://www.github.com" target="_blank">GitHub</a>
+                </li>
+
+                <li>
+                  <a href="https://www.amazon.com" target="_blank">Amazon</a>
                 </li>
                 <li>
-                  <a href="http://www.goodreads.com/">GoodReads</a>
+                  <a href="http://www.goodreads.com/" target="_blank">GoodReads</a>
                 </li>
                 <li>
-                  <a href="https://www.rottentomatoes.com/">烂番茄</a>
+                  <a href="https://www.rottentomatoes.com/" target="_blank">烂番茄</a>
                 </li>
                 <li>
-                  <a href="https://www.douban.com">豆瓣</a>
+                  <a href="https://www.douban.com" target="_blank">豆瓣</a>
                 </li>
                 <li>
-                  <a href="https://www.imdb.com/">IMDb</a>
+                  <a href="https://www.imdb.com/" target="_blank">IMDb</a>
                 </li>
               </ul>
             </li>
@@ -339,7 +343,7 @@ export default {
 }
 .footer {
   z-index: 1;
-  --footer-background:#195161;
+  --footer-background: url("../../assets/img/footbg.jpg");
   display: grid;
   position: relative;
   grid-area: footer;

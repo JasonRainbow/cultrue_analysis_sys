@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="main">
     <div id="header-title">
       中国语言文化作品国际传播效果分析系统
     </div>
@@ -46,7 +46,7 @@ export default {
     return {
       items: [
         { icon: 'nav-tab-item_icon iconfont icon-home', label: '首页', path: '/home'},
-        { icon: 'nav-tab-item_icon iconfont icon-send-fill', label: '传播效果评估', path: '/effect'},
+        { icon: 'nav-tab-item_icon iconfont icon-send-fill', label: '传播效果分析', path: '/effect'},
         { icon: 'nav-tab-item_icon iconfont icon-shujuxianshi', label: '大屏模式', path: '/big-screen'},
         { icon: 'nav-tab-item_icon iconfont icon-zhinengtuijian', label: '作品推荐', path: '/recommend'},
         { icon: 'nav-tab-item_icon iconfont icon-project_info', label: '背景介绍', path: '/background'},
@@ -118,6 +118,12 @@ export default {
 </script>
 
 <style scoped>
+
+#main {
+  background: url("../../assets/img/header_bg.jpg") center center;
+  border-radius: 0 0 90px 90px
+}
+
 /* 配色方案:
 背景:7dbfff,
 图标&标签:4298e7,
@@ -142,7 +148,7 @@ body {
 
   width: 100%;
   height: 80px;
-  background-color: #195161;
+  /*background-color: #195161;*/
   display: flex;
 
   border-bottom-left-radius: 90px;
@@ -213,20 +219,28 @@ body {
 }
 
 #header-title {
-  height: 80px;
-  background-color: #195161;
-  color: white;
-  font-size: 30px;
+  height: 100px;
   text-align: center;
   padding-top: 20px;
-  font-family: Arial, sans-serif;
-  text-shadow: 1px 1px white;
+  /*color: #C03639;
+  font-size: 35px;
+  font-family: 华文楷体;*/
+  /*text-shadow: 1px 1px #ac0d2a;*/
+  font-family: '华光淡古印_CNKI';
+  font-size:36px;
+  background-image: -webkit-linear-gradient(left, #ff0000, #e0c723 10%, #ff6a00 20%, #04dce3 30%, #CCCCFF 40%, #00FFFF 50%, #CCCCFF 60%, #CC00CC 70%, #CC00FF 80%, #66FFFF 90%, #ffff00 100%);
+  -webkit-text-fill-color: transparent;
+  /* 将字体设置成透明色 */
+  -webkit-background-clip: text;
+  /* 裁剪背景图，使文字作为裁剪区域向外裁剪 */
+  -webkit-background-size: 200% 100%;
+  -webkit-animation: masked-animation 4s linear infinite;
 }
 
 #show-login-div{
   height: 100px;
   width:  220px;
-  background-color: #195161;
+  /*background-color: #195161;*/
   position: absolute;
   top: 25px;
   right: 40px;

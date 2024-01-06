@@ -32,7 +32,8 @@
 
 .box-card {
   margin: auto;
-  background-color: #c4d5f5;
+  /*background-color: #c4d5f5;*/
+  background: url("../../assets/img/card_bg3.jpg") center center;
   border-radius: 30px
 }
 h1{

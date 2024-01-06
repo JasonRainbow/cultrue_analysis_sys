@@ -143,7 +143,7 @@ export default {
   position: relative;
   height: 100vh;
   overflow: hidden;
-  background: url("../assets/img/bg3.png") fixed left;
+  background: url("../assets/img/bg4.jpg") center center no-repeat;
 }
 
 .video-container .poster img{
@@ -167,6 +167,6 @@ export default {
   margin: auto;
   margin-top: 80px;
   border-radius: 25px;
-  background: url("../assets/img/bg3.png");
+  background: url("../assets/img/card_bg2.jpg");
 }
 </style>

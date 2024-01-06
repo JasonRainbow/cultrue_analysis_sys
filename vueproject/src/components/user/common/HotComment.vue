@@ -118,6 +118,7 @@ import {getHotCommentsByPage} from "../../../api/commentAPI";
       <el-form :inline="true" style="margin: 20px">
         <el-form-item label="搜索：">
           <el-input
+            class="custom-input"
             v-model="workName"
             style="width: 130px"
             placeholder="请输入作品名"
@@ -127,6 +128,7 @@ import {getHotCommentsByPage} from "../../../api/commentAPI";
         </el-form-item>
         <el-form-item label="">
           <el-input
+            class="custom-input"
             v-model="platform"
             style="width: 150px"
             placeholder="请输入发布平台"
@@ -136,6 +138,7 @@ import {getHotCommentsByPage} from "../../../api/commentAPI";
         </el-form-item>
         <el-form-item label="">
           <el-input
+            class="custom-input"
             v-model="commentContent"
             style="width: 150px"
             clearable
@@ -145,6 +148,7 @@ import {getHotCommentsByPage} from "../../../api/commentAPI";
         </el-form-item>
         <el-form-item label="">
           <el-input
+            class="custom-input"
             v-model="country"
             style="width: 180px"
             clearable
@@ -154,6 +158,7 @@ import {getHotCommentsByPage} from "../../../api/commentAPI";
         </el-form-item>
         <el-form-item label="">
           <el-date-picker
+            class="custom-select2"
             style="width: 180px"
             v-model="time"
             align="right"
@@ -173,7 +178,7 @@ import {getHotCommentsByPage} from "../../../api/commentAPI";
          :key="index"
          class="text item"
     >
-      <el-card class="box-card2" shadow="hover" style="background-color: #F2F6FC">
+      <el-card class="box-card2" shadow="hover">
         <div slot="header" class="clearfix">
           <span>{{c.monitorWork.name}}</span>
           <!--            <el-button style="float: right; padding: 3px 0" type="text" @click="Delete">删除</el-button>-->
@@ -183,19 +188,19 @@ import {getHotCommentsByPage} from "../../../api/commentAPI";
             {{c.content}}
           </div>
           <div class="div3">
-            点赞数：{{c.likes}}
+            <span class="sub-title">点赞数：</span>{{c.likes}}
           </div>
           <div class="div3">
-            情感：{{c.sentiment==null?'未分析':c.sentiment}}
+            <span class="sub-title">情感：</span>{{c.sentiment==null?'未分析':c.sentiment}}
           </div>
           <div class="div3">
-            发布地：{{c.country}}
+            <span class="sub-title">发布地：</span>{{c.country}}
           </div>
           <div class="div3">
-            发布平台：{{c.platform}}
+            <span class="sub-title">发布平台：</span>{{c.platform}}
           </div>
           <div class="div3">
-            发布时间：{{c.postTime}}
+            <span class="sub-title">发布时间：</span>{{c.postTime}}
           </div>
         </div>
       </el-card>
@@ -212,6 +217,8 @@ import {getHotCommentsByPage} from "../../../api/commentAPI";
 </template>
 
 <style scoped>
+@import "../../../assets/styles/mystyle.css";
+
   /*.div1{
     width:1050px;
     margin:30px auto auto auto;
@@ -234,6 +241,11 @@ import {getHotCommentsByPage} from "../../../api/commentAPI";
     clear: both
   }
 
+  .clearfix {
+    color: #c15128;
+    font-size: 18px;
+  }
+
   .div3{
     display:inline-block;
     float:right;
@@ -241,5 +253,13 @@ import {getHotCommentsByPage} from "../../../api/commentAPI";
   }
   .div2{
     margin-bottom: 30px;
+  }
+
+  .box-card2 {
+    background: url("../../../assets/img/card_bg.png");
+  }
+
+  .sub-title {
+    color: #214ce7;
   }
 </style>

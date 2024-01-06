@@ -34,8 +34,11 @@ public class DataCrawlController {
                                    @RequestParam String platform) {
         String baseUri = scrap_hots + "";
         switch (platform) {
-            case "豆瓣":
-                baseUri += "/scrap_douban";
+            case "豆瓣图书":
+                baseUri += "/scrap_douban_book";
+                break;
+            case "豆瓣电影":
+                baseUri += "/scrap_douban_movie";
                 break;
             case "Twitter":
                 baseUri += "/scrap_twitter";
@@ -62,7 +65,9 @@ public class DataCrawlController {
                 return Result.error("-1", "没有平台参数");
         }
         boolean res = dataCrawlService.crawlComments(workId, keyword, baseUri, platform);
-        if (res) return Result.success();
+        if (res) {
+            return Result.success();
+        }
         return Result.error("-1", "爬取评论失败，请稍后重试！");
     }
 
@@ -108,7 +113,9 @@ public class DataCrawlController {
             res = dataAnalysisService.generatePlatformScore(workId, platform);
         }
 
-        if (res) return Result.success();
+        if (res) {
+            return Result.success();
+        }
         return Result.error("-1", "爬取评分数据失败，请稍后重试！");
     }
 }

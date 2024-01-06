@@ -46,7 +46,7 @@ export default {
   },
   created () {},
   beforeMount(){
-    this.kHOne = Math.round(this.screenHeight * 0.24)
+    this.kHOne = Math.round(this.screenHeight * 0.2)
   },
   mounted(){
     // 页面大小改变时触发
@@ -137,7 +137,7 @@ export default {
     getScreenHeight() {
       this.screenHeight = window.innerHeight || document.documentElement.innerHeight || document.body.clientHeight;
       // 四舍五入取整数
-      this.kHOne = Math.round(this.screenHeight * 0.24);
+      this.kHOne = Math.round(this.screenHeight * 0.2);
       //console.log("高度->"+this.screenHeight +"-"+ this.kHOne);
     },
     // 字体大小根据宽度自适应

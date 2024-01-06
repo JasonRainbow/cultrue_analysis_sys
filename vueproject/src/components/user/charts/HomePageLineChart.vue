@@ -2,7 +2,7 @@
     <div style="text-align:center;margin-top: 30px">
       <h2>{{ selectCountry }}&nbsp;{{selectMonth}} 极性情感趋势</h2>
       <div style="margin-top: 15px;" >
-        <el-select v-model="selectCountry" placeholder="国家" @change="this.getData">
+        <el-select class="custom-select" v-model="selectCountry" placeholder="国家" @change="this.getData">
           <el-option
             v-for="item in countryOptions"
             :key="item.value"
@@ -11,6 +11,7 @@
           </el-option>
         </el-select>
         <el-date-picker
+          class="custom-select2"
           v-model="selectMonth"
           type="month"
           :clearable="false"
@@ -218,4 +219,7 @@ export default {
 </script>
 
 <style lang="css" scoped>
+
+@import "../../../assets/styles/mystyle.css";
+
 </style>

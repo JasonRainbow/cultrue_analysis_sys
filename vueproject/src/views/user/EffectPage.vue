@@ -91,12 +91,14 @@ export default {
   min-height: 36px;
 }
 .box-card {
-  background-color: #dde5f3;
+  /*background-color: #dde5f3;*/
+  background: url("../../assets/img/card_bg3.jpg") center center;
   margin-top: 20px;
 }
 
 #app {
-  background-color: #ecf5ff;
+  /*background-color: #ecf5ff;*/
+  background: transparent;
 }
 
 .item-card {

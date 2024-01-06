@@ -108,7 +108,12 @@ export default {
           type: 'bar',
           barWidth: '45%',
           barMaxWidth: 50, // 柱子的最大宽度
-          data: [4.5, 3.2, 4.5, 3.9,4.9]
+          data: [4.5, 3.2, 4.5, 3.9,4.9],
+          // 设置柱条颜色
+          colorBy: 'series',
+          itemStyle: {
+            color: 'rgba(194,59,9,0.8)'
+          }
         }
       ],
       textStyle:{
