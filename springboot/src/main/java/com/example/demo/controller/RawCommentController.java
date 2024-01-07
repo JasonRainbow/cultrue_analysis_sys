@@ -10,6 +10,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.common.Result;
 import com.example.demo.entity.RawComment;
+import com.example.demo.entity.vo.CountryCommentNum;
 import com.example.demo.mapper.RawCommentMapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -71,12 +72,12 @@ public class RawCommentController {
     @GetMapping("/byPage")
     @ApiOperation(value = "分页查询所有评论信息")
     public Result findPage(@RequestParam(required = false, defaultValue = "-1") Integer workId,
-                              @RequestParam(required = false, defaultValue = "") String searchContent,
-                              @RequestParam(required = false, defaultValue = "") String searchCountry,
-                              @RequestParam(required = false, defaultValue = "") String searchPlatform,
-                              @RequestParam(required = false, defaultValue = "") String searchTime,
-                              @RequestParam(required = false, defaultValue = "1") Integer pageNum,
-                              @RequestParam(required = false, defaultValue = "10") Integer pageSize) throws ParseException {
+                           @RequestParam(required = false, defaultValue = "") String searchContent,
+                           @RequestParam(required = false, defaultValue = "") String searchCountry,
+                           @RequestParam(required = false, defaultValue = "") String searchPlatform,
+                           @RequestParam(required = false, defaultValue = "") String searchTime,
+                           @RequestParam(required = false, defaultValue = "1") Integer pageNum,
+                           @RequestParam(required = false, defaultValue = "10") Integer pageSize) throws ParseException {
         LambdaQueryWrapper<RawComment> queryWrapper = Wrappers.<RawComment>lambdaQuery()
                 .like(RawComment::getContent, searchContent)
                 .like(RawComment::getCountry, searchCountry)
@@ -94,12 +95,12 @@ public class RawCommentController {
     @GetMapping("/byPage2")
     @ApiOperation(value = "分页关联查询所有评论信息")
     public Result byPage2(@RequestParam(required = false, defaultValue = "") String searchWorkName,
-                             @RequestParam(required = false, defaultValue = "") String searchContent,
-                             @RequestParam(required = false, defaultValue = "") String searchCountry,
-                             @RequestParam(required = false, defaultValue = "") String searchPlatform,
-                             @RequestParam(required = false, defaultValue = "") String searchTime,
-                             @RequestParam(required = false, defaultValue = "1") Integer pageNum,
-                             @RequestParam(required = false, defaultValue = "10") Integer pageSize) {
+                          @RequestParam(required = false, defaultValue = "") String searchContent,
+                          @RequestParam(required = false, defaultValue = "") String searchCountry,
+                          @RequestParam(required = false, defaultValue = "") String searchPlatform,
+                          @RequestParam(required = false, defaultValue = "") String searchTime,
+                          @RequestParam(required = false, defaultValue = "1") Integer pageNum,
+                          @RequestParam(required = false, defaultValue = "10") Integer pageSize) {
         Page<RawComment> res = rawCommentMapper.selectPage2(new Page<>(pageNum, pageSize),
                 searchWorkName, searchContent,
                 searchCountry, searchPlatform, searchTime);
@@ -110,12 +111,12 @@ public class RawCommentController {
     @GetMapping("/getHotComment")
     @ApiOperation(value = "查询热点评论")
     public Result getHotComment(@RequestParam(required = false, defaultValue = "") String searchWorkName,
-                                   @RequestParam(required = false, defaultValue = "") String searchContent,
-                                   @RequestParam(required = false, defaultValue = "") String searchCountry,
-                                   @RequestParam(required = false, defaultValue = "") String searchPlatform,
-                                   @RequestParam(required = false, defaultValue = "") String searchTime,
-                                   @RequestParam(required = false, defaultValue = "1") Integer pageNum,
-                                   @RequestParam(required = false, defaultValue = "10") Integer pageSize) {
+                                @RequestParam(required = false, defaultValue = "") String searchContent,
+                                @RequestParam(required = false, defaultValue = "") String searchCountry,
+                                @RequestParam(required = false, defaultValue = "") String searchPlatform,
+                                @RequestParam(required = false, defaultValue = "") String searchTime,
+                                @RequestParam(required = false, defaultValue = "1") Integer pageNum,
+                                @RequestParam(required = false, defaultValue = "10") Integer pageSize) {
         Page<RawComment> res = rawCommentMapper.selectHotComments(new Page<>(pageNum, pageSize),
                 searchWorkName, searchContent,
                 searchCountry, searchPlatform, searchTime);
@@ -264,4 +265,14 @@ public class RawCommentController {
         }
         return Result.success();
     }
+
+    // 按国家分类查询作品评论数量
+    @GetMapping("/getCommentNum")
+    @ApiOperation(value = "按国家分类查询所有作品评论数量")
+    public Result findCountryCommentsNumByWorkId(@RequestParam(required = false) Integer workId) {
+        List<CountryCommentNum> commentList = rawCommentMapper.getCommentNumByCountryAndWorkId(workId);
+        return Result.success(commentList);
+    }
+
 }
+

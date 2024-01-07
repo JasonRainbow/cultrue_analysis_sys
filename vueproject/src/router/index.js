@@ -48,9 +48,15 @@ import HomePageLineChart from "../components/user/charts/HomePageLineChart";
 import DataSourcePieChart from "../components/user/charts/DataSourcePieChart";
 import  Score from "../components/user/charts/Score"
 import SixEmotionPie from "../components/user/charts/pie"
+import WorldMap from "../components/user/common/WorldMap.vue";
 
 // 启用路由
 Vue.use(Router);
+
+const VueRouterPush = Router.prototype.push
+Router.prototype.push = function push (to) {
+  return VueRouterPush.call(this, to).catch(err => err)
+}
 
 // 导出路由
 const router = new Router({
@@ -241,7 +247,22 @@ const router = new Router({
           component: EffectPage,
           meta: {
             requireAuth: false
-          }
+          },
+          children:[
+            // {
+            //   path: "worldMap",
+            //   name: "世界地图",
+            //   component: WorldMap
+            // },
+            {
+              path: "sentiment-assessment",
+              name: "传播效果评估展示",
+              component: AssessmentDetailChart,
+              meta: {
+                requireAuth: false
+              }
+            },
+          ]
         },
         {
           path: "/personal",
@@ -252,14 +273,14 @@ const router = new Router({
             requireAdmin: false
           }
         },
-        {
-          path: "/sentiment-assessment",
-          name: "传播效果评估展示",
-          component: AssessmentDetailChart,
-          meta: {
-            requireAuth: false
-          }
-        },
+        // {
+        //   path: "/sentiment-assessment",
+        //   name: "传播效果评估展示",
+        //   component: AssessmentDetailChart,
+        //   meta: {
+        //     requireAuth: false
+        //   }
+        // },
         {
           path: "/background",
           name: "背景介绍",

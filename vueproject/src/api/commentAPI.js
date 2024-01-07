@@ -50,4 +50,7 @@ export const updateComment = (params)=>{
   return req("put", "/comment/update", null, params);
 }
 
-//
+//查询作品在各个国家的评论数量
+export const getCountryCommentsNumByWorkId = (params)=>{
+  return req("get", "/comment/getCommentNum", params, null);
+}

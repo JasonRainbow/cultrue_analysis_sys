@@ -31,6 +31,9 @@ public class MonitorWork {
     @ApiModelProperty(value = "作品类型")
     private String category; // 类别
 
+    @ApiModelProperty(value = "作品子类型")
+    private String subCategory; // 子类别
+
     @ApiModelProperty(value = "作品标签")
     private String labels; // 作品标签
 

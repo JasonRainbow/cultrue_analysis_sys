@@ -64,7 +64,8 @@ export default {
         "/question": 6,
         "/personal": 7,
         "/not-login": 7,
-        "/sentiment-assessment":1
+        "/sentiment-assessment":1,
+        "/effect/sentiment-assessment": 1
       },
       activeIndex: 0,
       loginFlag: true,
