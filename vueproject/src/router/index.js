@@ -42,6 +42,12 @@ import PersonalRecommendation from "../views/user/PersonalRecommendation.vue";
 import store from "../vuex/store";
 import {hasLogin, isCurrentAdmin} from "../utils/auth";
 import {Message, Notification} from "element-ui";
+import HunanWorkEffectPage from "../views/user/HunanWorkEffectPage";
+import RelationGraph from "../components/user/charts/RelationGraph";
+import HomePageLineChart from "../components/user/charts/HomePageLineChart";
+import DataSourcePieChart from "../components/user/charts/DataSourcePieChart";
+import  Score from "../components/user/charts/Score"
+import SixEmotionPie from "../components/user/charts/pie"
 
 // 启用路由
 Vue.use(Router);
@@ -261,7 +267,8 @@ const router = new Router({
           meta: {
             requireAuth: false
           }
-        }, {
+        },
+        {
           path: "/team",
           name: "团队介绍",
           component: TeamIntroduction,
@@ -294,7 +301,80 @@ const router = new Router({
           }
         },
       ]
-    }
+    },
+    {
+      path: "/HunanWorkEffect",
+      name: "湖南文化作品传播效果分析",
+      component: HunanWorkEffectPage,
+      meta: {
+        requireAuth: false
+      },
+      redirect: "/sixEmotionPie",
+      children: [
+        {
+          name: "作品评分图",
+          path: "/scoreChart",
+          component: Score,
+          props: (route) => ({
+            workId : Number(route.query.workId),
+            height: route.query.height,
+            fontColor: route.query.fontColor
+          }),
+          meta: {
+            requireAuth: false
+          }
+        },
+        {
+          name: "语义网络分析",
+          path: "/relationGraph",
+          component: RelationGraph,
+          props: (route) => ({
+            workId : Number(route.query.workId),
+            height: route.query.height
+          }),
+          meta: {
+            requireAuth: false
+          }
+        },
+        {
+          name: "细腻分析情感分布",
+          path: "/sixEmotionPie",
+          component: SixEmotionPie,
+          props: (route) => ({
+            workId : Number(route.query.workId),
+            height: route.query.height === undefined ? '560px' : route.query.height
+          }),
+          meta: {
+            requireAuth: false
+          }
+        },
+        {
+          name: "极性情感分析",
+          path: "/polarityAnalysis",
+          component: HomePageLineChart,
+          props: (route) => ({
+            workId : Number(route.query.workId),
+            height: route.query.height
+          }),
+          meta: {
+            requireAuth: false
+          }
+        },
+        {
+          name: "数据来源图",
+          path: "/dataSourceChart",
+          component: DataSourcePieChart,
+          props: (route) => ({
+            workId : Number(route.query.workId),
+            height: route.query.height,
+            fontColor: route.query.fontColor
+          }),
+          meta: {
+            requireAuth: false
+          }
+        },
+      ]
+    },
   ]
 })
 

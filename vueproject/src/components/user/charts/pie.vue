@@ -11,7 +11,7 @@ export default {
     },
     width: {
       type: String,
-      default: "400px"
+      default: "520px"
     },
     height: {
       type: String,
@@ -192,6 +192,11 @@ export default {
       this.searchParams.postTime=this.selectTime;
       this.createChart();
     },
+  },
+  computed: {
+    height2() {
+      return this.height !== '400px'? this.height : "400px"
+    }
   }
 }
 
@@ -226,8 +231,8 @@ export default {
     >
     </el-date-picker>
     </div>
-    <div style="display: flex;justify-content: center;align-items: center">
-    <div id="pieChat" :style="{ width: width, height: height}"></div>
+    <div style="display: flex;justify-content: center;align-items: center;">
+    <div id="pieChat" :style="{ width: width, height: height2}"></div>
     </div>
   </div>
 </template>
@@ -236,8 +241,8 @@ export default {
 @import "../../../assets/styles/mystyle.css";
 
    #div1{
-     width:500px;
-      height:450px;
+     width:100%;
+     height: 450px;
    }
 
 </style>

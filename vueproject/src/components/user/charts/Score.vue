@@ -1,5 +1,5 @@
 <template>
-  <div id="container2"></div>
+  <div id="container2" :style="{height: height2}"></div>
 </template>
 
 <script>
@@ -10,6 +10,15 @@ export default {
     workId:{
       Type:Number,
       default:1
+    },
+    height: {
+      type: String,
+      require: false,
+      default: '300px'
+    },
+    fontColor:{
+      Type:String,
+      default:"#ccc"
     }
   },
   data(){
@@ -50,7 +59,13 @@ export default {
       option: null
     }
   },
+  computed: {
+    height2() {
+      return this.height !== '300px'? this.height: "95%"
+    }
+  },
   mounted(){
+    console.log(this.workId)
     this.divWidth = document.getElementById("container2").clientWidth
     // console.log(this.divWidth)
     this.option = {
@@ -59,7 +74,7 @@ export default {
         left: 'center',
         textStyle: {
           fontSize: this.divWidth * 0.033,
-          color: '#ccc'
+          color: this.fontColor
         }
       },
       tooltip: {
@@ -118,7 +133,7 @@ export default {
       ],
       textStyle:{
         fontSize: this.divWidth * 0.0351,
-        color:'#fff',
+        color:this.fontColor,
       }
     }
     //调用接口，取得返回值，将返回值中的data直接复制给data1
