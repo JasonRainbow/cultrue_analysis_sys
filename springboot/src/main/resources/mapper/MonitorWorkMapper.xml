@@ -54,5 +54,11 @@
             inner join monitor_work as mw
             inner join user on(rw.workId=mw.id and rw.userId=user.id);
     </select>
+    <select id="getAllSubCategory" resultType="java.lang.String">
+        select distinct subCategory from monitor_work where subCategory is not NULL and category=#{category}
+    </select>
+    <select id="getAllCategory" resultType="java.lang.String">
+        select distinct category from monitor_work where category is not NULL
+    </select>
 
 </mapper>

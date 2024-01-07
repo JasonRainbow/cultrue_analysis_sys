@@ -33,4 +33,9 @@ public interface MonitorWorkMapper extends BaseMapper<MonitorWork> {
                                 @Param("state") Integer state);
 
     List<RecommendWorkVO> selectRecommendWorksByUserId(@Param("userId") Integer userId);
+
+   //查询所有子类别
+    List<String> getAllSubCategory(@Param("category") String category);
+   //查询所有大类别
+    List<String> getAllCategory();
 }

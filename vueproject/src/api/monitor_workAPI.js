@@ -50,3 +50,7 @@ export const getRecommendWorksByUserId = (params)=>{
   return req("get", "/monitor-work/recommendByUserId", params, null)
 }
 
+export const getAllSubcategory = (params)=>{
+  return req("get", "/monitor-work/getWorkByCategory", null, null)
+}
+
