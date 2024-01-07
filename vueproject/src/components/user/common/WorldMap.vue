@@ -1487,8 +1487,8 @@ export default {
         },
         visualMap: {
           textStyle: {
-            color: '#b5bb94',
-            fontSize: this.screenWidth * 0.009
+            color: '#9cab5a',
+            fontSize: this.screenWidth * 0.011
           },
           itemHeight: this.screenWidth * 0.092,
           itemWidth: this.screenWidth * 0.0131,
@@ -1523,8 +1523,9 @@ export default {
           top:70,   //设置地图位置
           label: {
             show: true,//是否在地图上显示国家名字
-            fontSize: this.screenWidth * 0.0066,
-            color: "rgba(201,174,174,0.7)",
+            fontSize: this.screenWidth * 0.0082,
+            fontWeight: 'bold',
+            color: "rgba(33,32,32,0.7)",
           },
           nameMap:{
             "Canada": "加拿大",
@@ -1753,6 +1754,10 @@ export default {
               borderWidth: 0,
               shadowColor: "rgba(0, 0, 0, 0.5)",
             },
+          },
+          itemStyle: {
+            borderColor: '#45d3d3',
+            shadowBlur: 2
           },
         },
         // 鼠标悬浮提示框

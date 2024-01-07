@@ -8,7 +8,7 @@
     <div style="position: absolute; left: -30px; top: 100px;">
       <img style="height: 200px" alt="鹤" :src="require('../../assets/img/icon-bird.png')">
     </div>
-    <div style="position: absolute; right: -163px; top: 430px;">
+    <div style="position: absolute; right: -20px; top: 430px;">
       <img style="height: 200px" alt="鹤" :src="require('../../assets/img/icon-bird.png')">
     </div>
   </div>
