@@ -25,11 +25,11 @@ export default {
   },
   data() {
     return {
-      selectCountry:'美国',
+      selectCountry:'全球',
       selectTime: '2023-07-01',
       searchParams: {
         workId: this.workId,
-        country: '美国',  //this.selectCountry,
+        country: '全球',  //this.selectCountry,
         postTime:  '2023-07-01'       //this.data,
       },
       res_data: {},

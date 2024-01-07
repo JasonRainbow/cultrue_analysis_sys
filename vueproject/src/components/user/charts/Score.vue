@@ -173,7 +173,7 @@ export default {
 <style scoped>
 #container2{
   /*margin: 30px auto auto auto;*/
-  margin-top:5%;
+  margin-top:2%;
   height:85%;
 }
 </style>
