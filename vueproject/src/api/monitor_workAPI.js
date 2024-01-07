@@ -70,3 +70,7 @@ export const getHunanWorks = (params)=>{
   return req("post", "/monitor-work/getHunanWork", null, params)
 }
 
+export const getAllSubcategory = (params)=>{
+  return req("get", "/monitor-work/getWorkByCategory", null, null)
+}
+

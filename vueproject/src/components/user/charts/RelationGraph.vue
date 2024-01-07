@@ -25,6 +25,10 @@ export default {
 
   },
   async mounted() {
+    console.log(this.workId)
+    console.log(document.getElementById("relationGraph").clientWidth)
+    console.log(document.getElementById("relationGraph").clientHeight)
+
     this.divWidth = document.getElementById("head_div").clientWidth
     if (this.divWidth < 500) {
       this.inputSize = "mini"
@@ -505,6 +509,11 @@ export default {
     dateChanged() {
       this.createGraph()
     },
+  },
+  computed: {
+    height2() {
+      return this.height !== '258px'? this.height: "84%"
+    }
   }
 }
 </script>
@@ -536,7 +545,7 @@ export default {
                         @change="dateChanged">
         </el-date-picker>
       </div>
-      <div id="relationGraph"></div>
+      <div id="relationGraph" :style="{height: height2}"></div>
     </div>
 <!--    <div id="relationGraph" :style="{ width: width,height: height,}"></div>-->
   </div>

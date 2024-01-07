@@ -1,7 +1,7 @@
 <template>
   <div style="height:100%">
     <div :style="{'font-size': divWidth * 0.0327 + 'px'}">数据来源占比</div>
-    <div id="platFormChart" style="height: 95%;width: 100%;margin-top: 5%"></div>
+    <div id="platFormChart" :style="{height: height2}"></div>
   </div>
 </template>
 
@@ -14,6 +14,16 @@ export default {
     workId: {
       type: Number,
       require: true
+    },
+    height: {
+      type: String,
+      require: false,
+      default: '300px'
+    },
+    fontColor: {
+      type: String,
+      require: false,
+      default: "#fff"
     }
   },
   data(){
@@ -25,6 +35,11 @@ export default {
         workId: this.workId
       },
       platFormChart: {},
+    }
+  },
+  computed: {
+    height2() {
+      return this.height !== '300px'? this.height: "95%"
     }
   },
   methods: {
@@ -55,6 +70,7 @@ export default {
     }
   },
   mounted(){
+    console.log(this.fontColor + "color")
     this.divWidth = document.getElementById("platFormChart").clientWidth
     // console.log(this.divWidth)
     this.option = {
@@ -62,7 +78,7 @@ export default {
         top: '0%',
         left: 'center',
         textStyle: {
-          color: '#fff',
+          color: this.fontColor,
           fontSize: this.divWidth * 0.023
         },
       },
@@ -93,7 +109,7 @@ export default {
             normal : {
               formatter: '{b}:{c}({d}%)',
               textStyle : {
-                color: "#ffffff",
+                color: this.fontColor,
                 fontSize : this.divWidth * 0.0267
               }
             }
@@ -124,5 +140,11 @@ export default {
 </script>
 
 <style scoped>
+
+#platFormChart {
+  height: 95%;
+  width: 100%;
+  margin-top: 5%
+}
 
 </style>

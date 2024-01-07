@@ -59,4 +59,9 @@ public interface MonitorWorkMapper extends BaseMapper<MonitorWork> {
     Page<MonitorWork> selectHunanWork(Page<MonitorWork> page,
                                       @Param("subCategories") String subCategories,
                                       @Param("origins") String origins);
+
+   //查询所有子类别
+    List<String> getAllSubCategory(@Param("category") String category);
+   //查询所有大类别
+    List<String> getAllCategory();
 }

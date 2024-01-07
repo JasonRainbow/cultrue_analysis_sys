@@ -1,14 +1,14 @@
 <template>
   <div>
-    <el-row align="center" justify="center" style="display: flex; justify-content: center">
-      <el-col :span="14" :xs="24" :md="13" align="center">
+    <el-row align="center" justify="center" style="display: flex; justify-content: center;">
+      <el-col :span="14" :xs="24" :md="23" align="center">
         <el-card class="box-card grid-content" shadow="always">
           <div style="text-align: left">
             <router-link to="/effect">
-              <el-link type="warning" style="font-size: 18px;">&lt;&lt;返回</el-link>
+              <el-link type="warning" style="font-size: 18px;" @click="showMap">&lt;&lt;返回</el-link>
             </router-link>
           </div>
-          <h2 style="text-align: center" >{{country}} </h2>
+          <h2 style="text-align: center" >{{title}} </h2>
           <div id="assessChart" style="width: 100%;height: 800px; margin-top: 20px"></div>
         </el-card>
       </el-col>
@@ -23,6 +23,9 @@ export default {
   data() {
     return {
       country: null,
+      title:null,
+      workId:null,
+      workName:null,
       option: {
         legend: {
           left: 'center',
@@ -139,6 +142,7 @@ export default {
       },
       queryAssessmentParam: {
         searchCountry: this.country,
+        workId:this.workId,
         offset: 12
       },
       positiveEmotion: {
@@ -155,22 +159,46 @@ export default {
       }
     }
   },
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      vm.$bus.$emit('mapNotShow')
+    })
+  },
   beforeMount() {
-    this.country = this.$route.query.country // 接收路由传递参数
-    // console.log(this.country)
-    if (!this.country) {
-      this.country = '美国'
+      // console.log(this.$route,"route")
+    // this.country = this.$route.params.country // 接收路由传递参数
+    // this.workId = this.$route.params.workId
+      this.country = this.$route.query.country // 接收路由传递参数
+      this.workId = this.$route.query.workId
+    this.workName = this.$route.query.workName
+    if(!this.workId){
+      this.title=this.country+"整体极性情感分布"
+    }else{
+      this.title=this.workName+' '+this.country+"极性情感分布"
     }
+    // console.log(this.workId,"workId")
+    // if (!this.country) {
+    //   this.country = '美国'
+    // }
     this.queryAssessmentParam.searchCountry = this.country
-    if (this.country === "全球") {
-      this.queryAssessmentParam.searchCountry = "" // 查询全部的
-    }
+    this.queryAssessmentParam.workId = this.workId
+    // console.log(this.country,"国家")
+    // if(!this.workId){
+    //     this.queryAssessmentParam.searchCountry = "" // 查询全部的
+    //     this.country="全球"
+    // }
+    // if (this.country === "全球") {
+    //   this.queryAssessmentParam.searchCountry = "" // 查询全部的
+    // }
   },
   mounted() {
     this.initAssessChart()
     this.getAssessData()
   },
   methods: {
+    showMap(){
+      this.$bus.$emit('mapShow')
+    },
     initAssessChart() {//初始化图表
       this.assessChart = this.$echarts.init(document.getElementById('assessChart'))
       // this.assessChart.setOption(this.option);
@@ -180,8 +208,9 @@ export default {
     },
     //调用接口 获取极性情感数据
     getAssessData() {
-      // console.log(this.queryAssessmentParam)
+      // console.log(this.queryAssessmentParam,"参数")
       // 改进的方法  直接从后台获取数据
+      // console.log(this.queryAssessmentParam,"query")
       polarityCountMonthInterval(this.queryAssessmentParam).then((res)=>{
         if (res.code === "0") {
           let res_data = res.data

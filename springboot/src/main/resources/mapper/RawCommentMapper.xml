@@ -67,4 +67,13 @@
         </if>
         order by likes desc
     </select>
+    <select id="getCommentNumByCountryAndWorkId" resultType="com.example.demo.entity.vo.CountryCommentNum">
+        select COUNT(*) as cnt,country from raw_comment
+        <if test="workId !=null and workId !=''">
+            where workId=#{workId}
+        </if>
+        GROUP BY country
+    </select>
+
+
 </mapper>

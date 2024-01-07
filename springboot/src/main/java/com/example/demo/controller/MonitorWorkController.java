@@ -302,4 +302,24 @@ public class MonitorWorkController {
         }
         return Result.success();
     }
+
+    @GetMapping("/getWorkByCategory")
+    @ApiOperation(value = "分类查询所有作品")
+    public Result getWorkByCategory(){
+        List<String> categories = monitorWorkMapper.getAllCategory();
+        Map<String, Object> categoryMap = new HashMap<>();
+        for(String category:categories){
+            List<String> subCategory = monitorWorkMapper.getAllSubCategory(category);
+            Map<String, Object> workMap = new HashMap<>();
+            for(String sub : subCategory){
+                LambdaQueryWrapper<MonitorWork> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+                lambdaQueryWrapper.eq(MonitorWork::getSubCategory, sub);
+                List<MonitorWork> workList = monitorWorkMapper.selectList(lambdaQueryWrapper);
+                workMap.put(sub, workList);
+            }
+            categoryMap.put(category, workMap);
+        }
+        return Result.success(categoryMap);
+    }
+
 }

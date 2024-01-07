@@ -1,7 +1,7 @@
 <template>
-    <div style="text-align:center;margin-top: 30px">
+    <div style="text-align:center;margin: 30px auto; height: 100%; width: 90%">
       <h2>{{ selectCountry }}&nbsp;{{selectMonth}} 极性情感趋势</h2>
-      <div style="margin-top: 15px;" >
+      <div style="margin-top: 15px; width: 100%" >
         <el-select class="custom-select" v-model="selectCountry" placeholder="国家" @change="this.getData">
           <el-option
             v-for="item in countryOptions"
@@ -19,10 +19,8 @@
           @change="this.getData"
           placeholder="选择月">
         </el-date-picker>
-        <div style="">
-          <div id="myChart" style="margin-top: 10px;width: 600px; height: 400px"></div>
-        </div>
       </div>
+      <div id="myChart" :style="{margin: '10px auto', width: width, height: height2}"></div>
     </div>
 </template>
 
@@ -35,6 +33,21 @@ export default {
     workId: {
       type: Number,
       require: true
+    },
+    width: {
+      type: String,
+      require: false,
+      default: "650px"
+    },
+    height: {
+      type: String,
+      require: false,
+      default: "400px"
+    },
+  },
+  computed:{
+    height2(){
+      return this.height !== "400px" ? this.height : "400px"
     }
   },
   data() {
@@ -68,8 +81,8 @@ export default {
             name: '日期',
             boundaryGap: false,
             nameTextStyle: {
-              fontWeight: 600,
-              fontSize: 12,
+              fontWeight: "bold",
+              fontSize: 14,
               fontFamily: 'Times New Roman'
             },
             data: ['1', '2', '3', '4', '5', '6', '7']
@@ -169,6 +182,14 @@ export default {
     this.getData()
     this.initLineChart()
     // console.log("line chart")
+    let width = document.getElementById("myChart").clientWidth
+    let height = document.getElementById("myChart").clientHeight
+    window.addEventListener('resize',  ()=> {
+      this.myChart.resize();
+    })
+    window.onload = ()=>{
+      this.myChart.resize()
+    }
   },
   methods: {
     getAllCountries() {
