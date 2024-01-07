@@ -56,7 +56,7 @@
                 >
                   <div>
                     <div style="overflow: hidden">
-                      <img class="column-img" alt="" :src="item.imgUrl">
+                      <img  class="column-img" alt="" :src="item.imgUrl" @click="handleClick(item.id, item.name)">
                     </div>
 
                     <div class="intro">
@@ -100,7 +100,8 @@
               <el-row>
                 <el-col :span="6" class="left-des2" style="display: inline">
                   <!--               referrerpolicy="no-referrer" 不携带引源信息 -->
-                  <img :src="item.imgUrl" referrerpolicy="no-referrer" alt="作品介绍图片" style="height: 140px; max-width: 190px"/>
+                  <img @click="handleClick(item.id, item.name)"
+                       :src="item.imgUrl" referrerpolicy="no-referrer" alt="作品介绍图片" style="height: 140px; max-width: 190px"/>
                 </el-col>
                 <el-col :span="18">
                   <div class="right-des2" style="display: inline">
@@ -499,10 +500,9 @@ export default {
 }
 
 .top-banner {
-  width: 102.6%;
+  width: 100%;
   margin-bottom: 50px;
   margin-top: 40px;
-  margin-left: -20px;
 }
 
 /deep/ .el-collapse {
@@ -558,7 +558,7 @@ p {
   transition: all 0.5s ease-in-out;
 }
 .item {
-  width: 220px;
+  width: 215px;
   color: #ffffff;
   padding: 0 0 10px 0;
   margin-top: 25px;

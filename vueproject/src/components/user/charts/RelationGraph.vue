@@ -421,7 +421,7 @@ export default {
                   rotate: true,
                   show: true,
                   textStyle: {
-                    color: '#6acaea',
+                    color: '#f1850e',
                     fontWeight: '400'
                   }
                 },
@@ -448,7 +448,7 @@ export default {
             symbolSize: this.divWidth * 0.026, // 设置节点大小
             itemStyle: {
               normal: {
-                color: '#F07C82'
+                color: '#de5f4e'
               }
             }
           }
@@ -479,15 +479,16 @@ export default {
                   return params.name;
                 },
                 show: true,
-                color:'#ffff00',
-                //fontFamily:'serif'
+                color:'#da7f0b',
+                fontWeight: 'bolder',
+                fontFamily:'serif'
               }
             },
             lineStyle: {
               normal: {
-                width: 2.6666666666666666,
+                width: 1.6666666666666666,
                 curveness: 0.2,
-                color: "#F07C82"
+                color: "#e52720"
               }
             }
           }

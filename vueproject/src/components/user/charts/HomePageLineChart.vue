@@ -166,12 +166,12 @@ export default {
           label: '德国'
         }
       ],
-      selectCountry: '美国',
+      selectCountry: '全球',
       selectMonth: '2023-07',
       countryEmo2: {},
       queryPolarityParams: {
         workId: this.workId,
-        country: "美国",
+        country: "全球",
         startTime: "2023-07",
         dayInterval: 7
       },

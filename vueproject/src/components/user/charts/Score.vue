@@ -18,7 +18,7 @@ export default {
     },
     fontColor:{
       Type:String,
-      default:"#ccc"
+      default:"#e88226"
     }
   },
   data(){
@@ -97,10 +97,15 @@ export default {
             alignWithLabel: true
           },
           axisLabel:{
-            fontSize: this.divWidth * 0.021
+            fontSize: this.divWidth * 0.025,
+            color: '#ef8407',
+            fontWeight: 'bolder',
+            textBorderWidth: 1.5,
+            textBorderColor: '#000'
           }
         }
       ],
+      backgroundColor: 'rgba(255,255,255,0.2)',
       yAxis: [
         {
           type: 'value',
@@ -127,7 +132,7 @@ export default {
           // 设置柱条颜色
           colorBy: 'series',
           itemStyle: {
-            color: 'rgba(194,59,9,0.8)'
+            color: 'rgba(158,43,45, 0.8)'
           }
         }
       ],

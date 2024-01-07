@@ -9,7 +9,7 @@
       </h2>
     </div>
     <div id="worldMapChart" class="mapStyle map"
-         style="margin: auto;position: absolute;width:79%;height:100%"></div>
+         style="margin: auto;position: absolute;width:79%;height:90%"></div>
 <!--      :style="{height:scrollerHeight,width:scrollerWidth}"-->
 <!--      700 1400-->
   </div>

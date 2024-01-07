@@ -121,7 +121,7 @@ export default{
           }
         }
       ],
-      backgroundColor: 'rgba(14,115,238,0)',
+      backgroundColor: 'rgba(14,115,238,0.1)',
       series: [
         /*{
           name: '积极情感',

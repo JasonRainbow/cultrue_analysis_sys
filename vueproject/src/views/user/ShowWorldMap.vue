@@ -8,7 +8,7 @@
       <!-- 第一部分-头部-start -->
       <div class="header">
         <!-- 首页 -->
-        <span class="homePage font-bold colorDeepskyblue" :style="{'font-size': Math.round(this.screenWidth/100) + 'px', 'cursor': 'pointer'}" @click="goback">返回</span>
+        <span class="homePage font-bold colorDeepskyblue" :style="{'font-size': Math.round(this.screenWidth/100) + 'px', 'cursor': 'pointer'}" @click="goback">&lt;&lt;返回</span>
         <!-- 时间 -->
         <div class="localTime colorPink" :style="{'font-size': Math.round(this.screenWidth/100) + 'px'}">{{ dateYear }} {{ dateWeek }} {{ dateDay }}</div>
         <!-- 装饰10 -->

@@ -75,7 +75,8 @@ export default {
             query: {
               workId: this.workId,
               height: "580px",
-              fontColor: '#c43f3f'
+              fontColor: '#c43f3f',
+              workName: this.workName
             }
           })
           break
@@ -85,7 +86,8 @@ export default {
             query: {
               workId: this.workId,
               height: "550px",
-              fontColor: '#c43f3f'
+              fontColor: '#c43f3f',
+              workName: this.workName
             }
           })
           break
@@ -94,7 +96,8 @@ export default {
             path: '/sixEmotionPie',
             query: {
               workId: this.workId,
-              height: "600px"
+              height: "600px",
+              workName: this.workName
             }
           })
           break
@@ -104,6 +107,7 @@ export default {
             query: {
               workId: this.workId,
               height: "520px",
+              workName: this.workName
             }
           })
           break
@@ -113,12 +117,17 @@ export default {
             query: {
               workId: this.workId,
               height: '580px',
-              fontColor: '#c43f3f'
+              fontColor: '#c43f3f',
+              workName: this.workName
             }
           })
           break
       }
     }
+  },
+  mounted() {
+    let height = document.getElementsByClassName("container")[0].clientHeight
+    console.log(height)
   }
 }
 </script>
@@ -127,20 +136,22 @@ export default {
 .container {
   display: flex;
   justify-content: center;
+  height: 100%;
   background:url('../../assets/img/card_bg2.jpg')
 }
 .box-chart-show {
   border-radius: 30px;
-  margin-top: 20px;
+  margin-top: 1.5%;
+  //margin-bottom: 2.5%;
   background: url("../../assets/img/card_bg3.jpg") center center;
-  height: 700px;
-  width: 900px;
+  height: 95%;
+  width: 58%;
 }
 .card-head {
   height: 30px;
   width: 100%;
   line-height: 30px;
-  margin-bottom: 20px;
+  margin-bottom: 6%;
 }
 .card-head .back {
   float: left;
