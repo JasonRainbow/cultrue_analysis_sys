@@ -33,4 +33,30 @@ public interface MonitorWorkMapper extends BaseMapper<MonitorWork> {
                                 @Param("state") Integer state);
 
     List<RecommendWorkVO> selectRecommendWorksByUserId(@Param("userId") Integer userId);
+
+    /**
+     * 根据大类别查询其所有的子类别
+     * @param category 作品大类别
+     * @param onlyHunan 是否只查询湖南的
+     * @return 子类别列表
+     */
+    List<String> selectSubCategoryByCategory(@Param("category") String category,
+                                             @Param("onlyHunan") Boolean onlyHunan);
+
+    /**
+     * 查询所有的地域
+     * @return 地域列表
+     */
+    List<String> selectAllOrigin();
+
+    /**
+     * 分页查询湖南的文化作品
+     * @param page 页
+     * @param subCategories 文化作品的子类型
+     * @param origins 文化作品所属的地域
+     * @return 文化作品列表
+     */
+    Page<MonitorWork> selectHunanWork(Page<MonitorWork> page,
+                                      @Param("subCategories") String subCategories,
+                                      @Param("origins") String origins);
 }

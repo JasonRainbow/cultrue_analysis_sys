@@ -50,7 +50,11 @@ export default {
           }
         },
         legend: {
-          data: ['积极情感', '消极情感', '中性情感']
+          data: ['积极情感', '消极情感', '中性情感'],
+          textStyle: {
+            color: "#e2652f",
+            fontSize: 14
+          }
         },
         grid: {
           left: '3%',

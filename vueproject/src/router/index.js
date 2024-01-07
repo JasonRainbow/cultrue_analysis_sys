@@ -42,6 +42,7 @@ import PersonalRecommendation from "../views/user/PersonalRecommendation.vue";
 import store from "../vuex/store";
 import {hasLogin, isCurrentAdmin} from "../utils/auth";
 import {Message, Notification} from "element-ui";
+import HuNanColumn from "../views/user/HunanColumn";
 
 // 启用路由
 Vue.use(Router);
@@ -231,8 +232,16 @@ const router = new Router({
         },
         {
           path: "/effect",
-          name: "传播效果评估",
+          name: "传播效果分析",
           component: EffectPage,
+          meta: {
+            requireAuth: false
+          }
+        },
+        {
+          path: "/special-column",
+          name: "湖湘文化作品",
+          component: HuNanColumn,
           meta: {
             requireAuth: false
           }

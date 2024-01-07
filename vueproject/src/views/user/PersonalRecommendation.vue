@@ -28,52 +28,6 @@
         </el-col>
       </el-row>
     </div>
-    <el-row :gutter="20" style="width: 96%; margin: auto;">
-      <el-col :span="14" :xs="24" :sm="24" :lg="12">
-        <div id="div2">
-          <h2 style="text-align: center;margin-bottom: 10px; margin-top: 40px">浏览记录</h2>
-          <el-card>
-            <div style="margin-bottom: 30px" class="text item">
-              <div style="display: inline-block;float: left;width: 25%;text-align: center">作品名称</div>
-              <div style="display: inline-block;float: left;width: 25%;text-align: center">作品类别</div>
-              <div style="display: inline-block;float: left;width: 25%;text-align: center">浏览次数</div>
-              <div style="display: inline-block;float: left;width: 25%;text-align: center">最近访问</div>
-            </div>
-            <div v-for="(item,index) in workRecord.records" :key="index" class="text item">
-              <el-card class="box-card1">
-                <div class="text item">
-                  <!--              {{item.name}}-->
-                  <div style="display: inline-block;float: left;width: 25%;text-align: center">{{ item.name }}</div>
-                  <div style="display: inline-block;float: left;width: 25%;text-align: center">{{ item.category }}</div>
-                  <!--              <div style="display: inline-block;float: left;width: 40%">{{parseTime(item.accessTime, '{y}-{m}-{d} {H}:{m}:{s}')}}</div>-->
-                  <div style="display: inline-block;float: left;width: 25%;text-align: center">{{ item.visitCounts }}
-                  </div>
-                  <div style="display: inline-block;float: left;width: 25%;text-align: center">
-                    {{ timestampToTime(item.recentVisit) }}
-                  </div>
-                </div>
-              </el-card>
-            </div>
-            <el-pagination
-              @size-change="handleSizeChange"
-              @current-change="handleCurrentChange"
-              :current-page="currentPage"
-              :page-sizes="[10, 20, 30, 40]"
-              :page-size="pageSize"
-              layout="total, sizes, prev, pager, next, jumper"
-              :total="workRecord.total"
-              style="text-align: center">
-            </el-pagination>
-          </el-card>
-        </div>
-      </el-col>
-      <el-col :span="20" :xs="24" :sm="24" :lg="12">
-        <div id="div3">
-          <h2 style="text-align: center;margin-bottom: 10px; margin-top: 40px">监测作品列表</h2>
-          <monitorList :user-id="userId" :showAll="true"></monitorList>
-        </div>
-      </el-col>
-    </el-row>
   </div>
   <!--        <div id="toTop" @click="toTop(step)" v-if="isActive">-->
   <!--            <img style="height: 45px;width: 45px;" src="../../assets/img/top.png" alt="">-->
@@ -112,11 +66,11 @@
 </template>
 
 <script>
-import {findAllRecordByUserId, recordUserSelect} from "../../api/userAPI";
 import Pagination from "../../components/Pagination.vue";
 import MonitorList from "../../components/user/common/monitorList.vue";
 import {getRecommendWorksByUserId} from "../../api/monitor_workAPI";
 import {clickAddMonitorRequest} from "../../api/monitor_requestAPI";
+import {recordUserSelect} from "../../api/userAPI";
 
 export default {
   components: {MonitorList, Pagination},
@@ -168,10 +122,7 @@ export default {
       ],
       isActive: false,
       step: 80,
-      workRecord: {},
-      pageSize: 10,
       userId: null,
-      currentPage: 1,
       addParam:{
         userId:null,
         workId:null,
@@ -189,7 +140,6 @@ export default {
       this.isLogin = false
     }
     if (!this.isLogin) return // 用户没有登录，不获取浏览记录和推荐作品
-    this.getRecord()
     this.getRecommendWorks()
   },
   mounted() {
@@ -223,42 +173,18 @@ export default {
         }
       });
     },
-    timestampToTime(date) {
-      let d = new Date(date);
-      let month = (d.getMonth() + 1) < 10 ? '0' + (d.getMonth() + 1) : (d.getMonth() + 1);
-      let day = d.getDate() < 10 ? '0' + d.getDate() : d.getDate();
-      let hours = d.getHours() < 10 ? '0' + d.getHours() : d.getHours();
-      let min = d.getMinutes() < 10 ? '0' + d.getMinutes() : d.getMinutes();
-      let sec = d.getSeconds() < 10 ? '0' + d.getSeconds() : d.getSeconds();
-      let times = d.getFullYear() + '-' + month + '-' + day + ' ' + hours + ':' + min + ':' + sec;
-      return times
-    },
-
     clickDetails(workId){
       if (!this.userId) return // 用户没有登录，不记录浏览
       recordUserSelect({userId: this.userId, workId:workId}).then((res)=>{ // 获取监测作品
         if (res.code === "0") {
           // console.log("记录成功")
-          this.getRecord()
         } else {
           console.log(res.msg)
         }
       })
     },
 
-    getRecord() {
-      findAllRecordByUserId({userId: this.userId, pageNum: this.currentPage, pageSize: this.pageSize}).then((res) => { // 获取监测作品
-        if (res.code === "0") {
-          // console.log("记录成功")
-          // console.log(res.data)
-          this.workRecord = res.data
-          this.currentPage = res.data.current
-          // console.log(this.workRecord)
-        } else {
-          console.log(res.msg)
-        }
-      })
-    },
+
     getRecommendWorks() {
       getRecommendWorksByUserId({userId: this.userId}).then((res)=>{
         if (res.code === "0") {
@@ -266,17 +192,7 @@ export default {
         }
       })
     },
-    handleSizeChange(val) {
-      this.pageSize = val
-      this.getRecord();
-    },
-    handleCurrentChange(val) {
-      this.currentPage = val,
-        this.getRecord();
-    },
-    selectChanged() {
 
-    },
     handleScroll(e) {
       this.isActive = document.documentElement.scrollTop > 50;
     },
@@ -298,61 +214,11 @@ export default {
 </script>
 
 <style scoped>
-#div1 {
-  height: 70px;
-  margin-left: 10%;
-  margin-top: 1.5%;
-}
-
-.box-card {
-  width: 80%;
-  margin: 10px auto auto auto;
-  height: 200px
-}
-
-#toTop {
-  position: fixed;
-  right: 45px;
-  bottom: 100px;
-  width: 40px;
-  height: 40px;
-  z-index: 99999999;
-  box-shadow: 0px 0px 4px 4px #ecefef;
-  border-radius: 600px;
-}
-
 
 #div4 {
   width: 100%;
   margin-top: 20px;
   /*float: left;*/
-}
-
-.text {
-  font-size: 14px;
-}
-
-.item {
-  margin-bottom: 12px;
-}
-
-.clearfix:before,
-.clearfix:after {
-  display: table;
-  content: "";
-}
-
-.clearfix:after {
-  clear: both
-}
-
-.box-card {
-  width: 100%;
-}
-
-.box-card1 {
-  width: 100%;
-  height: 45px;
 }
 
 .box-card2 {

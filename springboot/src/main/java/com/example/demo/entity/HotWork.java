@@ -27,6 +27,9 @@ public class HotWork {
     @ApiModelProperty(value = "热点作品名称")
     private String name; // 热点作品名称
 
+    @ApiModelProperty(value = "热点作品的英文名称")
+    private String englishName; // 热点作品的英文名称
+
     @ApiModelProperty(value = "作品类型")
     private String category; // 作品类型
 

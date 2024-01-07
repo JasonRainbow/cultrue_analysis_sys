@@ -50,3 +50,23 @@ export const getRecommendWorksByUserId = (params)=>{
   return req("get", "/monitor-work/recommendByUserId", params, null)
 }
 
+// 获取所有影视作品类别
+export const getAllVideoCategories = ()=>{
+  return req("get", "/monitor-work/getAllVideoCategories")
+}
+
+// 获取所有文学作品类别
+export const getAllBookCategories = ()=>{
+  return req("get", "/monitor-work/getAllBookCategories")
+}
+
+// 获取所有的地域
+export const getAllOrigin = ()=>{
+  return req("get", "/monitor-work/getAllOrigin")
+}
+
+// 分页查询湖南的文化作品
+export const getHunanWorks = (params)=>{
+  return req("post", "/monitor-work/getHunanWork", null, params)
+}
+

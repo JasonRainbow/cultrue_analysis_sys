@@ -25,7 +25,7 @@
               <el-col :span="18">
                 <div class="right-des" style="display: inline">
                   <div class="report-title">
-                    {{item.name}}
+                    {{item.name}}&nbsp;&nbsp;&nbsp;{{item.englishName}}
                   </div>
                   <div class="report-content">
                     {{item.content}}
@@ -56,7 +56,7 @@
           <div class="card-title">传播效果展示</div>
           <div style="margin-bottom: 15px">
             <span style="margin-right: 15px" class="font-bold">监测作品切换：</span>
-            <el-select class="custom-select" v-model="workId" placeholder="请选择作品类型" @change="selectChanged">
+            <el-select class="custom-select" v-model="workId" placeholder="请选择作品" @change="selectChanged">
               <el-option
                 v-for="work in works"
                 :key="work.id"

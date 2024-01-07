@@ -54,5 +54,24 @@
             inner join monitor_work as mw
             inner join user on(rw.workId=mw.id and rw.userId=user.id);
     </select>
+    <select id="selectSubCategoryByCategory" resultType="java.lang.String">
+        select distinct subCategory from monitor_work where category = #{category}
+        <if test="onlyHunan == true">
+            and isHunanWork = 1
+        </if>
+    </select>
+    <select id="selectAllOrigin" resultType="java.lang.String">
+        select distinct origin from monitor_work where isHunanWork = 1 and origin is not null and origin != ''
+    </select>
+    <select id="selectHunanWork" resultType="com.example.demo.entity.MonitorWork">
+        select * from monitor_work
+        where isHunanWork = 1
+        <if test="subCategories != null and subCategories != ''">
+            and subCategory in (${subCategories})
+        </if>
+        <if test="origins != null and origins != ''">
+            and origin in (${origins})
+        </if>
+    </select>
 
 </mapper>

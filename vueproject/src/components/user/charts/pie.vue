@@ -136,7 +136,11 @@ export default {
             },
             legend: {
               top: '5%',
-              left: 'center'
+              left: 'center',
+              textStyle: {
+                color: "#e2652f",
+                fontSize: 14
+              }
             },
             series: [
               {

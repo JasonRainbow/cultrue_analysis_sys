@@ -47,6 +47,7 @@ export default {
       items: [
         { icon: 'nav-tab-item_icon iconfont icon-home', label: '首页', path: '/home'},
         { icon: 'nav-tab-item_icon iconfont icon-send-fill', label: '传播效果分析', path: '/effect'},
+        { icon: 'nav-tab-item_icon iconfont icon-send-fill', label: '湖湘文化作品', path: '/special-column'},
         { icon: 'nav-tab-item_icon iconfont icon-shujuxianshi', label: '大屏模式', path: '/big-screen'},
         { icon: 'nav-tab-item_icon iconfont icon-zhinengtuijian', label: '作品推荐', path: '/recommend'},
         { icon: 'nav-tab-item_icon iconfont icon-project_info', label: '背景介绍', path: '/background'},
@@ -58,13 +59,14 @@ export default {
       routes_map: {
         "/home": 0,
         "/effect": 1,
-        "/recommend": 3,
-        "/background": 4,
-        "/team": 5,
-        "/question": 6,
-        "/personal": 7,
-        "/not-login": 7,
-        "/sentiment-assessment":1
+        "/recommend": 4,
+        "/background": 5,
+        "/team": 6,
+        "/question": 7,
+        "/personal": 8,
+        "/not-login": 8,
+        "/sentiment-assessment":1,
+        "/special-column": 2,
       },
       activeIndex: 0,
       loginFlag: true,
@@ -120,7 +122,7 @@ export default {
 <style scoped>
 
 #main {
-  background: url("../../assets/img/header_bg.jpg") center center;
+  background: url("../../assets/img/header_bg2.jpg") center center;
   border-radius: 0 0 90px 90px
 }
 

@@ -9,7 +9,7 @@
           <router-view></router-view>
         </keep-alive>
       </el-main>
-      <el-footer class="no-padding" style="margin-top: 20px"><MyFooter></MyFooter></el-footer>
+      <el-footer class="no-padding" style="margin-top: 60px"><MyFooter></MyFooter></el-footer>
     </el-container>
   </vuescroll>
 </template>

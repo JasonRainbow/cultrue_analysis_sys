@@ -316,7 +316,7 @@ export default {
         },
         {
           id: 2,
-          name: "书籍"
+          name: "文学"
         },
       ],
       search_data: {
@@ -402,6 +402,9 @@ export default {
     openScrap(index, row) {
       if (row !== undefined && row !== 'undefined') {
         this.scrap_option.keyword = row.name
+        if (row.author) {
+          this.scrap_option.keyword += "  " + row.author
+        }
         this.scrap_option.workId = row.id
       }
       this.scrap_toggle = true
@@ -433,6 +436,9 @@ export default {
     openScrap2(index, row) {
       if (row !== undefined && row !== 'undefined') {
         this.scrap_option2.keyword = row.name
+        if (row.author) {
+          this.scrap_option2.keyword += "  " + row.author
+        }
         this.scrap_option2.workId = row.id
       }
       this.scrap_toggle2 = true

@@ -12,6 +12,7 @@ import com.example.demo.common.Result;
 import com.example.demo.entity.MonitorRequest;
 import com.example.demo.entity.dto.CommentPlatformDto;
 import com.example.demo.entity.MonitorWork;
+import com.example.demo.entity.dto.RequestHunanWorkDto;
 import com.example.demo.entity.vo.RecommendWorkVO;
 import com.example.demo.mapper.MonitorRequestMapper;
 import com.example.demo.mapper.MonitorWorkMapper;
@@ -29,6 +30,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLEncoder;
 import java.util.*;
+import java.util.stream.Collectors;
 
 // 监测文化作品信息
 @RequestMapping("/api/monitor-work")
@@ -158,6 +160,50 @@ public class MonitorWorkController {
         return Result.success(recommendWorkVOS);
     }
 
+    // 获取影视类型的所有子类型
+    @GetMapping("/getAllVideoCategories")
+    @ApiOperation(value = "获取影视类型的所有子类型")
+    public Result getAllVideoCategories() {
+        return Result.success(monitorWorkMapper.selectSubCategoryByCategory("影视", true));
+    }
+
+    // 获取文学类型的所有子类型
+    @GetMapping("/getAllBookCategories")
+    @ApiOperation(value = "获取文学类型的所有子类型")
+    public Result getAllBookCategories() {
+        return Result.success(monitorWorkMapper.selectSubCategoryByCategory("文学", true));
+    }
+
+    // 获取所有的地域
+    @GetMapping("/getAllOrigin")
+    @ApiOperation(value = "获取所有的地域")
+    public Result getAllOrigin() {
+        return Result.success(monitorWorkMapper.selectAllOrigin());
+    }
+
+    // 多条件查询湖南的文化作品
+    @PostMapping("/getHunanWork")
+    @ApiOperation(value = "多条件查询湖南的文化作品")
+    public Result getHunanWorkByPage(@RequestBody RequestHunanWorkDto requestBody) {
+        String subCategories = null;
+        String origins = null;
+        // 提取成逗号分隔的字符串
+        if (requestBody.getSubCategories() != null) {
+            subCategories = requestBody.getSubCategories().stream().map((String e)->"\"" + e + "\"")
+                    .collect(Collectors.toList()).toString();
+            subCategories = subCategories.replace("[", "").replace("]", "");
+        }
+        if (requestBody.getOrigins() != null) {
+            origins = requestBody.getOrigins().stream().map((String e)->"\"" + e + "\"")
+                    .collect(Collectors.toList()).toString();
+            origins = origins.replace("[", "").replace("]", "");
+        }
+
+        return Result.success(monitorWorkMapper.selectHunanWork(
+                new Page<>(requestBody.getPageNum(), requestBody.getPageSize()),
+                subCategories,
+                origins));
+    }
 
     /**
      * Excel导出
