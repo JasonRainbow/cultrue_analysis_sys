@@ -131,21 +131,44 @@ export default {
       // console.log(document.getElementById("app"))
 
     this.$bus.$on("pushSentimentAssessment",(data,workName)=>{
-        // console.log("click")
-      this.isShow=false
-      this.country=data
-      this.$router.push({
-        name:"传播效果评估展示",
-        // params:{
-        //   workId:this.workId,
-        //   country:data,
-        // },
-        query:{
-            workId:this.workId,
-            country:data,
-            workName:workName
-        }
-      })
+      console.log(data,workName)
+      if(data){
+          this.isShow=false
+          this.country=data
+          this.$router.push({
+              name:"传播效果评估展示",
+              // params:{
+              //   workId:this.workId,
+              //   country:data,
+              // },
+              query:{
+                  workId:this.workId,
+                  country:data,
+                  workName:workName
+              }
+          })
+      } else{
+          // alert("该国家暂时没有数据！")
+          this.$message({
+              showClose: true,
+              message: '该国家暂时没有数据！',
+              type: 'warning'
+          });
+      }
+      // this.isShow=false
+      // this.country=data
+      // this.$router.push({
+      //   name:"传播效果评估展示",
+      //   // params:{
+      //   //   workId:this.workId,
+      //   //   country:data,
+      //   // },
+      //   query:{
+      //       workId:this.workId,
+      //       country:data,
+      //       workName:workName
+      //   }
+      // })
     }),
    this.$bus.$on("mapShow",(data)=>{
        this.isShow=true
@@ -153,12 +176,17 @@ export default {
    }),
    this.$bus.$on("mapNotShow",(data)=>{
      this.isShow=false
-   })
+   }),
+   //该方法用于解决在查看某一个国家总体情感分布时，若是用户点击刷新，则本组件内country刷新导致侧边栏点击问题
+    this.$bus.$on("getCountry",(data)=>{
+      this.country=data
+    })
   },
   beforeDestroy(){
     this.$bus.$off('pushSentimentAssessment'),
     this.$bus.$off('mapShow')
     this.$bus.$off('mapNotShow')
+    this.$bus.$off('getCountry')
   },
   computed: {
     workId2() {
@@ -202,7 +230,7 @@ export default {
       let workName = idAndWork.split('-')[1]
       this.workId=id
       this.workName=workName
-      console.log(this.isShow,"isShow")
+      // console.log(this.isShow,"isShow")
       if(!this.isShow){
         // console.log("切换")
         //   console.log(this.$route,"route")
