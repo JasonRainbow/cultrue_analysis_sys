@@ -180,7 +180,7 @@ body {
 }
 
 .nav-tab-item:hover {
-  background-color: #2b729c;
+  background-color: #d84e21;
   border-radius: 20px;
 }
 
@@ -215,7 +215,7 @@ body {
   height: 100%;
   width: 210px;
 
-  background-color: #2b729c;
+  background-color: #9e2b2d;
   border-radius: 20px;
 
   transition: 0.3s;

@@ -5,6 +5,12 @@
         <img :src="item.path" class="banner_img"/>
       </el-carousel-item>
     </el-carousel>
+    <div style="position: absolute; left: -30px; top: 100px;">
+      <img style="height: 200px" alt="鹤" :src="require('../../assets/img/icon-bird.png')">
+    </div>
+    <div style="position: absolute; right: -163px; top: 430px;">
+      <img style="height: 200px" alt="鹤" :src="require('../../assets/img/icon-bird.png')">
+    </div>
   </div>
 </template>
 
@@ -66,7 +72,7 @@ export default {
     transform: scale(1); /* 初始状态，将元素缩小10倍 */
   }
   to {
-    transform: scale(1.2); /* 终止状态，将元素放大35倍 */
+    transform: scale(1.25); /* 终止状态，将元素放大35倍 */
   }
 }
 
@@ -77,6 +83,6 @@ export default {
 }
 
 /deep/ .el-carousel__item.is-active.is-animating img {
-  animation: size-up 25s ease-out forwards; /* 动画持续时间为6秒，并在动画结束后保持最终状态 */
+  animation: size-up 22s ease-out forwards; /* 动画持续时间为6秒，并在动画结束后保持最终状态 */
 }
 </style>

@@ -79,7 +79,7 @@
                             <el-button class="btn" size="small">查看详情</el-button>
                           </a>
 
-                          <el-button class="btn btn2" size="small">查看传播效果</el-button>
+                          <el-button class="btn btn2" size="small" @click="handleClick(item.id, item.name)">查看传播效果</el-button>
                         </div>
                       </div>
                     </div>
@@ -115,7 +115,7 @@
                       <span>{{item.subCategory}}</span>
                       <span style="margin-left: 15px">{{item.postTime}}</span>
                       <span style="float: right;"><a :href="item.citeUrl" target="_blank" style="color: #1c84c6">查看详情</a></span>
-                      <span style="float: right; margin-right: 20px"><a :href="item.citeUrl" target="_blank" style="color: #1c84c6">查看传播效果</a></span>
+                      <span style="float: right; margin-right: 20px; color: #1c84c6; cursor: pointer" @click="handleClick(item.id, item.name)">查看传播效果</span>
                     </div>
                   </div>
                 </el-col>
@@ -374,6 +374,18 @@ export default {
       this.searchParams.origins = this.checkListOrigin
       this.searchParams.pageNum = 1
       this.getData()
+    },
+    handleClick(workId, workName) {
+      this.$router.push(
+        {
+          path: '/sixEmotionPie',
+          query: {
+            workId: workId,
+            height: "600px",
+            workName: workName
+          }
+        }
+      )
     },
     getOptions() {
       getAllVideoCategories().then((res)=>{

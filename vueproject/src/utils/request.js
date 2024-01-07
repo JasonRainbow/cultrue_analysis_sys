@@ -71,11 +71,14 @@ request.interceptors.response.use(
         // 验证token
         if (res.code === '1015') {
             console.error("token过期，请重新登录")
+            console.log(res)
             handle_un_auth()
             router.push("/home")
         }
         else if (res.code === "1016") { // 用户认证失败，即用户没有登录
           if (router.history.current.path !== "/home") {
+            console.log(res)
+            console.log(response.request)
             Message.error("token过期，请重新登陆！")
             handle_un_auth()
             router.push("/home")

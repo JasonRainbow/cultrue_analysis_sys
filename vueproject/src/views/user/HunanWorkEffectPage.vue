@@ -3,7 +3,7 @@
     <el-card class="box-chart-show">
       <div class="card-head">
         <div class="back">
-          <router-link to="" style="color:#e25f2f;font-size:20px;font-weight:bolder;">>>返回</router-link>
+          <router-link to="/special-column" style="color:#e25f2f;font-size:20px;font-weight:bolder;">&lt;&lt;返回</router-link>
         </div>
         <div class="workName-show">
           <i></i>
