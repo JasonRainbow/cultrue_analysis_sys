@@ -171,15 +171,18 @@ export default {
       this.country = this.$route.query.country // 接收路由传递参数
       this.workId = this.$route.query.workId
     this.workName = this.$route.query.workName
-    if(!this.workId){
+    // console.log(this.country,"圣赫勒拿")
+    // console.log(this.workId,"id")
+    if(this.workId==='0' || this.workId===0){
       this.title=this.country+"整体极性情感分布"
     }else{
-      this.title=this.workName+' '+this.country+"极性情感分布"
+      this.title=this.workName+' '+this.country+' '+"极性情感分布"
     }
     // console.log(this.workId,"workId")
     // if (!this.country) {
     //   this.country = '美国'
     // }
+    this.$bus.$emit('getCountry',this.country)
     this.queryAssessmentParam.searchCountry = this.country
     this.queryAssessmentParam.workId = this.workId
     // console.log(this.country,"国家")

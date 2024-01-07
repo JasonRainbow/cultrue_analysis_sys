@@ -1494,8 +1494,8 @@ export default {
           itemWidth: this.screenWidth * 0.0131,
           min: 0,
           max: 100,
-          left: '5%',
-          top: '47%',
+          left: '12%',
+          top: '44%',
 
           text: ["高(数量)", "低"], //取值范围的文字
           inRange: {
@@ -1523,6 +1523,16 @@ export default {
           top:70,   //设置地图位置
           label: {
             show: true,//是否在地图上显示国家名字
+              // rgba(60,179,113,0.8)
+            //   rgba(201,174,174,0.7)
+            // normal: { //静态的时候展示样式
+            //     show: true, //是否显示地图省份得名称
+            //     textStyle: {
+            //         color: "#fff",
+            //         fontSize: 10,
+            //         fontFamily: "Arial"
+            //     }
+            // },
             fontSize: this.screenWidth * 0.0082,
             fontWeight: 'bold',
             color: "rgba(33,32,32,0.7)",
@@ -1768,6 +1778,7 @@ export default {
             geoIndex: 0,
             data: this.dataList,
           },
+
         ],
       }
       // if (this.worldMapChart== null) { // 如果不存在，就进行初始化。
