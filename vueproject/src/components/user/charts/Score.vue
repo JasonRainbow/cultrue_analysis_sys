@@ -65,7 +65,7 @@ export default {
     }
   },
   mounted(){
-    console.log(this.workId)
+    // console.log(this.workId)
     this.divWidth = document.getElementById("container2").clientWidth
     // console.log(this.divWidth)
     this.option = {
@@ -168,10 +168,17 @@ export default {
         this.chart.setOption(this.option)
       }
     })
-    window.addEventListener('resize',  ()=> {
+    this.handleResize = ()=> {
+      this.divWidth = document.getElementById("container2").clientWidth
       this.chart.resize();
-    })
-  }
+    }
+    window.addEventListener('resize',  this.handleResize)
+  },
+  beforeDestroy() {
+    if (this.handleResize) {
+      window.removeEventListener("resize", this.handleResize)
+    }
+  },
 }
 </script>
 

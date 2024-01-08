@@ -80,9 +80,10 @@ export default {
     }
     // console.log(this.selectEmotion)
     this.getPolarityData()
-    window.addEventListener('resize',  ()=> {
+    this.handleResize = ()=> {
       this.divWidth = document.getElementById("main_container").clientWidth
-    })
+    }
+    window.addEventListener('resize',  this.handleResize)
   },
   methods: {
     //发送异步请求 得到返回数据
@@ -255,7 +256,12 @@ export default {
         this.getNeutralityData()
       }
     }
-  }
+  },
+  beforeDestroy() {
+    if (this.handleResize) {
+      window.removeEventListener("resize", this.handleResize)
+    }
+  },
 }
 </script>
 

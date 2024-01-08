@@ -25,10 +25,6 @@ export default {
 
   },
   async mounted() {
-    console.log(this.workId)
-    console.log(document.getElementById("relationGraph").clientWidth)
-    console.log(document.getElementById("relationGraph").clientHeight)
-
     this.divWidth = document.getElementById("head_div").clientWidth
     if (this.divWidth < 500) {
       this.inputSize = "mini"
@@ -41,10 +37,13 @@ export default {
     await this.getAllCountries()
     this.createGraph()
     let _this = this
-    window.addEventListener('resize', ()=>{
+    this.handleResize = ()=>{
       this.divWidth = document.getElementById("head_div").clientWidth
-      this.chart.resize();
-    })
+      if (this.chart) {
+        this.chart.resize();
+      }
+    }
+    window.addEventListener('resize', this.handleResize)
   },
   data() {
     return {
@@ -515,7 +514,13 @@ export default {
     height2() {
       return this.height !== '258px'? this.height: "84%"
     }
-  }
+  },
+  beforeDestroy() {
+    // 销毁监听器
+    if (this.handleResize) {
+      window.removeEventListener("resize", this.handleResize)
+    }
+  },
 }
 </script>
 

@@ -22,6 +22,7 @@ export default {
   name: "AssessmentDetailChart",
   data() {
     return {
+      handleResize: null,
       country: null,
       title:null,
       workId:null,
@@ -205,9 +206,10 @@ export default {
     initAssessChart() {//初始化图表
       this.assessChart = this.$echarts.init(document.getElementById('assessChart'))
       // this.assessChart.setOption(this.option);
-      window.addEventListener("resize", () => {
+      this.handleResize = () => {
         this.assessChart.resize();
-      });
+      }
+      window.addEventListener("resize", this.handleResize);
     },
     //调用接口 获取极性情感数据
     getAssessData() {
@@ -335,7 +337,12 @@ export default {
       })
       this.assessChart.setOption(this.option);
     }
-  }
+  },
+  beforeDestroy() {
+    if (this.handleResize) {
+      window.removeEventListener("resize", this.handleResize)
+    }
+  },
 }
 </script>
 <style scoped>

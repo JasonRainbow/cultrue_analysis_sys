@@ -15,6 +15,7 @@ import com.example.demo.entity.dto.PolarityDto;
 import com.example.demo.entity.dto.PolarityStatisticsDto;
 import com.example.demo.mapper.MonitorWorkMapper;
 import com.example.demo.mapper.PolarityAnalysisMapper;
+import com.example.demo.service.PolarityAnalysisService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -41,6 +42,9 @@ public class PolarityAnalysisController {
 
     @Autowired
     private MonitorWorkMapper monitorWorkMapper;
+
+    @Autowired
+    private PolarityAnalysisService polarityAnalysisService;
 
     // 查询所有的情感极性分析结果
     @GetMapping("/all")
@@ -160,6 +164,14 @@ public class PolarityAnalysisController {
         polarityStatisticsDto.setCountry(country);
         polarityStatisticsDto.setStatisticsInfo(polarityAnalyses);
         return Result.success(polarityStatisticsDto);
+    }
+
+    @GetMapping("/countYearPolarity")
+    @ApiOperation(value = "统计指定一年的极性情感分析结果")
+    public Result countYearPolarity(@RequestParam(required = false, defaultValue = "") Integer workId,
+                                    @RequestParam(required = false, defaultValue = "") String country,
+                                    @RequestParam(required = true) String year) {
+        return Result.success(polarityAnalysisService.getPolarityByYear(workId, country, year));
     }
 
     // 统计最近一年的极性情感分析结果

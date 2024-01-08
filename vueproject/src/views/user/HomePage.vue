@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-row style="display: flex; justify-content: center; margin-top: 20px">
+    <el-row style="display: flex; justify-content: center; margin-top: 15px">
       <el-col :span="17" :xs="24" align="center">
         <slide-show></slide-show>
       </el-col>
@@ -325,11 +325,11 @@ a {
 .custom-select /deep/ .el-input__inner {
   line-height: 46px;
   color: #fdefd2;
-  font-size: 16px;
+  font-size: 17px;
   text-align: center;
   opacity: 1;
   border: none;
-  background: url("../../assets/img/nav2_bg.png") center center no-repeat;
+  background: url("../../assets/img/nav2_bg.png") center center;
   font-weight: bold;
 }
 
@@ -341,6 +341,7 @@ a {
   color: #f0ae4b;
   font-weight: 1000;
   font-size: 20px;
+  margin-right: 10px;
 }
 
 .custom-select /deep/ .el-select-dropdown {

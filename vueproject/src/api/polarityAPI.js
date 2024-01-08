@@ -62,4 +62,9 @@ export const updatePolarity = (params)=>{
   return req("put", "/polarity/update", null, params);
 }
 
+// 获取一年的极性情感分布
+export const getYearPolarity = (params)=>{
+  return req("get", "/polarity/countYearPolarity", params)
+}
+
 

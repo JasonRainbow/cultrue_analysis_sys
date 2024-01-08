@@ -1,6 +1,6 @@
 <template>
     <div style="text-align:center;margin: 30px auto; height: 100%; width: 90%">
-      <h2>{{ selectCountry }}&nbsp;{{selectMonth}} 极性情感趋势</h2>
+      <h2>{{ selectCountry }}&nbsp;{{selectYear}}年 极性情感变化趋势</h2>
       <div style="margin-top: 15px; width: 100%" >
         <el-select class="custom-select" v-model="selectCountry" placeholder="国家" @change="this.getData">
           <el-option
@@ -12,12 +12,13 @@
         </el-select>
         <el-date-picker
           class="custom-select2"
-          v-model="selectMonth"
-          type="month"
+          v-model="selectYear"
+          type="year"
           :clearable="false"
-          value-format="yyyy-MM"
+          value-format="yyyy"
           @change="this.getData"
-          placeholder="选择月">
+          :picker-options="pickerOptions"
+          placeholder="选择年">
         </el-date-picker>
       </div>
       <div id="myChart" :style="{margin: '10px auto', width: width, height: height2}"></div>
@@ -25,7 +26,7 @@
 </template>
 
 <script>
-import {polarityCountDayInterval} from "../../../api/polarityAPI";
+import {getYearPolarity} from "../../../api/polarityAPI";
 import {getCountries} from "../../../api/commentAPI";
 export default {
   name: "HomePageChart",
@@ -52,6 +53,11 @@ export default {
   },
   data() {
     return {
+      pickerOptions: {
+        disabledDate(time) {
+          return time.getTime() > Date.now()
+        }
+      },
       option: {
         tooltip: {
           trigger: 'axis',
@@ -66,7 +72,7 @@ export default {
           data: ['积极情感', '消极情感', '中性情感'],
           textStyle: {
             color: "#e2652f",
-            fontSize: 14
+            fontSize: 15
           }
         },
         grid: {
@@ -96,7 +102,7 @@ export default {
             name: '占比%',
             nameTextStyle: {
               fontWeight: 600,
-              fontSize: 12,
+              fontSize: 15,
               fontFamily: 'Times New Roman'
             }
           }
@@ -167,13 +173,13 @@ export default {
         }
       ],
       selectCountry: '全球',
-      selectMonth: '2023-07',
+      // selectMonth: '2023-07',
+      selectYear: '2023',
       countryEmo2: {},
       queryPolarityParams: {
         workId: this.workId,
         country: "全球",
-        startTime: "2023-07",
-        dayInterval: 7
+        year: "2023",
       },
     }
   },
@@ -184,7 +190,7 @@ export default {
     // console.log("line chart")
     let width = document.getElementById("myChart").clientWidth
     let height = document.getElementById("myChart").clientHeight
-    window.addEventListener('resize',  ()=> {
+      window.addEventListener('resize',  ()=> {
       this.myChart.resize();
     })
     window.onload = ()=>{
@@ -207,17 +213,39 @@ export default {
     },
     getData() {//获取数据
       //调用接口
-      this.queryPolarityParams.startTime = this.selectMonth+"-01";
+      this.queryPolarityParams.year = this.selectYear
       if (this.selectCountry === "全球") {
         this.queryPolarityParams.country = ""
       } else {
         this.queryPolarityParams.country = this.selectCountry
       }
-      polarityCountDayInterval(this.queryPolarityParams).then((res) => {
+      /*polarityCountDayInterval(this.queryPolarityParams).then((res) => {
         if (res.code === "0") {
           // console.log(res.data)
           this.option.xAxis[0].data = res.data.statisticsInfo.map((item) => {
             return item.postTime
+          })
+          // console.log(this.option.xAxis[0].data)
+          this.option.series[0].data = res.data.statisticsInfo.map((item) => {
+            if (item.positive + item.negative + item.neutrality === 0) return 0;
+            return (item.positive / (item.positive + item.negative + item.neutrality) * 100).toFixed(2)
+          })
+          this.option.series[1].data = res.data.statisticsInfo.map((item) => {
+            if (item.positive + item.negative + item.neutrality === 0) return 0;
+            return (item.negative / (item.positive + item.negative + item.neutrality) * 100).toFixed(2)
+          })
+          this.option.series[2].data = res.data.statisticsInfo.map((item) => {
+            if (item.positive + item.negative + item.neutrality === 0) return 0;
+            return (item.neutrality / (item.positive + item.negative + item.neutrality) * 100).toFixed(2)
+          })
+          this.updateChart();
+        }
+      })*/
+      getYearPolarity(this.queryPolarityParams).then((res) => {
+        if (res.code === "0") {
+          // console.log(res.data)
+          this.option.xAxis[0].data = res.data.statisticsInfo.map((item) => {
+            return item.postTime.substring(0, 7)
           })
           // console.log(this.option.xAxis[0].data)
           this.option.series[0].data = res.data.statisticsInfo.map((item) => {
@@ -246,5 +274,21 @@ export default {
 <style lang="css" scoped>
 
 @import "../../../assets/styles/mystyle.css";
+
+.custom-select /deep/ .el-input__inner {
+  font-size: 17px;
+}
+
+.custom-select2 /deep/ .el-input__inner {
+  font-size: 16px;
+}
+
+.custom-select2 /deep/ .el-input__icon {
+  font-size: 17px;
+}
+
+.custom-select /deep/ .el-select__caret {
+  font-size: 17px;
+}
 
 </style>

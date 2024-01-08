@@ -70,7 +70,7 @@ export default {
     }
   },
   mounted(){
-    console.log(this.fontColor + "color")
+    // console.log(this.fontColor + "color")
     this.divWidth = document.getElementById("platFormChart").clientWidth
     // console.log(this.divWidth)
     this.option = {
@@ -128,14 +128,20 @@ export default {
     // console.log("Data")
     // this.getPlatFormData()
     this.initPlatFormChart()
-    window.addEventListener('resize',  ()=> {
+    this.handleResize = ()=> {
       this.divWidth = document.getElementById("platFormChart").clientWidth
       this.platFormChart.resize();
-    })
+    }
+    window.addEventListener('resize',  this.handleResize)
   },
   create() {
     // console.log("1111")
-  }
+  },
+  beforeDestroy() {
+    if (this.handleResize) {
+      window.removeEventListener("resize", this.handleResize)
+    }
+  },
 }
 </script>
 

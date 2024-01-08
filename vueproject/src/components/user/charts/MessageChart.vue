@@ -24,7 +24,8 @@ export default{
         workId: this.workId,
         offset: 7
       },
-      msgChart:{}
+      msgChart:{},
+      handleResize: null
     }
   },
   mounted() {
@@ -202,12 +203,16 @@ export default{
     this.getMsgData()
     this.initMsgChart()
     this.getTootipTimer()
-    window.addEventListener('resize',  ()=> {
+    this.handleResize = ()=> {
       this.divWidth = document.getElementById("msgChart").clientWidth
       // console.log(this.divWidth)
       this.msgChart.resize();
       // console.log("resize")
-    })
+    }
+    window.addEventListener('resize',  this.handleResize)
+  },
+  beforeDestroy() {
+    window.removeEventListener("resize", this.handleResize)
   },
   methods: {
     //初始化图表

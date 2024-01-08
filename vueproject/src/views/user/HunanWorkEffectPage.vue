@@ -17,19 +17,23 @@
         <i></i>
         <div>作品评分图</div>
       </div>
-      <div class="icon-chart-net" @click="changeChartType(1)">
+      <div class="icon-chart-cloud" @click="changeChartType(1)">
+        <i></i>
+        <div>词云图</div>
+      </div>
+      <div class="icon-chart-net" @click="changeChartType(2)">
         <i></i>
         <div>语义网络图</div>
       </div>
-      <div class="icon-chart-sixEmotion" @click="changeChartType(2)">
+      <div class="icon-chart-sixEmotion" @click="changeChartType(3)">
         <i></i>
         <div>细腻情感分布图</div>
       </div>
-      <div class="icon-chart-threeEmotion" @click="changeChartType(3)">
+      <div class="icon-chart-threeEmotion" @click="changeChartType(4)">
         <i></i>
         <div>极性情感趋势图</div>
       </div>
-      <div class="icon-chart-dataSource" @click="changeChartType(4)">
+      <div class="icon-chart-dataSource" @click="changeChartType(5)">
         <i></i>
         <div>数据来源图</div>
       </div>
@@ -76,11 +80,25 @@ export default {
               workId: this.workId,
               height: "580px",
               fontColor: '#c43f3f',
-              workName: this.workName
+              workName: this.workName,
             }
           })
           break
         case 1:
+          this.$router.push({
+            path: '/wordCloud',
+            query: {
+              workId: this.workId,
+              height: window.innerHeight*0.7 + 'px',
+              width: '80%',
+              workName: this.workName,
+              marginTop: '3%',
+              mask: true,
+              numLimit: 200
+            }
+          })
+          break
+        case 2:
           this.$router.push({
             path: '/relationGraph',
             query: {
@@ -91,7 +109,7 @@ export default {
             }
           })
           break
-        case 2:
+        case 3:
           this.$router.push({
             path: '/sixEmotionPie',
             query: {
@@ -101,7 +119,7 @@ export default {
             }
           })
           break
-        case 3:
+        case 4:
           this.$router.push({
             path: '/polarityAnalysis',
             query: {
@@ -111,7 +129,7 @@ export default {
             }
           })
           break
-        case 4:
+        case 5:
           this.$router.push({
             path: '/dataSourceChart',
             query: {
@@ -126,8 +144,7 @@ export default {
     }
   },
   mounted() {
-    let height = document.getElementsByClassName("container")[0].clientHeight
-    console.log(height)
+
   }
 }
 </script>
@@ -175,8 +192,8 @@ export default {
 .analysis-open {
   position: fixed;
   background: url("../../assets/img/card_bg2.jpg") center center;
-  width: 580px;
-  height: 580px;
+  width: 630px;
+  height: 600px;
   border-radius: 50%;
   top: 50%;
   margin-top: -290px;
@@ -186,47 +203,56 @@ export default {
 }
 .analysis-open .icon-chart-score{
   position: absolute;
-  top: 70px;
-  left: 110px;
+  top: 40px;
+  left: 140px;
   cursor: pointer;
   text-align: center;
-  font-size: 16px;
+  font-size: 1.2rem;
+  font-weight:bold;
+}
+.analysis-open .icon-chart-cloud{
+  position: absolute;
+  top: 110px;
+  left: 70px;
+  cursor: pointer;
+  text-align: center;
+  font-size: 1.2rem;
   font-weight:bold;
 }
 .analysis-open .icon-chart-net {
   position: absolute;
-  top: 170px;
-  left: 73px;
+  top: 195px;
+  left: 25px;
   cursor: pointer;
   text-align: center;
-  font-size: 16px;
+  font-size: 1.2rem;
   font-weight:bold;
 }
 .analysis-open .icon-chart-sixEmotion {
   position: absolute;
-  top: 258px;
-  left: 40px;
+  top: 290px;
+  left: 16px;
   cursor: pointer;
   text-align: center;
-  font-size: 16px;
+  font-size: 1.2rem;
   font-weight:bold;
 }
 .analysis-open .icon-chart-threeEmotion {
   position: absolute;
-  top: 353px;
-  left: 73px;
+  top: 390px;
+  left: 55px;
   cursor: pointer;
   text-align: center;
-  font-size: 16px;
+  font-size: 1.2rem;
   font-weight:bold;
 }
 .analysis-open .icon-chart-dataSource {
   position: absolute;
-  top: 450px;
-  left: 110px;
+  top: 480px;
+  left: 140px;
   cursor: pointer;
   text-align: center;
-  font-size: 16px;
+  font-size: 1.2rem;
   font-weight:bold;
 }
 .analysis-open .icon-chart-score i{
@@ -234,6 +260,13 @@ export default {
   height: 42px;
   display: block;
   background: url("../../assets/img/scoreBar.png") center center;
+  margin-bottom: 5px;
+}
+.analysis-open .icon-chart-cloud i{
+  width: 42px;
+  height: 42px;
+  display: block;
+  background: url("../../assets/img/wordcloud.png") center center;
   margin-bottom: 5px;
 }
 .analysis-open .icon-chart-net i{
@@ -266,8 +299,8 @@ export default {
 }
 .analysis-open .icon-choose-hidden {
   position: absolute;
-  top: 265px;
-  left: 165px;
+  top: 280px;
+  left: 175px;
   cursor: pointer;
 }
 .analysis-open .icon-choose-hidden i{

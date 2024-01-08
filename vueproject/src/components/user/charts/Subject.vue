@@ -128,10 +128,11 @@ export default {
     };
     // console.log("@@@@@@","mounted")
     this.createGraph()
-    window.addEventListener('resize',  ()=> {
+    this.handleResize = ()=> {
       this.chart.resize();
       this.divWidth = document.getElementById("container1").clientWidth
-    })
+    }
+    window.addEventListener('resize',  this.handleResize)
   },
   methods:{
     createGraph(){
@@ -166,7 +167,10 @@ export default {
   },
   created() {
     this.getSubjects()
-  }
+  },
+  beforeDestroy() {
+    window.removeEventListener("resize", this.handleResize)
+  },
 }
 </script>
 

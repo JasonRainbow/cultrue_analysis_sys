@@ -180,9 +180,10 @@ export default {
             ]
           }
           this.chart.setOption(option);
-          window.addEventListener('resize',()=>{
+          this.handleResize = ()=>{
             this.chart.resize();
-          })
+          }
+          window.addEventListener('resize', this.handleResize)
         }
       })
     },
@@ -201,7 +202,12 @@ export default {
     height2() {
       return this.height !== '400px'? this.height : "400px"
     }
-  }
+  },
+  beforeDestroy() {
+    if (this.handleResize) {
+      window.removeEventListener("resize", this.handleResize)
+    }
+  },
 }
 
 
@@ -248,5 +254,21 @@ export default {
      width:100%;
      height: 450px;
    }
+
+.custom-select /deep/ .el-input__inner {
+  font-size: 17px;
+}
+
+.custom-select2 /deep/ .el-input__inner {
+  font-size: 16px;
+}
+
+.custom-select2 /deep/ .el-input__icon {
+  font-size: 17px;
+}
+
+.custom-select /deep/ .el-select__caret {
+  font-size: 18px;
+}
 
 </style>
