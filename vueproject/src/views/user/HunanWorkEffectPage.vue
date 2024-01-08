@@ -1,13 +1,16 @@
 <template>
   <div class="container">
+    <img class="work-img" :src="work.imgUrl" alt="作品图片">
     <el-card class="box-chart-show">
       <div class="card-head">
         <div class="back">
-          <router-link to="/special-column" style="color:#e25f2f;font-size:20px;font-weight:bolder;">&lt;&lt;返回</router-link>
+          <router-link to="/special-column" style="color:#e25f2f;font-size:20px;font-weight:bolder;">返回&gt;&gt;</router-link>
         </div>
         <div class="workName-show">
           <i></i>
-          <div style="font-size: 20px; color: #e2652f">{{"湖湘文化作品："+workName}}</div>
+          <div style="font-size: 20px; color: #e2652f">
+            湖湘文化作品({{work.subCategory}})：<span style="color: #ef0000">{{work.name}} ({{work.englishName}})</span>
+          </div>
         </div>
       </div>
       <router-view></router-view>
@@ -52,13 +55,22 @@
 
 <script>
 
+import {getMonitorWorkById} from "../../api/monitor_workAPI";
+
 export default {
   name: "HunanWorkEffectPage",
   data() {
     return {
       showChart: true, // 是否显示图表选择菜单
       workId:this.$route.query.workId,
-      workName: this.$route.query.workName
+      workName: this.$route.query.workName,
+      work: {
+        id: 1,
+        name: '边城',
+        englishName: 'The Border Town',
+        imgUrl: '',
+        subCategory: '小说',
+      },
     }
   },
   methods: {
@@ -141,10 +153,19 @@ export default {
           })
           break
       }
+    },
+    getWorkData() {
+      getMonitorWorkById(this.workId).then((res)=>{
+        if (res.code === "0") {
+          // console.log(res)
+          this.work = res.data
+          // console.log(this.work)
+        }
+      })
     }
   },
-  mounted() {
-
+  created() {
+    this.getWorkData()
   }
 }
 </script>
@@ -171,12 +192,12 @@ export default {
   margin-bottom: 6%;
 }
 .card-head .back {
-  float: left;
-  height: 100%;
-}
-.workName-show {
   height: 100%;
   float: right;
+}
+.workName-show {
+  float: left;
+  height: 100%;
   font-weight:bolder;
   display: flex;
   align-items: center;
@@ -342,6 +363,14 @@ export default {
 }
 .analysis-hidden div:not(:last-child) {
   border-bottom: 1px solid #fff;
+}
+
+.work-img {
+  width: 18%;
+  position: absolute;
+  top: 30%;
+  left: 20px;
+  border-radius: 20px;
 }
 </style>
 

@@ -18,7 +18,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     user: parseLocalStorageItem("user"),
-    token: getToken() // 从cookie中获取token
+    token: getToken(), // 从cookie中获取token
   },
   mutations: {
     SET_TOKEN(state, token) { // 保存token

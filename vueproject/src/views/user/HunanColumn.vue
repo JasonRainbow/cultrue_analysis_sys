@@ -106,7 +106,7 @@
                 <el-col :span="18">
                   <div class="right-des2" style="display: inline">
                     <div class="report-title2">
-                      {{item.name}}&nbsp;&nbsp;&nbsp;{{item.englishName}}
+                      {{item.name}}&nbsp;&nbsp;&nbsp;({{item.englishName}})
                       <div style="color: black; font-size: 18px;">作者：{{item.author}}</div>
                     </div>
                     <div class="report-content2">
@@ -558,7 +558,7 @@ p {
   transition: all 0.5s ease-in-out;
 }
 .item {
-  width: 215px;
+  width: 210px;
   color: #ffffff;
   padding: 0 0 10px 0;
   margin-top: 25px;
@@ -616,7 +616,7 @@ img {
 }
 
 .report-content {
-  height: 60px;
+  height: 58px;
   overflow: hidden;
   font-size: 14px;
 }

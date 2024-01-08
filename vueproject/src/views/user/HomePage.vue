@@ -25,7 +25,7 @@
               <el-col :span="18">
                 <div class="right-des" style="display: inline">
                   <div class="report-title">
-                    {{item.name}}&nbsp;&nbsp;&nbsp;{{item.englishName}}
+                    {{item.name}}&nbsp;&nbsp;&nbsp;({{item.englishName}})
                   </div>
                   <div class="report-content">
                     {{item.content}}
@@ -256,7 +256,7 @@ export default {
   //background-color: #F2F6FC;
   background: url("../../assets/img/card_bg.png") center center;
   margin-bottom: 15px;
-  max-height: 160px;
+  max-height: 170px;
   overflow: hidden;
 }
 
@@ -281,7 +281,7 @@ a {
 }
 
 .report-content {
-  height: 60px;
+  height: 59px;
   overflow: hidden;
   color: #909399;
   font-size: 14px;
