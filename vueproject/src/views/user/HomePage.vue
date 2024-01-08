@@ -55,7 +55,7 @@
         <el-card class="box-card grid-content" shadow="always" align="center">
           <div class="card-title">传播效果展示</div>
           <div style="margin-bottom: 15px">
-            <span style="margin-right: 15px" class="font-bold">监测作品切换：</span>
+            <span style="margin-right: 5px; font-size: 20px" class="font-bold">监测作品切换：</span>
             <el-select class="custom-select" v-model="workId" placeholder="请选择作品" @change="selectChanged">
               <el-option
                 v-for="work in works"

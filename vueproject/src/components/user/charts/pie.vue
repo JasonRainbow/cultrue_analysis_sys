@@ -139,7 +139,7 @@ export default {
               left: 'center',
               textStyle: {
                 color: "#e2652f",
-                fontSize: 14
+                fontSize: 15
               }
             },
             series: [
