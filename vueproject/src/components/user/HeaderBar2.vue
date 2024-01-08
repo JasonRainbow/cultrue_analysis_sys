@@ -47,7 +47,7 @@ export default {
       items: [
         { icon: 'nav-tab-item_icon iconfont icon-home', label: '首页', path: '/home'},
         { icon: 'nav-tab-item_icon iconfont icon-send-fill', label: '传播效果分析', path: '/effect'},
-        { icon: 'nav-tab-item_icon iconfont icon-send-fill', label: '湖湘文化作品', path: '/special-column'},
+        { icon: 'nav-tab-item_icon iconfont icon-zuopinzhanshi', label: '湖湘文化作品', path: '/special-column'},
         { icon: 'nav-tab-item_icon iconfont icon-shujuxianshi', label: '大屏模式', path: '/big-screen'},
         { icon: 'nav-tab-item_icon iconfont icon-zhinengtuijian', label: '作品推荐', path: '/recommend'},
         { icon: 'nav-tab-item_icon iconfont icon-project_info', label: '背景介绍', path: '/background'},

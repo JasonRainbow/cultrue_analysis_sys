@@ -1,30 +1,34 @@
 <template>
-  <el-form ref="form" :model="user" :rules="rules" label-width="80px">
-    <el-row>
-      <el-col :span="15" :xs="24">
-        <el-form-item label="旧密码" prop="oldPwd">
-          <el-input id="oldPwd" v-model="user.oldPwd" placeholder="请输入旧密码" type="password" show-password/>
+  <div>
+    <div id="resetPass">
+      <el-form ref="form" :model="user" :rules="rules" label-width="80px">
+        <el-row>
+          <el-col :span="15" :xs="24">
+            <el-form-item label="旧密码" prop="oldPwd">
+              <el-input id="oldPwd" v-model="user.oldPwd" placeholder="请输入旧密码" type="password" show-password/>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="15" :xs="24">
+            <el-form-item label="新密码" prop="newPwd">
+              <el-input id="newPwd" v-model="user.newPwd" placeholder="请输入新密码" type="password" show-password/>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="15" :xs="24">
+            <el-form-item label="确认密码" prop="confirmPassword">
+              <el-input id="confirmPassword" v-model="user.confirmPassword" placeholder="请确认新密码" type="password" show-password/>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-form-item>
+          <el-button type="primary" size="mini" @click="submit">保存</el-button>
         </el-form-item>
-      </el-col>
-    </el-row>
-    <el-row>
-      <el-col :span="15" :xs="24">
-        <el-form-item label="新密码" prop="newPwd">
-          <el-input id="newPwd" v-model="user.newPwd" placeholder="请输入新密码" type="password" show-password/>
-        </el-form-item>
-      </el-col>
-    </el-row>
-    <el-row>
-      <el-col :span="15" :xs="24">
-        <el-form-item label="确认密码" prop="confirmPassword">
-          <el-input id="confirmPassword" v-model="user.confirmPassword" placeholder="请确认新密码" type="password" show-password/>
-        </el-form-item>
-      </el-col>
-    </el-row>
-    <el-form-item>
-      <el-button type="primary" size="mini" @click="submit">保存</el-button>
-    </el-form-item>
-  </el-form>
+      </el-form>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -90,3 +94,10 @@ export default {
   }
 };
 </script>
+
+<style scoped lang="css">
+  #resetPass {
+    //height: 400px;
+    margin-top: 40px;
+  }
+</style>

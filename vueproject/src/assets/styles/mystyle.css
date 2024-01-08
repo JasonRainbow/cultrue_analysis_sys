@@ -7,9 +7,16 @@
 
   color: #fdefd2;
   font-size: 15px;
-  width: 200px;
+  /*width: 200px;*/
   height: 38px;
   font-weight: bold;
+  border: none;
+}
+
+.custom-select /deep/ .el-input__icon {
+  color: #e2a72f;
+  font-weight: bold;
+  font-size: 16px;
 }
 
 .custom-select /deep/ .el-select__caret {
@@ -23,6 +30,7 @@
   color: #fdefd2;
   height: 38px;
   font-weight: bold;
+  border: none;
 }
 
 .custom-select2 /deep/ .el-input__icon {
@@ -49,7 +57,7 @@
   box-sizing: border-box;
 
   color: #fdefd2;
-  height: 30px;
+  /*height: 30px;*/
   font-weight: bold;
   font-size: 14px;
   border: none;

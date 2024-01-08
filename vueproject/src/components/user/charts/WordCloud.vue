@@ -29,7 +29,7 @@
         @change="getWordData">
       </el-date-picker>
     </div>
-    <div id="wordCloud" style="height: 70%;width: 100%;margin-top: 3px"></div>
+    <div id="wordCloud" :style="{height: height2, width: width, marginTop: marginTop}"></div>
   </div>
 </template>
 
@@ -43,6 +43,36 @@ export default {
     workId: {//监测作品编号
       type: Number,
       require: true
+    },
+    height: {
+      type: String,
+      require: false,
+      default: '300px'
+    },
+    width: {
+      type: String,
+      require: false,
+      default: '100%'
+    },
+    marginTop: {
+      type: String,
+      require: false,
+      default: '3px'
+    },
+    mask: {
+      type: Boolean,
+      require: false,
+      default: false
+    },
+    numLimit: {
+      type: Number,
+      require: false,
+      default: 80
+    }
+  },
+  computed: {
+    height2() {
+      return this.height === '300px'? '70%': this.height
     }
   },
   data() {
@@ -124,20 +154,23 @@ export default {
           label: '烂番茄'
         }
       ],
+      maskImage: null,
       wordCloud:{},
       //词云配置
       wordCloudOption:{
         series: [
           {
             type: 'wordCloud',
-            shape: 'star',
+            shape: 'square',
+            keepAspect: false,
             left: 'center',
             top: 'center',
-            gridSize: 10,
-            sizeRange: [12, 30],
-            rotationRange: [0, 0],
-            rotationStep: 0,
+            gridSize: 8,
+            sizeRange: [12, 45],
+            rotationRange: [-90, 90], // 设置文字的旋转
+            rotationStep: 45,
             drawOutOfBound: false,
+            shrinkToFit: false, // 是否缩小一些文字
             layoutAnimation: true,
             textStyle: {
               fontFamily: 'sans-serif',
@@ -150,7 +183,7 @@ export default {
             },
             emphasis:{
               focus: 'self',
-              textStyle: {textShadowBlur: 3,textShadowColor: '#333'}
+              textStyle: {textShadowBlur: 6,textShadowColor: '#333'}
             },
             width: '100%',
             height: '100%',
@@ -170,8 +203,10 @@ export default {
         searchWorkId:this.workId,
         searchTime: this.selectDate,
         searchCountry: this.selectCountry,
-        searchPlatform:"豆瓣"
-      }
+        searchPlatform:"豆瓣",
+        numLimit: this.numLimit
+      },
+      handleResize: null,
     }
   },
   methods: {
@@ -217,6 +252,11 @@ export default {
     }
   },
   async mounted() {
+    if (this.mask) {
+      this.maskImage = new Image()
+      this.maskImage.src = require('../../../assets/img/mask.jpg')
+      this.wordCloudOption.series[0].maskImage = this.maskImage
+    }
     this.divWidth = document.getElementById("main_div").clientWidth
     if (this.divWidth < 500) {
       this.inputSize = "mini"
@@ -228,15 +268,25 @@ export default {
     await this.getAllCountries()
     this.getWordData()
     this.initWordCloud()
-    window.addEventListener('resize', ()=>{
-      this.divWidth = document.getElementById("head_div").clientWidth
+    this.handleResize = ()=>{
+      this.divWidth = document.getElementById("main_div").clientWidth
       this.wordCloudChart.resize();
-    })
+    }
+    window.addEventListener('resize', this.handleResize)
+  },
+  beforeDestroy() {
+    if (this.handleResize) {
+      window.removeEventListener("resize", this.handleResize)
+    }
   }
 }
 </script>
 
 <style scoped>
 @import "../../../assets/styles/mystyle.css";
+
+#wordCloud {
+  margin: auto auto;
+}
 
 </style>

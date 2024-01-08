@@ -84,7 +84,8 @@ public class WordFreqAnalysisController {
     public Result getWordFreq(@RequestParam Integer searchWorkId,
                                  @RequestParam(required = false, defaultValue = "") String searchTime,
                                  @RequestParam(required = false, defaultValue = "") String searchCountry,
-                                 @RequestParam(required = false, defaultValue = "") String searchPlatform) throws ParseException {
+                                 @RequestParam(required = false, defaultValue = "") String searchPlatform,
+                              @RequestParam(required = false, defaultValue = "50") Integer numLimit) throws ParseException {
         LambdaQueryWrapper<WordFreqAnalysis> query = Wrappers.<WordFreqAnalysis>lambdaQuery();
         query.eq(WordFreqAnalysis::getWorkId, searchWorkId);
         WordFreqDto.WordFreqDtoBuilder builder = WordFreqDto.builder();
@@ -124,6 +125,15 @@ public class WordFreqAnalysisController {
                     info.countsAdd(Integer.valueOf(frequency[i]));
                 }
             }
+        }
+        list.sort(new Comparator<WordFreqDto.WordInfo>() {
+            @Override
+            public int compare(WordFreqDto.WordInfo o1, WordFreqDto.WordInfo o2) {
+                return o2.getCounts() - o1.getCounts();
+            }
+        });
+        if (list.size() > numLimit) {
+            list = list.subList(0, numLimit - 1);
         }
         freqDto.setKeywords(list);
         return Result.success(freqDto);

@@ -17,7 +17,7 @@
           :value="item.value">
         </el-option>
       </el-select>
-      <el-date-picker class="custom-select2" :size="inputSize"
+      <el-date-picker class="custom-select" :size="inputSize"
         v-model="queryMapParam.searchTime"
         align="right"
         type="date"
@@ -1522,10 +1522,11 @@ export default {
 
     this.initWorldMapChart()
     this.getWorldMapData()
-    window.addEventListener('resize', ()=>{
+    this.handleResize = ()=>{
       this.screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
       this.worldMapChart.resize();
-    })
+    }
+    window.addEventListener('resize', this.handleResize)
   },
   methods: {
     initWorldMapChart(){
@@ -1999,7 +2000,12 @@ export default {
   beforeMount() {
     // this.workName = this.$route.query.workName
     // console.log(this.workName)
-  }
+  },
+  beforeDestroy() {
+    if (this.handleResize) {
+      window.removeEventListener("resize", this.handleResize)
+    }
+  },
 }
 </script>
 <style scoped>

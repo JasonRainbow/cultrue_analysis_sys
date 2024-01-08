@@ -1,8 +1,8 @@
 <template>
-  <div>
-    <el-carousel :interval="6000" height="580px" indicator-position="outside">
+  <div id="slide_show">
+    <el-carousel :interval="6000" :height="banner_height" indicator-position="outside">
       <el-carousel-item v-for="item in show_images" :key="item.id" align="center">
-        <img :src="item.path" class="banner_img"/>
+        <img :src="item.path" :style="{height: banner_height}" class="banner_img"/>
       </el-carousel-item>
     </el-carousel>
     <div style="position: absolute; left: -30px; top: 100px;">
@@ -46,9 +46,29 @@ export default {
           id: 7,
           path: require('../../assets/img/banner_img7.jpg')
         },
-      ]
+      ],
+      banner_height: '580px',
     }
-  }
+  },
+  methods: {
+    getHeight() {
+      this.banner_height = (window.innerHeight - 190) + 'px'
+    }
+  },
+  created() {
+    this.getHeight()
+  },
+  mounted() {
+    this.handleResize = ()=>{
+      this.getHeight()
+    }
+    window.addEventListener("resize", this.handleResize)
+  },
+  beforeDestroy() {
+    if (this.handleResize) {
+      window.removeEventListener("resize", this.handleResize)
+    }
+  },
 }
 </script>
 
@@ -77,12 +97,15 @@ export default {
 }
 
 .banner_img {
-  height: 580px;
   width: 100%;
   border-radius: 20px;
 }
 
 /deep/ .el-carousel__item.is-active.is-animating img {
   animation: size-up 22s ease-out forwards; /* 动画持续时间为6秒，并在动画结束后保持最终状态 */
+}
+
+/deep/ .el-carousel__item {
+  border-radius: 20px;
 }
 </style>

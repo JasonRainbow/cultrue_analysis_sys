@@ -1,11 +1,17 @@
 package com.example.demo.entity.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class PolarityDto {
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date postTime; // 时间

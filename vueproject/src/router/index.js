@@ -50,6 +50,7 @@ import DataSourcePieChart from "../components/user/charts/DataSourcePieChart";
 import  Score from "../components/user/charts/Score"
 import SixEmotionPie from "../components/user/charts/pie"
 import WorldMap from "../components/user/common/WorldMap.vue";
+import WordCloud from "../components/user/charts/WordCloud.vue";
 import NoData from "../components/user/common/NoData.vue";
 import AssessmentDetailMap from "../components/user/common/AssessmentDetailMap.vue";
 
@@ -367,6 +368,23 @@ const router = new Router({
             workId : Number(route.query.workId),
             height: route.query.height,
             fontColor: route.query.fontColor
+          }),
+          meta: {
+            requireAuth: false
+          }
+        },
+        {
+          name: "词云图",
+          path: "/wordCloud",
+          component: WordCloud,
+          props: (route) => ({
+            workId : Number(route.query.workId),
+            height: route.query.height,
+            width: route.query.width,
+            fontColor: route.query.fontColor,
+            marginTop: route.query.marginTop,
+            mask: Boolean(route.query.mask),
+            numLimit: Number(route.query.numLimit),
           }),
           meta: {
             requireAuth: false

@@ -1427,10 +1427,11 @@ export default {
     } else {
       this.inputSize = "medium"
     }
-    window.addEventListener('resize', ()=>{
+    this.handleResize = ()=>{
       this.screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
       this.worldMapChart.resize();
-    })
+    }
+    window.addEventListener('resize', this.handleResize)
     this.getMapDataAndShowMap()
   },
   watch:{
@@ -1844,7 +1845,12 @@ export default {
   beforeMount() {
     // this.workName = this.$route.query.workName
     // console.log(this.workName)
-  }
+  },
+  beforeDestroy() {
+    if (this.handleResize) {
+      window.removeEventListener("resize", this.handleResize)
+    }
+  },
 }
 </script>
 <style scoped>

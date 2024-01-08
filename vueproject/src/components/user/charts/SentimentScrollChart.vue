@@ -149,7 +149,7 @@ export default {
       this.kWOne = this.screenWidth * 0.7;
       //console.log("宽度->"+this.screenWidth);
     },
-  }
+  },
 }
 </script>
 <style lang='less' scoped>
