@@ -9,7 +9,7 @@
       </h2>
     </div>
     <div id="worldMapChart" class="mapStyle map"
-         style="margin: auto;position: absolute;width:79%;height:90%"></div>
+         style="margin: auto;position: absolute;width:81.5%;height:90%"></div>
 <!--      :style="{height:scrollerHeight,width:scrollerWidth}"-->
 <!--      700 1400-->
   </div>
@@ -32,6 +32,7 @@ export default {
   },
   data() {
     return {
+      countryCommentNum:{},
       commentNum:{},
       params:{},
       workId:this.workID,
@@ -1792,21 +1793,25 @@ export default {
     },
     getMap(params){
       // console.log("hello", params);
-      this.$bus.$emit('pushSentimentAssessment',params.name,this.workName)
+      let commentNum = this.countryCommentNum[params.name]
+      if(commentNum === undefined){
+          commentNum = 0
+      }
+      this.$bus.$emit('pushSentimentAssessment',params.name,this.workName,commentNum)
 
     },
     //更新图表
     updateChart(){
-      let countryCommentNum = {}
+      this.countryCommentNum = {}
         // console.log(Object.keys(this.commentNum),"222")
       // let countryKeys = Object.keys(this.commentNum)//取出国家
       for (let i = 0; i < this.commentNum.length; i++) {
-          countryCommentNum[this.commentNum[i].country] = this.commentNum[i].cnt
+          this.countryCommentNum[this.commentNum[i].country] = this.commentNum[i].cnt
       }
       // console.log(countryCommentNum)
       for (let i = 0; i < this.dataList.length; i++) {
-        if (countryCommentNum[this.dataList[i].name]!=null){
-          this.dataList[i].value = countryCommentNum[this.dataList[i].name]
+        if (this.countryCommentNum[this.dataList[i].name]!=null){
+          this.dataList[i].value = this.countryCommentNum[this.dataList[i].name]
         }else {
           this.dataList[i].value=0
         }

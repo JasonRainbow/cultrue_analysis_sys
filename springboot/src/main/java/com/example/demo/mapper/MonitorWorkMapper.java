@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.entity.Admin;
 import com.example.demo.entity.MonitorWork;
+import com.example.demo.entity.WorkCommentNum;
 import com.example.demo.entity.vo.RecommendWorkVO;
 import org.apache.ibatis.annotations.Param;
 
@@ -64,4 +65,6 @@ public interface MonitorWorkMapper extends BaseMapper<MonitorWork> {
     List<String> getAllSubCategory(@Param("category") String category);
    //查询所有大类别
     List<String> getAllCategory();
+
+    List<WorkCommentNum> getWorkAndCommentNumByCategory(@Param("subCategory") String sub);
 }

@@ -50,6 +50,8 @@ import DataSourcePieChart from "../components/user/charts/DataSourcePieChart";
 import  Score from "../components/user/charts/Score"
 import SixEmotionPie from "../components/user/charts/pie"
 import WorldMap from "../components/user/common/WorldMap.vue";
+import NoData from "../components/user/common/NoData.vue";
+import AssessmentDetailMap from "../components/user/common/AssessmentDetailMap.vue";
 
 // 启用路由
 Vue.use(Router);
@@ -259,6 +261,22 @@ const router = new Router({
               path: "sentiment-assessment",
               name: "传播效果评估展示",
               component: AssessmentDetailChart,
+              meta: {
+                requireAuth: false
+              }
+            },
+            {
+              path: "no-data",
+              name: "无极性情感分布数据",
+              component: NoData,
+              meta: {
+                requireAuth: false
+              }
+            },
+            {
+              path: "sentimentAssessment",
+              name: "传播效果评估展示1",
+              component: AssessmentDetailMap,
               meta: {
                 requireAuth: false
               }

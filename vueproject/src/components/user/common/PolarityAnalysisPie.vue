@@ -1,16 +1,25 @@
 <template>
-  <div style="text-align: center;height:100%">
-    <div :style="{'margin-bottom': '5px', marginLeft: '15px', 'font-size': divWidth * 0.0285 + 'px', fontSize: '19px', textAlign: 'left'}">{{value}} 情感分布</div>
-    <span :style="{'margin-right': '4px', 'font-size': divWidth * 0.0280 + 'px'}" class="">指标切换：</span>
-    <el-select class="custom-select3" v-model="value" :size="inputSize" placeholder="请选择" @change="SelectChanged" style="">
-      <el-option
-        v-for="item in options"
-        :key="item.value"
-        :label="item.label"
-        :value="item.value">
-      </el-option>
-    </el-select>
-    <div id="container1"></div>
+  <div style="text-align: center;height:100%;margin-top: 30px">
+<!--    <div :style="{'margin-bottom': '5px', marginLeft: '15px', 'font-size': divWidth * 0.0285 + 'px', fontSize: '19px', textAlign: 'left'}">{{value}} 情感分布</div>-->
+<!--    <span :style="{'margin-right': '4px', 'font-size': divWidth * 0.02 + 'px'}" class="">月份选择：</span>-->
+<!--    <el-select class="custom-select3" v-model="value" :size="inputSize" placeholder="请选择" @change="SelectChanged" style="">-->
+<!--      <el-option-->
+<!--        v-for="item in options"-->
+<!--        :key="item.value"-->
+<!--        :label="item.label"-->
+<!--        :value="item.value">-->
+<!--      </el-option>-->
+<!--    </el-select>-->
+    <div class="block">
+      <span :style="{'margin-right': '4px', 'font-size': divWidth * 0.02 + 'px'}" class="">月份选择：</span>
+      <el-date-picker
+        v-model="time"
+        type="month"
+        placeholder="选择月"
+        @change="SelectChanged">
+      </el-date-picker>
+    </div>
+    <div id="container1" v-show="isShow"></div>
   </div>
 </template>
 
@@ -18,7 +27,7 @@
 import {getSubjectsByWorkId, subjectAnalysisByWorkId} from "../../../api/SubjectAnalysisAPI";
 
 export default {
-  name:'PolarityAnalysisPie',
+  name:'Subject',
   props:{
     workId:{
       Type:Number,
@@ -30,17 +39,23 @@ export default {
       divWidth: 566,
       inputSize: 'mini',
       chart:null,
-      options: [{
-        value: '故事情节',
-        label: '故事情节'
+      time:null,
+      isShow:true,
+      params:{
+        workId:this.workId
       },
+      options: [
         {
-          value: '翻译质量',
-          label: '翻译质量'
+        value: '积极情感',
+        label: '积极情感'
         },
         {
-          value: '影视特效',
-          label: '影视特效'
+          value: '中性情感',
+          label: '中性情感'
+        },
+        {
+          value: '消极情感',
+          label: '消极情感'
         }],
       value:'故事情节',
       option: null,
@@ -77,12 +92,13 @@ export default {
         top: '4%',
         left: 'center',
         textStyle: {
-          color: '#fff'
+          color: '#000',
+          fontSize:25
         },
       },
       series: [
         {
-          name: this.value,
+          // name: this.value,
           type: 'pie',
           radius: ['45%', '65%'],
           center: ['50%', '60%'],
@@ -100,7 +116,7 @@ export default {
             normal : {
               formatter: '{b}:{c}({d}%)',
               textStyle : {
-                color: "#ffffff",
+                color: "#000",
                 fontSize : this.divWidth * 0.024
               }
             }
@@ -115,7 +131,7 @@ export default {
           labelLine: {
             show: true,
             lineStyle:{
-              width:1
+              width:2
             }
           },
           data: [
@@ -126,7 +142,6 @@ export default {
         }
       ]
     };
-    // console.log("@@@@@@","mounted")
     this.createGraph()
     window.addEventListener('resize',  ()=> {
       this.chart.resize();
@@ -136,36 +151,43 @@ export default {
   methods:{
     createGraph(){
         //value值为主题，workId为作品id，将请求返回的data直接赋值给data1，也可以将data1删掉(data1是调试的时候用的)，直接将请求返回的data赋值给下面循环中的item.data
-        subjectAnalysisByWorkId({workId: this.workId
-          , subject: this.value}).then((res)=>{
-            if (res.code === "0") {
-              this.data1 = res.data
-              this.option.series.forEach(item=>{
-                item.data=this.data1
-              })
-              this.chart = this.$echarts.init(document.getElementById('container1'))
-              // console.log("@@@",myChart)
-              this.chart.setOption(this.option)
-            }
-        })
+        // subjectAnalysisByWorkId({workId: this.workId
+        //   , subject: this.value}).then((res)=>{
+        //     if (res.code === "0") {
+        //       this.data1 = res.data
+        //       this.option.series.forEach(item=>{
+        //         item.data=this.data1
+        //       })
+        //       this.chart = this.$echarts.init(document.getElementById('container1'))
+        //       // console.log("@@@",myChart)
+        //       this.chart.setOption(this.option)
+        //     }
+        // }),
+        this.chart = this.$echarts.init(document.getElementById('container1'))
+        // console.log("@@@",this.chart)
+        this.chart.setOption(this.option)
 
     },
     SelectChanged(){
-      this.option.series[0].name = this.value
+      // this.option.series[0].name = this.value
+      console.log(this.toDate(this.month),"month")
       this.createGraph()
     },
-    getSubjects() {
-      getSubjectsByWorkId({workId: this.workId}).then(res=>{
-        if (res.code === "0") {
-          this.options = res.data.map(item=>{
-            return {value: item, label: item}
-          })
-        }
-      })
+    toDate(time){
+      let datetime = new Date(time);
+      let year = datetime.getFullYear();
+      let month = datetime.getMonth();
+      let date = datetime.getDate();
+      let result = year +
+        '-' +
+        ((month + 1) >= 10 ? (month + 1) : '0' + (month + 1)) +
+        '-' +
+        ((date + 1) < 10 ? '0' + date : date);
+      return result
     }
   },
   created() {
-    this.getSubjects()
+
   }
 }
 </script>
@@ -175,6 +197,6 @@ export default {
 
 #container1{
   margin-top: 3%;
-  height:70%;
+  height:500px;
 }
 </style>
