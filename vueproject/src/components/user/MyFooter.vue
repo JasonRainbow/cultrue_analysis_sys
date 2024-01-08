@@ -134,83 +134,60 @@
         <div class="bubble" style="--size:3.634999842635324rem; --distance:9.501007703669114rem; --position:44.07581182072189%; --time:2.0727374728244525s; --delay:-3.9097301287754664s;"></div>
       </div>
       <div class="content">
-
-        <div class="footer__addr">
-          <h1 class="footer__logo">Culture</h1>
-          <h2>Contact</h2>
-          <address>
-            Hunan Normal University<br>
-            <a class="footer__btn" href="mailto://1966752024@qq.com">Email Us</a>
-          </address>
-        </div>
         <div>
-          <ul class="footer__nav">
-            <li class="nav__item nav__item--extra">
-              <h1 class="nav__title">Links|友情链接</h1>
-              <ul class="nav__ul nav__ul--extra">
-                <li>
-                  <a href="https://news.google.com/" target="_blank">Google News</a>
-                </li>
+          <el-row :gutter="10">
+            <el-col :xs="24" :sm="12" :md="8" :lg="4" :xl="4">
+              <span class="footer__logo">Culture</span>
+              <div class="footer__addr">
+                <h2 style="font-size: 18px; margin-bottom: 10px">Contact</h2>
+                <address style="font-size: 18px">
+                  Hunan Normal University<br>
+                  <a class="footer__btn" href="mailto://1966752024@qq.com">Email Us</a>
+                </address>
+              </div>
+            </el-col>
+            <el-col style="text-align: center" :xs="24" :sm="12" :md="16" :lg="20" :xl="20">
+              <span class="nav__title">Links|友情链接</span>
+              <div>
+                <el-row :gutter="10">
+                  <el-col :xs="24" :sm="12" :md="8" :lg="4" :xl="5">
+                    <a href="https://news.google.com/" target="_blank">Google News</a>
+                    <a href="https://www.youtube.com/" target="_blank">Youtube</a>
+                    <a href="https://twitter.com" target="_blank">Twitter</a>
+                  </el-col>
 
-                <li>
-                  <a href="https://www.youtube.com/" target="_blank">Youtube</a>
-                </li>
+                  <el-col :xs="24" :sm="12" :md="8" :lg="4" :xl="5">
+                    <a href="https://instagram.com" target="_blank">Instagram</a>
+                    <a href="https://facebook.com" target="_blank">Facebook</a>
+                    <a href="https://global.chinadaily.com.cn" target="_blank">China Daily</a>
+                  </el-col>
 
-                <li>
-                  <a href="https://twitter.com" target="_blank">Twitter</a>
-                </li>
+                  <el-col :xs="24" :sm="12" :md="8" :lg="4" :xl="5">
+                    <a href="http://www.github.com" target="_blank">GitHub</a>
+                    <a href="https://www.amazon.com" target="_blank">Amazon</a>
+                    <a href="http://www.goodreads.com/" target="_blank">GoodReads</a>
+                  </el-col>
 
-                <li>
-                  <a href="https://instagram.com" target="_blank">Instagram</a>
-                </li>
+                  <el-col :xs="24" :sm="12" :md="8" :lg="4" :xl="5">
+                    <a href="https://www.rottentomatoes.com/" target="_blank">烂番茄</a>
+                    <a href="https://www.douban.com" target="_blank">豆瓣</a>
+                    <a href="https://www.imdb.com/" target="_blank">IMDb</a>
+                  </el-col>
 
-                <li>
-                  <a href="https://facebook.com" target="_blank">Facebook</a>
-                </li>
+                  <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="4">
+                    <a class="image" href="" target="_blank"><i style="font-size: 24px" class="iconfont icon-global-fill"></i></a>
+                    <p>&copy; 2023 ASLCCICE. All rights reserved.</p>
+                  </el-col>
 
-                <li>
-                  <a href="https://global.chinadaily.com.cn" target="_blank">China Daily</a>
-                </li>
+                </el-row>
+              </div>
+            </el-col>
+          </el-row>
 
-                <li>
-                  <a href="http://www.github.com" target="_blank">GitHub</a>
-                </li>
-
-                <li>
-                  <a href="https://www.amazon.com" target="_blank">Amazon</a>
-                </li>
-                <li>
-                  <a href="http://www.goodreads.com/" target="_blank">GoodReads</a>
-                </li>
-                <li>
-                  <a href="https://www.rottentomatoes.com/" target="_blank">烂番茄</a>
-                </li>
-                <li>
-                  <a href="https://www.douban.com" target="_blank">豆瓣</a>
-                </li>
-                <li>
-                  <a href="https://www.imdb.com/" target="_blank">IMDb</a>
-                </li>
-              </ul>
-            </li>
-          </ul>
         </div>
-        <div>
-          <a class="image" href="" target="_blank"><i style="font-size: 24px" class="iconfont icon-global-fill"></i></a>
-          <p>&copy; 2023 ASLCCICE. All rights reserved.</p>
-        </div>
+
       </div>
     </div>
-    <!--	<svg style="position:fixed; top:100vh">-->
-    <!--		<defs>-->
-    <!--			<filter id="blob">-->
-    <!--				<feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur"></feGaussianBlur>-->
-    <!--				<feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9" result="blob"></feColorMatrix>-->
-    <!--				&lt;!&ndash;feComposite(in="SourceGraphic" in2="blob" operator="atop") //After reviewing this after years I can't remember why I added this but it isn't necessary for the blob effect&ndash;&gt;-->
-    <!--			</filter>-->
-    <!--		</defs>-->
-    <!--	</svg>-->
-    <!-- partial -->
 
   </div>
 
@@ -233,9 +210,12 @@ export default {
 
 .nav__title {
   font-weight: 400;
-  font-size: 15px;
-  margin-left: -100px;
+  font-size: 18px;
+  //margin-left: -100px;
   color: white;
+  text-align: center;
+  display: inline-block;
+  //margin: auto auto;
 }
 @media screen and (min-width: 24.375em) {
   .legal .legal__links {
@@ -296,33 +276,28 @@ export default {
 }
 
 .footer__btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  //display: inline-block;
+  vertical-align: middle;
   height: 36px;
   max-width: max-content;
-  background-color: rgb(33, 33, 33, 0.07);
+  background-color: rgba(51, 46, 46, 0.3);
   border-radius: 100px;
   color: #2f2f2f;
-  line-height: 0;
-  margin: 0.6em 0;
   font-size: 1rem;
-  padding: 0 1.3em;
+  padding: 6px 1.3em;
+  //margin-top: 20px;
 }
 
 
 .footer__logo {
+  display: block;
   font-family: 华文楷体;
   font-weight: 600;
   /*text-transform: lowercase;*/
   font-size: 1.5rem;
   color: #eee;
-}
-
-.footer__addr h2 {
-  margin-top: 1.3em;
-  font-size: 15px;
-  font-weight: 400;
+  text-align: left;
+  margin-bottom: 30px;
 }
 
 .legal {
@@ -371,25 +346,29 @@ export default {
 .footer .content {
 
   z-index: 2;
-  display: flex;
+  //display: flex;
   //grid-template-columns: 1fr auto;
   //grid-gap: 1rem;
-  flex-direction: row;
-  padding: 2rem;
+  //flex-direction: row;
+  padding: 1.8rem;
   background: var(--footer-background);
 }
 .footer .content a, .footer .content p {
   color: #F5F7FA;
   text-decoration: none;
+  display: block;
+  margin: 15px auto;
+  text-align: center;
+  font-size: 17px;
 }
 .footer .content b {
   color: white;
 }
 .footer .content p {
   margin: 0;
-  font-size: 0.75rem;
+  font-size: 14px;
 }
-.footer .content > div {
+/*.footer .content > div {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -399,12 +378,11 @@ export default {
 }
 .footer .content > div > div > * {
   margin-right: 0.5rem;
-}
+}*/
 .footer .content > div .image {
   align-self: center;
-  width: 4rem;
-  height: 4rem;
-  margin: 0.25rem 0;
+  margin-top: 30px;
+  margin-bottom: 30px;
   background-size: cover;
   background-position: center;
 }
