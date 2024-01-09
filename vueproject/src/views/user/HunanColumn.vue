@@ -3,8 +3,8 @@
     <div class="top-banner">
       <img style="width: 100%" alt="湖湘文化" :src="require('../../assets/img/hx-bg01.png')">
     </div>
-    <el-row :gutter="40" type="flex" justify="center">
-      <el-col :span="5" :xs="24" :sm="24" :lg="5">
+    <el-row :gutter="40">
+      <el-col :span="5" :xs="24" :sm="8" :lg="5" :xl="4">
         <el-collapse v-model="activeNames" @change="handleChange">
           <el-collapse-item title="分类" name="1">
             <el-collapse class="my-collapse" v-model="activeNames">
@@ -27,7 +27,7 @@
           </el-collapse-item>
         </el-collapse>
       </el-col>
-      <el-col :span="17" :xs="24" :sm="24" :lg="17">
+      <el-col :span="17" :xs="24" :sm="16" :lg="18" :xl="20">
         <div style="position:relative;">
           <div class="top-view">
             <span style="font-size: 18px; font-weight: bold">
@@ -55,7 +55,7 @@
 
                 >
                   <div>
-                    <div style="overflow: hidden">
+                    <div style="overflow: hidden;" class="border-radius">
                       <img  class="column-img" alt="" :src="item.imgUrl" @click="handleClick(item.id, item.name)">
                     </div>
 
@@ -277,6 +277,7 @@ export default {
         video: [],
         book: []
       },
+      itemWidth: 260,
       origin: [],
       /*contentArr: [
         { value: 0, height: "150", background: "#409eff", text: "1", top: "", imgSrc: 'http://hzx-oss.oss-cn-guangzhou.aliyuncs.com/images/hot_img3-1676056955420491776.jpeg?Expires=1720060493&OSSAccessKeyId=LTAI5tQcjbvbjA5JjMMkUkc1&Signature=0i1DH%2FCcLVVMBFf8jIRmg7xM02s%3D'},
@@ -319,6 +320,24 @@ export default {
          }
        }
      })
+    },
+    setItemWidth() {
+      let innerWidth = window.innerWidth
+      if (innerWidth >= 800) {
+        this.itemWidth = 260
+      }
+      else if (innerWidth >= 768) {
+        this.itemWidth = 240
+      }
+      else if (innerWidth >= 400) {
+        this.itemWidth = 170
+      }
+      else if (innerWidth >= 300) {
+        this.itemWidth = 140
+      }
+      else {
+        this.itemWidth = 135
+      }
     },
     updateLayout() {
       this.init()
@@ -433,12 +452,13 @@ export default {
     },
 
     init() {
+      this.setItemWidth()
       this.columns = []
       let contentLen = this.contentArr.length
       // 根据可视区域的宽度判断需要几列
       let cWidth = document.documentElement.clientWidth || document.body.clientWidth;
       // 假设图片宽度为100px
-      let cLen = Math.floor((cWidth/260)-1)
+      let cLen = Math.floor((cWidth/this.itemWidth)-1)
       // console.log(cLen);
 
       // 初始化每一列的第一行元素
@@ -567,6 +587,9 @@ p {
   align-items: center;
   transition: all 0.5s ease-in-out;
   background-color: #668b78;
+  margin-left: 20px;
+  margin-right: 20px;
+  border-radius: 30px;
 }
 .loading{
   position:fixed;
@@ -580,6 +603,11 @@ p {
   width: 100%;
   cursor: pointer;
   display: block;
+}
+
+.border-radius {
+  border-top-right-radius: 30px;
+  border-top-left-radius: 30px;
 }
 
 img {
@@ -616,7 +644,7 @@ img {
 }
 
 .report-content {
-  height: 58px;
+  height: 55px;
   overflow: hidden;
   font-size: 14px;
 }
@@ -758,7 +786,7 @@ img {
 
 .box-card2 {
   //background-color: #F2F6FC;
-  background: url("../../assets/img/card_bg2.jpg") center center;
+  background: url("../../assets/img/card_bg.png") center center;
   margin-bottom: 15px;
   max-height: 165px;
   overflow: hidden;
@@ -770,7 +798,7 @@ img {
 }
 
 .report-content2 {
-  height: 60px;
+  height: 55px;
   overflow: hidden;
   color: #373636;
   font-size: 14px;

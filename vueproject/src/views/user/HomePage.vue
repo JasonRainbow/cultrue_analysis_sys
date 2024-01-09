@@ -20,7 +20,7 @@
             <el-row>
               <el-col :span="6" class="left-des" style="display: inline">
 <!--               referrerpolicy="no-referrer" 不携带引源信息 -->
-                <img :src="item.imgUrl" referrerpolicy="no-referrer" alt="作品介绍图片" style="width: 80px;height: 100px"/>
+                <img :src="item.imgUrl" referrerpolicy="no-referrer" alt="作品介绍图片" style="width: 80px;height: 110px"/>
               </el-col>
               <el-col :span="18">
                 <div class="right-des" style="display: inline">
@@ -281,7 +281,7 @@ a {
 }
 
 .report-content {
-  height: 59px;
+  height: 55px;
   overflow: hidden;
   color: #909399;
   font-size: 14px;
@@ -290,6 +290,7 @@ a {
 .report-bottom {
   color: #405db4;
   font-size: 16px;
+  margin-top: 8px;
 }
 
 .el-row {
