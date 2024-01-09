@@ -329,6 +329,9 @@ export default {
       else if (innerWidth >= 768) {
         this.itemWidth = 240
       }
+      else if (innerWidth >= 600) {
+        this.itemWidth = 230
+      }
       else if (innerWidth >= 400) {
         this.itemWidth = 170
       }

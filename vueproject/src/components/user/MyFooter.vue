@@ -209,8 +209,8 @@ export default {
 }
 
 .nav__title {
-  font-weight: 400;
   font-size: 18px;
+  font-weight: bold;
   //margin-left: -100px;
   color: white;
   text-align: center;
@@ -284,7 +284,7 @@ export default {
   border-radius: 100px;
   color: #2f2f2f;
   font-size: 1rem;
-  padding: 6px 1.3em;
+  padding: 8px 1.3em;
   //margin-top: 20px;
 }
 
