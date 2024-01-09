@@ -274,5 +274,14 @@ public class RawCommentController {
         return Result.success(commentList);
     }
 
+    @GetMapping("/getCommentNumByWorkIdAndCountry")
+    @ApiOperation(value = "查询某个作品在某个国家的评论数量")
+    public Result getCommentNumByWorkIdAndCountry(@RequestParam(required = true) Integer workId, @RequestParam(required = true) String country) {
+        LambdaQueryWrapper<RawComment> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.eq(RawComment::getWorkId,workId).eq(RawComment::getCountry,country);
+        int count = rawCommentMapper.selectCount(lambdaQueryWrapper);
+        return Result.success(count);
+    }
+
 }
 

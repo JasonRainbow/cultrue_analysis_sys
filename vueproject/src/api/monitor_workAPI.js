@@ -74,3 +74,7 @@ export const getAllSubcategory = (params)=>{
   return req("get", "/monitor-work/getWorkByCategory", null, null)
 }
 
+export const getWorkAndCommentNumByCategory = (params)=>{
+  return req("get", "/monitor-work/getWorkAndCommentNumByCategory", null, null)
+}
+

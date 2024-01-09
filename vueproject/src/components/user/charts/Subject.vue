@@ -18,7 +18,7 @@
 import {getSubjectsByWorkId, subjectAnalysisByWorkId} from "../../../api/SubjectAnalysisAPI";
 
 export default {
-  name:'Subject',
+  name:'PolarityAnalysisPie',
   props:{
     workId:{
       Type:Number,

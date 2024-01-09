@@ -10,6 +10,8 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.common.Result;
 import com.example.demo.entity.MonitorRequest;
+import com.example.demo.entity.RawComment;
+import com.example.demo.entity.WorkCommentNum;
 import com.example.demo.entity.dto.CommentPlatformDto;
 import com.example.demo.entity.MonitorWork;
 import com.example.demo.entity.dto.RequestHunanWorkDto;
@@ -316,6 +318,32 @@ public class MonitorWorkController {
                 lambdaQueryWrapper.eq(MonitorWork::getSubCategory, sub);
                 List<MonitorWork> workList = monitorWorkMapper.selectList(lambdaQueryWrapper);
                 workMap.put(sub, workList);
+            }
+            categoryMap.put(category, workMap);
+        }
+        return Result.success(categoryMap);
+    }
+
+    @GetMapping("/getWorkAndCommentNumByCategory")
+    @ApiOperation(value = "分类查询所有作品以及评论数量")
+    public Result getWorkAndCommentNumByCategory(){
+        List<String> categories = monitorWorkMapper.getAllCategory();
+        Map<String, Object> categoryMap = new HashMap<>();
+        for(String category:categories){
+            List<String> subCategory = monitorWorkMapper.getAllSubCategory(category);
+            Map<String, Object> workMap = new HashMap<>();
+            for(String sub : subCategory){
+                LambdaQueryWrapper<MonitorWork> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+                lambdaQueryWrapper.eq(MonitorWork::getSubCategory, sub);
+                List<MonitorWork> workList = monitorWorkMapper.selectList(lambdaQueryWrapper);
+                List<WorkCommentNum> commentNumList = new ArrayList<>();
+                for(MonitorWork work : workList){
+                    QueryWrapper<RawComment>  queryWrapper = new QueryWrapper<>();
+                    queryWrapper.eq("workId",work.getId());
+                    int count = rawCommentMapper.selectCount(queryWrapper);
+                    commentNumList.add(new WorkCommentNum(work.getId(),work.getName(),count));
+                }
+                workMap.put(sub, commentNumList);
             }
             categoryMap.put(category, workMap);
         }

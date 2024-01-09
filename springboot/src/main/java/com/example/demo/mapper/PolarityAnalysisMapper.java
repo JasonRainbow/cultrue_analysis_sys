@@ -41,6 +41,7 @@ public interface PolarityAnalysisMapper extends BaseMapper<PolarityAnalysis> {
     // 统计每个作品的积极、消极、中立情感总数
     List<PolarityAnalysis> selectWorksPolarity();
 
+    //查询某个月的极性情感分析结果
     PolarityDto selectPolarityByMonth(@Param("workId") Integer workId,
                                       @Param("country") String country,
                                       @Param("selectMonth") String selectMonth);

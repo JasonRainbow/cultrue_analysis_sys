@@ -67,4 +67,9 @@ export const getYearPolarity = (params)=>{
   return req("get", "/polarity/countYearPolarity", params)
 }
 
+// 获取某个月的极性情感分析结果
+export const getMonthAnalysisResult = (params)=>{
+  return req("get", "/polarity/getMonthAnalysisResult", params)
+}
+
 

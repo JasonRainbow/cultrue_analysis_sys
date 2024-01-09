@@ -79,5 +79,11 @@
     <select id="getAllCategory" resultType="java.lang.String">
         select distinct category from monitor_work where category is not NULL
     </select>
+    <select id="getWorkAndCommentNumByCategory" resultType="com.example.demo.entity.WorkCommentNum">
+        select monitor_work.id,monitor_work.name,COUNT(*) as count
+        from monitor_work inner join raw_comment on monitor_work.id=raw_comment.workId
+        where monitor_work.subCategory=#{subCategory}
+        GROUP By monitor_work.id,monitor_work.name
+    </select>
 
 </mapper>

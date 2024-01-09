@@ -67,7 +67,9 @@ export default {
         "/not-login": 8,
         "/sentiment-assessment":1,
         "/special-column": 2,
-        "/effect/sentiment-assessment": 1
+        // "/effect/sentiment-assessment": 1,
+        "/effect/sentimentAssessment":1,
+        "/effect/no-data":1
       },
       activeIndex: 0,
       loginFlag: true,
