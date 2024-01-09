@@ -19,19 +19,21 @@
         @change="SelectChanged">
       </el-date-picker>
     </div>
-    <div id="container1" v-show="isShow"></div>
+    <div id="container1"></div>
   </div>
 </template>
 
 <script>
 import {getSubjectsByWorkId, subjectAnalysisByWorkId} from "../../../api/SubjectAnalysisAPI";
-
+import {getMonthAnalysisResult} from "../../../api/polarityAPI";
 export default {
   name:'Subject',
   props:{
     workId:{
       Type:Number,
-      default:1
+    },
+    country:{
+      Type:String,
     }
   },
   data(){
@@ -39,10 +41,10 @@ export default {
       divWidth: 566,
       inputSize: 'mini',
       chart:null,
-      time:null,
-      isShow:true,
+      time:'2023-02',
       params:{
-        workId:this.workId
+        country:this.country,
+        selectMonth:this.time
       },
       options: [
         {
@@ -57,7 +59,6 @@ export default {
           value: '消极情感',
           label: '消极情感'
         }],
-      value:'故事情节',
       option: null,
       data1:[
         {
@@ -76,6 +77,7 @@ export default {
     }
   },
   mounted(){
+    // console.log(this.workId,this.country)
     this.divWidth = document.getElementById("container1").clientWidth
     if (this.divWidth < 600) {
       this.inputSize = "mini"
@@ -163,13 +165,42 @@ export default {
         //       this.chart.setOption(this.option)
         //     }
         // }),
-        this.chart = this.$echarts.init(document.getElementById('container1'))
-        // console.log("@@@",this.chart)
-        this.chart.setOption(this.option)
+      if(this.workId!==0 && this.workId !=='0'){
+        this.params.workId=this.workId
+      }
+      // console.log(this.params,'params')
+      this.params.selectMonth=this.toDate(this.time)
+      getMonthAnalysisResult(this.params).then((res)=>{
+        // console.log(res,'res')
+        if(res.code==='0'){
+          // console.log(res.data,'result')
+          this.option.series.forEach(item=>{
+            // console.log(item,'item')
+            item.data.forEach(data=>{
+              if(res.data===null){
+                data.value=0
+              }else{
+                if(data.name==='积极'){
+                  // console.log(true)
+                  data.value=res.data.positive
+                }else if(data.name==='消极'){
+                  data.value=res.data.negative
+                }else if(data.name==='中立'){
+                  data.value=res.data.neutrality
+                }
+              }
+            })
+            // item.data=this.data1
+          })
+          this.chart = this.$echarts.init(document.getElementById('container1'))
+          // console.log("@@@",this.chart)
+          // console.log(this.option.series,'series')
+          this.chart.setOption(this.option)
+        }
+      })
 
     },
     SelectChanged(){
-      // this.option.series[0].name = this.value
       console.log(this.toDate(this.month),"month")
       this.createGraph()
     },
@@ -180,9 +211,9 @@ export default {
       let date = datetime.getDate();
       let result = year +
         '-' +
-        ((month + 1) >= 10 ? (month + 1) : '0' + (month + 1)) +
-        '-' +
-        ((date + 1) < 10 ? '0' + date : date);
+        ((month + 1) >= 10 ? (month + 1) : '0' + (month + 1))
+        //   + '-' +
+        // ((date + 1) < 10 ? '0' + date : date);
       return result
     }
   },

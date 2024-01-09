@@ -7,10 +7,16 @@
             <router-link to="/effect">
               <el-link type="warning" style="font-size: 18px;" @click="showMap">&lt;&lt;返回</el-link>
             </router-link>
+            <el-button type="warning" style="float: right" @click="changeStatus">{{'查看'+(isShow?'极性情感趋势折线图':'极性情感分布饼状图')}}</el-button>
           </div>
-          <h2 style="text-align: center" >{{title}}</h2>
-          <div>
-            <PolarityAnalysisPie :workId="workId"></PolarityAnalysisPie>
+          <h2 style="text-align: center;margin-top: 20px" >{{title}}</h2>
+          <div v-show="isShow">
+<!--            <h2 style="text-align: center" >{{title}}</h2>-->
+            <PolarityAnalysisPie :workId="workId" :country="country"></PolarityAnalysisPie>
+          </div>
+          <div v-show="!isShow">
+            <PolarityLineChart :workId="Number(workId)" :country="country"></PolarityLineChart>
+<!--            {{'查看'+isShow?'极性情感趋势折线图':'极性情感分布折线图'}}-->
           </div>
         </el-card>
       </el-col>
@@ -19,13 +25,16 @@
 </template>
 <script>
 import PolarityAnalysisPie from "./PolarityAnalysisPie.vue";
+import PolarityLineChart from "./PolarityLineChart.vue";
 export default {
   name:"AssessmentDetailMap",
   components: {
-    PolarityAnalysisPie
+    PolarityAnalysisPie,
+    PolarityLineChart
   },
   data(){
     return {
+      isShow:true,
       workId:0,
       workName:null,
       country:null,
@@ -36,6 +45,9 @@ export default {
     showMap(){
       this.$bus.$emit('mapShow')
     },
+    changeStatus(){
+      this.isShow=!this.isShow
+    }
   },
   beforeRouteEnter (to, from, next) {
     next(vm => {
@@ -46,6 +58,7 @@ export default {
     this.workId=this.$route.query.workId
     this.workName=this.$route.query.workName
     this.country=this.$route.query.country
+    this.$bus.$emit('getCountry',this.country)
     if(this.workId==='0' || this.workId===0){
       this.title=this.country+' '+"整体极性情感分布"
     }else{

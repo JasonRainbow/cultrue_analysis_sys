@@ -39,7 +39,7 @@
             <el-menu-item-group>
               <span slot="title">{{key}}</span>
               <div  v-for="(item,index1) in value" :key="index1">
-                <el-menu-item :index="item.id+'-'+item.name" >{{item.name}}</el-menu-item>
+                <el-menu-item :index="item.id+'-'+item.name" :style="{color:((item.count === 0 || item.count==='0') ? '#FF0000' : '#000')}">{{item.name}}</el-menu-item>
               </div>
             </el-menu-item-group>
           </div>
@@ -83,6 +83,8 @@
 import {getPolarityCountries} from "../../api/polarityAPI";
 import {getAllSubcategory} from "../../api/monitor_workAPI";
 import WorldMap from "../../components/user/common/WorldMap.vue";
+import {getCommentNumByWorkIdAndCountry} from "../../api/commentAPI";
+import {getWorkAndCommentNumByCategory} from "../../api/monitor_workAPI";
 
 export default {
   name: "EffectPage",
@@ -97,6 +99,7 @@ export default {
       country:null,
       categoryAndWorks:null,
       workName:"整体",
+      params:{},
       countries: [
         // '全球',
         /*'美国',
@@ -130,22 +133,34 @@ export default {
     mounted() {
       // console.log(document.getElementById("app"))
 
-    this.$bus.$on("pushSentimentAssessment",(data,workName)=>{
-      console.log(data,workName)
-      if(data){
+    this.$bus.$on("pushSentimentAssessment",(data,workName,commentNum)=>{
+      // console.log(data,workName)
+      if(data && commentNum !==0 && commentNum !=='0'){
           this.isShow=false
           this.country=data
+          // this.$router.push({
+          //     name:"传播效果评估展示",
+          //     // params:{
+          //     //   workId:this.workId,
+          //     //   country:data,
+          //     // },
+          //     query:{
+          //         workId:this.workId,
+          //         country:data,
+          //         workName:workName
+          //     }
+          // })
           this.$router.push({
-              name:"传播效果评估展示",
-              // params:{
-              //   workId:this.workId,
-              //   country:data,
-              // },
-              query:{
-                  workId:this.workId,
-                  country:data,
-                  workName:workName
-              }
+            name:"传播效果评估展示1",
+            // params:{
+            //   workId:this.workId,
+            //   country:data,
+            // },
+            query:{
+              workId:this.workId,
+              country:data,
+              workName:workName
+            }
           })
       } else{
           // alert("该国家暂时没有数据！")
@@ -180,6 +195,15 @@ export default {
    //该方法用于解决在查看某一个国家总体情感分布时，若是用户点击刷新，则本组件内country刷新导致侧边栏点击问题
     this.$bus.$on("getCountry",(data)=>{
       this.country=data
+    }),
+    this.$bus.$on("noData",(data,country)=>{
+      this.$router.push({
+        name:"无极性情感分布数据",
+        query:{
+          workName:data,
+          country:country
+        }
+      })
     })
   },
   beforeDestroy(){
@@ -187,6 +211,7 @@ export default {
     this.$bus.$off('mapShow')
     this.$bus.$off('mapNotShow')
     this.$bus.$off('getCountry')
+    this.$bus.$off('noData')
   },
   computed: {
     workId2() {
@@ -208,13 +233,18 @@ export default {
         this.countries = this.countries.concat(res.data)
       }
     }),
-    getAllSubcategory().then((res)=>{
-        // console.log('ok')
-        if(res.code==='0'){
-            // console.log(res.data,"data")
-
-            this.categoryAndWorks=res.data
-        }
+    // getAllSubcategory().then((res)=>{
+    //     // console.log('ok')
+    //     if(res.code==='0'){
+    //         // console.log(res.data,"data")
+    //
+    //         this.categoryAndWorks=res.data
+    //     }
+    // })
+    getWorkAndCommentNumByCategory().then((res)=>{
+      if(res.code==='0' || res.code===0){
+        this.categoryAndWorks=res.data
+      }
     })
     // console.log(this.countries)
   },
@@ -234,7 +264,21 @@ export default {
       if(!this.isShow){
         // console.log("切换")
         //   console.log(this.$route,"route")
-        this.$bus.$emit('pushSentimentAssessment',this.country,this.workName)
+        this.params.workId=this.workId
+        this.params.country=this.country
+        getCommentNumByWorkIdAndCountry(this.params).then((res)=>{
+          console.log(res,"00")
+          if(res.code==='0' || res.code===0){
+            let count=res.data
+            if(count===0 || count ==='0'){
+              this.$bus.$emit('noData',this.workName,this.country)
+            }else{
+              this.$bus.$emit('pushSentimentAssessment',this.country,this.workName)
+            }
+          }else{
+            alert("加载出错！")
+          }
+        })
       }
       // console.log(this.workId,222)
       // this.$router.push({
@@ -287,7 +331,7 @@ export default {
   background-color: #3976b8;
 }
 .el-menu-vertical-demo:not(.el-menu--collapse) {
-  width: 200px;
+  width: 255px;
   min-height: 400px;
 }
 .book{
@@ -295,6 +339,15 @@ export default {
 }
 .video{
   content: url('../../assets/img/video.svg');
+}
+.el-menu >>> .el-menu-item{
+  font-size:22px
+}
+span{
+  font-size: 20px;
+}
+.el-radio-button >>> .el-radio-button__inner{
+  font-size: 18px;
 }
 </style>
 <style>
