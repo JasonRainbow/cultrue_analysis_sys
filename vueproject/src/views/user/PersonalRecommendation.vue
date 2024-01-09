@@ -1,7 +1,7 @@
 <template>
   <div v-if="isLogin" style="width:100%">
     <div id="div4">
-      <h1 style="text-align: center;margin-bottom: 5px;font-size: 30px">作品推荐</h1>
+      <h1 style="text-align: center;margin: 15px auto;font-size: 28px">作品推荐<span style="font-size: 28px" class="english-label">Recommended Works</span></h1>
       <el-row :gutter="0" style="width: 93%; margin: auto;">
         <el-col :span="14" :xs="24" :sm="24" :lg="12" v-for="(item,index) in works" :key="index">
           <el-card class="box-card2">
@@ -217,7 +217,7 @@ export default {
 
 #div4 {
   width: 100%;
-  margin-top: 20px;
+  margin-top: 30px;
   /*float: left;*/
 }
 

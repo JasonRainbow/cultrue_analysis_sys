@@ -1,8 +1,14 @@
 <template>
   <div id="main">
-    <div id="header-title">
-      中国语言文化作品国际传播效果分析系统
+    <div>
+      <div id="header-title">
+        中国语言文化作品国际传播效果智能评测系统<br>
+      </div>
+      <div style="margin-bottom: 5px;font-family: Times New Roman, sans-serif; font-size: 20px; color: white; text-align: center">
+        Intelligent Evaluation System for the International Communication Effect of Chinese Language and Culture Works
+      </div>
     </div>
+
     <div id="show-login-div">
       <div id="user-info" v-if="loginFlag"> <!--显示登录用户-->
         <el-avatar :size="45" icon="el-icon-user-solid" :src="avatar" id="inner-user-avatar"></el-avatar>
@@ -20,6 +26,7 @@
         <router-link :to="item.path" style="text-align: center; width: 100%;height: 100%;padding-top: 12px">
           <i :class='item.icon'></i>
           <p class="nav-tab-item_label" style="margin-top: 4px">{{item.label}}</p>
+          <p class="nav-tab-item_label label-pro" style="margin-top: 2px">{{item.englishLabel}}</p>
         </router-link>
       </div>
       <div class="nav-tab-overlay" :style="{'left':`${activeIndex * itemWidth}%`,'width':`${itemWidth + 10}%`}"></div>
@@ -45,15 +52,15 @@ export default {
   data() {
     return {
       items: [
-        { icon: 'nav-tab-item_icon iconfont icon-home', label: '首页', path: '/home'},
-        { icon: 'nav-tab-item_icon iconfont icon-send-fill', label: '传播效果分析', path: '/effect'},
-        { icon: 'nav-tab-item_icon iconfont icon-zuopinzhanshi', label: '湖湘文化作品', path: '/special-column'},
-        { icon: 'nav-tab-item_icon iconfont icon-shujuxianshi', label: '大屏模式', path: '/big-screen'},
-        { icon: 'nav-tab-item_icon iconfont icon-zhinengtuijian', label: '作品推荐', path: '/recommend'},
-        { icon: 'nav-tab-item_icon iconfont icon-project_info', label: '背景介绍', path: '/background'},
-        { icon: 'nav-tab-item_icon iconfont icon-rencaishuangxuanhui', label: '团队介绍', path: '/team'},
-        { icon: 'nav-tab-item_icon iconfont icon-a-commandinquiry-fill', label: '常见问题', path: '/question'},
-        { icon: 'nav-tab-item_icon iconfont icon-user', label: '个人中心', path: '/personal'},
+        { icon: 'nav-tab-item_icon iconfont icon-home', label: '首页', englishLabel: 'Home', path: '/home'},
+        { icon: 'nav-tab-item_icon iconfont icon-send-fill', label: '传播效果分析', englishLabel: 'Effect Analysis', path: '/effect'},
+        { icon: 'nav-tab-item_icon iconfont icon-zuopinzhanshi', label: '湖湘文化作品', englishLabel: 'Huxiang Works', path: '/special-column'},
+        { icon: 'nav-tab-item_icon iconfont icon-shujuxianshi', label: '大屏模式', englishLabel: 'BigScreen', path: '/big-screen'},
+        { icon: 'nav-tab-item_icon iconfont icon-zhinengtuijian', label: '作品推荐', englishLabel: 'Recommend', path: '/recommend'},
+        { icon: 'nav-tab-item_icon iconfont icon-project_info', label: '背景介绍', englishLabel: 'Background', path: '/background'},
+        { icon: 'nav-tab-item_icon iconfont icon-rencaishuangxuanhui', label: '团队介绍', englishLabel: 'About Us', path: '/team'},
+        { icon: 'nav-tab-item_icon iconfont icon-a-commandinquiry-fill', label: '常见问题', englishLabel: 'FAQ', path: '/question'},
+        { icon: 'nav-tab-item_icon iconfont icon-user', label: '个人中心', englishLabel: 'Profile', path: '/personal'},
       ],
       // activeIndex: Number(sessionStorage.getItem("activeIndex")),
       routes_map: {
@@ -152,7 +159,7 @@ body {
   position: relative;
 
   width: 100%;
-  height: 80px;
+  height: 100px;
   /*background-color: #195161;*/
   display: flex;
 
@@ -167,7 +174,7 @@ body {
   height: 100%;
 
   z-index: 2;
-  transition: 0.3s;
+  transition: 0.1s;
   cursor: pointer;
 
   /* 居中 */
@@ -182,14 +189,14 @@ body {
 }
 
 .nav-tab-item:hover {
-  background-color: #d84e21;
+  background-color: #9e2b2d;
   border-radius: 20px;
 }
 
 .nav-tab-item_icon {
   font-size: 26px;
   color: #ffffff;
-  transition: 0.3s;
+  //transition: 0.3s;
   transform: translate(0, 0px);
 }
 
@@ -199,9 +206,11 @@ body {
 
 .nav-tab-item_label {
   font-size: 18px;
-  color: #ffffff;
+  //font-weight: 600;
+  font-weight: bold;
+  color: rgba(255,255,255,0.91);
   opacity: 0;
-  transition: 0.3s;
+  //transition: 0.3s;
   user-select: none;
 }
 
@@ -220,13 +229,13 @@ body {
   background-color: #9e2b2d;
   border-radius: 20px;
 
-  transition: 0.3s;
+  //transition: 0.3s;
 }
 
 #header-title {
-  height: 100px;
+  height: 50px;
   text-align: center;
-  padding-top: 20px;
+  padding-top: 10px;
   /*color: #C03639;
   font-size: 35px;
   font-family: 华文楷体;*/
@@ -244,7 +253,7 @@ body {
 
 #show-login-div{
   height: 100px;
-  width:  220px;
+  width:  200px;
   /*background-color: #195161;*/
   position: absolute;
   top: 25px;
@@ -257,13 +266,18 @@ body {
 }*/
 #inner-user-nick{
   height: 20px;
-  width: 155px;
+  width: 140px;
   font-family: 华光中圆_CNKI;
-  margin-top: 15px;
+  margin-top: 12px;
   margin-left: 10px;
   font-size: 18px;
   color: #E6A23C;
   float: right;
+}
+
+.label-pro {
+  font-family: "Times New Roman", sans-serif;
+  font-size: 19px;
 }
 
 </style>

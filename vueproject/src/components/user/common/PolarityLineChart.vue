@@ -26,8 +26,6 @@
 </template>
 
 <script>
-import {getYearPolarity} from "../../../api/polarityAPI";
-import {getCountries} from "../../../api/commentAPI";
 import {polarityCountMonthInterval} from "../../../api/polarityAPI";
 export default {
   name: "PolarityLineChart",
@@ -120,20 +118,12 @@ export default {
             emphasis: {
               focus: 'series'
             },
-            areaStyle: {
-              color: '#6666FF',
-              opacity: 0.5
-            },
             data: [30, 40, 35, 30, 50, 20, 15]
           },
           {
             name: '消极情感',
             type: 'line',
             smooth:true,
-            areaStyle: {
-              color: '#32CD32',
-              opacity: 0.5
-            },
             emphasis: {
               focus: 'series'
             },
@@ -145,10 +135,6 @@ export default {
             smooth:true,
             emphasis: {
               focus: 'series'
-            },
-            areaStyle: {
-              color: '#FFD700',
-              opacity: 0.5
             },
             data: [50, 45, 40, 56, 16, 55, 75]
           }
@@ -201,30 +187,28 @@ export default {
       },
     }
   },
-  async mounted() {
-    await this.getAllCountries()
+  mounted() {
     this.getData()
     this.initLineChart()
     // console.log("line chart")
-    let width = document.getElementById("myChart").clientWidth
-    let height = document.getElementById("myChart").clientHeight
-      window.addEventListener('resize',  ()=> {
+    this.handleResize = ()=> {
       this.myChart.resize();
-    })
-    window.onload = ()=>{
+    }
+    this.handleLoad = ()=>{
       this.myChart.resize()
+    }
+    window.addEventListener('resize',  this.handleResize)
+    // window.onload = this.handleLoad
+  },
+  beforeDestroy() {
+    if (this.handleResize) {
+      window.removeEventListener("resize", this.handleResize)
+    }
+    if (this.handleLoad) {
+      window.removeEventListener("load", this.handleLoad)
     }
   },
   methods: {
-    getAllCountries() {
-      getCountries({workId: this.workId}).then((res)=>{
-        // alert("hello");
-        this.countryOptions = [{label: "全球", value: "全球"}]
-        this.countryOptions = this.countryOptions.concat(res.data.map((item)=>{
-          return {label: item, value: item}
-        }))
-      })
-    },
     initLineChart() {
       this.myChart = this.$echarts.init(document.getElementById('myChart'))
       this.myChart.setOption(this.option)

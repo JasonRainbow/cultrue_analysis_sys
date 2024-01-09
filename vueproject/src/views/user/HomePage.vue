@@ -13,7 +13,7 @@
           </div>
         </el-card>-->
         <el-card class="box-card grid-content" shadow="always">
-          <div class="card-title">热点文化作品</div>
+          <div class="card-title">热点文化作品<span class="english-label">Hot Cultural Works</span></div>
           <el-card v-for="item in messages" :key="item.id"
                    class="box-card2 animate__animated animate__slideInLeft" shadow="hover"
           >
@@ -53,7 +53,7 @@
       </el-col>
       <el-col :span="14" :xs="24" :sm="24" :lg="14">
         <el-card class="box-card grid-content" shadow="always" align="center">
-          <div class="card-title">传播效果展示</div>
+          <div class="card-title">传播效果展示<span class="english-label">Communication Effect Display</span></div>
           <div style="margin-bottom: 15px">
             <span style="margin-right: 5px; font-size: 20px" class="font-bold">监测作品切换：</span>
             <el-select class="custom-select" v-model="workId" placeholder="请选择作品" @change="selectChanged">
@@ -78,7 +78,7 @@
     <el-row :gutter="40" type="flex" justify="center">
       <el-col :span="18" :xs="24" :sm="24" :lg="18" style="margin-top: 20px">
         <el-card class="box-card grid-content" shadow="always">
-          <div class="card-title">热点评论</div>
+          <div class="card-title">热点评论<span class="english-label">Hot Comments</span></div>
           <HotComment></HotComment>
         </el-card>
       </el-col>

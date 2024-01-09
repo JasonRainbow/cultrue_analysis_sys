@@ -145,10 +145,11 @@ export default {
       ]
     };
     this.createGraph()
-    window.addEventListener('resize',  ()=> {
+    this.handleResize = ()=> {
       this.chart.resize();
       this.divWidth = document.getElementById("container1").clientWidth
-    })
+    }
+    window.addEventListener('resize',  this.handleResize)
   },
   methods:{
     createGraph(){
@@ -201,7 +202,6 @@ export default {
 
     },
     SelectChanged(){
-      console.log(this.toDate(this.month),"month")
       this.createGraph()
     },
     toDate(time){
@@ -219,7 +219,13 @@ export default {
   },
   created() {
 
-  }
+  },
+  beforeDestroy() {
+    // 移除窗口变化监听器
+    if (this.handleResize) {
+      window.removeEventListener("resize", this.handleResize)
+    }
+  },
 }
 </script>
 

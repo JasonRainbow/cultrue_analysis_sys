@@ -267,7 +267,6 @@ export default {
         this.params.workId=this.workId
         this.params.country=this.country
         getCommentNumByWorkIdAndCountry(this.params).then((res)=>{
-          console.log(res,"00")
           if(res.code==='0' || res.code===0){
             let count=res.data
             if(count===0 || count ==='0'){

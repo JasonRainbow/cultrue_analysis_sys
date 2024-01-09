@@ -86,6 +86,7 @@ request.interceptors.response.use(
         }
         else if (res.code !== "0") {
           Notification.error(res.msg)
+          console.log(response)
           return Promise.reject(new Error(res.msg))
         }
         return res;

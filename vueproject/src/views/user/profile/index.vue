@@ -4,7 +4,7 @@
       <el-col :span="8" :xs="24">
         <el-card class="box-card animate__animated animate__slideInLeft">
           <div slot="header" class="clearfix">
-            <span>基本信息</span>
+            <span>基本信息 <span class="english-label" style="font-size: 18px; margin-left: 10px">Basic Information</span></span>
           </div>
           <div>
             <div class="text-center">
@@ -38,7 +38,7 @@
       <el-col :span="16" :xs="24">
         <el-card class="box-card animate__animated animate__slideInRight">
           <div slot="header" class="clearfix">
-            <span>个人信息</span>
+            <span>个人信息<span class="english-label" style="font-size: 18px; margin-left: 10px">Personal Information</span></span>
             <el-button style="float: right" type="danger" size="mini" @click="logout">退出登录</el-button>
           </div>
           <el-tabs v-model="activeTab" type="border-card" id="info-tab">
