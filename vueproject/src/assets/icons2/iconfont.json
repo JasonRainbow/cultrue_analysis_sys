@@ -6,6 +6,34 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "18704488",
+      "name": "cast_rounded",
+      "font_class": "cast_rounded",
+      "unicode": "e61f",
+      "unicode_decimal": 58911
+    },
+    {
+      "icon_id": "23581670",
+      "name": "语言",
+      "font_class": "yuyan",
+      "unicode": "e769",
+      "unicode_decimal": 59241
+    },
+    {
+      "icon_id": "34932322",
+      "name": "情感分析",
+      "font_class": "qingganfenxi",
+      "unicode": "e61a",
+      "unicode_decimal": 58906
+    },
+    {
+      "icon_id": "10077805",
+      "name": "作品",
+      "font_class": "zuopin",
+      "unicode": "e60a",
+      "unicode_decimal": 58890
+    },
+    {
       "icon_id": "3826857",
       "name": "作品展示",
       "font_class": "zuopinzhanshi",

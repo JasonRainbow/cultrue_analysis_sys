@@ -628,7 +628,7 @@ img {
 
 .column-img:hover {
   box-shadow: 0 10px 10px -10px rgba(0, 0, 0, 0.5);
-  animation: size-up 3s ease-out forwards;
+  animation: size-up 0.5s ease-out forwards;
 }
 
 .intro {

@@ -1,6 +1,7 @@
 <template>
   <div id="main">
     <div>
+      <div class="dashboard" @click="gotoDashboard">Dashboard</div>
       <div id="header-title">
         中国语言文化作品国际传播效果智能评测系统<br>
       </div>
@@ -90,6 +91,20 @@ export default {
     judgeLogin(){ //判断用户是否登录
       this.loginFlag = hasLogin()
     },
+    gotoDashboard() {
+      if (hasLogin()) {
+        // console.log("用户已登录")
+        this.$router.push({
+          path: "/dashboard",
+          query: {
+
+          }
+        })
+      } else {
+        // console.log("用户未登录")
+        this.$message.warning("请登录后查看")
+      }
+    }
   },
   computed: {
     itemWidth() {
@@ -233,15 +248,16 @@ body {
 }
 
 #header-title {
-  height: 50px;
+  //height: 50px;
   text-align: center;
   padding-top: 10px;
   /*color: #C03639;
   font-size: 35px;
   font-family: 华文楷体;*/
   /*text-shadow: 1px 1px #ac0d2a;*/
-  font-family: '华光淡古印_CNKI';
-  font-size:36px;
+  //font-family: '华光淡古印_CNKI';
+  font-family: 华文琥珀;
+  font-size:41px;
   background-image: -webkit-linear-gradient(left, #ff0000, #e0c723 10%, #ff6a00 20%, #04dce3 30%, #CCCCFF 40%, #00FFFF 50%, #CCCCFF 60%, #CC00CC 70%, #CC00FF 80%, #66FFFF 90%, #ffff00 100%);
   -webkit-text-fill-color: transparent;
   /* 将字体设置成透明色 */
@@ -278,6 +294,44 @@ body {
 .label-pro {
   font-family: "Times New Roman", sans-serif;
   font-size: 19px;
+}
+
+@keyframes flash_out
+{
+  0% {
+    transform: scale(0.9);
+  }
+
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 50px rgba(90, 153, 212, 0);
+  }
+
+  100% {
+    transform: scale(0.9);
+    box-shadow: 0 0 0 0 rgba(90, 153, 212, 0);
+  }
+
+}
+
+.dashboard {
+  position: absolute;
+  height: 60px;
+  width: 150px;
+  line-height: 60px;
+  text-align: center;
+  left: 30px;
+  top: 10px;
+  font-size: 24px;
+  font-family: "Cooper Black";
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+  letter-spacing: -1px;
+  color: #fff;
+  background: #ce282a;
+  box-shadow: 0 0 0 0 rgba(206, 40, 42, 0.5);
+  -webkit-animation: flash_out 1.5s infinite;
 }
 
 </style>

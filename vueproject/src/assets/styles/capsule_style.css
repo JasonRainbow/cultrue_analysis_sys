@@ -1,0 +1,31 @@
+/deep/ .dv-capsule-chart .label-column
+{
+  color: #de6713;
+  font-size: 17px;
+  font-weight: bold;
+}
+
+.capsule_item {
+  width:400px;
+  height:400px;
+  margin: auto auto
+}
+
+.title {
+  font-size: 25px;
+  text-align: center;
+  margin: 20px auto;
+}
+
+/deep/ .dv-capsule-chart .unit-text,
+/deep/ .dv-capsule-chart .unit-label {
+  color: #de6713;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+/deep/ .dv-capsule-chart .capsule-item .capsule-item-column .capsule-item-value {
+  color: #2faea3;
+  font-size: 15px;
+  font-weight: bold;
+}

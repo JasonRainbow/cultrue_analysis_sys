@@ -31,6 +31,9 @@ public class RawComment {
     @ApiModelProperty(value = "翻译后的评论")
     private String translated; // 翻译后的评论
 
+    @ApiModelProperty(value = "原始评论的语言")
+    private String language; // 原始评论的语言
+
     @ApiModelProperty(value = "点赞数")
     private Integer likes; // 评论的点赞数
 

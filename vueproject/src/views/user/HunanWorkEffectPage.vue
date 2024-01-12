@@ -76,11 +76,7 @@ export default {
   methods: {
     // 更改图表选择菜单的显示状态
     changeChooseState() {
-      if(this.showChart) { // 若图表选择菜单之前是显示状态，则将其改成隐藏状态
-        this.showChart = false
-      }else{
-        this.showChart = true
-      }
+      this.showChart = !this.showChart;
     },
     // 切换图表类型 显示所选择的图表
     changeChartType(index) {

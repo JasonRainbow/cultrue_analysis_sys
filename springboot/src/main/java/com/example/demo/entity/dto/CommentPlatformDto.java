@@ -12,4 +12,7 @@ public class CommentPlatformDto {
 
     @ApiModelProperty(value = "评论数")
     private Integer count;
+
+    @ApiModelProperty(value = "占比")
+    private Double proportion;
 }

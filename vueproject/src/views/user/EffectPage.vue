@@ -35,7 +35,7 @@
           </template>
           <div style="height:500px">
           <el-scrollbar style="height:100%" id="el-scrollbar__wrap">
-          <div v-for="(value,key,index) in categoryAndWorks.文学" :key="index">
+          <div v-for="(value,key,index) in categoryAndWorks['文学']" :key="index">
             <el-menu-item-group>
               <span slot="title">{{key}}</span>
               <div  v-for="(item,index1) in value" :key="index1">
@@ -53,7 +53,7 @@
             <span slot="title">影视作品</span>
           </template>
           <el-scrollbar style="height:500px" id="el-scrollbar__wrap">
-          <div v-for="(value,key,index) in categoryAndWorks.影视" :key="index">
+          <div v-for="(value,key,index) in categoryAndWorks['影视']" :key="index">
             <el-menu-item-group>
               <span slot="title">{{key}}</span>
               <div  v-for="(item, index1) in value" :key="index1">
@@ -97,7 +97,10 @@ export default {
       isCollapse: false,
       workId:0,
       country:null,
-      categoryAndWorks:null,
+      categoryAndWorks: {
+        "文学": '',
+        "影视": ''
+      },
       workName:"整体",
       params:{},
       countries: [

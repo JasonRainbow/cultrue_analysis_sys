@@ -11,7 +11,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.common.Result;
 import com.example.demo.entity.RawComment;
 import com.example.demo.entity.vo.CountryCommentNum;
+import com.example.demo.mapper.MonitorWorkMapper;
 import com.example.demo.mapper.RawCommentMapper;
+import com.example.demo.service.CommentQueryService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -36,6 +38,12 @@ public class RawCommentController {
     @Autowired
     private RawCommentMapper rawCommentMapper;
 
+    @Autowired
+    private MonitorWorkMapper monitorWorkMapper;
+
+    @Autowired
+    private CommentQueryService commentQueryService;
+
     // 查询所有的评论信息
     @GetMapping("/all")
     @ApiOperation(value = "查询所有评论信息")
@@ -49,6 +57,9 @@ public class RawCommentController {
     @ApiOperation(value = "根据评论ID查询评论信息")
     public Result findById(@PathVariable Long id) {
         RawComment rawComment = rawCommentMapper.selectById(id);
+        if (rawComment != null) {
+            rawComment.setMonitorWork(monitorWorkMapper.selectById(rawComment.getWorkId()));
+        }
         return Result.success(rawComment);
     }
 
@@ -176,6 +187,7 @@ public class RawCommentController {
             row.put("所属作品ID", rawComment.getWorkId());
             row.put("评论内容", rawComment.getContent());
             row.put("翻译后的评论内容", rawComment.getTranslated());
+            row.put("原始评论的语言", rawComment.getLanguage());
             row.put("评论点赞数", rawComment.getLikes());
             row.put("评论的情感倾向", rawComment.getSentiment());
             row.put("评论所属国家", rawComment.getCountry());
@@ -281,6 +293,33 @@ public class RawCommentController {
         lambdaQueryWrapper.eq(RawComment::getWorkId,workId).eq(RawComment::getCountry,country);
         int count = rawCommentMapper.selectCount(lambdaQueryWrapper);
         return Result.success(count);
+    }
+
+    @GetMapping("/getCommentNumBySubCategory")
+    @ApiOperation(value = "查询不同子类型作品的评论量")
+    public Result getCommentNumBySubCategory(@RequestParam(required = false, defaultValue = "") String subCategory,
+                                             @RequestParam(required = false, defaultValue = "1") Integer pageNum,
+                                             @RequestParam(required = false, defaultValue = "10") Integer pageSize) {
+
+        return Result.success(commentQueryService.querySubCategoryCommentNum(subCategory, pageNum, pageSize));
+    }
+
+    @GetMapping("/getCommentNumByLanguage")
+    @ApiOperation(value = "查询不同语言评论量")
+    public Result getCommentNumByLanguage(@RequestParam(required = false, defaultValue = "") String language,
+                                          @RequestParam(required = false, defaultValue = "1") Integer pageNum,
+                                          @RequestParam(required = false, defaultValue = "10") Integer pageSize) {
+
+        return Result.success(commentQueryService.queryLanguageCommentNum(language, pageNum, pageSize));
+    }
+
+    @GetMapping("/getCommentNumByPlatform")
+    @ApiOperation(value = "查询不同平台的评论量")
+    public Result getCommentNumByPlatform(@RequestParam(required = false, defaultValue = "") String platform,
+                                          @RequestParam(required = false, defaultValue = "1") Integer pageNum,
+                                          @RequestParam(required = false, defaultValue = "10") Integer pageSize) {
+
+        return Result.success(commentQueryService.queryPlatformCommentNum(platform, pageNum, pageSize));
     }
 
 }

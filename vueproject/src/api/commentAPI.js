@@ -59,3 +59,18 @@ export const getCountryCommentsNumByWorkId = (params)=>{
 export const getCommentNumByWorkIdAndCountry = (params)=>{
   return req("get", "/comment/getCommentNumByWorkIdAndCountry", params, null);
 }
+
+// 分页查询不同语言评论的数量
+export const getCommentNumByLanguage = (params)=>{
+  return req("get", "/comment/getCommentNumByLanguage", params)
+}
+
+// 分页查询不同平台上的评论量
+export const getCommentNumByPlatform = (params)=>{
+  return req("get", "/comment/getCommentNumByPlatform", params)
+}
+
+// 分页查询不同子类型作品的评论数量
+export const getCommentNumBySubCategory = (params)=>{
+  return req("get", "/comment/getCommentNumBySubCategory", params)
+}

@@ -1,6 +1,6 @@
 <template>
   <div id="slide_show">
-    <el-carousel :interval="6000" :height="banner_height" indicator-position="outside">
+    <el-carousel :interval="8400" :height="banner_height" indicator-position="outside">
       <el-carousel-item v-for="item in show_images" :key="item.id" align="center">
         <img :src="item.path" :style="{height: banner_height}" class="banner_img"/>
       </el-carousel-item>
@@ -98,14 +98,15 @@ export default {
 
 .banner_img {
   width: 100%;
-  border-radius: 20px;
 }
 
 /deep/ .el-carousel__item.is-active.is-animating img {
-  animation: size-up 22s ease-out forwards; /* 动画持续时间为6秒，并在动画结束后保持最终状态 */
+  animation: size-up 8s ease-out forwards; /* 动画持续时间为6秒，并在动画结束后保持最终状态 */
 }
 
-/deep/ .el-carousel__item {
+/deep/ .el-carousel__container {
   border-radius: 20px;
+  overflow: hidden;
 }
+
 </style>

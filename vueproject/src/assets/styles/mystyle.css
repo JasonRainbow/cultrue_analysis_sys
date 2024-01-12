@@ -67,3 +67,11 @@
   color: #e2a72f;
   font-weight: bold;
 }
+
+.my-button /deep/ {
+  background: url("../../assets/img/inherit.png");
+  border: none;
+  background-size:100% 100%;
+  color: #fdefd2;
+  font-size: 17px;
+}

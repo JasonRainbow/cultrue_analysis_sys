@@ -52,7 +52,7 @@
         <if test="postTime != null and postTime != ''">
             and cmt.postTime = #{postTime}
         </if>
-        order by cmt.id
+        order by cmt.id desc
     </select>
 
     <select id="selectHotComments" resultMap="commentsByPage">
@@ -73,6 +73,38 @@
             where workId=#{workId}
         </if>
         GROUP BY country
+        order by cnt asc
+    </select>
+    <select id="selectCommentSumByLanguage" resultType="org.springframework.data.util.Pair"
+            parameterType="java.lang.String">
+        SELECT
+            LANGUAGE as first,
+            count(LANGUAGE) as second
+        FROM `raw_comment`
+        <if test="language != null and language != ''">
+            where language like '%${language}%'
+        </if>
+        GROUP BY LANGUAGE
+        ORDER BY second DESC
+    </select>
+    <select id="selectCommentSumByPlatform" resultType="com.example.demo.entity.dto.CommentPlatformDto">
+        SELECT platform,
+               count(platform) as count
+        FROM `raw_comment`
+        GROUP BY platform
+        ORDER BY count DESC
+    </select>
+    <select id="selectCommentSumBySubCategory" resultType="org.springframework.data.util.Pair">
+        SELECT mw.subCategory as first,
+        count(mw.subCategory) as second
+        FROM `raw_comment` as rc
+        inner join monitor_work as mw on(rc.workId=mw.id)
+        where mw.subCategory is not null
+        <if test="subCategory != null and subCategory != ''">
+            and mw.subCategory like '%${subCategory}%'
+        </if>
+        group by first
+        order by second desc
     </select>
 
 

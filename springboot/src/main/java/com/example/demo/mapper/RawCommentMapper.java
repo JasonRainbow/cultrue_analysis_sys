@@ -6,6 +6,7 @@ import com.example.demo.entity.dto.CommentPlatformDto;
 import com.example.demo.entity.RawComment;
 import com.example.demo.entity.vo.CountryCommentNum;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.data.util.Pair;
 
 import java.util.List;
 
@@ -35,4 +36,30 @@ public interface RawCommentMapper extends BaseMapper<RawComment> {
    //根据国家分类查询作品的评论数量
     List<CountryCommentNum> getCommentNumByCountryAndWorkId(@Param("workId") Integer workId);
 
+    /**
+     * 分页查询不同语言评论的数量
+     * @param page 分页对象
+     * @param language 语言
+     * @return 语言->评论数量
+     */
+    Page<Pair<String, Integer>> selectCommentSumByLanguage(Page<Pair<String, Integer>> page,
+                                                           @Param("language") String language);
+
+    /**
+     * 分页查询不同评论的评论数量
+     * @param page 分页对象
+     * @param platform 平台名称
+     * @return 平台->评论数量
+     */
+    Page<CommentPlatformDto> selectCommentSumByPlatform(Page<CommentPlatformDto> page,
+                                                        @Param("platform") String platform);
+
+    /**
+     * 分页查询不同子类型作品的评论数量
+     * @param page 分页对象
+     * @param subCategory 作品子类型
+     * @return 作品子类型->评论数量
+     */
+    Page<Pair<String, Integer>> selectCommentSumBySubCategory(Page<CommentPlatformDto> page,
+                                                              @Param("subCategory") String subCategory);
 }

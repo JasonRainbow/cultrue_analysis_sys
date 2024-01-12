@@ -53,6 +53,10 @@ import WorldMap from "../components/user/common/WorldMap.vue";
 import WordCloud from "../components/user/charts/WordCloud.vue";
 import NoData from "../components/user/common/NoData.vue";
 import AssessmentDetailMap from "../components/user/common/AssessmentDetailMap.vue";
+import DashboardPage from "../views/user/DashboardPage.vue";
+import Dashboard from "../components/user/common/Dashboard.vue";
+import CommentTablePage from "../components/user/common/CommentTablePage.vue";
+import CommentDetailPage from "../views/user/CommentDetailPage.vue";
 
 // 启用路由
 Vue.use(Router);
@@ -441,6 +445,36 @@ const router = new Router({
         },
       ]
     },
+    {
+      name: "DashboardPage",
+      path: "/dashboard",
+      component: DashboardPage,
+      redirect: "/dashboard/main",
+      children: [
+        {
+          name: 'Dashboard',
+          path: "/dashboard/main",
+          component: Dashboard
+        },
+        {
+          name: 'commentTable',
+          path: '/dashboard/commentTable',
+          component: CommentTablePage
+        }
+      ]
+    },
+    // 查看评论详情页面
+    {
+      name: 'CommentDetailPage',
+      path: '/commentDetail',
+      component: CommentDetailPage,
+      meta: {
+        requireAuth: true
+      },
+      props: (route)=>({
+        commentId : Number(route.query.commentId),
+      })
+    }
   ]
 })
 

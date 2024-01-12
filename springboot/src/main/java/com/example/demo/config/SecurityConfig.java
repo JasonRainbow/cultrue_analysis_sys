@@ -1,10 +1,12 @@
 package com.example.demo.config;
 
 import com.example.demo.config.authentication.*;
+import com.example.demo.constant.ConfigProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -15,6 +17,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @author hzx
@@ -38,8 +43,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private MyAccessDeniedHandler myAccessDeniedHandler; // 无权访问
 
-    @Value("${interceptorconfig.path.permitAll}")
-    private String[] permitAll;
+    @Resource
+    private ConfigProperties configProperties;
+
+    @Resource
+    private Environment environment;
 
     @Bean
     @Override
@@ -49,11 +57,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        List<String> permitAll = configProperties.getPermitAll();
+        String[] arr = new String[0];
         http
                 // 设置不需要认证的URL
                 .authorizeRequests()
                 // 允许未登录的用户进行访问  都可以访问 匿名和认证  如果用anonymous()则必须匿名，不能认证访问
-                .antMatchers(permitAll).permitAll()
+                .antMatchers(permitAll.toArray(arr)).permitAll()
                 // 静态资源，可匿名访问
                 .antMatchers(HttpMethod.GET, "/", "/*.html", "/**/*.html", "/**/*.css", "/**/*.js", "/*.js", "/favicon.ico").permitAll()
                 .antMatchers("/webjars/**", "/*/api-docs", "/swagger-resources/**").permitAll()

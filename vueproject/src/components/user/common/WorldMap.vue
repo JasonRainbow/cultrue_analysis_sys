@@ -1503,7 +1503,7 @@ export default {
           inRange: {
             color: [
               // 地图的颜色 从最深 到最浅
-              "#fff",
+              "#e6d7f1",
               "#c7b0d4",
               "#a693be",
               "#8b75a6",
@@ -1523,6 +1523,10 @@ export default {
           roam: true, //不开启缩放和平移
           zoom: 1.24, //视角缩放比例
           top:70,   //设置地图位置
+          scaleLimit: {
+            min: 0.5,
+            max: 10
+          },
           label: {
             show: true,//是否在地图上显示国家名字
               // rgba(60,179,113,0.8)
@@ -1768,8 +1772,8 @@ export default {
             },
           },
           itemStyle: {
-            borderColor: '#45d3d3',
-            shadowBlur: 2
+            shadowColor: "#6e5e8d",
+            shadowBlur: 8,
           },
         },
         // 鼠标悬浮提示框
