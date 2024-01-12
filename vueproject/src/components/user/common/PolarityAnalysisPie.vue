@@ -41,7 +41,8 @@ export default {
       divWidth: 566,
       inputSize: 'mini',
       chart:null,
-      time:'2023-02',
+      // time:'2023-02',
+      time:this.toDate(new Date),
       params:{
         country:this.country,
         selectMonth:this.time

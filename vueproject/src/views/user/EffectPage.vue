@@ -39,7 +39,13 @@
             <el-menu-item-group>
               <span slot="title">{{key}}</span>
               <div  v-for="(item,index1) in value" :key="index1">
-                <el-menu-item :index="item.id+'-'+item.name" :style="{color:((item.count === 0 || item.count==='0') ? '#FF0000' : '#000')}">{{item.name}}</el-menu-item>
+                <el-menu-item :index="item.id+'-'+item.name">
+<!--                  :style="{color:((item.count === 0 || item.count==='0') ? '#FF0000' : '#000')}"-->
+                  <div>
+                    <span>{{item.name}}</span>
+                    <span style="color: #7dbfff">{{'('+item.count+')'}}</span>
+                  </div>
+                </el-menu-item>
               </div>
             </el-menu-item-group>
           </div>
@@ -57,7 +63,12 @@
             <el-menu-item-group>
               <span slot="title">{{key}}</span>
               <div  v-for="(item, index1) in value" :key="index1">
-                <el-menu-item :index="item.id+'-'+item.name" >{{item.name}}</el-menu-item>
+                <el-menu-item :index="item.id+'-'+item.name" >
+                  <div>
+                    <span>{{item.name}}</span>
+                    <span style="color: #7dbfff">{{'('+item.count+')'}}</span>
+                  </div>
+                </el-menu-item>
               </div>
             </el-menu-item-group>
           </div>
