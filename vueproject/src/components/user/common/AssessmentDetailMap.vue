@@ -7,7 +7,7 @@
             <router-link to="/effect">
               <el-link type="warning" style="font-size: 18px;" @click="showMap">&lt;&lt;返回</el-link>
             </router-link>
-            <el-button type="warning" style="float: right" @click="changeStatus">{{'查看'+(isShow?'极性情感趋势折线图':'极性情感分布饼状图')}}</el-button>
+            <el-button type="warning" style="float: right;color: #222;font-weight: bold" @click="changeStatus">{{'切换'+(isShow?'近一年极性情感变化趋势图':'极性情感占比图')}}</el-button>
           </div>
           <h2 style="text-align: center;margin-top: 20px" >{{title}}</h2>
           <div v-show="isShow">
