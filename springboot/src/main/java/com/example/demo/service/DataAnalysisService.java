@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.example.demo.config.authentication.MyOncePerRequestFilter;
 import com.example.demo.entity.SentimentAnalysis;
 import com.example.demo.entity.WorkScore;
 import com.example.demo.mapper.MonitorWorkMapper;
@@ -8,6 +9,9 @@ import com.example.demo.mapper.SentimentAnalysisMapper;
 import com.example.demo.mapper.WorkScoreMapper;
 import com.example.demo.utils.EmailUtil;
 import com.example.demo.utils.HttpUtils;
+import lombok.extern.flogger.Flogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.json.JsonParser;
@@ -21,6 +25,9 @@ import java.util.Map;
 
 @Service
 public class DataAnalysisService {
+
+    private static final Logger logger = LoggerFactory.getLogger(DataAnalysisService.class);
+
     @Autowired
     private HttpUtils httpUtils; // 发送http请求工具类
 
@@ -58,7 +65,7 @@ public class DataAnalysisService {
                     monitorWorkMapper.updateWordFreqState(workId, 1);
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.error(e.getLocalizedMessage());
                 System.out.println("词频统计失败");
             }
         }).start();
@@ -82,7 +89,7 @@ public class DataAnalysisService {
                     monitorWorkMapper.updatePolarityState(workId, 1);
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.error(e.getLocalizedMessage());
                 System.out.println("情感极性分析失败");
             }
         }).start();
@@ -106,7 +113,7 @@ public class DataAnalysisService {
                     monitorWorkMapper.updateSentimentState(workId, 1);
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.error(e.getLocalizedMessage());
                 System.out.println("细腻情感分析失败");
             }
         }).start();
@@ -145,7 +152,7 @@ public class DataAnalysisService {
                     monitorWorkMapper.updateSentimentState(workId, 1);
                 }*/
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.error(e.getLocalizedMessage());
                 System.out.println("主题情感分析失败");
             }
         }).start();
@@ -159,7 +166,7 @@ public class DataAnalysisService {
             try {
                 httpUtils.get(address1 + "/recommend", null);
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.error(e.getLocalizedMessage());
                 System.out.println("更新推荐列表失败");
             }
         }).start();

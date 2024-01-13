@@ -104,7 +104,7 @@ public class MyOncePerRequestFilter extends OncePerRequestFilter {
         try {
             isExpired = JwtUtil.verifyExpired(redisToken);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.getLocalizedMessage());
         }
         if (isExpired) {
             // 删除缓存的token

@@ -265,6 +265,7 @@ export default {
   color: #1f2d3d;
   font-family: 微软雅黑;
   margin-bottom: 25px;
+  text-align: left;
 }
 
 .show-chart1 {
@@ -281,7 +282,7 @@ a {
 }
 
 .report-content {
-  height: 55px;
+  height: 3.5rem;
   overflow: hidden;
   color: #909399;
   font-size: 14px;

@@ -97,7 +97,7 @@ export default {
 
 <style scoped lang="css">
   #resetPass {
-    //height: 400px;
+    /*height: 400px;*/
     margin-top: 40px;
   }
 </style>

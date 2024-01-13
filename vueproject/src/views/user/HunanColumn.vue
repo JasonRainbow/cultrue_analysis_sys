@@ -647,7 +647,7 @@ img {
 }
 
 .report-content {
-  height: 55px;
+  height: 3.5rem;
   overflow: hidden;
   font-size: 14px;
 }
@@ -801,7 +801,7 @@ img {
 }
 
 .report-content2 {
-  height: 55px;
+  height: 3.5rem;
   overflow: hidden;
   color: #373636;
   font-size: 14px;

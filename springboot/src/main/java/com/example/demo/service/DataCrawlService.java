@@ -3,6 +3,8 @@ import com.example.demo.mapper.MonitorWorkMapper;
 import com.example.demo.mapper.UserMapper;
 import com.example.demo.utils.EmailUtil;
 import com.example.demo.utils.HttpUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.json.JsonParser;
 import org.springframework.boot.json.JsonParserFactory;
@@ -14,6 +16,9 @@ import java.util.Map;
 
 @Service
 public class DataCrawlService {
+
+    private static final Logger logger = LoggerFactory.getLogger(DataCrawlService.class);
+
     @Autowired
     private HttpUtils httpUtils; // 发送http请求工具类
 
@@ -44,7 +49,7 @@ public class DataCrawlService {
                     monitorWorkMapper.updateCrawlState(workId, 1);
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.error(e.getLocalizedMessage());
                 System.out.println("爬取评论数据失败");
             }
         }).start();
@@ -70,7 +75,7 @@ public class DataCrawlService {
                     monitorWorkMapper.updateCrawlState(workId, 1);
                 }*/
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.error(e.getLocalizedMessage());
                 System.out.println("爬取评分数据失败");
             }
         }).start();

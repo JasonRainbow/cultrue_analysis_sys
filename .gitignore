@@ -25,3 +25,7 @@ pnpm-debug.log*
 *.sw?
 *.iml
 /files/
+
+.scannerwork
+/vueproject/.scannerwork/.sonar_lock
+/vueproject/.scannerwork/report-task.txt

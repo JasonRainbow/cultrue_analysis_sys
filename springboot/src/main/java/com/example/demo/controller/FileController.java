@@ -8,6 +8,7 @@ import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
 import com.example.demo.common.Result;
 import com.example.demo.entity.dto.FileVO;
+import com.example.demo.enums.ResponseStatusEnum;
 import com.example.demo.utils.AliOssUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -46,10 +47,18 @@ public class FileController extends BaseController {
         // 定义文件的唯一标识（前缀）
         String flag = IdUtil.fastSimpleUUID();
         String rootFilePath = System.getProperty("user.dir") + "/files/" + flag + "_" + originalFilename;  // 获取上传的路径
-        int lastIndex = originalFilename.lastIndexOf(".");
-        if (lastIndex == -1) {
-            rootFilePath += ".jpg";
+        try {
+            if (originalFilename == null) {
+                return Result.error(ResponseStatusEnum.ERROR);
+            }
+            int lastIndex = originalFilename.lastIndexOf(".");
+            if (lastIndex == -1) {
+                rootFilePath += ".jpg";
+            }
+        } catch (Exception ignored) {
+
         }
+
         File rootFile = new File(rootFilePath);
         if (!rootFile.getParentFile().exists()) {
             rootFile.getParentFile().mkdirs();

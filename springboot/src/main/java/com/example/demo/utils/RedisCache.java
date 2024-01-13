@@ -1,5 +1,7 @@
 package com.example.demo.utils;
 
+import com.example.demo.enums.ResponseStatusEnum;
+import com.example.demo.exception.CustomException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.BoundSetOperations;
 import org.springframework.data.redis.core.HashOperations;
@@ -66,7 +68,7 @@ public class RedisCache
      */
     public boolean expire(final String key, final long timeout, final TimeUnit unit)
     {
-        return redisTemplate.expire(key, timeout, unit);
+        return Boolean.TRUE.equals(redisTemplate.expire(key, timeout, unit));
     }
 
     /**
@@ -99,7 +101,11 @@ public class RedisCache
      */
     public long deleteObject(final Collection collection)
     {
-        return redisTemplate.delete(collection);
+        try {
+            return redisTemplate.delete(collection);
+        } catch (Exception e) {
+            throw new CustomException("删除redis中的值失败", ResponseStatusEnum.ERROR);
+        }
     }
 
     /**

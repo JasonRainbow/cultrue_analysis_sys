@@ -8,6 +8,8 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
@@ -26,6 +28,9 @@ import java.util.List;
 @Component
 @Slf4j
 public class EmailUtil {
+
+    private static final Logger logger = LoggerFactory.getLogger(EmailUtil.class);
+
     @Autowired
     private JavaMailSender javaMailSender;
 
@@ -40,7 +45,7 @@ public class EmailUtil {
     @Value("${spring.mail.nickname}")
     private String nickname;
 
-    private String subject = "文化作品传播效果分析完成通知";
+    private final String subject = "文化作品传播效果分析完成通知";
 
     /**
      * 普通邮件发送
@@ -92,7 +97,7 @@ public class EmailUtil {
             messageHelper.setText(mail.toString(), true);
             javaMailSender.send(message);
         } catch (MessagingException e) {
-            e.printStackTrace();
+            logger.error(e.getLocalizedMessage());
         }
     }
 

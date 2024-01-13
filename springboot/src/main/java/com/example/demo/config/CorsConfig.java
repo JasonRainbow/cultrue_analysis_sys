@@ -11,7 +11,7 @@ import org.springframework.web.filter.CorsFilter;
 public class CorsConfig {
 
     // 当前跨域请求最大有效时长。这里默认1天
-    private static final long MAX_AGE = 24 * 60 * 60;
+    private static final Long MAX_AGE = (long) (24 * 60 * 60);
 
     private CorsConfiguration buildConfig() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
