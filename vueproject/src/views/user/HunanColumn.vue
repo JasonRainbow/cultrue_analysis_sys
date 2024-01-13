@@ -647,8 +647,12 @@ img {
 }
 
 .report-content {
-  height: 3.5rem;
+  text-indent: 2em;
   overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 5;
   font-size: 14px;
 }
 
@@ -683,6 +687,7 @@ img {
 }
 
 .release-time {
+  margin-top: 5px;
   float: right;
 }
 
@@ -791,7 +796,6 @@ img {
   //background-color: #F2F6FC;
   background: url("../../assets/img/card_bg.png") center center;
   margin-bottom: 15px;
-  max-height: 165px;
   overflow: hidden;
 }
 
@@ -801,13 +805,18 @@ img {
 }
 
 .report-content2 {
-  height: 3.5rem;
+  text-indent: 2em;
   overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
   color: #373636;
   font-size: 14px;
 }
 
 .report-bottom2 {
+  margin-top: 10px;
   color: #405db4;
   font-size: 16px;
 }

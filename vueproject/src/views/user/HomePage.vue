@@ -20,7 +20,7 @@
             <el-row>
               <el-col :span="6" class="left-des" style="display: inline">
 <!--               referrerpolicy="no-referrer" 不携带引源信息 -->
-                <img :src="item.imgUrl" referrerpolicy="no-referrer" alt="作品介绍图片" style="width: 80px;height: 110px"/>
+                <img :src="item.imgUrl" referrerpolicy="no-referrer" alt="作品介绍图片" style="max-width: 100px;"/>
               </el-col>
               <el-col :span="18">
                 <div class="right-des" style="display: inline">
@@ -256,7 +256,7 @@ export default {
   //background-color: #F2F6FC;
   background: url("../../assets/img/card_bg.png") center center;
   margin-bottom: 15px;
-  max-height: 170px;
+  //max-height: 170px;
   overflow: hidden;
 }
 
@@ -282,9 +282,13 @@ a {
 }
 
 .report-content {
-  height: 3.5rem;
+  text-indent: 2em;
   overflow: hidden;
-  color: #909399;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  color: #2c2e31;
   font-size: 14px;
 }
 
