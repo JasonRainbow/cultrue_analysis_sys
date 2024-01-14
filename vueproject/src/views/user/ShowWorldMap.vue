@@ -8,19 +8,19 @@
       <!-- 第一部分-头部-start -->
       <div class="header">
         <!-- 首页 -->
-        <span class="homePage font-bold colorDeepskyblue" :style="{'font-size': Math.round(this.screenWidth/100) + 'px', 'cursor': 'pointer'}" @click="goback">&lt;&lt;返回</span>
+        <span class="localTime font-bold colorDeepskyblue" :style="{'font-size': Math.round(this.screenWidth/85) + 'px', 'cursor': 'pointer'}" @click="goback">返回&gt;&gt;</span>
         <!-- 时间 -->
-        <div class="localTime colorPink" :style="{'font-size': Math.round(this.screenWidth/100) + 'px'}">{{ dateYear }} {{ dateWeek }} {{ dateDay }}</div>
+        <div class="homePage colorPink" :style="{'font-size': Math.round(this.screenWidth/100) + 'px'}">{{ dateYear }} {{ dateWeek }} {{ dateDay }}</div>
         <!-- 装饰10 -->
         <dv-decoration-10 class="dv-dec-10-left" />
         <!-- 装饰8 -->
         <dv-decoration-8 class="dv-dec-8-left" :color="decorationColor"/>
         <!-- 标题 -->
         <dv-decoration-7 class="title font-bold colorText" :style="{
-        'width': screenWidth * 0.143 + 'px',
-        'height': screenWidth * 0.024 + 'px',
-        'margin-left': -screenWidth * 0.0306 + 'px',
-        'font-size': screenWidth * 0.0131 + 'px'
+        'width': screenWidth * 0.178 + 'px',
+        'height': screenWidth * 0.0196 + 'px',
+        // 'margin-left': -screenWidth * 0.0306 + 'px',
+        'font-size': screenWidth * 0.0171 + 'px'
         }">国际情感分布图</dv-decoration-7>
         <!--        <span class="title font-bold colorText" :style="{'font-size': Math.round(this.screenWidth/100) + 'px'}">传播效果大屏展示</span>-->
         <!-- 装饰8 -->

@@ -1503,7 +1503,7 @@ export default {
           inRange: {
             color: [
               // 地图的颜色 从最深 到最浅
-              "#e6d7f1",
+              "#eae5f3",
               "#c7b0d4",
               "#a693be",
               "#8b75a6",

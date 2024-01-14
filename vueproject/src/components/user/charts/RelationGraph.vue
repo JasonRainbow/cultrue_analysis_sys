@@ -21,10 +21,10 @@ export default {
     chartOptions: {
       type: Object,
       required: false
-    }
-
+    },
   },
   async mounted() {
+    this.loadingChart()
     this.divWidth = document.getElementById("head_div").clientWidth
     if (this.divWidth < 500) {
       this.inputSize = "mini"
@@ -53,6 +53,48 @@ export default {
       res_data: {},
       chart: null,
       divWidth: 475,
+      loading: true,
+      loadingOptions: {
+        graphic: {
+          elements: [
+            {
+              type: 'group',
+              left: 'center',
+              top: 'center',
+              children: new Array(7).fill(0).map((val, i) => ({
+                type: 'rect',
+                x: i * 20,
+                shape: {
+                  x: 0,
+                  y: -40,
+                  width: 10,
+                  height: 80
+                },
+                style: {
+                  fill: '#5470c6'
+                },
+                keyframeAnimation: {
+                  duration: 1000,
+                  delay: i * 200,
+                  loop: true,
+                  keyframes: [
+                    {
+                      percent: 0.5,
+                      scaleY: 0.3,
+                      easing: 'cubicIn'
+                    },
+                    {
+                      percent: 1,
+                      scaleY: 1,
+                      easing: 'cubicOut'
+                    }
+                  ]
+                }
+              }))
+            }
+          ]
+        }
+      },
       inputSize: 'mini',
       pickerOptions: {
         disabledDate(time) {
@@ -354,160 +396,177 @@ export default {
         country: this.selectCountry,
         post_time: this.selectTime
       }).then(res => {
-        this.data2 = res.data
-        // console.log(this.data2)
-        //将获取到的data直接赋值给data2即可
-        this.chart  = this.$echarts.init(document.getElementById("relationGraph"));
-        let option = {
-          /*title: {
-            text:'共现语义网络图',
-            left: '0%',
-            textStyle: {
-              fontSize: 18,
-              color: 'darkturquoise',
-              fontWeight: '500'
-            }
-          },*/
+        if (res.data.code === "0") {
+          this.data2 = res.data
+          // console.log(this.data2)
+          //将获取到的data直接赋值给data2即可
+          this.chart  = this.$echarts.init(document.getElementById("relationGraph"));
+          let option = {
+            /*title: {
+              text:'共现语义网络图',
+              left: '0%',
+              textStyle: {
+                fontSize: 18,
+                color: 'darkturquoise',
+                fontWeight: '500'
+              }
+            },*/
 
-          series: [{
-            type: 'graph',
-            layout: 'circular',
-            roam: true,
-            scaleLimit: {
-              min: 0.6,
-              max: 3
-            },
-            height: '68%',
-            top: '18%',
-            focusNodeAdjacency: true,
-            radius: '40%',
-            circular: {
-              rotateLabel: true
-            },
-            grid: {
-              x:50,
-              y:50,
-              x2:50,
-              y2:50
-            },
-            label: {
-              normal: {
-                position: 'inside',
-                fontWeight: 'bold',
-                formatter: '{b}',
-                fontSize: this.divWidth * 0.025,
+            series: [{
+              type: 'graph',
+              layout: 'circular',
+              roam: true,
+              scaleLimit: {
+                min: 0.6,
+                max: 3
+              },
+              height: '68%',
+              top: '18%',
+              focusNodeAdjacency: true,
+              radius: '40%',
+              circular: {
+                rotateLabel: true
+              },
+              grid: {
+                x:50,
+                y:50,
+                x2:50,
+                y2:50
+              },
+              label: {
+                normal: {
+                  position: 'inside',
+                  fontWeight: 'bold',
+                  formatter: '{b}',
+                  fontSize: this.divWidth * 0.025,
+                  normal: {
+                    textStyle: {
+                      fontFamily: '宋体'
+                    }
+                  }
+                }
+              },
+              edgeSymbol: ['circle'],
+              edgeSymbolSize: [4, 10],
+              edgeLabel: {
                 normal: {
                   textStyle: {
+                    fontSize: this.divWidth * 0.035,
+                    fontWeight: 'bold',
                     fontFamily: '宋体'
                   }
                 }
-              }
-            },
-            edgeSymbol: ['circle'],
-            edgeSymbolSize: [4, 10],
-            edgeLabel: {
-              normal: {
-                textStyle: {
-                  fontSize: this.divWidth * 0.035,
-                  fontWeight: 'bold',
-                  fontFamily: '宋体'
-                }
-              }
-            },
-            itemStyle: {
-              normal: {
-                label: {
-                  rotate: true,
-                  show: true,
-                  textStyle: {
-                    color: '#f1850e',
-                    fontWeight: '400'
-                  }
-                },
               },
-              emphasis: {
-                label: {
-                  show: true,
-                  textStyle: null
+              itemStyle: {
+                normal: {
+                  label: {
+                    rotate: true,
+                    show: true,
+                    textStyle: {
+                      color: '#f1850e',
+                      fontWeight: '400'
+                    }
+                  },
+                },
+                emphasis: {
+                  label: {
+                    show: true,
+                    textStyle: null
+                  }
+                }
+              },
+
+              // 节点数据格式
+              data: [],
+
+              // 线条数据格式
+              links: []
+            }]
+          };
+          this.data3 = []
+          this.data2.data.nodes.forEach(item=>{
+            let data_item={
+              name: '地球',
+              symbolSize: this.divWidth * 0.026, // 设置节点大小
+              itemStyle: {
+                normal: {
+                  color: '#de5f4e'
                 }
               }
-            },
-
-            // 节点数据格式
-            data: [],
-
-            // 线条数据格式
-            links: []
-          }]
-        };
-        this.data3 = []
-        this.data2.data.nodes.forEach(item=>{
-          let data_item={
-            name: '地球',
-            symbolSize: this.divWidth * 0.026, // 设置节点大小
-            itemStyle: {
-              normal: {
-                color: '#de5f4e'
-              }
             }
-          }
-          data_item.name=item
-          this.data3.push(data_item)
-        })
-        option.series.forEach(item=>{
-          item.data=this.data3
-        })
+            data_item.name=item
+            this.data3.push(data_item)
+          })
+          option.series.forEach(item=>{
+            item.data=this.data3
+          })
 
-        this.link1=[]
-        this.data2.data.edges.forEach(item=>{
-          let link={
-            source: "地球",
-            target: "流浪",
-            name: "32",
-            tooltip: {
-              trigger: "item",
-              formatter: function (params, ticket, callback) {
-                return params.data.name;
-              }
-            },
-            symbolSize: [5, 20],
-            label: {
-              normal: {
+          this.link1=[]
+          this.data2.data.edges.forEach(item=>{
+            let link={
+              source: "地球",
+              target: "流浪",
+              name: "32",
+              tooltip: {
+                trigger: "item",
                 formatter: function (params, ticket, callback) {
-                  params.name = params.data.name;
-                  return params.name;
-                },
-                show: true,
-                color:'#da7f0b',
-                fontWeight: 'bolder',
-                fontFamily:'serif'
-              }
-            },
-            lineStyle: {
-              normal: {
-                width: 1.6666666666666666,
-                curveness: 0.2,
-                color: "#e52720"
+                  return params.data.name;
+                }
+              },
+              symbolSize: [5, 20],
+              label: {
+                normal: {
+                  formatter: function (params, ticket, callback) {
+                    params.name = params.data.name;
+                    return params.name;
+                  },
+                  show: true,
+                  color:'#da7f0b',
+                  fontWeight: 'bolder',
+                  fontFamily:'serif'
+                }
+              },
+              lineStyle: {
+                normal: {
+                  width: 1.6666666666666666,
+                  curveness: 0.2,
+                  color: "#e52720"
+                }
               }
             }
+            link.source=item.shift()
+            link.target=item.shift()
+            link.name=item.shift()
+            this.link1.push(link)
+          })
+          option.series.forEach(item=>{
+            item.links=this.link1
+          })
+          // 特殊处理
+          if (this.chart) {
+            this.chart.clear()
           }
-          link.source=item.shift()
-          link.target=item.shift()
-          link.name=item.shift()
-          this.link1.push(link)
-        })
-        option.series.forEach(item=>{
-          item.links=this.link1
-        })
-        // 特殊处理
-        this.chart.setOption(option);
+          this.chart.setOption(option);
+          this.loading = false
+        }
       })
     },
     countryChanged() {
+      this.loadingChart()
       this.createGraph()
     },
     dateChanged() {
+      this.loadingChart()
       this.createGraph()
+    },
+    loadingChart() {
+      let chartDom = document.getElementById("relationGraph")
+      if (this.chart) {
+        this.chart.clear()
+      } else {
+        this.chart = this.$echarts.init(chartDom)
+      }
+      this.chart.setOption(this.loadingOptions)
     },
   },
   computed: {
@@ -575,4 +634,5 @@ export default {
   width: 100%;
   height: 14%;
 }
+
 </style>

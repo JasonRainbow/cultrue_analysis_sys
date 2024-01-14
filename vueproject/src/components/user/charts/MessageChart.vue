@@ -113,6 +113,7 @@ export default{
           name: '信息量',
           nameTextStyle: {
             color: 'rgb(243,140,103)',
+            fontSize: this.divWidth * 0.032,
           },
           axisLabel: {
             color: 'rgb(243,177,103)',
