@@ -154,4 +154,10 @@ public class MonitorWork {
      */
     @ApiModelProperty(value = "作品图片网址")
     private String imgUrl;
+
+    /**
+     * 平台外键
+     */
+    @ApiModelProperty(value = "平台外键")
+    private Integer sourcePlatform;
 }

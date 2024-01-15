@@ -22,7 +22,7 @@
       </div>
       <div v-else class="analysis-hidden" @click="changeChooseState">
         <div>
-          <span><img src="../../assets/img/menu_icon.png" /></span>
+          <span><img alt="菜单" src="../../assets/img/menu_icon.png" /></span>
           <span style="font-size: 18px;font-weight: bold;color:#e2652f">切换菜单</span>
         </div>
       </div>
@@ -104,7 +104,7 @@ export default {
 .box-chart-show {
   border-radius: 30px;
   margin-top: 10px;
-  //margin-bottom: 2.5%;
+  /*margin-bottom: 2.5%;*/
   background: url("../../assets/img/card_bg3.jpg") center center;
   height: 95%;
   width: 80%;

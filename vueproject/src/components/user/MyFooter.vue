@@ -211,11 +211,11 @@ export default {
 .nav__title {
   font-size: 18px;
   font-weight: bold;
-  //margin-left: -100px;
+  /*margin-left: -100px;*/
   color: white;
   text-align: center;
   display: inline-block;
-  //margin: auto auto;
+  /*margin: auto auto;*/
 }
 @media screen and (min-width: 24.375em) {
   .legal .legal__links {
@@ -269,14 +269,14 @@ export default {
 }
 
 .footer__addr {
-  //margin-left: 5%;
-  //margin-right: 0.25em;
-  //margin-bottom: 2em;
+  /*margin-left: 5%;
+  margin-right: 0.25em;
+  margin-bottom: 2em;*/
   color: white;
 }
 
 .footer__btn {
-  //display: inline-block;
+  /*display: inline-block;*/
   vertical-align: middle;
   height: 36px;
   max-width: max-content;
@@ -285,7 +285,7 @@ export default {
   color: #2f2f2f;
   font-size: 1rem;
   padding: 8px 1.3em;
-  //margin-top: 20px;
+  /*margin-top: 20px;*/
 }
 
 
@@ -311,8 +311,8 @@ export default {
   grid-template-rows: 1fr 10rem auto;
   grid-template-areas: "main" "." "footer";
   overflow-x: hidden;
-  //background: #F5F7FA;
-  //min-height: 100vh;
+  /*background: #F5F7FA;
+  min-height: 100vh;*/
   margin-top: -100px;
   font-family: "Times New Roman", sans-serif;
 }
@@ -322,7 +322,7 @@ export default {
   display: grid;
   position: relative;
   grid-area: footer;
-  //min-height: 12rem;
+  /*min-height: 12rem;*/
 }
 .footer .bubbles {
   position: absolute;
@@ -346,10 +346,10 @@ export default {
 .footer .content {
 
   z-index: 2;
-  //display: flex;
-  //grid-template-columns: 1fr auto;
-  //grid-gap: 1rem;
-  //flex-direction: row;
+  /*display: flex;
+  grid-template-columns: 1fr auto;
+  grid-gap: 1rem;
+  flex-direction: row;*/
   padding: 1.8rem;
   background: var(--footer-background);
 }

@@ -248,7 +248,7 @@ export default {
 }
 
 /deep/ .el-table .cell {
-  //max-height: 40px !important;
+  /*max-height: 40px !important;*/
   white-space: nowrap;
   overflow: hidden !important;
   text-overflow: ellipsis;

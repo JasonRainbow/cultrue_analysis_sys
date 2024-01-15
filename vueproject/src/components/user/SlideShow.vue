@@ -2,7 +2,7 @@
   <div id="slide_show">
     <el-carousel :interval="8400" :height="banner_height" indicator-position="outside">
       <el-carousel-item v-for="item in show_images" :key="item.id" align="center">
-        <img :src="item.path" :style="{height: banner_height}" class="banner_img"/>
+        <img alt="轮播图" :src="item.path" :style="{height: banner_height}" class="banner_img"/>
       </el-carousel-item>
     </el-carousel>
     <div style="position: absolute; left: -30px; top: 100px;">

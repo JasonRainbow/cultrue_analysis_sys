@@ -14,7 +14,7 @@
         </el-card>-->
         <el-card class="box-card grid-content" shadow="always">
           <div class="card-title">热点文化作品<span class="english-label">Hot Cultural Works</span></div>
-          <el-card v-for="item in messages" :key="item.id"
+          <el-card v-for="(item, idx) in messages" :key="idx"
                    class="box-card2 animate__animated animate__slideInLeft" shadow="hover"
           >
             <el-row>
@@ -31,9 +31,12 @@
                     {{item.content}}
                   </div>
                   <div class="report-bottom">
-                    <span>{{item.category}}</span>
+                    <span>{{item.subCategory}}</span>
                     <span style="margin-left: 15px">{{item.postTime}}</span>
-                    <span style="float: right" @click="clickDetails(item.id)"><a :href="item.citeUrl" target="_blank" >查看详情</a></span>
+                    <span style="float: right" @click="clickDetails(item.id)">
+                      <a :href="item.citeUrl" target="_blank" >查看详情</a>
+                      (来源: <a :href="item.platform.platformUrl" target="_blank">{{item.platform.platformName}}</a>)
+                    </span>
                   </div>
                 </div>
               </el-col>
@@ -248,15 +251,15 @@ export default {
 }
 
 .box-card {
-  //background-color: #e7edfd;
+  /*background-color: #e7edfd;*/
   background: url("../../assets/img/card_bg2.jpg");
 }
 
 .box-card2 {
-  //background-color: #F2F6FC;
+  /*background-color: #F2F6FC;*/
   background: url("../../assets/img/card_bg.png") center center;
   margin-bottom: 15px;
-  //max-height: 170px;
+  /*max-height: 170px;*/
   overflow: hidden;
 }
 

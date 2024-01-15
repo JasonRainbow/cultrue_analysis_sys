@@ -86,10 +86,34 @@ export default {
             type: 'category',
             name: '日期',
             boundaryGap: false,
-            nameTextStyle: {
+            axisLabel: {
+              interval: 0,
               fontWeight: "bold",
               fontSize: 14,
-              fontFamily: 'Times New Roman'
+              fontFamily: 'Times New Roman',
+              formatter : function(params){
+                let newParamsName = "";
+                let paramsNameNumber = params.length;
+                let provideNumber = 4;
+                let rowNumber = Math.ceil(paramsNameNumber / provideNumber);
+                if (paramsNameNumber > provideNumber) {
+                  for (let p = 0; p < rowNumber; p++) {
+                    let tempStr = "";
+                    let start = p * provideNumber;
+                    let end = start + provideNumber;
+                    if (p == rowNumber - 1) {
+                      tempStr = params.substring(start, paramsNameNumber);
+                    } else {
+                      tempStr = params.substring(start, end) + "\n";
+                    }
+                    newParamsName += tempStr;
+                  }
+
+                } else {
+                  newParamsName = params;
+                }
+                return newParamsName
+              },
             },
             data: ['1', '2', '3', '4', '5', '6', '7']
           }

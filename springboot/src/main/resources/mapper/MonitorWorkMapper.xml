@@ -54,14 +54,19 @@
             inner join monitor_work as mw
             inner join user on(rw.workId=mw.id and rw.userId=user.id);
     </select>
-    <select id="selectSubCategoryByCategory" resultType="java.lang.String">
-        select distinct subCategory from monitor_work where category = #{category}
+    <select id="selectSubCategoryByCategory" resultType="org.springframework.data.util.Pair">
+        select subCategory as first, count(subCategory) as second
+        from monitor_work where category = #{category}
         <if test="onlyHunan == true">
             and isHunanWork = 1
         </if>
+        group by subCategory
     </select>
-    <select id="selectAllOrigin" resultType="java.lang.String">
-        select distinct origin from monitor_work where isHunanWork = 1 and origin is not null and origin != ''
+    <select id="selectAllOrigin" resultType="org.springframework.data.util.Pair">
+        select origin as first, count(origin) as second
+        from monitor_work
+        where isHunanWork = 1 and origin is not null and origin != ''
+        group by origin
     </select>
     <select id="selectHunanWork" resultType="com.example.demo.entity.MonitorWork">
         select * from monitor_work

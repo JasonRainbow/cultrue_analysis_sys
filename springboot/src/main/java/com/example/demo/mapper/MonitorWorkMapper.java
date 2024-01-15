@@ -2,11 +2,11 @@ package com.example.demo.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.example.demo.entity.Admin;
 import com.example.demo.entity.MonitorWork;
 import com.example.demo.entity.WorkCommentNum;
 import com.example.demo.entity.vo.RecommendWorkVO;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.data.util.Pair;
 
 import java.util.List;
 
@@ -41,14 +41,14 @@ public interface MonitorWorkMapper extends BaseMapper<MonitorWork> {
      * @param onlyHunan 是否只查询湖南的
      * @return 子类别列表
      */
-    List<String> selectSubCategoryByCategory(@Param("category") String category,
-                                             @Param("onlyHunan") Boolean onlyHunan);
+    List<Pair<String, Integer>> selectSubCategoryByCategory(@Param("category") String category,
+                                           @Param("onlyHunan") Boolean onlyHunan);
 
     /**
      * 查询所有的地域
      * @return 地域列表
      */
-    List<String> selectAllOrigin();
+    List<Pair<String, Integer>> selectAllOrigin();
 
     /**
      * 分页查询湖南的文化作品

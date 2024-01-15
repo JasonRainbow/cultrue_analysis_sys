@@ -14,7 +14,7 @@ export const getHotWorkById = (params)=>{
 
 // 分页 模糊查询热点文化作品
 export const getHotWorkByPage = (params)=>{
-  return req("get", "/hot-work/byPage", params, null);
+  return req("get", "/hot-work/byPage2", params, null);
 }
 
 // 根据id删除指定热点作品

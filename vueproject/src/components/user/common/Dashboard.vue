@@ -153,7 +153,7 @@ export default {
 
 .card:hover {
   cursor: pointer;
-  //animation: size_up ease-out forwards;
+  /*animation: size_up ease-out forwards;*/
 }
 
 .total {

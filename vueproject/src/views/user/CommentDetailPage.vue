@@ -119,7 +119,7 @@ export default {
 .box-chart-show {
   border-radius: 30px;
   margin: -250px auto 20px;
-  //margin-bottom: 2.5%;
+  /*margin-bottom: 2.5%;*/
   background: url("../../assets/img/card_bg3.jpg") center center;
   min-height: 600px;
   width: 70%;

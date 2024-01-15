@@ -1,6 +1,3 @@
-/**
-* 左边菜单
-*/
 <template>
   <el-menu style="border: none" default-active="2" :collapse="collapsed" collapse-transition router
            :default-active="$route.path" unique-opened class="el-menu-vertical-demo"

@@ -318,7 +318,7 @@ export default {
 
 #app {
   /*background-color: #ecf5ff;*/
-  //background: transparent;
+  /*background: transparent;*/
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

@@ -57,9 +57,9 @@ export default {
         { icon: 'nav-tab-item_icon iconfont icon-send-fill', label: '传播效果分析', englishLabel: 'Effect Analysis', path: '/effect'},
         { icon: 'nav-tab-item_icon iconfont icon-zuopinzhanshi', label: '湖湘文化作品', englishLabel: 'Huxiang Works', path: '/special-column'},
         { icon: 'nav-tab-item_icon iconfont icon-shujuxianshi', label: '大屏模式', englishLabel: 'BigScreen', path: '/big-screen'},
-        { icon: 'nav-tab-item_icon iconfont icon-zhinengtuijian', label: '作品推荐', englishLabel: 'Recommend', path: '/recommend'},
+        { icon: 'nav-tab-item_icon iconfont icon-zhinengtuijian', label: '作品推荐', englishLabel: 'Recommended', path: '/recommend'},
         { icon: 'nav-tab-item_icon iconfont icon-project_info', label: '背景介绍', englishLabel: 'Background', path: '/background'},
-        { icon: 'nav-tab-item_icon iconfont icon-rencaishuangxuanhui', label: '团队介绍', englishLabel: 'About Us', path: '/team'},
+        { icon: 'nav-tab-item_icon iconfont icon-rencaishuangxuanhui', label: '团队介绍', englishLabel: 'About us', path: '/team'},
         { icon: 'nav-tab-item_icon iconfont icon-a-commandinquiry-fill', label: '常见问题', englishLabel: 'FAQ', path: '/question'},
         { icon: 'nav-tab-item_icon iconfont icon-user', label: '个人中心', englishLabel: 'Profile', path: '/personal'},
       ],
@@ -211,7 +211,7 @@ body {
 .nav-tab-item_icon {
   font-size: 26px;
   color: #ffffff;
-  //transition: 0.3s;
+  /*transition: 0.3s;*/
   transform: translate(0, 0px);
 }
 
@@ -221,11 +221,11 @@ body {
 
 .nav-tab-item_label {
   font-size: 18px;
-  //font-weight: 600;
+  /*font-weight: 600;*/
   font-weight: bold;
   color: rgba(255,255,255,0.91);
   opacity: 0;
-  //transition: 0.3s;
+  /*transition: 0.3s;*/
   user-select: none;
 }
 
@@ -244,18 +244,18 @@ body {
   background-color: #9e2b2d;
   border-radius: 20px;
 
-  //transition: 0.3s;
+  /*transition: 0.3s;*/
 }
 
 #header-title {
-  //height: 50px;
+  /*height: 50px;*/
   text-align: center;
   padding-top: 10px;
   /*color: #C03639;
   font-size: 35px;
   font-family: 华文楷体;*/
   /*text-shadow: 1px 1px #ac0d2a;*/
-  //font-family: '华光淡古印_CNKI';
+  /*font-family: '华光淡古印_CNKI';*/
   font-family: 华文琥珀;
   font-size:41px;
   background-image: -webkit-linear-gradient(left, #ff0000, #e0c723 10%, #ff6a00 20%, #04dce3 30%, #CCCCFF 40%, #00FFFF 50%, #CCCCFF 60%, #CC00CC 70%, #CC00FF 80%, #66FFFF 90%, #ffff00 100%);

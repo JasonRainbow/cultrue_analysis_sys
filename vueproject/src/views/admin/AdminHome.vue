@@ -4,7 +4,7 @@
       <el-col :span="10">
         <transition name="left_card" appear>
           <el-card :body-style="{ padding: '10px',backgroundColor: '#eceee9' }" shadow="hover">
-            <img src="../../assets/img/bg1.jpg" class="image">
+            <img alt="" src="../../assets/img/bg1.jpg" class="image">
             <div style="padding: 14px;text-align: center">
               <div style="color: #67C23A; font-size: 1.6em">欢迎进入</div>
               <div style="color: #409EFF; font-size: 1.5em">中国语言文化作品国际传播效果分析系统</div>

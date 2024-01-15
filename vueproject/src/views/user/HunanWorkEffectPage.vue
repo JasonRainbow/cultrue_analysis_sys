@@ -46,7 +46,7 @@
     </div>
     <div v-else class="analysis-hidden" @click="changeChooseState">
       <div>
-        <span><img src="../../assets/img/hunanWorkAnalysis.png" /></span>
+        <span><img alt="" src="../../assets/img/hunanWorkAnalysis.png" /></span>
         <span style="font-size: 20px;font-weight: bold;color:#e2652f">切换图表</span>
       </div>
     </div>
@@ -176,7 +176,7 @@ export default {
 .box-chart-show {
   border-radius: 30px;
   margin-top: 1.5%;
-  //margin-bottom: 2.5%;
+  /*margin-bottom: 2.5%;*/
   background: url("../../assets/img/card_bg3.jpg") center center;
   height: 95%;
   width: 58%;

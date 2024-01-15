@@ -1,6 +1,7 @@
 package com.example.demo.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -33,6 +34,9 @@ public class HotWork {
     @ApiModelProperty(value = "作品类型")
     private String category; // 作品类型
 
+    @ApiModelProperty(value = "作品子类别")
+    private String subCategory; // 作品子类别
+
     @ApiModelProperty(value = "作品标签")
     private String labels; // 作品标签
 
@@ -50,4 +54,9 @@ public class HotWork {
     private Date postTime; // 发布日期
 
     private Integer isHotWork;
+
+    private Integer sourcePlatform;
+
+    @TableField(exist = false)
+    private Platform platform;
 }

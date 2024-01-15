@@ -1,6 +1,3 @@
-/**
-* 头部菜单
-*/
 <template>
   <el-menu class="el-menu-demo" mode="horizontal" router background-color="#334157" text-color="#fff" active-text-color="#fff">
     <div class="buttonimg">

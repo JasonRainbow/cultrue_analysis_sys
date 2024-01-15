@@ -12,6 +12,7 @@ import com.example.demo.entity.HotWork;
 import com.example.demo.entity.PolarityAnalysis;
 import com.example.demo.mapper.HotWorkMapper;
 import com.example.demo.mapper.PolarityAnalysisMapper;
+import com.example.demo.service.MonitorWorkService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -38,6 +39,9 @@ public class HotWorkController {
 
     @Autowired
     private PolarityAnalysisMapper polarityAnalysisMapper;
+
+    @Autowired
+    private MonitorWorkService monitorWorkService;
 
     // 查询所有的热点作品信息
     @GetMapping("/all")
@@ -69,6 +73,17 @@ public class HotWorkController {
                 .like(HotWork::getCategory, searchCategory)
                 .orderByAsc(HotWork::getId);
         return Result.success(hotWorkMapper.selectPage(new Page<>(pageNum, pageSize), queryWrapper));
+    }
+
+    // 分页 搜索查询
+    @GetMapping("/byPage2")
+    @ApiOperation(value = "分页查询热点文化作品信息带来源平台")
+    public Result findPage2(@RequestParam(required = false, defaultValue = "") String searchName,
+                           @RequestParam(required = false, defaultValue = "") String searchCategory,
+                           @RequestParam(required = false, defaultValue = "1") Integer pageNum,
+                           @RequestParam(required = false, defaultValue = "10") Integer pageSize) {
+
+        return Result.success(monitorWorkService.queryHotWorks(pageNum, pageSize, searchName, searchCategory));
     }
 
     // 根据id删除指定热点作品

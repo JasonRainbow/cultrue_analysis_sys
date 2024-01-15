@@ -19,6 +19,7 @@ import com.example.demo.entity.vo.RecommendWorkVO;
 import com.example.demo.mapper.MonitorRequestMapper;
 import com.example.demo.mapper.MonitorWorkMapper;
 import com.example.demo.mapper.RawCommentMapper;
+import com.example.demo.service.MonitorWorkService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -48,6 +49,9 @@ public class MonitorWorkController {
     @Autowired
     private MonitorRequestMapper monitorRequestMapper;
 
+    @Autowired
+    private MonitorWorkService monitorWorkService;
+
     // 查询所有的监测作品信息
     @GetMapping("/all")
     @ApiOperation(value = "查询所有监测作品信息")
@@ -76,6 +80,17 @@ public class MonitorWorkController {
                 .like(MonitorWork::getCategory, searchCategory)
                 .orderByAsc(MonitorWork::getId);
         return Result.success(monitorWorkMapper.selectPage(new Page<>(pageNum, pageSize), queryWrapper));
+    }
+
+    // 分页 搜索查询
+    @GetMapping("/byPage2")
+    @ApiOperation(value = "分页查询监测作品信息带来源平台信息")
+    public Result findPage2(@RequestParam(required = false, defaultValue = "") String searchName,
+                           @RequestParam(required = false, defaultValue = "") String searchCategory,
+                           @RequestParam(required = false, defaultValue = "1") Integer pageNum,
+                           @RequestParam(required = false, defaultValue = "10") Integer pageSize) {
+
+        return Result.success(monitorWorkService.queryWorksbyPage(pageNum, pageSize, searchName, searchCategory));
     }
 
     // 根据id删除指定监测作品
@@ -147,7 +162,7 @@ public class MonitorWorkController {
         List<RecommendWorkVO> recommendWorkVOS = monitorWorkMapper.selectRecommendWorksByUserId(userId);
 
         // 如果没有给用户推荐的作品，就使用给管理员推荐的作品
-        if (recommendWorkVOS.size() == 0) {
+        if (recommendWorkVOS.isEmpty()) {
             recommendWorkVOS = monitorWorkMapper.selectRecommendWorksByUserId(1);
         }
 
@@ -156,7 +171,7 @@ public class MonitorWorkController {
             query1.eq("userId", userId);
             query1.eq("workId", recommendWorkVO.getWorkId());
             List<MonitorRequest> monitorRequests = monitorRequestMapper.selectList(query1);
-            recommendWorkVO.setIsMonitor(monitorRequests.size() != 0);
+            recommendWorkVO.setIsMonitor(!monitorRequests.isEmpty());
         }
 
         return Result.success(recommendWorkVOS);
@@ -187,24 +202,8 @@ public class MonitorWorkController {
     @PostMapping("/getHunanWork")
     @ApiOperation(value = "多条件查询湖南的文化作品")
     public Result getHunanWorkByPage(@RequestBody RequestHunanWorkDto requestBody) {
-        String subCategories = null;
-        String origins = null;
-        // 提取成逗号分隔的字符串
-        if (requestBody.getSubCategories() != null) {
-            subCategories = requestBody.getSubCategories().stream().map((String e)->"\"" + e + "\"")
-                    .collect(Collectors.toList()).toString();
-            subCategories = subCategories.replace("[", "").replace("]", "");
-        }
-        if (requestBody.getOrigins() != null) {
-            origins = requestBody.getOrigins().stream().map((String e)->"\"" + e + "\"")
-                    .collect(Collectors.toList()).toString();
-            origins = origins.replace("[", "").replace("]", "");
-        }
 
-        return Result.success(monitorWorkMapper.selectHunanWork(
-                new Page<>(requestBody.getPageNum(), requestBody.getPageSize()),
-                subCategories,
-                origins));
+        return Result.success(monitorWorkService.queryHunanWorks(requestBody));
     }
 
     /**

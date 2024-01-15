@@ -10,19 +10,25 @@
             <el-collapse class="my-collapse" v-model="activeNames">
               <el-collapse-item title="影视作品" name="1-1">
                 <el-checkbox-group v-model="checkListVideo" @change="handleChecked">
-                  <el-checkbox v-for="item in categories.video" :key="item" :label="item"></el-checkbox>
+                  <el-checkbox v-for="item in categories.video" :key="item.first" :label="item.first">
+                    {{item.first}} <span class="num_tick">({{item.second}})</span>
+                  </el-checkbox>
                 </el-checkbox-group>
               </el-collapse-item>
               <el-collapse-item title="文学作品" name="1-2">
                 <el-checkbox-group v-model="checkListBook" @change="handleChecked">
-                  <el-checkbox v-for="item in categories.book" :key="item" :label="item"></el-checkbox>
+                  <el-checkbox v-for="item in categories.book" :key="item.first" :label="item.first">
+                    {{item.first}} <span class="num_tick">({{item.second}})</span>
+                  </el-checkbox>
                 </el-checkbox-group>
               </el-collapse-item>
             </el-collapse>
           </el-collapse-item>
           <el-collapse-item title="地域" name="2">
             <el-checkbox-group v-model="checkListOrigin" @change="handleChecked">
-              <el-checkbox v-for="item in origin" :key="item" :label="item"></el-checkbox>
+              <el-checkbox v-for="item in origin" :key="item.first" :label="item.first">
+                {{item.first}} <span class="num_tick">({{item.second}})</span>
+              </el-checkbox>
             </el-checkbox-group>
           </el-collapse-item>
         </el-collapse>
@@ -56,32 +62,38 @@
                 >
                   <div>
                     <div style="overflow: hidden;" class="border-radius">
-                      <img  class="column-img" alt="" :src="item.imgUrl" @click="handleClick(item.id, item.name)">
+                      <img  class="column-img" alt="" :src="item.work.imgUrl" @click="handleClick(item.work.id, item.work.name)">
                     </div>
 
                     <div class="intro">
                       <div>
-                        <span class="report-title">{{item.name}}</span>
-                        <div>{{item.englishName}}</div>
+                        <span class="report-title">{{item.work.name}}</span>
+                        <div>{{item.work.englishName}}</div>
                         <div style="font-size: 17px; font-weight: bold">
-                          {{item.subCategory}}
+                          {{item.work.subCategory}}
                         </div>
                       </div>
 
-                      <div class="work-author">作者：{{item.author}}</div>
+                      <div class="work-author">作者：{{item.work.author}}</div>
                       <div class="report-content">
-                        {{item.content}}
+                        {{item.work.content}}
                       </div>
                       <div class="report-bottom">
-                        <div class="release-time">{{item.postTime}}</div>
+                        <div class="release-time">{{item.work.postTime}}</div>
                         <div style="clear: both">
-                          <a :href="item.citeUrl" target="_blank" >
+                          <a :href="item.work.citeUrl" target="_blank" >
                             <el-button class="btn" size="small">查看详情</el-button>
                           </a>
-
-                          <el-button class="btn btn2" size="small" @click="handleClick(item.id, item.name)">查看传播效果</el-button>
+                          <el-button class="btn btn2" size="small" @click="handleClick(item.work.id, item.work.name)">查看传播效果</el-button>
                         </div>
                       </div>
+                      <span class="btn">
+                        (来源:
+                        <a :href="item.platform.platformUrl" class="sourceColor" target="_blank">
+                          {{item.platform.platformName}}
+                        </a>
+                        )
+                          </span>
                     </div>
                   </div>
 
@@ -100,23 +112,26 @@
               <el-row>
                 <el-col :span="6" class="left-des2" style="display: inline">
                   <!--               referrerpolicy="no-referrer" 不携带引源信息 -->
-                  <img @click="handleClick(item.id, item.name)"
-                       :src="item.imgUrl" referrerpolicy="no-referrer" alt="作品介绍图片" style="height: 140px; max-width: 190px"/>
+                  <img @click="handleClick(item.work.id, item.work.name)"
+                       :src="item.work.imgUrl" referrerpolicy="no-referrer" alt="作品介绍图片" style="height: 140px; max-width: 190px"/>
                 </el-col>
                 <el-col :span="18">
                   <div class="right-des2" style="display: inline">
                     <div class="report-title2">
-                      {{item.name}}&nbsp;&nbsp;&nbsp;({{item.englishName}})
-                      <div style="color: black; font-size: 18px;">作者：{{item.author}}</div>
+                      {{item.work.name}}&nbsp;&nbsp;&nbsp;({{item.work.englishName}})
+                      <div style="color: black; font-size: 18px;">作者：{{item.work.author}}</div>
                     </div>
                     <div class="report-content2">
-                      {{item.content}}
+                      {{item.work.content}}
                     </div>
                     <div class="report-bottom2">
-                      <span>{{item.subCategory}}</span>
-                      <span style="margin-left: 15px">{{item.postTime}}</span>
-                      <span style="float: right;"><a :href="item.citeUrl" target="_blank" style="color: #1c84c6">查看详情</a></span>
-                      <span style="float: right; margin-right: 20px; color: #1c84c6; cursor: pointer" @click="handleClick(item.id, item.name)">查看传播效果</span>
+                      <span>{{item.work.subCategory}}</span>
+                      <span style="margin-left: 15px">{{item.work.postTime}}</span>
+                      <span style="float: right;">
+                        <a :href="item.work.citeUrl" target="_blank" style="color: #1c84c6">查看详情</a>
+                        (来源: <a :href="item.platform.platformUrl" class="sourceColor" target="_blank">{{item.platform.platformName}}</a>)
+                      </span>
+                      <span style="float: right; margin-right: 20px; color: #1c84c6; cursor: pointer" @click="handleClick(item.work.id, item.work.name)">查看传播效果</span>
                     </div>
                   </div>
                 </el-col>
@@ -163,102 +178,42 @@ export default {
       active: 0,
       contentArr: [
         {
-          id: 0,
+          work: {
+            id: 0,
+            name: '流浪地球',
+            subCategory: '科幻片',
+            englishName: 'The Wandering Earth',
+            author: '郭帆',
+            content: '春节假期过半，想必很多人的朋友圈都被这部大场面大制作的《流浪地球》霸屏了。\n' +
+              '\n' +
+              '尊重原著的设定，外加导演组对影片的理解和心意，让一切都恰到好处。不管是很早就喜欢上了刘慈欣作品的科幻迷，还是因为吴京等人而来的影迷，都证明了这是一部口碑颇高的影片。',
+            citeUrl: 'https://zhuanlan.zhihu.com/p/56400500',
+            imgUrl: 'http://hzx-oss.oss-cn-guangzhou.aliyuncs.com/images/hot_img3-1676056955420491776.jpeg?Expires=1720060493&OSSAccessKeyId=LTAI5tQcjbvbjA5JjMMkUkc1&Signature=0i1DH%2FCcLVVMBFf8jIRmg7xM02s%3D'
+          },
+          platform: {
+            platformName: '豆瓣',
+            platformUrl: 'https://www.douban.com/'
+          },
           top: "",
           height: "250",
-          name: '流浪地球',
-          subCategory: '科幻片',
-          englishName: 'The Wandering Earth',
-          author: '郭帆',
-          content: '春节假期过半，想必很多人的朋友圈都被这部大场面大制作的《流浪地球》霸屏了。\n' +
-            '\n' +
-            '尊重原著的设定，外加导演组对影片的理解和心意，让一切都恰到好处。不管是很早就喜欢上了刘慈欣作品的科幻迷，还是因为吴京等人而来的影迷，都证明了这是一部口碑颇高的影片。',
-          citeUrl: 'https://zhuanlan.zhihu.com/p/56400500',
-          imgUrl: 'http://hzx-oss.oss-cn-guangzhou.aliyuncs.com/images/hot_img3-1676056955420491776.jpeg?Expires=1720060493&OSSAccessKeyId=LTAI5tQcjbvbjA5JjMMkUkc1&Signature=0i1DH%2FCcLVVMBFf8jIRmg7xM02s%3D'
         },
         {
-          id: 0,
+          work: {
+            id: 2,
+            name: '西游记',
+            subCategory: '电视剧',
+            englishName: 'Journey to the West',
+            author: '',
+            content: '电视剧《西游记》，总长达25个小时，几乎包括了百回小说《西游记》里所有精彩篇章，塑造了众多色彩绚丽的屏幕形象。该片采用实景为主，内外景结合的拍摄方法。既有金碧辉煌的灵宵宝殿，祥云飘渺的瑶池仙境，金镶玉砌的东海龙宫等棚内场景，又有风光倚丽的园林妙景，名山绝胜以及扬名远近的寺刹道观。',
+            citeUrl: 'https://movie.douban.com/subject/2156663/',
+            imgUrl: 'https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2265959269.webp'
+          },
+          platform: {
+            platformName: '豆瓣',
+            platformUrl: 'https://www.douban.com/'
+          },
           top: "",
           height: "250",
-          name: '流浪地球',
-          subCategory: '科幻片',
-          englishName: 'The Wandering Earth',
-          author: '郭帆',
-          content: '春节假期过半，想必很多人的朋友圈都被这部大场面大制作的《流浪地球》霸屏了。\n' +
-            '\n' +
-            '尊重原著的设定，外加导演组对影片的理解和心意，让一切都恰到好处。不管是很早就喜欢上了刘慈欣作品的科幻迷，还是因为吴京等人而来的影迷，都证明了这是一部口碑颇高的影片。',
-          citeUrl: 'https://zhuanlan.zhihu.com/p/56400500',
-          imgUrl: 'http://hzx-oss.oss-cn-guangzhou.aliyuncs.com/images/hot_img3-1676056955420491776.jpeg?Expires=1720060493&OSSAccessKeyId=LTAI5tQcjbvbjA5JjMMkUkc1&Signature=0i1DH%2FCcLVVMBFf8jIRmg7xM02s%3D'
-        },
-        {
-          id: 0,
-          top: "",
-          height: "250",
-          name: '流浪地球',
-          subCategory: '科幻片',
-          englishName: 'The Wandering Earth',
-          author: '郭帆',
-          content: '春节假期过半，想必很多人的朋友圈都被这部大场面大制作的《流浪地球》霸屏了。\n' +
-            '\n' +
-            '尊重原著的设定，外加导演组对影片的理解和心意，让一切都恰到好处。不管是很早就喜欢上了刘慈欣作品的科幻迷，还是因为吴京等人而来的影迷，都证明了这是一部口碑颇高的影片。',
-          citeUrl: 'https://zhuanlan.zhihu.com/p/56400500',
-          imgUrl: 'http://hzx-oss.oss-cn-guangzhou.aliyuncs.com/images/hot_img3-1676056955420491776.jpeg?Expires=1720060493&OSSAccessKeyId=LTAI5tQcjbvbjA5JjMMkUkc1&Signature=0i1DH%2FCcLVVMBFf8jIRmg7xM02s%3D'
-        },
-        {
-          id: 0,
-          top: "",
-          height: "250",
-          name: '流浪地球',
-          subCategory: '科幻片',
-          englishName: 'The Wandering Earth',
-          author: '郭帆',
-          content: '春节假期过半，想必很多人的朋友圈都被这部大场面大制作的《流浪地球》霸屏了。\n' +
-            '\n' +
-            '尊重原著的设定，外加导演组对影片的理解和心意，让一切都恰到好处。不管是很早就喜欢上了刘慈欣作品的科幻迷，还是因为吴京等人而来的影迷，都证明了这是一部口碑颇高的影片。',
-          citeUrl: 'https://zhuanlan.zhihu.com/p/56400500',
-          imgUrl: 'http://hzx-oss.oss-cn-guangzhou.aliyuncs.com/images/hot_img3-1676056955420491776.jpeg?Expires=1720060493&OSSAccessKeyId=LTAI5tQcjbvbjA5JjMMkUkc1&Signature=0i1DH%2FCcLVVMBFf8jIRmg7xM02s%3D'
-        },
-        {
-          id: 0,
-          top: "",
-          height: "250",
-          name: '流浪地球',
-          subCategory: '科幻片',
-          englishName: 'The Wandering Earth',
-          author: '郭帆',
-          content: '春节假期过半，想必很多人的朋友圈都被这部大场面大制作的《流浪地球》霸屏了。\n' +
-            '\n' +
-            '尊重原著的设定，外加导演组对影片的理解和心意，让一切都恰到好处。不管是很早就喜欢上了刘慈欣作品的科幻迷，还是因为吴京等人而来的影迷，都证明了这是一部口碑颇高的影片。',
-          citeUrl: 'https://zhuanlan.zhihu.com/p/56400500',
-          imgUrl: 'http://hzx-oss.oss-cn-guangzhou.aliyuncs.com/images/hot_img3-1676056955420491776.jpeg?Expires=1720060493&OSSAccessKeyId=LTAI5tQcjbvbjA5JjMMkUkc1&Signature=0i1DH%2FCcLVVMBFf8jIRmg7xM02s%3D'
-        },
-        {
-          id: 0,
-          top: "",
-          height: "250",
-          name: '流浪地球',
-          subCategory: '科幻片',
-          englishName: 'The Wandering Earth',
-          author: '郭帆',
-          content: '春节假期过半，想必很多人的朋友圈都被这部大场面大制作的《流浪地球》霸屏了。\n' +
-            '\n' +
-            '尊重原著的设定，外加导演组对影片的理解和心意，让一切都恰到好处。不管是很早就喜欢上了刘慈欣作品的科幻迷，还是因为吴京等人而来的影迷，都证明了这是一部口碑颇高的影片。',
-          citeUrl: 'https://zhuanlan.zhihu.com/p/56400500',
-          imgUrl: 'http://hzx-oss.oss-cn-guangzhou.aliyuncs.com/images/hot_img3-1676056955420491776.jpeg?Expires=1720060493&OSSAccessKeyId=LTAI5tQcjbvbjA5JjMMkUkc1&Signature=0i1DH%2FCcLVVMBFf8jIRmg7xM02s%3D'
-        },
-        {
-          id: 0,
-          top: "",
-          height: "250",
-          name: '流浪地球',
-          subCategory: '科幻片',
-          englishName: 'The Wandering Earth',
-          author: '郭帆',
-          content: '春节假期过半，想必很多人的朋友圈都被这部大场面大制作的《流浪地球》霸屏了。\n' +
-            '\n' +
-            '尊重原著的设定，外加导演组对影片的理解和心意，让一切都恰到好处。不管是很早就喜欢上了刘慈欣作品的科幻迷，还是因为吴京等人而来的影迷，都证明了这是一部口碑颇高的影片。',
-          citeUrl: 'https://zhuanlan.zhihu.com/p/56400500',
-          imgUrl: 'http://hzx-oss.oss-cn-guangzhou.aliyuncs.com/images/hot_img3-1676056955420491776.jpeg?Expires=1720060493&OSSAccessKeyId=LTAI5tQcjbvbjA5JjMMkUkc1&Signature=0i1DH%2FCcLVVMBFf8jIRmg7xM02s%3D'
         },
       ],
       total: 20,
@@ -308,7 +263,7 @@ export default {
          this.contentArr = res.data.records
          for (let i = 0; i < this.contentArr.length; i++) {
            this.contentArr[i].height = "250"
-           this.contentArr[i].top = ""
+           this.contentArr[i].top = 0
          }
          this.total = res.data.total
          // console.log(res.data)
@@ -431,7 +386,7 @@ export default {
       return new Promise((resolve,reject) =>{
         setTimeout(() =>{
           for (let i = 0; i < 20; i++) {
-            this.contentArr2[i] = { value: i+this.contentArr.length, height: 50*Math.random()+50, background: "#409eff", text: i+this.contentArr.length, top: "" }
+            this.contentArr2[i] = { value: i+this.contentArr.length, height: 50*Math.random()+50, background: "#409eff", text: i+this.contentArr.length, top: "0" }
           }
           resolve()
         },500)
@@ -465,7 +420,7 @@ export default {
       // console.log(cLen);
 
       // 初始化每一列的第一行元素
-      for (let i = 0; i < cLen; i++) {
+      for (let i = 0; i < cLen && i < contentLen; i++) {
         this.contentArr[i].top = 0 //预设距离顶部值为0
         this.columns.push({columnArr:[this.contentArr[i]]})
       }
@@ -793,7 +748,7 @@ img {
 }
 
 .box-card2 {
-  //background-color: #F2F6FC;
+  /*background-color: #F2F6FC;*/
   background: url("../../assets/img/card_bg.png") center center;
   margin-bottom: 15px;
   overflow: hidden;
@@ -819,6 +774,15 @@ img {
   margin-top: 10px;
   color: #405db4;
   font-size: 16px;
+}
+
+.sourceColor {
+  color: #46c2ff;
+  font-size: 1em;
+}
+
+.num_tick {
+  color: #2ab2ed;
 }
 
 </style>

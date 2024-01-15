@@ -166,6 +166,7 @@ interceptorconfig:
       - /api/comment/byPage2
       - /api/comment/getHotComment
       - /api/hot-work/byPage
+      - /api/hot-work/byPage2
       - /api/hot-work/id/
       - /api/monitor-request/id
       - /api/monitor-request/byPage
@@ -184,6 +185,7 @@ interceptorconfig:
       - /api/polarity/getCountries
       - /api/subject-analysis/getSubjectsByWorkId
       - /api/monitor-work/byUserId
+      - /api/monitor-work/byPage2
       - /api/monitor-work/getAllOrigin
       - /api/monitor-work/getAllBookCategories
       - /api/monitor-work/getAllVideoCategories
