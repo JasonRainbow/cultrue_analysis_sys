@@ -181,13 +181,14 @@ export default {
 
 .origin-comment {
   font-size: 18px;
-  font-family: "Lucida Calligraphy";
+  font-family: "Lucida Calligraphy",serif;
 }
 
 .translated-comment {
-  font-size: 20px;
-  color: #ac5c34;
-  font-family: 华文楷体;
+  font-size: 21px;
+  color: #c7511c;
+  font-family: 华文楷体,sans-serif;
+  font-weight: bold;
 }
 
 .positive {

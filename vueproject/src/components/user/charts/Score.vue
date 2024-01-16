@@ -74,7 +74,9 @@ export default {
         left: 'center',
         textStyle: {
           fontSize: this.divWidth * 0.033,
-          color: this.fontColor
+          color: this.fontColor,
+          textBorderWidth: 1.5,
+          textBorderColor: '#000'
         }
       },
       tooltip: {
@@ -105,7 +107,7 @@ export default {
           }
         }
       ],
-      backgroundColor: 'rgba(255,255,255,0.2)',
+      // backgroundColor: 'rgba(32,90,165,0.4)',
       yAxis: [
         {
           type: 'value',

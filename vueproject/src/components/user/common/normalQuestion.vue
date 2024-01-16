@@ -46,19 +46,19 @@ h1{
 .p1{
   text-indent: 2em;
   font-size: 20px;
-  font-family: "微软雅黑";
+  font-family: "微软雅黑",serif;
   line-height:35px
 }
 .p2{
   text-indent: 2em;
   font-size: 20px;
-  font-family: "微软雅黑";
+  font-family: "微软雅黑",serif;
   line-height:35px;
-  margin: 0px;
+  margin: 0;
 }
 h2{
   font-weight: bold;
-  margin-bottom: 0px;
+  margin-bottom: 0;
 }
 
 #question {

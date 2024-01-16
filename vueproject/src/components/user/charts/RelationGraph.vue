@@ -421,7 +421,7 @@ export default {
                 max: 3
               },
               height: '68%',
-              top: '18%',
+              top: '15%',
               focusNodeAdjacency: true,
               radius: '40%',
               circular: {
@@ -464,7 +464,8 @@ export default {
                     show: true,
                     textStyle: {
                       color: '#f1850e',
-                      fontWeight: '400'
+                      fontSize: this.divWidth * 0.026,
+                      fontWeight: '600'
                     }
                   },
                 },
@@ -521,16 +522,17 @@ export default {
                     return params.name;
                   },
                   show: true,
-                  color:'#da7f0b',
-                  fontWeight: 'bolder',
-                  fontFamily:'serif'
+                  color:'#ff5900',
+                  fontWeight: '600',
+                  fontFamily: 'sans-serif'
                 }
               },
               lineStyle: {
                 normal: {
-                  width: 1.6666666666666666,
+                  width: 1.667,
                   curveness: 0.2,
-                  color: "#e52720"
+                  color: "#e52720",
+                  fontWeight: "100"
                 }
               }
             }

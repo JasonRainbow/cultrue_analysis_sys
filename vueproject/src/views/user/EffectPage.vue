@@ -198,18 +198,18 @@ export default {
       //       workName:workName
       //   }
       // })
-    }),
+    })
    this.$bus.$on("mapShow",(data)=>{
        this.isShow=true
        // window.resize()
-   }),
+   })
    this.$bus.$on("mapNotShow",(data)=>{
      this.isShow=false
-   }),
+   })
    //该方法用于解决在查看某一个国家总体情感分布时，若是用户点击刷新，则本组件内country刷新导致侧边栏点击问题
     this.$bus.$on("getCountry",(data)=>{
       this.country=data
-    }),
+    })
     this.$bus.$on("noData",(data,country)=>{
       this.$router.push({
         name:"无极性情感分布数据",
@@ -221,7 +221,7 @@ export default {
     })
   },
   beforeDestroy(){
-    this.$bus.$off('pushSentimentAssessment'),
+    this.$bus.$off('pushSentimentAssessment')
     this.$bus.$off('mapShow')
     this.$bus.$off('mapNotShow')
     this.$bus.$off('getCountry')
@@ -246,7 +246,7 @@ export default {
         this.countries = ["全球"]
         this.countries = this.countries.concat(res.data)
       }
-    }),
+    })
     // getAllSubcategory().then((res)=>{
     //     // console.log('ok')
     //     if(res.code==='0'){
@@ -363,9 +363,9 @@ span{
   font-size: 18px;
 }
 </style>
-<style>
+<style scoped lang="css">
 /* 解决自定义滚动条 x 轴显示问题 */
-.el-scrollbar__wrap
+/deep/ .el-scrollbar__wrap
 {
   overflow-x: hidden;
 }

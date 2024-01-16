@@ -230,11 +230,11 @@ export default {
       let new_obj = {};
       for (let i = 0; i < result.length; i++) {
         // 将原对象中的键值对按照属性值的排序顺序写入新对象
-        Object.keys(obj).map((item, index) => {
+        Object.keys(obj).forEach((item, index) => {
           if (obj[item] === result[i]) {
             new_obj[item] = result[i];
           }
-        });
+        })
       }
       // console.log(new_obj)
       return new_obj

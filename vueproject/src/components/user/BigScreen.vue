@@ -6,7 +6,7 @@
     <!-- 总体布局-start -->
     <div v-else class="koi-body">
       <!-- 第一部分-头部-start -->
-      <div class="header">
+      <div class="header bg_mask">
         <!-- 时间 -->
         <div class="homePage colorPink" :style="{'font-size': Math.round(this.screenWidth/100) + 'px'}">{{ dateYear }} {{ dateWeek }} {{ dateDay }}</div>
         <!-- 返回 -->
@@ -56,7 +56,7 @@
           <!--         左侧部分-->
           <el-col :span="7">
             <div :style="{ height: kHOne + 'px'}">
-              <dv-border-box-12 :style="{
+              <dv-border-box-12 class="bg_mask" :style="{
               'padding-top':screenWidth * 0.0052 + 'px',
                'padding-left': screenWidth * 0.0066 + 'px',
                'padding-right': screenWidth * 0.0066 + 'px',
@@ -70,13 +70,13 @@
 
             <div :style="{ height: kHTwo + 'px'}">
               <!-- style="padding:12px" -->
-              <dv-border-box-12 style="padding:12px;width:100%">
+              <dv-border-box-12 class="bg_mask2" style="padding:12px;width:100%">
                 <RelationGraph :work-id="workId" :key="workId"></RelationGraph>
               </dv-border-box-12>
             </div>
             <div :style="{ height: kHTen + 'px'}">
               <!-- style="padding:12px" -->
-              <dv-border-box-12 style="padding:6px;width:100%">
+              <dv-border-box-12 class="bg_mask" style="padding:6px;width:100%">
                 <MessageChart :work-id="workId" :key="workId"></MessageChart>
               </dv-border-box-12>
             </div>
@@ -85,7 +85,7 @@
           <!--          中间部分-->
           <el-col :span="9">
             <div :style="{ height: kHThree + 'px'}">
-              <dv-border-box-12 style="padding:12px;width:100%;height:100%">
+              <dv-border-box-12 class="bg_mask" style="padding:12px;width:100%;height:100%">
                 <div style="margin-bottom: 5px;height:100%">
                   <span :style="{'margin-right': '8px', 'height': '45%', 'font-size': screenWidth * 0.0118 + 'px'}" class="font-bold">监测作品切换：</span>
                   <el-select class="custom-select" v-model="workId" :size="inputSize" placeholder="请选择作品类型" style="height: 45%"  @change="selectChanged">
@@ -120,12 +120,12 @@
               </dv-border-box-12>
             </div>
             <div :style="{ height: kHFour + 'px'}">
-              <dv-border-box-12 style="padding:5px;width: 100%">
+              <dv-border-box-12 class="bg_mask" style="padding:5px;width: 100%;">
                 <Score :work-id="workId" :key="workId"></Score>
               </dv-border-box-12>
             </div>
             <div :style="{ height: kHNine + 'px'}">
-              <dv-border-box-12 style="padding-top:10px;width:100%">
+              <dv-border-box-12 class="bg_mask" style="padding-top:10px;width:100%">
                 <!--               <Story></Story>-->
                 <Subject :work-id="workId" :key="workId"></Subject>
               </dv-border-box-12>
@@ -135,17 +135,17 @@
           <!--          右侧部分-->
           <el-col :span="8">
             <div :style="{ height: kHSix + 'px'}">
-              <dv-border-box-12 style="padding:12px;width:100%">
+              <dv-border-box-12 class="bg_mask" style="padding:12px;width:100%">
                 <WordCloud :work-id="workId" :key="workId"></WordCloud>
               </dv-border-box-12>
             </div>
             <div :style="{ height: kHSeven + 'px'}">
-              <dv-border-box-12 style="padding:12px;width:100%">
+              <dv-border-box-12 class="bg_mask" style="padding:12px;width:100%">
                 <PolarityCapsuleChart :work-id="workId" :key="workId"></PolarityCapsuleChart>
               </dv-border-box-12>
             </div>
             <div :style="{ height: kHEight + 'px'}">
-              <dv-border-box-12 style="padding:12px;width:100%">
+              <dv-border-box-12 class="bg_mask" style="padding:12px;width:100%">
                 <!--                <MessageChart :work-id="workId" :key="workId"></MessageChart>-->
                 <DataSourcePieChart :work-id="workId" :key="workId"></DataSourcePieChart>
               </dv-border-box-12>
@@ -403,6 +403,21 @@ export default {
   color: #f0ae4b;
   font-weight: 1000;
   font-size: 20px;
+}
+
+.bg_mask {
+  /*background: rgba(3, 0, 255, 0.22)*/
+}
+
+.bg_mask2 {
+  background: rgba(51, 64, 106, 0.4)
+}
+
+.header {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(3, 0, 255, 0.18)
 }
 
 </style>

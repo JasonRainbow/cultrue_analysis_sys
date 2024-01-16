@@ -163,8 +163,8 @@ export default {
       this.getRecord();
     },
     handleCurrentChange(val) {
-      this.currentPage = val,
-        this.getRecord();
+      this.currentPage = val
+      this.getRecord();
     },
     selectChanged() {
 
@@ -235,7 +235,7 @@ export default {
   width: 40px;
   height: 40px;
   z-index: 99999999;
-  box-shadow: 0px 0px 4px 4px #ecefef;
+  box-shadow: 0 0 4px 4px #ecefef;
   border-radius: 600px;
 }
 

@@ -188,7 +188,7 @@ export default {
               '\n' +
               '尊重原著的设定，外加导演组对影片的理解和心意，让一切都恰到好处。不管是很早就喜欢上了刘慈欣作品的科幻迷，还是因为吴京等人而来的影迷，都证明了这是一部口碑颇高的影片。',
             citeUrl: 'https://zhuanlan.zhihu.com/p/56400500',
-            imgUrl: 'http://hzx-oss.oss-cn-guangzhou.aliyuncs.com/images/hot_img3-1676056955420491776.jpeg?Expires=1720060493&OSSAccessKeyId=LTAI5tQcjbvbjA5JjMMkUkc1&Signature=0i1DH%2FCcLVVMBFf8jIRmg7xM02s%3D'
+            imgUrl: 'http://hzx-oss.oss-cn-guangzhou.aliyuncs.com/images/hot_img3-1676056955420491776.jpeg'
           },
           platform: {
             platformName: '豆瓣',
@@ -311,7 +311,7 @@ export default {
 
         let height = e.target.documentElement.scrollHeight || e.target.body.scrollHeight
 
-        if((top+clientH)==height){
+        if((top+clientH)===height){
           this.loading = true
           this.pushElement().then(() =>{
             //  从接口最新获取的元素push到目前高度最小的一列
@@ -493,7 +493,7 @@ export default {
 }
 
 /deep/ .el-collapse-item__header {
-  font-family: 'SOURCEHANSANSCN-REGULAR';
+  font-family: 'SOURCEHANSANSCN-REGULAR',sans-serif;
   padding-left: 20px;
   color: white;
   font-size: 17px;
@@ -506,7 +506,7 @@ export default {
 /deep/ .el-checkbox__label {
   color: #c1925b;
   font-size: 15px;
-  font-family: 微软雅黑;
+  font-family: 微软雅黑,sans-serif;
   font-weight: bolder;
 }
 

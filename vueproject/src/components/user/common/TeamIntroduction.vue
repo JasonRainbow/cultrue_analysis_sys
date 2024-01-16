@@ -40,17 +40,17 @@ h1{
   text-align: center;
 }
 .p1{
-  margin:0px;
+  margin:0;
   text-indent: 2em;
   font-size: 20px;
-  font-family: "微软雅黑";
+  font-family: "微软雅黑",serif;
   line-height:35px
 }
 .p2{
-  margin:0px;
+  margin:0;
   text-indent: 2em;
   font-size: 20px;
-  font-family: "宋体";
+  font-family: "宋体",serif;
   line-height:35px;
   font-weight: bold;
   letter-spacing: -0.03em;

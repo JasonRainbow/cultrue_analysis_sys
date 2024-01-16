@@ -266,7 +266,7 @@ export default {
 .card-title {
   font-size: 23px;
   color: #1f2d3d;
-  font-family: 微软雅黑;
+  font-family: 微软雅黑,serif;
   margin-bottom: 25px;
   text-align: left;
 }

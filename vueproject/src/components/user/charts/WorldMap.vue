@@ -1566,18 +1566,13 @@ export default {
           text: ["高(百分比)", "低"], //取值范围的文字
           inRange: {
             color: [
-              // 地图的颜色 从最深 到最浅
-              "#c7c1d5",
-              "#c0a9ce",
-              "#a28ebc",
-              "#826ca2",
-              "#675487",
-              "#663d74", //紫色 最大
-              "#f091a1",
-              "#e782a0",
-              "#e16c96",
-              "#eb3c70", //粉色最大
-            ],
+              '#fafaf6',
+              '#fadeab',
+              '#edca6c',
+              '#fdae61',
+              '#f46d43',
+              '#d73027',
+              '#a50026'],
             //取值范围的颜色
           },
           show: true, //图注
@@ -1592,7 +1587,7 @@ export default {
           },
           label: {
             show: false,//是否在地图上显示国家名字
-            fontSize: this.screenWidth * 0.0066,
+            fontSize: this.screenWidth * 0.01,
             color: "rgba(201,174,174,0.7)",
           },
           nameMap:{
@@ -1818,14 +1813,14 @@ export default {
               areaColor: "skyblue", //鼠标选择区域颜色
               shadowOffsetX: 0,
               shadowOffsetY: 0,
-              shadowBlur: 20,
+              shadowBlur: 25,
               borderWidth: 0,
               shadowColor: "rgba(0, 0, 0, 0.5)",
             },
           },
           itemStyle: {
-            shadowColor: "#6e5e8d",
-            shadowBlur: 8,
+            shadowColor: "#5d5d5d",
+            shadowBlur: 10,
             // shadowOffsetX: 1,
             // shadowOffsetY: 2
           }
