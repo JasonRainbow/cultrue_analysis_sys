@@ -10,15 +10,17 @@
             <el-collapse class="my-collapse" v-model="activeNames">
               <el-collapse-item title="影视作品" name="1-1">
                 <el-checkbox-group v-model="checkListVideo" @change="handleChecked">
-                  <el-checkbox v-for="item in categories.video" :key="item.first" :label="item.first">
-                    {{item.first}} <span class="num_tick">({{item.second}})</span>
+                  <el-checkbox v-for="item in categories.video" :key="item.keyName" :label="item.keyName">
+                    {{item.keyName}} <span class="num_tick">({{item.workCnt}})</span>
+                    <span class="commentCnt_tick">({{item.commentCnt}})</span>
                   </el-checkbox>
                 </el-checkbox-group>
               </el-collapse-item>
               <el-collapse-item title="文学作品" name="1-2">
                 <el-checkbox-group v-model="checkListBook" @change="handleChecked">
-                  <el-checkbox v-for="item in categories.book" :key="item.first" :label="item.first">
-                    {{item.first}} <span class="num_tick">({{item.second}})</span>
+                  <el-checkbox v-for="item in categories.book" :key="item.keyName" :label="item.keyName">
+                    {{item.keyName}} <span class="num_tick">({{item.workCnt}})</span>
+                    <span class="commentCnt_tick">({{item.commentCnt}})</span>
                   </el-checkbox>
                 </el-checkbox-group>
               </el-collapse-item>
@@ -26,8 +28,9 @@
           </el-collapse-item>
           <el-collapse-item title="地域" name="2">
             <el-checkbox-group v-model="checkListOrigin" @change="handleChecked">
-              <el-checkbox v-for="item in origin" :key="item.first" :label="item.first">
-                {{item.first}} <span class="num_tick">({{item.second}})</span>
+              <el-checkbox v-for="item in origin" :key="item.keyName" :label="item.keyName">
+                {{item.keyName}} <span class="num_tick">({{item.workCnt}})</span>
+                <span class="commentCnt_tick">({{item.commentCnt}})</span>
               </el-checkbox>
             </el-checkbox-group>
           </el-collapse-item>
@@ -229,11 +232,29 @@ export default {
       checkListOrigin: [],
       activeNames: ['1', '1-1'],
       categories: {
-        video: [],
-        book: []
+        video: [
+          {
+            keyName: "电影",
+            workCnt: 4,
+            commentCnt: 1000
+          }
+        ],
+        book: [
+          {
+            keyName: "散文",
+            workCnt: 2,
+            commentCnt: 800
+          }
+        ]
       },
       itemWidth: 260,
-      origin: [],
+      origin: [
+        {
+          keyName: "湘西",
+          workCnt: 2,
+          commentCnt: 781
+        }
+      ],
       /*contentArr: [
         { value: 0, height: "150", background: "#409eff", text: "1", top: "", imgSrc: 'http://hzx-oss.oss-cn-guangzhou.aliyuncs.com/images/hot_img3-1676056955420491776.jpeg?Expires=1720060493&OSSAccessKeyId=LTAI5tQcjbvbjA5JjMMkUkc1&Signature=0i1DH%2FCcLVVMBFf8jIRmg7xM02s%3D'},
         { value: 1, height: "250", background: "#67c23a", text: "2", top: "" , imgSrc: require('../../assets/img/banner_img2.jpg')},
@@ -782,6 +803,10 @@ img {
 }
 
 .num_tick {
+  color: #f82c11;
+}
+
+.commentCnt_tick {
   color: #2ab2ed;
 }
 

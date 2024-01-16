@@ -2,8 +2,12 @@ package com.example.demo.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.entity.HotWork;
+import com.example.demo.entity.MonitorWork;
 import com.example.demo.entity.dto.RequestHunanWorkDto;
+import com.example.demo.entity.vo.WorkNumAndCommentNumVO;
 import com.example.demo.entity.vo.WorkPlatformVO;
+
+import java.util.List;
 
 public interface MonitorWorkService {
 
@@ -36,4 +40,30 @@ public interface MonitorWorkService {
      */
     Page<HotWork> queryHotWorks(Integer pageNum, Integer pageSize,
                                 String searchName, String searchCategory);
+
+
+    /**
+     * 查询所有的文学作品子类型，及子类型的作品数和总评论量
+     * @return 列表
+     */
+    List<WorkNumAndCommentNumVO> queryAllBookCategories();
+
+    /**
+     * 查询所有的影视作品子类型，及子类型的作品数和总评论量
+     * @return 列表
+     */
+    List<WorkNumAndCommentNumVO> queryAllVideoCategories();
+
+    /**
+     * 查询所有的地域，及属于该地域的作品数和总评论量
+     * @return 列表
+     */
+    List<WorkNumAndCommentNumVO> queryAllOrigins();
+
+    /**
+     * 根据用户ID检索其监测作品列表
+     * @param userId 用户ID
+     * @return 监测作品列表
+     */
+    List<MonitorWork> queryWorksByUserId(Integer userId);
 }

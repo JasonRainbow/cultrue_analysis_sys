@@ -65,7 +65,9 @@
                 :key="work.id"
                 :label="work.name"
                 :value="work.id"
-              />
+              >
+                {{work.name}} <span class="commentCnt_tick">{{work.commentCnt}}</span>
+              </el-option>
             </el-select>
           </div>
           <div class="show-chart1">
@@ -218,7 +220,7 @@ export default {
       await getMonitorWorkByUserId({userId: userId}).then((res)=>{ // 获取监测作品
         if (res.code === "0") {
           this.works = res.data.map((item)=>{
-            return {id: item.id, name: item.name}
+            return {id: item.id, name: item.name, commentCnt: item.commentCnt}
           })
           this.workId = this.works[0].id // 默认选中第一个作品
         } else {
@@ -357,6 +359,9 @@ a {
   background-color: #C03639;
 }
 
-
+.commentCnt_tick {
+  margin-left: 20px;
+  color: #e88226;
+}
 
 </style>

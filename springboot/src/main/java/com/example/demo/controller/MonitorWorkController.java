@@ -132,8 +132,8 @@ public class MonitorWorkController {
     @GetMapping("/byUserId")
     @ApiOperation(value = "查询用户申请的监测作品信息")
     public Result findAllByUserId(@RequestParam(required = false, defaultValue = "-1") Integer userId) {
-        List<MonitorWork> monitorWorks = monitorWorkMapper.selectByUserId(userId);
-        return Result.success(monitorWorks);
+
+        return Result.success(monitorWorkService.queryWorksByUserId(userId));
     }
 
     // 通过用户的id获取用户申请的监测作品信息  分页查询
@@ -181,21 +181,21 @@ public class MonitorWorkController {
     @GetMapping("/getAllVideoCategories")
     @ApiOperation(value = "获取影视类型的所有子类型")
     public Result getAllVideoCategories() {
-        return Result.success(monitorWorkMapper.selectSubCategoryByCategory("影视", true));
+        return Result.success(monitorWorkService.queryAllVideoCategories());
     }
 
     // 获取文学类型的所有子类型
     @GetMapping("/getAllBookCategories")
     @ApiOperation(value = "获取文学类型的所有子类型")
     public Result getAllBookCategories() {
-        return Result.success(monitorWorkMapper.selectSubCategoryByCategory("文学", true));
+        return Result.success(monitorWorkService.queryAllBookCategories());
     }
 
     // 获取所有的地域
     @GetMapping("/getAllOrigin")
     @ApiOperation(value = "获取所有的地域")
     public Result getAllOrigin() {
-        return Result.success(monitorWorkMapper.selectAllOrigin());
+        return Result.success(monitorWorkService.queryAllOrigins());
     }
 
     // 多条件查询湖南的文化作品

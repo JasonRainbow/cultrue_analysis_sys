@@ -106,6 +106,21 @@
         group by first
         order by second desc
     </select>
+    <select id="selectCommentCountBySubCategoryAndOrigin" resultType="java.lang.Integer">
+        select count(*) from raw_comment
+        where workId in (
+        select id from monitor_work where 1=1
+        <if test="hunanOnly == true">
+            and isHunanWork = 1
+        </if>
+        <if test="subCategory != null and subCategory != ''">
+            and subCategory = #{subCategory}
+        </if>
+        <if test="origin != null and origin != ''">
+            and origin = #{origin}
+        </if>
+            )
+    </select>
 
 
 </mapper>

@@ -62,4 +62,7 @@ public interface RawCommentMapper extends BaseMapper<RawComment> {
      */
     Page<Pair<String, Integer>> selectCommentSumBySubCategory(Page<CommentPlatformDto> page,
                                                               @Param("subCategory") String subCategory);
+
+    Integer selectCommentCountBySubCategoryAndOrigin(String subCategory, String origin, Boolean hunanOnly);
+
 }

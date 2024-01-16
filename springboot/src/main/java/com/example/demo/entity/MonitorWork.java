@@ -1,6 +1,7 @@
 package com.example.demo.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -160,4 +161,10 @@ public class MonitorWork {
      */
     @ApiModelProperty(value = "平台外键")
     private Integer sourcePlatform;
+
+    /**
+     * 作品的评论数量  该属性不在数据表中
+     */
+    @TableField(exist = false)
+    private Integer commentCnt;
 }

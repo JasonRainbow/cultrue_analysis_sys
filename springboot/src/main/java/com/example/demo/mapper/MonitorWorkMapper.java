@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.entity.MonitorWork;
 import com.example.demo.entity.WorkCommentNum;
 import com.example.demo.entity.vo.RecommendWorkVO;
+import com.example.demo.entity.vo.WorkNumAndCommentNumVO;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.data.util.Pair;
 
@@ -41,14 +42,14 @@ public interface MonitorWorkMapper extends BaseMapper<MonitorWork> {
      * @param onlyHunan 是否只查询湖南的
      * @return 子类别列表
      */
-    List<Pair<String, Integer>> selectSubCategoryByCategory(@Param("category") String category,
-                                           @Param("onlyHunan") Boolean onlyHunan);
+    List<WorkNumAndCommentNumVO> selectSubCategoryByCategory(@Param("category") String category,
+                                                             @Param("onlyHunan") Boolean onlyHunan);
 
     /**
      * 查询所有的地域
      * @return 地域列表
      */
-    List<Pair<String, Integer>> selectAllOrigin();
+    List<WorkNumAndCommentNumVO> selectAllOrigin();
 
     /**
      * 分页查询湖南的文化作品

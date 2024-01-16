@@ -1,20 +1,25 @@
 package com.example.demo.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.entity.HotWork;
 import com.example.demo.entity.MonitorWork;
+import com.example.demo.entity.RawComment;
 import com.example.demo.entity.dto.RequestHunanWorkDto;
+import com.example.demo.entity.vo.WorkNumAndCommentNumVO;
 import com.example.demo.entity.vo.WorkPlatformVO;
 import com.example.demo.mapper.HotWorkMapper;
 import com.example.demo.mapper.MonitorWorkMapper;
 import com.example.demo.mapper.PlatformMapper;
+import com.example.demo.mapper.RawCommentMapper;
 import com.example.demo.service.MonitorWorkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,6 +33,9 @@ public class MonitorWorkServiceImpl implements MonitorWorkService {
 
     @Autowired
     private PlatformMapper platformMapper;
+
+    @Autowired
+    private RawCommentMapper rawCommentMapper;
 
     @Override
     public Page<WorkPlatformVO> queryWorksbyPage(Integer pageNum, Integer pageSize,
@@ -79,6 +87,60 @@ public class MonitorWorkServiceImpl implements MonitorWorkService {
         }
 
         return hotWorkPage;
+    }
+
+    @Override
+    public List<WorkNumAndCommentNumVO> queryAllBookCategories() {
+
+        List<WorkNumAndCommentNumVO> workNumAndCommentNumVOS =
+                monitorWorkMapper.selectSubCategoryByCategory("文学", true);
+
+        for (WorkNumAndCommentNumVO item: workNumAndCommentNumVOS) {
+            item.setCommentCnt(rawCommentMapper.selectCommentCountBySubCategoryAndOrigin(item.getKeyName(),
+                    null, true));
+        }
+
+        return workNumAndCommentNumVOS;
+    }
+
+    @Override
+    public List<WorkNumAndCommentNumVO> queryAllVideoCategories() {
+        List<WorkNumAndCommentNumVO> workNumAndCommentNumVOS =
+                monitorWorkMapper.selectSubCategoryByCategory("影视", true);
+
+        for (WorkNumAndCommentNumVO item: workNumAndCommentNumVOS) {
+            item.setCommentCnt(rawCommentMapper.selectCommentCountBySubCategoryAndOrigin(item.getKeyName(),
+                    null, true));
+        }
+
+        return workNumAndCommentNumVOS;
+    }
+
+    @Override
+    public List<WorkNumAndCommentNumVO> queryAllOrigins() {
+        List<WorkNumAndCommentNumVO> workNumAndCommentNumVOS =
+                monitorWorkMapper.selectAllOrigin();
+
+        for (WorkNumAndCommentNumVO item: workNumAndCommentNumVOS) {
+            item.setCommentCnt(rawCommentMapper.selectCommentCountBySubCategoryAndOrigin(null,
+                    item.getKeyName(), true));
+        }
+
+        return workNumAndCommentNumVOS;
+    }
+
+    @Override
+    public List<MonitorWork> queryWorksByUserId(Integer userId) {
+        List<MonitorWork> monitorWorks = monitorWorkMapper.selectByUserId(userId);
+
+        // 查询每个作品的评论数量然后保存到commentCnt属性中
+        for (MonitorWork item: monitorWorks) {
+            QueryWrapper<RawComment> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("workId", item.getId());
+            item.setCommentCnt(rawCommentMapper.selectCount(queryWrapper));
+        }
+
+        return monitorWorks;
     }
 
     private Page<WorkPlatformVO> generateNewPage(Page<MonitorWork> workPage) {
