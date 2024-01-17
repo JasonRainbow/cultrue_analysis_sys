@@ -57,6 +57,8 @@ import DashboardPage from "../views/user/DashboardPage.vue";
 import Dashboard from "../components/user/common/Dashboard.vue";
 import CommentTablePage from "../components/user/common/CommentTablePage.vue";
 import CommentDetailPage from "../views/user/CommentDetailPage.vue";
+import HighImpactComment from "../views/user/HighImpactComment.vue";
+import CommentDetail from "../components/user/common/CommentDetail.vue";
 
 // 启用路由
 Vue.use(Router);
@@ -286,6 +288,17 @@ const router = new Router({
                 requireAuth: false
               }
             },
+            {
+              name: 'CommentDetailPage1',
+              path: 'commentDetail1',
+              component:CommentDetail,
+              meta: {
+                requireAuth: true
+              },
+              props: (route)=>({
+                commentId : Number(route.query.commentId),
+              })
+            }
           ]
         },
         {
@@ -354,6 +367,11 @@ const router = new Router({
           }
         },
       ]
+    },
+    {
+      path: "/HighImpactComment",
+      name: "高影响力评论",
+      component: HighImpactComment,
     },
     {
       path: "/HunanWorkEffect",

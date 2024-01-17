@@ -106,6 +106,26 @@
         group by first
         order by second desc
     </select>
+    <select id="selectPlatformByWorkId" resultType="java.lang.String">
+        select DISTINCT platform FROM raw_comment where workId=#{workId}
+    </select>
+    <select id="getCommentNumByWorkIdAndYear" resultType="com.example.demo.entity.vo.MonthCommentNum">
+        select COUNT(*) count,(date_format(postTime,'%Y-%m')) time
+        from raw_comment
+        where country=#{country} and PERIOD_DIFF(date_format(now(),'%Y%m'),date_format(postTime,'%Y%m'))=#{month}
+        <if test="workId != null and workId != ''">
+            and workId=#{workId}
+        </if>
+        group by time
+
+    </select>
+    <select id="getPlatformByWorkIdAndCountry" resultType="java.lang.String">
+        select DISTINCT platform from raw_comment
+        where country=#{country}
+        <if test="workId != null and workId != ''">
+            and workId=#{workId}
+        </if>
+    </select>
 
 
 </mapper>

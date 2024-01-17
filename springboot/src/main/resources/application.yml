@@ -165,6 +165,10 @@ interceptorconfig:
       - /api/comment/byPage
       - /api/comment/byPage2
       - /api/comment/getHotComment
+      - /api/comment/getHighCommentByPlatform
+      - /api/comment/getCommentNumByWorkIdAndYear
+      - /api/comment/getPlatformByWorkIdAndCountry
+      - /api/comment/getPolarityComment
       - /api/hot-work/byPage
       - /api/hot-work/id/
       - /api/monitor-request/id

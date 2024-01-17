@@ -77,7 +77,8 @@ export default {
         "/special-column": 2,
         // "/effect/sentiment-assessment": 1,
         "/effect/sentimentAssessment":1,
-        "/effect/no-data":1
+        "/effect/no-data":1,
+        "/effect/commentDetail1":1
       },
       activeIndex: 0,
       loginFlag: true,

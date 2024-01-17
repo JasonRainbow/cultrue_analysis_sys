@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.entity.dto.CommentPlatformDto;
 import com.example.demo.entity.RawComment;
 import com.example.demo.entity.vo.CountryCommentNum;
+import com.example.demo.entity.vo.MonthCommentNum;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.data.util.Pair;
 
@@ -62,4 +63,10 @@ public interface RawCommentMapper extends BaseMapper<RawComment> {
      */
     Page<Pair<String, Integer>> selectCommentSumBySubCategory(Page<CommentPlatformDto> page,
                                                               @Param("subCategory") String subCategory);
+
+    List<String> selectPlatformByWorkId(@Param("workId") Integer workId);
+
+    MonthCommentNum getCommentNumByWorkIdAndYear(@Param("workId") Integer workId, @Param("month") int i, @Param("country") String country);
+
+    List<String> getPlatformByWorkIdAndCountry(@Param("workId") Integer workId, @Param("country") String country);
 }

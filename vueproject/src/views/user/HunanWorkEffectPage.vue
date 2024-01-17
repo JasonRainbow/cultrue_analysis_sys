@@ -15,6 +15,9 @@
       </div>
       <router-view></router-view>
     </el-card>
+    <div class="high-impact-comment" @click="enterComment">
+      查看高影响力评论
+    </div>
     <div v-if="showChart" class="analysis-open">
       <div class="icon-chart-score" @click="changeChartType(0)">
         <i></i>
@@ -74,6 +77,17 @@ export default {
     }
   },
   methods: {
+    enterComment(){
+      this.$router.push(
+        {
+          path: '/HighImpactComment',
+          query: {
+            workId: this.workId,
+            workName: this.workName
+          }
+        }
+      )
+    },
     // 更改图表选择菜单的显示状态
     changeChooseState() {
       this.showChart = !this.showChart;
@@ -367,6 +381,15 @@ export default {
   top: 30%;
   left: 20px;
   border-radius: 20px;
+}
+.high-impact-comment{
+  position: absolute;
+  right:1%;
+  font-size: 20px;
+  color: red;
+  font-weight: bold;
+  top:1%;
+  cursor: pointer;
 }
 </style>
 
