@@ -150,12 +150,12 @@ export default {
   //     next()
   // },
   updated() {
+      this.isShow=this.$store.state.isShow
       // console.log(this.$refs.parent.clientWidth,"width")
   },
     mounted() {
-      // console.log(document.getElementById("app"))
+      this.isShow=this.$store.state.isShow
     this.$bus.$on("pushSentimentAssessment",(data,workName,commentNum)=>{
-      // console.log(data,workName)
       if(data && commentNum !==0 && commentNum !=='0'){
           this.isShow=false
           this.country=data
@@ -206,14 +206,10 @@ export default {
       //   }
       // })
     }),
-   this.$bus.$on("mapShow",(data)=>{
-       this.isShow=true
-       // window.resize()
-   }),
-   this.$bus.$on("mapNotShow",(data)=>{
-     console.log("false")
-     this.isShow=false
-   }),
+   // this.$bus.$on("mapShow",(data)=>{
+   //     this.isShow=true
+   //     // window.resize()
+   // }),
    //该方法用于解决在查看某一个国家总体情感分布时，若是用户点击刷新，则本组件内country刷新导致侧边栏点击问题
     this.$bus.$on("getCountry",(data)=>{
       this.country=data
@@ -237,11 +233,10 @@ export default {
     })
   },
   beforeDestroy(){
-    this.$bus.$off('pushSentimentAssessment'),
-    this.$bus.$off('mapShow')
-    this.$bus.$off('mapNotShow')
+    this.$bus.$off('pushSentimentAssessment')
+    // this.$bus.$off('mapShow')
     this.$bus.$off('getCountry')
-    this.$bus.$off('noData'),
+    this.$bus.$off('noData')
     this.$bus.$off('showCommentDetails')
   },
   computed: {
