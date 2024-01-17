@@ -20,17 +20,17 @@
             </div>
             <div v-show="positiveCommentList.length>0">
             <div v-for="(item,id) in positiveCommentList" :key="id" class="text item" style="text-align: left;font-size: medium">
-              <div :style="{'padding-top': (id==0 ? (0+'px'):(5+'px'))}">
+              <div :style="{'padding-top': (id===0 ? (0+'px'):(5+'px'))}">
                 {{id+1+'.'+(item.content.length>41 ? item.content.slice(0,41)+'...':item.content)}}
               </div>
               <div style="float: right">
-                <img src="../../../assets/img/zan.svg">
+                <img alt="" src="../../../assets/img/zan.svg">
                 <span>{{item.likes}}</span>
                 <span @click="enterDetails(item.id)" class="details">查看详情</span>
               </div>
             </div>
             </div>
-            <div v-show="positiveCommentList.length==0" style="margin-top: 15%">
+            <div v-show="positiveCommentList.length===0" style="margin-top: 15%">
               <h2>暂无数据</h2>
             </div>
           </el-card>
@@ -42,17 +42,17 @@
             </div>
             <div v-show="negativeCommentList.length>0">
             <div v-for="(item,id) in negativeCommentList" :key="id" class="text item" style="text-align: left;font-size: medium">
-              <div :style="{'padding-top': (id==0 ? (0+'px'):(5+'px'))}">
+              <div :style="{'padding-top': (id===0 ? (0+'px'):(5+'px'))}">
                 {{id+1+'.'+(item.content.length>41 ? item.content.slice(0,41)+'...':item.content)}}
               </div>
               <div style="float: right">
-                <img src="../../../assets/img/zan.svg">
+                <img alt="" src="../../../assets/img/zan.svg">
                 <span>{{item.likes}}</span>
                 <span @click="enterDetails(item.id)" class="details">查看详情</span>
               </div>
             </div>
             </div>
-            <div v-show="negativeCommentList.length==0" style="margin-top: 15%">
+            <div v-show="negativeCommentList.length===0" style="margin-top: 15%">
               <h2>暂无数据</h2>
             </div>
           </el-card>
