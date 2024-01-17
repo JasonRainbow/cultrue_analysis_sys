@@ -19,7 +19,10 @@
         @change="SelectChanged">
       </el-date-picker>
     </div>
-    <div id="container1"></div>
+    <div id="container11"></div>
+    <div>
+
+    </div>
   </div>
 </template>
 
@@ -27,7 +30,7 @@
 import {getSubjectsByWorkId, subjectAnalysisByWorkId} from "../../../api/SubjectAnalysisAPI";
 import {getMonthAnalysisResult} from "../../../api/polarityAPI";
 export default {
-  name:'Subject',
+  name:'PolarityAnalysisPie',
   props:{
     workId:{
       Type:Number,
@@ -77,9 +80,12 @@ export default {
       ]
     }
   },
+  updated() {
+    // this.chart.resize()
+  },
   mounted(){
-    // console.log(this.workId,this.country)
-    this.divWidth = document.getElementById("container1").clientWidth
+    console.log("挂载")
+    this.divWidth = document.getElementById("container11").clientWidth
     if (this.divWidth < 600) {
       this.inputSize = "mini"
     } else if (this.divWidth < 760) {
@@ -147,8 +153,11 @@ export default {
     };
     this.createGraph()
     this.handleResize = ()=> {
+      // if(this.chart){
+      //   this.chart.resize();
+      // }
       this.chart.resize();
-      this.divWidth = document.getElementById("container1").clientWidth
+      this.divWidth = document.getElementById("container11").clientWidth
     }
     window.addEventListener('resize',  this.handleResize)
   },
@@ -192,12 +201,10 @@ export default {
                 }
               }
             })
-            // item.data=this.data1
           })
-          this.chart = this.$echarts.init(document.getElementById('container1'))
-          // console.log("@@@",this.chart)
-          // console.log(this.option.series,'series')
-          this.chart.setOption(this.option)
+          this.chart = this.$echarts.init(document.getElementById('container11'))
+          this.chart.setOption(this.option),
+          this.chart.resize()
         }
       })
 
@@ -233,7 +240,7 @@ export default {
 <style scoped>
 @import "../../../assets/styles/mystyle.css";
 
-#container1{
+#container11{
   margin-top: 3%;
   height:500px;
 }

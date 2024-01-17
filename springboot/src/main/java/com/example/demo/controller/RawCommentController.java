@@ -11,6 +11,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.common.Result;
 import com.example.demo.entity.RawComment;
 import com.example.demo.entity.vo.CountryCommentNum;
+import com.example.demo.entity.vo.MonthCommentNum;
 import com.example.demo.mapper.MonitorWorkMapper;
 import com.example.demo.mapper.RawCommentMapper;
 import com.example.demo.service.CommentQueryService;
@@ -320,6 +321,81 @@ public class RawCommentController {
                                           @RequestParam(required = false, defaultValue = "10") Integer pageSize) {
 
         return Result.success(commentQueryService.queryPlatformCommentNum(platform, pageNum, pageSize));
+    }
+
+    @GetMapping("/getHighCommentByPlatform")
+    @ApiOperation(value = "根据作品id查询不同平台的高影响力评论")
+    public Result getHighCommentByPlatform(@RequestParam(required = true, defaultValue = "") Integer workId,
+                                          @RequestParam(required = false, defaultValue = "5") Integer size) {
+        List<String> platforms = rawCommentMapper.selectPlatformByWorkId(workId);
+        Map<String,Object> map = new HashMap<>();
+        for(String platform : platforms){
+            LambdaQueryWrapper<RawComment> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+            lambdaQueryWrapper.eq(RawComment::getWorkId,workId).eq(RawComment::getPlatform,platform)
+                    .orderByDesc(RawComment::getLikes).last("limit "+size);
+            List<RawComment> highCommentList = rawCommentMapper.selectList(lambdaQueryWrapper);
+            map.put(platform,highCommentList);
+        }
+        return Result.success(map);
+    }
+
+    @GetMapping("/getCommentNumByWorkIdAndYear")
+    @ApiOperation(value = "查询近年的评论数量变化")
+    public Result getCommentNumByWorkIdAndYear(@RequestParam(required = false, defaultValue = "") Integer workId,
+                                           @RequestParam(required = false, defaultValue = "1") Integer year,
+                                               @RequestParam(required = true) String country ) {
+        List<MonthCommentNum> list = new ArrayList<>();
+        for(int i=year*12-1;i>=0;i--){
+            MonthCommentNum monthCommentNum = rawCommentMapper.getCommentNumByWorkIdAndYear(workId,i,country);
+            if(monthCommentNum==null){
+                Date date = new Date();
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(date);
+                calendar.add(Calendar.MONTH, -1*i);
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
+                String time=sdf.format(calendar.getTime());
+                monthCommentNum = new MonthCommentNum(0,time);
+            }
+            list.add(monthCommentNum);
+        }
+        return Result.success(list);
+    }
+
+    @GetMapping("/getPlatformByWorkIdAndCountry")
+    @ApiOperation(value = "根据作品id和国家查询在该国家对该作品发布过评论的所有平台")
+    public Result getPlatformByWorkIdAndCountry(@RequestParam(required = false, defaultValue = "") Integer workId,
+                                               @RequestParam(required = true) String country ) {
+        List<String> platformList = rawCommentMapper.getPlatformByWorkIdAndCountry(workId,country);
+        return Result.success(platformList);
+    }
+
+    @GetMapping("/getPolarityComment")
+    @ApiOperation(value = "根据平台作品id和平台和国家查询极性评论")
+    public Result getPolarityComment(@RequestParam(required = false, defaultValue = "") Integer workId,
+                                     @RequestParam(required = true) String country,
+                                     @RequestParam(required = true) String platform ,
+                                     @RequestParam(required = false, defaultValue = "5") Integer size) {
+        Map<String,Object> map = new HashMap<>();
+        LambdaQueryWrapper<RawComment> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        if(workId !=null){
+            lambdaQueryWrapper.eq(RawComment::getWorkId,workId);
+        }
+        lambdaQueryWrapper.eq(RawComment::getPlatform,platform).eq(RawComment::getSentiment, "积极")
+                .eq(RawComment::getCountry, country)
+                .orderByDesc(RawComment::getLikes).last("limit "+size);
+        List<RawComment> positiveCommentList = rawCommentMapper.selectList(lambdaQueryWrapper);
+        map.put("positive",positiveCommentList);
+
+        LambdaQueryWrapper<RawComment> lambdaQueryWrapper1 = new LambdaQueryWrapper<>();
+        if(workId !=null){
+            lambdaQueryWrapper1.eq(RawComment::getWorkId,workId);
+        }
+        lambdaQueryWrapper1.eq(RawComment::getPlatform,platform).eq(RawComment::getSentiment, "消极")
+                .eq(RawComment::getCountry, country)
+                .orderByDesc(RawComment::getLikes).last("limit "+size);
+        List<RawComment> negativeCommentList = rawCommentMapper.selectList(lambdaQueryWrapper1);
+        map.put("negative",negativeCommentList);
+        return Result.success(map);
     }
 
 }

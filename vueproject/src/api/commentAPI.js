@@ -74,3 +74,23 @@ export const getCommentNumByPlatform = (params)=>{
 export const getCommentNumBySubCategory = (params)=>{
   return req("get", "/comment/getCommentNumBySubCategory", params)
 }
+
+// 根据作品id查询不同平台的高影响力评论
+export const getHighCommentByPlatform = (params)=>{
+  return req("get", "/comment/getHighCommentByPlatform", params)
+}
+
+// 查询近年的评论数量变化
+export const getCommentNumByWorkIdAndYear = (params)=>{
+  return req("get", "/comment/getCommentNumByWorkIdAndYear", params)
+}
+
+//根据作品id和国家查询在该国家对该作品发布过评论的所有平台
+export const getPlatformByWorkIdAndCountry = (params)=>{
+  return req("get", "/comment/getPlatformByWorkIdAndCountry", params)
+}
+
+//根据平台作品id和平台和国家查询极性评论
+export const getPolarityComment = (params)=>{
+  return req("get", "/comment/getPolarityComment", params)
+}

@@ -1,0 +1,294 @@
+<template>
+  <div class="bg">
+    <div @click="goBack" class="back" >
+        返回>>
+    </div>
+  <div style="width: 95%;margin: 30px auto auto auto">
+    <el-row :gutter="25" style="margin: auto">
+      <el-col :span="6"><div class="grid-content bg-purple"></div>
+        <el-card class="box-card bg">
+          <div slot="header" class="clearfix">
+            <span class="title">豆瓣</span>
+          </div>
+          <div v-for="(item,id) in commentDetail['豆瓣']" v-show="commentDetail['豆瓣']" :key="id" class="text item">
+            <div :style="{'padding-top': (id==0 ? (0+'px'):(5+'px'))}">
+              {{id+1+'.'+(item.content.length>41 ? item.content.slice(0,41)+'...':item.content)}}
+            </div>
+            <div style="float: right">
+              <img src="../../assets/img/zan.svg">
+              <span>{{item.likes}}</span>
+              <span @click="enterDetails(item.id)" class="details">查看详情</span>
+            </div>
+          </div>
+          <div v-show="!commentDetail['豆瓣']" style="min-height: 200px;text-align: center;margin-top: 10%">
+            暂无数据
+          </div>
+        </el-card>
+      </el-col>
+      <el-col :span="6"><div class="grid-content bg-purple"></div>
+        <el-card class="box-card bg">
+          <div slot="header" class="clearfix">
+            <span class="title">Youtube</span>
+          </div>
+          <div v-for="(item,id) in commentDetail.Youtube" v-show="commentDetail.Youtube" :key="id" class="text item">
+            <div :style="{'padding-top': (id==0 ? (0+'px'):(5+'px'))}">
+              {{id+1+'.'+(item.content.length>41 ? item.content.slice(0,41)+'...':item.content)}}
+            </div>
+            <div style="float: right">
+              <img src="../../assets/img/zan.svg">
+              <span>{{item.likes}}</span>
+              <span @click="enterDetails(item.id)" class="details">查看详情</span>
+            </div>
+          </div>
+          <div v-show="!commentDetail.Youtube" style="min-height: 200px;text-align: center;margin-top: 10%">
+            暂无数据
+          </div>
+        </el-card>
+      </el-col>
+      <el-col :span="6"><div class="grid-content bg-purple"></div>
+        <el-card class="box-card bg" >
+          <div slot="header" class="clearfix">
+            <span class="title">Twitter</span>
+          </div>
+          <div v-for="(item,id) in commentDetail.Twitter" v-show="commentDetail.Twitter" :key="id" class="text item">
+            <div :style="{'padding-top': (id==0 ? (0+'px'):(5+'px'))}">
+              {{id+1+'.'+(item.content.length>41 ? item.content.slice(0,41)+'...':item.content)}}
+            </div>
+            <div style="float: right">
+              <img src="../../assets/img/zan.svg">
+              <span>{{item.likes}}</span>
+              <span @click="enterDetails(item.id)" class="details">查看详情</span>
+            </div>
+          </div>
+          <div v-show="!commentDetail.Twitter" style="min-height: 200px;text-align: center;margin-top: 10%">
+            暂无数据
+          </div>
+        </el-card>
+      </el-col>
+      <el-col :span="6"><div class="grid-content bg-purple"></div>
+        <el-card class="box-card bg" >
+          <div slot="header" class="clearfix">
+            <span class="title">IMDb</span>
+          </div>
+          <div v-for="(item,id) in commentDetail.IMDb" v-show="commentDetail.IMDb" :key="id" class="text item">
+            <div :style="{'padding-top': (id==0 ? (0+'px'):(5+'px'))}">
+              {{id+1+'.'+(item.content.length>41 ? item.content.slice(0,41)+'...':item.content)}}
+            </div>
+            <div style="float: right">
+              <img src="../../assets/img/zan.svg">
+              <span>{{item.likes}}</span>
+              <span @click="enterDetails(item.id)" class="details">查看详情</span>
+            </div>
+          </div>
+          <div v-show="!commentDetail.IMDb" style="min-height: 200px;text-align: center;margin-top: 10%">
+            暂无数据
+          </div>
+        </el-card>
+      </el-col>
+    </el-row>
+
+    <el-row :gutter="25" style="margin: 40px auto auto auto;">
+      <el-col :span="6"><div class="grid-content bg-purple"></div>
+        <el-card class="box-card bg">
+          <div slot="header" class="clearfix">
+            <span class="title">烂番茄</span>
+          </div>
+          <div v-for="(item,id) in commentDetail['烂番茄']" v-show="commentDetail['烂番茄']" :key="id" class="text item">
+            <div :style="{'padding-top': (id==0 ? (0+'px'):(5+'px'))}">
+              {{id+1+'.'+(item.content.length>41 ? item.content.slice(0,41)+'...':item.content)}}
+            </div>
+            <div style="float: right">
+              <img src="../../assets/img/zan.svg">
+              <span>{{item.likes}}</span>
+              <span @click="enterDetails(item.id)" class="details">查看详情</span>
+            </div>
+          </div>
+          <div v-show="!commentDetail['烂番茄']" style="min-height: 200px;text-align: center;margin-top: 10%">
+            暂无数据
+          </div>
+        </el-card>
+      </el-col>
+      <el-col :span="6"><div class="grid-content bg-purple"></div>
+        <el-card class="box-card bg">
+          <div slot="header" class="clearfix">
+            <span class="title">Facebook</span>
+          </div>
+          <div v-for="(item,id) in commentDetail.Facebook" v-show="commentDetail.Facebook" :key="id" class="text item">
+            <div :style="{'padding-top': (id==0 ? (0+'px'):(5+'px'))}">
+              {{id+1+'.'+(item.content.length>41 ? item.content.slice(0,41)+'...':item.content)}}
+            </div>
+            <div style="float: right">
+              <img src="../../assets/img/zan.svg">
+              <span>{{item.likes}}</span>
+              <span @click="enterDetails(item.id)" class="details">查看详情</span>
+            </div>
+          </div>
+          <div v-show="!commentDetail.Facebook" style="min-height: 200px;text-align: center;margin-top: 10%">
+            暂无数据
+          </div>
+        </el-card>
+      </el-col>
+      <el-col :span="6"><div class="grid-content bg-purple"></div>
+        <el-card class="box-card bg">
+          <div slot="header" class="clearfix">
+            <span class="title">Amazon</span>
+          </div>
+          <div v-for="(item,id) in commentDetail.Amazon" v-show="commentDetail.Amazon" class="text item">
+            <div :style="{'padding-top': (id==0 ? (0+'px'):(5+'px'))}">
+              {{id+1+'.'+(item.content.length>41 ? item.content.slice(0,41)+'...':item.content)}}
+            </div>
+            <div style="float: right">
+              <img src="../../assets/img/zan.svg">
+              <span>{{item.likes}}</span>
+              <span @click="enterDetails(item.id)" class="details">查看详情</span>
+            </div>
+          </div>
+          <div v-show="!commentDetail.Amazon" style="min-height: 200px;text-align: center;margin-top: 10%">
+            暂无数据
+          </div>
+        </el-card>
+      </el-col>
+      <el-col :span="6"><div class="grid-content bg-purple"></div>
+        <el-card class="box-card bg">
+          <div slot="header" class="clearfix">
+            <span class="title">GoodReads</span>
+          </div>
+          <div v-for="(item,id) in commentDetail.GoodReads" v-show="commentDetail.GoodReads" class="text item">
+            <div :style="{'padding-top': (id==0 ? (0+'px'):(5+'px'))}">
+              {{id+1+'.'+(item.content.length>41 ? item.content.slice(0,41)+'...':item.content)}}
+            </div>
+            <div style="float: right">
+              <img src="../../assets/img/zan.svg">
+              <span>{{item.likes}}</span>
+              <span @click="enterDetails(item.id)" class="details">查看详情</span>
+            </div>
+          </div>
+          <div v-show="!commentDetail.GoodReads" style="min-height: 200px;text-align: center;margin-top: 10%">
+            暂无数据
+          </div>
+        </el-card>
+      </el-col>
+    </el-row>
+  </div>
+  </div>
+</template>
+
+<script>
+
+import {getHighCommentByPlatform} from "../../api/commentAPI";
+
+
+export default {
+  name: "HighImpactComment",
+  props: {
+    // workId: {
+    //   type: Number,
+    //   require: true
+    // }
+  },
+  data() {
+    return {
+      commentDetail:{},
+      params:{
+        workId:this.$route.query.workId,
+        size:10
+      }
+    }
+  },
+  methods: {
+    goBack() {
+      this.$router.back()
+    },
+    enterDetails(commentId){
+      console.log(commentId,"commentId")
+      this.$router.push({
+        path: '/commentDetail',
+        query: {
+          commentId: commentId
+        }
+      })
+    }
+  },
+  created() {
+    getHighCommentByPlatform(this.params).then((res)=>{
+      if(res.code==='0'){
+        this.commentDetail=res.data
+        console.log(this.commentDetail,'comment')
+      }
+    })
+  },
+}
+</script>
+
+<style scoped lang="css">
+.text {
+  font-size: 14px;
+}
+
+.item {
+  margin-bottom: 18px;
+}
+
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  content: "";
+}
+.clearfix:after {
+  clear: both
+}
+
+.box-card {
+  width: 100%;
+  border-radius: 10%;
+  max-height: 400px;
+  overflow: auto;
+}
+.box-card::-webkit-scrollbar{
+    display: none;
+}
+.box-card:hover {
+    box-shadow: 0 16px 32px 0 rgba(48, 55, 66, 0.15);
+    transform: translate(0,-5px);
+    transition-delay: 0s !important;
+}
+
+.el-row {
+  margin-bottom: 20px;
+  display:flex;
+  flex-wrap: wrap;
+}
+.el-row  .el-card {
+  min-width: 100%;
+  height: 100%;
+  margin-right: 20px;
+  transition: all .5s;
+}
+
+
+.back{
+  margin-left:95%;
+  font-size: 20px;
+  color: red;
+  font-weight: bold;
+  cursor: pointer;
+  width: 75px;
+  padding-top: 10px;
+}
+
+.bg {
+  width: 100%;
+  height: 100%;
+  background: url("../../assets/img/detail_bg.svg"),linear-gradient(225deg, rgba(21,152,244,0.05) 0%, rgba(255,215,108,0.05) 100%);
+  background-repeat: repeat;
+}
+
+.details{
+  color: #7dbfff;
+  cursor: pointer;
+}
+
+.title{
+  font-weight: bold;
+}
+</style>

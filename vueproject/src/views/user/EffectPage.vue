@@ -141,12 +141,19 @@ export default {
       ]
     }
   },
+  // beforeRouteEnter(to,from,next){
+  //     if(to.name==="传播效果评估展示1"){
+  //         this.$bus.$emit("mapNotShow")
+  //     }
+  //   // console.log(to,"to")
+  //   // console.log(from,"from")
+  //     next()
+  // },
   updated() {
       // console.log(this.$refs.parent.clientWidth,"width")
   },
     mounted() {
       // console.log(document.getElementById("app"))
-
     this.$bus.$on("pushSentimentAssessment",(data,workName,commentNum)=>{
       // console.log(data,workName)
       if(data && commentNum !==0 && commentNum !=='0'){
@@ -204,6 +211,7 @@ export default {
        // window.resize()
    })
    this.$bus.$on("mapNotShow",(data)=>{
+     console.log("false")
      this.isShow=false
    })
    //该方法用于解决在查看某一个国家总体情感分布时，若是用户点击刷新，则本组件内country刷新导致侧边栏点击问题
@@ -218,6 +226,14 @@ export default {
           country:country
         }
       })
+    }),
+    this.$bus.$on("showCommentDetails",(commentId)=>{
+        this.$router.push({
+            name:"CommentDetailPage1",
+            query: {
+                commentId: commentId
+            }
+        })
     })
   },
   beforeDestroy(){
@@ -225,7 +241,8 @@ export default {
     this.$bus.$off('mapShow')
     this.$bus.$off('mapNotShow')
     this.$bus.$off('getCountry')
-    this.$bus.$off('noData')
+    this.$bus.$off('noData'),
+    this.$bus.$off('showCommentDetails')
   },
   computed: {
     workId2() {
