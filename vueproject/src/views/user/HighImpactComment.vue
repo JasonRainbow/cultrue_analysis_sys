@@ -280,7 +280,6 @@ export default {
   width: 100%;
   height: 100%;
   background: url("../../assets/img/detail_bg.svg"),linear-gradient(225deg, rgba(21,152,244,0.05) 0%, rgba(255,215,108,0.05) 100%);
-  background-repeat: repeat;
 }
 
 .details{
