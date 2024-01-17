@@ -61,7 +61,7 @@ export default {
   },
   methods:{
     showMap(){
-      this.$bus.$emit('mapShow')
+      this.$store.commit('setMapStatus',true)
     },
     changeStatus1(){
       this.title=this.workName+' '+this.country+' '+"极性情感分布"
@@ -101,13 +101,17 @@ export default {
     }
   },
   beforeRouteEnter (to, from, next) {
-    next(vm => {
-      setTimeout(null,500);
-      vm.$bus.$emit('mapNotShow')
-    })
-    //   next()
+    // next(vm => {
+    //   vm.$store.commit('setMapStatus',false)
+    //   // vm.$bus.$emit('mapNotShow')
+    // })
+    next()
+  },
+  mounted() {
+    console.log(this.$store.state.isShow,"isShow2")
   },
   beforeMount() {
+    this.$store.commit('setMapStatus',false)
     this.workId=this.$route.query.workId
     this.workName=this.$route.query.workName
     this.country=this.$route.query.country

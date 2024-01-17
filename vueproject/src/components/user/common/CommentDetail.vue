@@ -93,6 +93,9 @@ export default {
       })
     }
   },
+  mounted() {
+    this.$store.commit('setMapStatus',false)
+  },
   created() {
     this.getData()
   },

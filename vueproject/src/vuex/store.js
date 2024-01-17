@@ -19,8 +19,12 @@ export default new Vuex.Store({
   state: {
     user: parseLocalStorageItem("user"),
     token: getToken(), // 从cookie中获取token
+    isShow:true
   },
   mutations: {
+    setMapStatus(state,value){
+      state.isShow=value
+    },
     SET_TOKEN(state, token) { // 保存token
       state.token = token
     },
