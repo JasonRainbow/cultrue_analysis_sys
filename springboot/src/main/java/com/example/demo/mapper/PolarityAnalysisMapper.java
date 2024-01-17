@@ -45,4 +45,7 @@ public interface PolarityAnalysisMapper extends BaseMapper<PolarityAnalysis> {
     PolarityDto selectPolarityByMonth(@Param("workId") Integer workId,
                                       @Param("country") String country,
                                       @Param("selectMonth") String selectMonth);
+
+    List<PolarityAnalysis> selectCountriesPolarity(@Param("workId") Integer workId,
+                                                   @Param("selectMonth") String selectMonth);
 }

@@ -133,4 +133,14 @@
           </if>
 
     </select>
+    <select id="selectCountriesPolarity" resultType="com.example.demo.entity.PolarityAnalysis">
+        select workId, country, sum(positive) as positive,
+               sum(neutrality) as neutrality, sum(negative) as negative
+        from polarity_analy
+        where workId = ${workId}
+        <if test="selectMonth != null and selectMonth != ''">
+            and DATE_FORMAT(time, '%Y-%m') = #{selectMonth}
+        </if>
+        group by country
+    </select>
 </mapper>

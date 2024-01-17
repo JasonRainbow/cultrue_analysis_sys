@@ -1,8 +1,17 @@
 <template>
   <div id="main_container" style="text-align:center;height:100%">
     <div style="margin-top: 2.5%;height:100%" >
-      <div :style="{'display': 'inline-block', 'float': 'left', 'font-size': divWidth * 0.0327 + 'px'}">{{queryParam.selectEmotion}}情感分布</div>
-      <el-select class="custom-select3" :size="inputSize" style="width: 30%" v-model="queryParam.selectEmotion" placeholder="请选择情感" @change="getPolarityData">
+      <div class="border-font"
+        :style="{
+        'display': 'inline-block',
+        'float': 'left',
+        'font-size': divWidth * 0.034 + 'px'
+      }">
+        {{queryParam.selectEmotion}}情感分布
+      </div>
+      <el-select class="custom-select3" :size="inputSize" style="width: 30%"
+                 v-model="queryParam.selectEmotion" placeholder="请选择情感"
+                 @change="getPolarityData">
         <el-option
           v-for="item in emotionOptions"
           :key="item.value"

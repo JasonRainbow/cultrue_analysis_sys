@@ -20,9 +20,9 @@
       <el-date-picker class="custom-select" :size="inputSize"
         v-model="queryMapParam.searchTime"
         align="right"
-        type="date"
-        placeholder="选择日期"
-        value-format="yyyy-MM-dd"
+        type="month"
+        placeholder="选择月份"
+        value-format="yyyy-MM"
         :picker-options="pickerOptions"
         @change="getWorldMapData"
       >
@@ -33,7 +33,7 @@
 </template>
 <script>
 import worldJson from '../../../assets/map/world.json'
-import {querySentiment, querySentimentByWorkIdAndTime} from "../../../api/sentimentAPI";
+import {getWorldPolarityDistribute} from "../../../api/polarityAPI";
 export default {
   name: "WorldMap",
   props: {
@@ -53,53 +53,24 @@ export default {
       emotionEveryCountry: {},
       selectDate: "2023-07-01",
       worldMapChart: {},
-      selectEmotion: 'happy',
+      selectEmotion: 'positive',
       emotionOptions: [
         {
-          value: 'happy',
-          label: '开心',
-        }, {
-          value: 'amazed',
-          label: '惊奇'
+          value: 'positive',
+          label: '积极',
         }, {
           value: 'neutrality',
-          label: '中立'
+          label: '中性'
         }, {
-          value: 'sad',
-          label: '厌恶'
-        }, {
-          value: 'angry',
-          label: '愤怒'
-        },
-        {
-          value: 'fear',
-          label: '恐惧'
+          value: 'negative',
+          label: '消极'
         }
       ],
       pickerOptions: {
         disabledDate(time) {
           return time.getTime() > Date.now();
         },
-        shortcuts: [{
-          text: '今天',
-          onClick(picker) {
-            picker.$emit('pick', new Date());
-          }
-        }, {
-          text: '昨天',
-          onClick(picker) {
-            const date = new Date();
-            date.setTime(date.getTime() - 3600 * 1000 * 24);
-            picker.$emit('pick', date);
-          }
-        }, {
-          text: '一周前',
-          onClick(picker) {
-            const date = new Date();
-            date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-            picker.$emit('pick', date);
-          }
-        }]
+
       },
       dataList: [
         {
@@ -1478,15 +1449,10 @@ export default {
       //请求参数
       queryMapParam: {
         searchWorkId: this.workId,
-        searchTime: '2023-07-01'
+        searchTime: '2023-07'
       },
-      //happy 从返回的json数据中提取出的开心情感值
-      happyData:{
-        country:null,
-        value:null,
-      },
-      //amazed
-      amazedData:{
+      //positive 从返回的json数据中提取出的积极情感值
+      positiveData:{
         country:null,
         value:null,
       },
@@ -1495,21 +1461,11 @@ export default {
         country:null,
         value:null,
       },
-      //sad
-      sadData:{
+      //negative
+      negativeData:{
         country:null,
         value:null,
       },
-      //angry
-      angryData:{
-        country:null,
-        value:null,
-      },
-      //fear
-      fearData:{
-        country:null,
-        value:null,
-      }
     }
   },
   mounted() {
@@ -1566,12 +1522,12 @@ export default {
           text: ["高(百分比)", "低"], //取值范围的文字
           inRange: {
             color: [
-              '#fafaf6',
-              '#fadeab',
-              '#edca6c',
-              '#fdae61',
-              '#f46d43',
-              '#d73027',
+              '#fdfdfd',
+              '#f19274',
+              '#ed7b57',
+              '#f46032',
+              '#f15221',
+              '#d7281f',
               '#a50026'],
             //取值范围的颜色
           },
@@ -1841,36 +1797,23 @@ export default {
     },
     //获取数据
     getWorldMapData(){
-      querySentimentByWorkIdAndTime(this.queryMapParam).then((res)=>{
+      getWorldPolarityDistribute(this.queryMapParam).then((res)=>{
         if (res.code === "0") {
           //提取各情感值原始数据
-          this.happyData = res.data.map((item) => {
-            return {country: item.country, value: item.happy}
+          this.positiveData = res.data.map((item) => {
+            return {country: item.country, value: item.positive}
           });
           // console.log(res.data)
-          this.amazedData = res.data.map((item) => {
-            return {country: item.country, value: item.amazed}
-          });
           this.neutralityData = res.data.map((item) => {
             return {country: item.country, value: item.neutrality}
           });
-          this.sadData = res.data.map((item) => {
-            return {country: item.country, value: item.sad}
+          this.negativeData = res.data.map((item) => {
+            return {country: item.country, value: item.negative}
           });
-          this.angryData = res.data.map((item) => {
-            return {country: item.country, value: item.angry}
-          });
-          this.fearData = res.data.map((item) => {
-            return {country: item.country, value: item.fear}
-          });
-          // console.log(this.happyData)
           //计算各国情感占比
-          this.happyData = this.calProportion(this.happyData)
-          this.amazedData = this.calProportion(this.amazedData)
+          this.positiveData = this.calProportion(this.positiveData)
+          this.negativeData = this.calProportion(this.negativeData)
           this.neutralityData = this.calProportion(this.neutralityData)
-          this.sadData = this.calProportion(this.sadData)
-          this.angryData = this.calProportion(this.angryData)
-          this.fearData = this.calProportion(this.fearData)
           //根据所选情感值 将对应数组中的数据填充至worldMap中 更新图表
           this.updateChart();
         }
@@ -1932,23 +1875,14 @@ export default {
     //填充worldMap的数据
     fillWorldMapData(){
       switch (this.selectEmotion){
-        case 'happy':
-          this.emotionEveryCountry = this.happyData;
+        case 'positive':
+          this.emotionEveryCountry = this.positiveData;
           break;
-        case 'amazed':
-          this.emotionEveryCountry = this.amazedData;
+        case 'negative':
+          this.emotionEveryCountry = this.negativeData;
           break;
         case 'neutrality':
           this.emotionEveryCountry = this.neutralityData;
-          break;
-        case 'sad':
-          this.emotionEveryCountry = this.sadData;
-          break;
-        case 'angry':
-          this.emotionEveryCountry = this.angryData;
-          break;
-        case 'fear':
-          this.emotionEveryCountry = this.fearData;
           break;
       }
     },

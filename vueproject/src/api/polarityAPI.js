@@ -72,4 +72,7 @@ export const getMonthAnalysisResult = (params)=>{
   return req("get", "/polarity/getMonthAnalysisResult", params)
 }
 
-
+// 查询世界极性情感分布
+export const getWorldPolarityDistribute = (params)=>{
+  return req("get", "/polarity/getWorldPolarity", params)
+}

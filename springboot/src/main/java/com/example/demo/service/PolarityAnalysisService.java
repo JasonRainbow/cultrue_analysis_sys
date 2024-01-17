@@ -1,7 +1,11 @@
 package com.example.demo.service;
 
+import com.example.demo.entity.PolarityAnalysis;
 import com.example.demo.entity.dto.PolarityStatisticsDto;
 import org.springframework.stereotype.Service;
+
+import java.text.ParseException;
+import java.util.List;
 
 public interface PolarityAnalysisService {
     /**
@@ -9,4 +13,12 @@ public interface PolarityAnalysisService {
      * @return PolarityStatisticsDto
      */
     PolarityStatisticsDto getPolarityByYear(Integer workId, String country, String year);
+
+    /**
+     * 查询指定作品的世界极性情感分布
+     * @param workId 作品ID
+     * @param month 查询月份
+     * @return 极性情感分布列表
+     */
+    List<PolarityAnalysis> getWorldPolarityMonthly(Integer workId, String month) throws ParseException;
 }

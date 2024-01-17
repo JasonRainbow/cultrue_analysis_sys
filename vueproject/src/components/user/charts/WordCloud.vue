@@ -1,7 +1,14 @@
 <template>
   <div id="main_div" style="height: 100%;width:100%">
     <div style="text-align:center;height:30%;">
-      <div :style="{'margin-bottom': divWidth * 0.005 + 'px', marginTop: '-3px', 'font-size': divWidth * 0.038 + 'px'}">{{selectCountry}}&nbsp;{{selectDate}}词云图</div>
+      <div :class="{'border-font': height === '300px'}"
+        :style="{
+        'margin-bottom': divWidth * 0.005 + 'px',
+        marginTop: '-3px',
+        'font-size': divWidth * 0.038 + 'px'
+      }">
+        {{selectCountry}}&nbsp;{{selectDate}}词云图
+      </div>
       <el-select class="custom-select3" :size="inputSize" style="width: 28%" v-model="selectCountry" placeholder="请选择国家" @change="getWordData">
         <el-option
           v-for="item in countryOptions"

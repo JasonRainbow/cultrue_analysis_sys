@@ -333,8 +333,18 @@ public class PolarityAnalysisController {
 
     @GetMapping("/getMonthAnalysisResult")
     @ApiOperation(value = "查询某月的极性情感分析结果")
-    public Result getMonthAnalysisResult(@RequestParam(required = false) Integer workId, @RequestParam(required = false) String country, @RequestParam String selectMonth) {
+    public Result getMonthAnalysisResult(@RequestParam(required = false) Integer workId,
+                                         @RequestParam(required = false) String country,
+                                         @RequestParam String selectMonth) {
         PolarityDto polarityDto = polarityAnalysisMapper.selectPolarityByMonth(workId, country, selectMonth);
         return Result.success(polarityDto);
+    }
+
+    @GetMapping("/getWorldPolarity")
+    @ApiOperation(value = "查询作品的世界极性情感分布(指定月份)")
+    public Result getWorldPolarity(@RequestParam Integer searchWorkId,
+                                   @RequestParam(defaultValue = "", required = false) String searchTime) throws ParseException {
+
+        return Result.success(polarityAnalysisService.getWorldPolarityMonthly(searchWorkId, searchTime));
     }
 }

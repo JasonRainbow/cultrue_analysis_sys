@@ -56,7 +56,7 @@
           <!--         左侧部分-->
           <el-col :span="7">
             <div :style="{ height: kHOne + 'px'}">
-              <dv-border-box-12 class="bg_mask" :style="{
+              <dv-border-box-12 class="bg_mask border-font" :style="{
               'padding-top':screenWidth * 0.0052 + 'px',
                'padding-left': screenWidth * 0.0066 + 'px',
                'padding-right': screenWidth * 0.0066 + 'px',
@@ -87,7 +87,15 @@
             <div :style="{ height: kHThree + 'px'}">
               <dv-border-box-12 class="bg_mask" style="padding:12px;width:100%;height:100%">
                 <div style="margin-bottom: 5px;height:100%">
-                  <span :style="{'margin-right': '8px', 'height': '45%', 'font-size': screenWidth * 0.0118 + 'px'}" class="font-bold">监测作品切换：</span>
+                  <span
+                    :style="{
+                    'margin-right': '8px',
+                    'height': '45%',
+                    'font-size': screenWidth * 0.0118 + 'px'
+                  }"
+                    class="font-bold border-font">
+                    监测作品切换：
+                  </span>
                   <el-select class="custom-select" v-model="workId" :size="inputSize" placeholder="请选择作品类型" style="height: 45%"  @change="selectChanged">
                     <el-option
                       v-for="work in works"

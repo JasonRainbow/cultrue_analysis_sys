@@ -1,14 +1,19 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.entity.PolarityAnalysis;
 import com.example.demo.entity.dto.PolarityDto;
 import com.example.demo.entity.dto.PolarityStatisticsDto;
 import com.example.demo.mapper.PolarityAnalysisMapper;
 import com.example.demo.service.PolarityAnalysisService;
+import com.google.common.base.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Service
 public class PolarityAnalysisServiceImpl implements PolarityAnalysisService {
@@ -41,5 +46,22 @@ public class PolarityAnalysisServiceImpl implements PolarityAnalysisService {
         }
 
         return polarityStatisticsDto;
+    }
+
+    @Override
+    public List<PolarityAnalysis> getWorldPolarityMonthly(Integer workId, String month) throws ParseException {
+
+        List<PolarityAnalysis> polarityAnalyses
+                = polarityAnalysisMapper.selectCountriesPolarity(workId, month);
+
+        if (!Strings.isNullOrEmpty(month)) {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
+            Date monthDate = sdf.parse(month);
+            for (PolarityAnalysis item: polarityAnalyses) {
+                item.setTime(monthDate);
+            }
+        }
+
+        return polarityAnalyses;
     }
 }

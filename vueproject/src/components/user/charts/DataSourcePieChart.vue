@@ -1,6 +1,11 @@
 <template>
   <div style="height:100%">
-    <div :style="{'font-size': divWidth * 0.0327 + 'px'}">数据来源占比</div>
+    <div :class="{'border-font': height === '300px'}"
+      :style="{
+      'font-size': divWidth * 0.0327 + 'px'
+    }">
+      数据来源占比
+    </div>
     <div id="platFormChart" :style="{height: height2}"></div>
   </div>
 </template>
