@@ -431,7 +431,7 @@ export default {
 }
 
 .commentCnt_tick {
-  margin-left: 20px;
+  float: right;
   color: #e88226;
 }
 

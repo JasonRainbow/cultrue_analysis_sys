@@ -40,6 +40,9 @@ public class DataAnalysisService {
     @Value("${remote_host2}")
     private String address2;
 
+    @Value("${remote_host3}")
+    private String address3;
+
     @Autowired
     private MonitorWorkMapper monitorWorkMapper;
 
@@ -164,7 +167,7 @@ public class DataAnalysisService {
         // 创建一个线程去发送http请求
         new Thread(()->{
             try {
-                httpUtils.get(address1 + "/recommend", null);
+                httpUtils.get(address3 + "/recommend", null);
             } catch (Exception e) {
                 logger.error(e.getLocalizedMessage());
                 System.out.println("更新推荐列表失败");

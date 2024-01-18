@@ -43,6 +43,9 @@ public class HotWork {
     @ApiModelProperty(value = "作品介绍内容")
     private String content; // 作品介绍内容
 
+    @ApiModelProperty(value = "翻译后的作品介绍内容")
+    private String translatedContent; // 翻译后的作品介绍内容
+
     @ApiModelProperty(value = "作品介绍url")
     private String citeUrl; // 网址
 

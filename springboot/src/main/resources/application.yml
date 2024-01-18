@@ -147,9 +147,9 @@ my:
       basePackage: com.example.demo.controller
 
 scrap_host: 426qb33844.goho.co
-#remote_host1: 47.115.211.201:5000
 remote_host1: 426qb33844.goho.co
 remote_host2: 426qb33844.goho.co
+remote_host3: 47.115.211.201:5000
 
 # 都可以访问的接口
 interceptorconfig:

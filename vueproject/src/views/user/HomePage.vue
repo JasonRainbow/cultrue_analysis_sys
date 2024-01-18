@@ -31,10 +31,39 @@
                     {{item.content}}
                   </div>
                   <div class="report-bottom">
-                    <span>{{item.subCategory}}</span>
-                    <span style="margin-left: 15px">{{item.postTime}}</span>
-                    <span style="float: right" @click="clickDetails(item.id)">
-                      <a :href="item.citeUrl" target="_blank" >查看详情</a>
+                    <div>
+                      <span>{{item.subCategory}}</span>
+                      <span style="margin-left: 15px">{{item.postTime}}</span>
+                    </div>
+                    <span style="float: right; margin-top: 0.5em" @click="clickDetails(item.id)">
+                      <el-popover
+                        placement="bottom"
+                        width="300"
+                        trigger="click">
+                        <div>
+                          <div class="popper-title">{{item.name}}</div>
+                          <el-tabs v-model="activeName">
+                            <el-tab-pane label="翻译后" name="translated">
+                              <vuescroll>
+                                <div class="popper-origin-content">{{ item.translatedContent }}</div>
+                              </vuescroll>
+                            </el-tab-pane>
+                            <el-tab-pane label="原文" name="origin">
+                              <vuescroll>
+                                <div class="popper-translated-content">{{ item.content }}</div>
+                              </vuescroll>
+                            </el-tab-pane>
+
+                          </el-tabs>
+
+                        </div>
+
+                        <span class="font-btn" slot="reference" @click="handleClick">
+                          查看翻译
+                        </span>
+
+                      </el-popover>
+                      <a class="font-btn" :href="item.citeUrl" target="_blank" >查看详情</a>
                       (来源: <a :href="item.platform.platformUrl" target="_blank">{{item.platform.platformName}}</a>)
                     </span>
                   </div>
@@ -99,6 +128,7 @@ import {getMonitorWorkByUserId} from "../../api/monitor_workAPI";
 import HomePageLineChart from "../../components/user/charts/HomePageLineChart";
 import HotComment from "../../components/user/common/HotComment";
 import {recordUserSelect} from "../../api/userAPI";
+import vuescroll from "vuescroll";
 
 export default {
   name: "HomePage",
@@ -106,10 +136,12 @@ export default {
     SlideShow,
     pie,
     HomePageLineChart,
-    HotComment
+    HotComment,
+    vuescroll
   },
   data() {
     return {
+      activeName: "translated",
       searchParams: {
         searchName: null,
         searchCategory: null,
@@ -120,15 +152,16 @@ export default {
       loading: false,
       noMore: false,
       messages: [
-        /*{
+        {
           id: null,
           title: "",
           content: "",
+          translatedContent: "",
           imgUrl: "",
           citeUrl: "",
           postTime: "",
-          category: ""
-        }*/
+          category: "",
+        }
       ],
       currentPage: 1,
       totalRecords: 10,
@@ -227,6 +260,10 @@ export default {
           console.log(res.msg)
         }
       })
+    },
+    handleClick() {
+      // 设置初始选中的标签
+      this.activeName = "translated"
     }
   },
   async created() {
@@ -360,8 +397,32 @@ a {
 }
 
 .commentCnt_tick {
-  margin-left: 20px;
+  float: right;
   color: #e88226;
+}
+
+.popper-title {
+  color: #c15128;
+  font-size: 1.3em;
+  margin-bottom: 0.6em;
+}
+
+.popper-origin-content, .popper-translated-content {
+  color: black;
+  text-indent: 2em;
+  height: 14em;
+}
+
+.font-btn {
+  color: #2569b0;
+  cursor: pointer;
+  font-size: 18px;
+  margin-left: 15px;
+}
+
+.font-btn:hover {
+  text-decoration: underline;
+  color: #c15128;
 }
 
 </style>

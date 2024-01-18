@@ -145,6 +145,12 @@ public class MonitorWork {
     private String content;
 
     /**
+     * 翻译后的作品简介
+     */
+    @ApiModelProperty(value = "翻译后的作品简介")
+    private String translatedContent;
+
+    /**
      * 作品引用网址
      */
     @ApiModelProperty(value = "作品引用网址")
