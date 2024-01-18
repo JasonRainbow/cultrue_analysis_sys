@@ -16,7 +16,7 @@
       <router-view></router-view>
     </el-card>
     <div class="high-impact-comment" @click="enterComment">
-      查看高影响力评论
+      查看热点评论
     </div>
     <div v-if="showChart" class="analysis-open">
       <div class="icon-chart-score" @click="changeChartType(0)">

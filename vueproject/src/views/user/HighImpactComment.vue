@@ -7,7 +7,7 @@
           <div style="font-size: 20px; color: #e2652f">
             湖湘文化作品({{work.subCategory}})：
             <span style="color: #ef0000">{{work.name}} ({{work.englishName}})</span>
-            <span style="margin-left: 40px;">高影响力评论</span>
+            <span style="margin-left: 40px;">热点评论</span>
           </div>
         </div>
         <div @click="goBack" class="back" >

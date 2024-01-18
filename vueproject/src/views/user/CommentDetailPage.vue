@@ -1,65 +1,69 @@
 <template>
-  <div id="main">
-    <div class="bg"></div>
-    <el-card class="box-chart-show">
-      <div class="info">
-        <div class="item">
-          <i class="el-icon-location" style="font-size: 26px"></i>
-          <span class="info-text">{{comment.country}}</span>
-        </div>
+  <vuescroll>
+    <div id="main">
+      <div class="bg"></div>
+      <el-card class="box-chart-show">
+        <div class="info">
+          <div class="item">
+            <i class="el-icon-location" style="font-size: 26px"></i>
+            <span class="info-text">{{comment.country}}</span>
+          </div>
 
-        <div class="item">
-          <i class="nav-tab-item_icon iconfont icon-cast_rounded custom_icon"></i>
-          <span class="info-text">{{comment.platform}}</span>
-        </div>
+          <div class="item">
+            <i class="nav-tab-item_icon iconfont icon-cast_rounded custom_icon"></i>
+            <span class="info-text">{{comment.platform}}</span>
+          </div>
 
-        <div class="item">
-          <i class="el-icon-date custom_icon"></i>
-          <span class="info-text">{{comment.postTime}}</span>
-        </div>
+          <div class="item">
+            <i class="el-icon-date custom_icon"></i>
+            <span class="info-text">{{comment.postTime}}</span>
+          </div>
 
-        <div class="item">
-          <i class="work_icon custom_icon_pic"></i>
-          <span class="info-text">{{comment.monitorWork.name}}</span>
-        </div>
+          <div class="item">
+            <i class="work_icon custom_icon_pic"></i>
+            <span class="info-text">{{comment.monitorWork.name}}</span>
+          </div>
 
-        <div class="item">
-          <i class="lang_icon custom_icon_pic"></i>
-          <span class="info-text">{{comment.language}}</span>
-        </div>
+          <div class="item">
+            <i class="lang_icon custom_icon_pic"></i>
+            <span class="info-text">{{comment.language}}</span>
+          </div>
 
-        <div class="item">
-          <i class="sentiment_icon custom_icon_pic"></i>
-          <span class="info-text" :class="{
+          <div class="item">
+            <i class="sentiment_icon custom_icon_pic"></i>
+            <span class="info-text" :class="{
             positive: comment.sentiment === '积极',
             negative: comment.sentiment === '消极',
             neutrality: comment.sentiment === '中立'
           }">{{comment.sentiment}}</span>
-        </div>
+          </div>
 
-        <el-button class="my-button" size="small" @click="goBack">返回</el-button>
-      </div>
-      <div class="comment_wrapper">
-        <el-row :gutter="30">
-          <el-col style="border-right: 2px dashed #fad0b7" class="comment" :span="12" :xs="24" :md="24" :lg="12">
-            <div class="comment-desc">原始评论</div>
-            <div class="origin-comment">{{comment.content}}</div>
-          </el-col>
-          <el-col class="comment" :span="12" :xs="24" :md="24" :lg="12">
-            <div class="comment-desc">翻译后的评论</div>
-            <div class="translated-comment">{{comment.translated}}</div>
-          </el-col>
-        </el-row>
-      </div>
-    </el-card>
-  </div>
+          <el-button class="my-button" size="small" @click="goBack">返回</el-button>
+        </div>
+        <div class="comment_wrapper">
+          <el-row :gutter="30">
+            <el-col style="border-right: 2px dashed #fad0b7" class="comment" :span="12" :xs="24" :md="24" :lg="12">
+              <div class="comment-desc">原始评论</div>
+              <div class="origin-comment">{{comment.content}}</div>
+            </el-col>
+            <el-col class="comment" :span="12" :xs="24" :md="24" :lg="12">
+              <div class="comment-desc">翻译后的评论</div>
+              <div class="translated-comment">{{comment.translated}}</div>
+            </el-col>
+          </el-row>
+        </div>
+      </el-card>
+    </div>
+  </vuescroll>
 </template>
 
 <script>
 import {getCommentById} from "../../api/commentAPI";
+import vuescroll from "vuescroll";
 
 export default {
   name: "CommentDetailPage",
+  components: {vuescroll},
   props: {
     commentId: {
       type: Number,
@@ -207,6 +211,11 @@ export default {
 
 .neutrality {
   color: #dac803;
+}
+
+#main {
+  //background: white url("../../assets/img/detail_bg.svg") center center repeat;
+
 }
 
 </style>
