@@ -76,3 +76,8 @@ export const getMonthAnalysisResult = (params)=>{
 export const getWorldPolarityDistribute = (params)=>{
   return req("get", "/polarity/getWorldPolarity", params)
 }
+
+// 查询世界极性情感分布  指定年份
+export const getWorldPolarityDistributeByYear = (params)=>{
+  return req("get", "/polarity/getWorldPolarityByYear", params)
+}

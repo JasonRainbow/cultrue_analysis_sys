@@ -181,6 +181,7 @@ interceptorconfig:
       - /api/polarity/countDayInterval
       - /api/polarity/getMonthAnalysisResult
       - /api/polarity/getWorldPolarity
+      - /api/polarity/getWorldPolarityByYear
       - /api/sentiment/countDaily
       - /api/word-freq/query-res
       - /api/sentiment/getWorldSentiment

@@ -15,10 +15,18 @@ public interface PolarityAnalysisService {
     PolarityStatisticsDto getPolarityByYear(Integer workId, String country, String year);
 
     /**
-     * 查询指定作品的世界极性情感分布
+     * 查询指定作品的世界极性情感分布  指定月份
      * @param workId 作品ID
      * @param month 查询月份
      * @return 极性情感分布列表
      */
     List<PolarityAnalysis> getWorldPolarityMonthly(Integer workId, String month) throws ParseException;
+
+    /**
+     * 查询指定作品的世界极性情感分布  指定年份
+     * @param workId 作品ID
+     * @param year 查询年份
+     * @return 极性情感分布列表
+     */
+    List<PolarityAnalysis> getWorldPolarityYearly(Integer workId, String year) throws ParseException;
 }

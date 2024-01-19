@@ -64,4 +64,21 @@ public class PolarityAnalysisServiceImpl implements PolarityAnalysisService {
 
         return polarityAnalyses;
     }
+
+    @Override
+    public List<PolarityAnalysis> getWorldPolarityYearly(Integer workId, String year) throws ParseException {
+
+        List<PolarityAnalysis> polarityAnalyses
+                = polarityAnalysisMapper.selectCountriesPolarityByYear(workId, year);
+
+        if (!Strings.isNullOrEmpty(year)) {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
+            Date monthDate = sdf.parse(year);
+            for (PolarityAnalysis item: polarityAnalyses) {
+                item.setTime(monthDate);
+            }
+        }
+
+        return polarityAnalyses;
+    }
 }

@@ -5,7 +5,7 @@
       'text-align': 'center','margin': 'auto',
       'font-size': screenWidth * 0.0152 + 'px'
       }">
-        {{workName}}&nbsp;&nbsp;{{queryMapParam.searchTime}}&nbsp;&nbsp;国际情感分布
+        {{workName}}&nbsp;&nbsp;{{queryMapParam.searchTime || queryMapParam.searchYear}}&nbsp;&nbsp;国际情感分布
       </h2>
     </div>
     <div style="margin-top: 1%;text-align: center" >
@@ -17,14 +17,32 @@
           :value="item.value">
         </el-option>
       </el-select>
-      <el-date-picker class="custom-select" :size="inputSize"
+      <el-date-picker
+        class="custom-select"
+        :size="inputSize"
         v-model="queryMapParam.searchTime"
         align="right"
         type="month"
         placeholder="选择月份"
         value-format="yyyy-MM"
         :picker-options="pickerOptions"
-        @change="getWorldMapData"
+        :disabled="selectTimeType === 'year'"
+        :editable="false"
+        @change="getWorldMapDataMonthly"
+      >
+      </el-date-picker>
+      <el-date-picker
+        class="custom-select"
+        :size="inputSize"
+        v-model="queryMapParam.searchYear"
+        align="right"
+        type="year"
+        placeholder="选择年份"
+        value-format="yyyy"
+        :picker-options="pickerOptions"
+        :disabled="selectTimeType === 'month'"
+        :editable="false"
+        @change="getWorldMapDataYearly"
       >
       </el-date-picker>
     </div>
@@ -36,7 +54,7 @@
 </template>
 <script>
 import worldJson from '../../../assets/map/world.json'
-import {getWorldPolarityDistribute} from "../../../api/polarityAPI";
+import {getWorldPolarityDistribute, getWorldPolarityDistributeByYear} from "../../../api/polarityAPI";
 export default {
   name: "WorldMap",
   props: {
@@ -51,6 +69,7 @@ export default {
   },
   data() {
     return {
+      selectTimeType: "year",
       label: "情感排名",
       inputSize: 'small',
       screenWidth: 1536,
@@ -85,7 +104,8 @@ export default {
       //请求参数
       queryMapParam: {
         searchWorkId: this.workId,
-        searchTime: '2023-07'
+        searchTime: '',
+        searchYear: '2023'
       },
       //positive 从返回的json数据中提取出的积极情感值
       positiveData:[
@@ -337,7 +357,7 @@ export default {
     }
 
     this.initWorldMapChart()
-    this.getWorldMapData()
+    this.getWorldMapDataYearly()
     this.handleResize = ()=>{
       this.screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
       this.worldMapChart.resize();
@@ -447,59 +467,78 @@ export default {
       this.currentOption = this.option;
     },
     //获取数据
-    getWorldMapData(){
+    getWorldMapDataMonthly(){
+      if (this.queryMapParam.searchTime) {
+        this.selectTimeType = "month"
+      } else {
+        this.selectTimeType = ""
+      }
       getWorldPolarityDistribute(this.queryMapParam).then((res)=>{
         if (res.code === "0") {
-          //提取各情感值原始数据
-          this.positiveData = res.data.map((item) => {
-            return {country: item.country, value: item.positive}
-          });
-          // console.log(res.data)
-          this.neutralityData = res.data.map((item) => {
-            return {country: item.country, value: item.neutrality}
-          });
-          this.negativeData = res.data.map((item) => {
-            return {country: item.country, value: item.negative}
-          });
-          this.positiveData.sort(function (a, b) {
-            return a.value - b.value;
-          });
-          this.neutralityData.sort(function (a, b) {
-            return a.value - b.value;
-          });
-          this.negativeData.sort(function (a, b) {
-            return a.value - b.value;
-          });
-          //计算各国情感占比
-          this.positiveData = this.calProportion(this.positiveData)
-          this.negativeData = this.calProportion(this.negativeData)
-          this.neutralityData = this.calProportion(this.neutralityData)
-          //根据所选情感值 将对应数组中的数据填充至worldMap中 更新图表
-          this.updateChart();
-          this.initBarOption()
-
-          if (this.label === "情感排名") {
-            this.worldMapChart.setOption(this.option);
-          } else {
-            this.worldMapChart.setOption(this.barOption)
-          }
-
-          this.handleClick = ()=>{
-            this.currentOption = this.currentOption === this.option ? this.barOption : this.option;
-            this.worldMapChart.setOption(this.currentOption, true);
-            if (this.label === "情感排名") {
-              this.label = "情感全球分布"
-            } else {
-              this.label = "情感排名"
-            }
-          }
-          this.handleResize = ()=>{
-            this.worldMapChart.resize()
-          }
+          this.processData(res)
         }
       })
-
    },
+    getWorldMapDataYearly() {
+      if (this.queryMapParam.searchYear) {
+        this.selectTimeType = "year"
+      } else {
+        this.selectTimeType = ""
+      }
+      getWorldPolarityDistributeByYear(this.queryMapParam).then((res)=>{
+        if (res.code === "0") {
+          this.processData(res)
+        }
+      })
+    },
+    processData(res) {
+      //提取各情感值原始数据
+      this.positiveData = res.data.map((item) => {
+        return {country: item.country, value: item.positive}
+      });
+      // console.log(res.data)
+      this.neutralityData = res.data.map((item) => {
+        return {country: item.country, value: item.neutrality}
+      });
+      this.negativeData = res.data.map((item) => {
+        return {country: item.country, value: item.negative}
+      });
+      this.positiveData.sort(function (a, b) {
+        return a.value - b.value;
+      });
+      this.neutralityData.sort(function (a, b) {
+        return a.value - b.value;
+      });
+      this.negativeData.sort(function (a, b) {
+        return a.value - b.value;
+      });
+      //计算各国情感占比
+      this.positiveData = this.calProportion(this.positiveData)
+      this.negativeData = this.calProportion(this.negativeData)
+      this.neutralityData = this.calProportion(this.neutralityData)
+      //根据所选情感值 将对应数组中的数据填充至worldMap中 更新图表
+      this.updateChart();
+      this.initBarOption()
+
+      if (this.label === "情感排名") {
+        this.worldMapChart.setOption(this.option);
+      } else {
+        this.worldMapChart.setOption(this.barOption)
+      }
+
+      this.handleClick = ()=>{
+        this.currentOption = this.currentOption === this.option ? this.barOption : this.option;
+        this.worldMapChart.setOption(this.currentOption, true);
+        if (this.label === "情感排名") {
+          this.label = "情感全球分布"
+        } else {
+          this.label = "情感排名"
+        }
+      }
+      this.handleResize = ()=>{
+        this.worldMapChart.resize()
+      }
+    },
     //计算各国情感占比
     calProportion(emotionArray){
       let sum = 0

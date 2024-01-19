@@ -347,4 +347,12 @@ public class PolarityAnalysisController {
 
         return Result.success(polarityAnalysisService.getWorldPolarityMonthly(searchWorkId, searchTime));
     }
+
+    @GetMapping("/getWorldPolarityByYear")
+    @ApiOperation(value = "查询作品的世界极性情感分布(指定年份)")
+    public Result getWorldPolarityByYear(@RequestParam Integer searchWorkId,
+                                   @RequestParam(defaultValue = "", required = false) String searchYear) throws ParseException {
+
+        return Result.success(polarityAnalysisService.getWorldPolarityYearly(searchWorkId, searchYear));
+    }
 }
