@@ -173,4 +173,10 @@ public class MonitorWork {
      */
     @TableField(exist = false)
     private Integer commentCnt;
+
+    /**
+     * 附属信息
+     */
+    @ApiModelProperty(value = "附属信息")
+    private String attachInfo;
 }

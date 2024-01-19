@@ -1,6 +1,11 @@
 <template>
   <div class="container">
-    <img class="work-img" :src="work.imgUrl" alt="作品图片">
+    <div class="associatedInfo">
+      <div class="title">作品与湖南的关联</div>
+      <div class="attachInfo">{{work.attachInfo}}</div>
+      <img class="work-img" :src="work.imgUrl" alt="作品图片">
+    </div>
+
     <el-card class="box-chart-show">
       <div class="card-head">
         <div class="back">
@@ -73,6 +78,7 @@ export default {
         englishName: 'The Border Town',
         imgUrl: '',
         subCategory: '小说',
+        attachInfo: ""
       },
     }
   },
@@ -376,11 +382,8 @@ export default {
 }
 
 .work-img {
-  width: 18%;
-  position: absolute;
-  top: 30%;
-  left: 20px;
   border-radius: 20px;
+  width: 100%;
 }
 .high-impact-comment{
   position: absolute;
@@ -390,6 +393,38 @@ export default {
   font-weight: bold;
   top:1%;
   cursor: pointer;
+}
+
+.associatedInfo {
+  width: 13%;
+  position: absolute;
+  top: 22%;
+  left: 20px;
+}
+
+.attachInfo {
+  height: 6em;
+  border: 2px dashed #05b8be;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  padding: 0.5em;
+  color: #ba4f02;
+  font-size: 18px;
+  font-weight: bold;
+  overflow: auto;
+}
+
+.attachInfo::-webkit-scrollbar {
+  display: none;
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 5px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #ed1212;
+  font-family: 华光中圆_CNKI, sans-serif;
 }
 </style>
 

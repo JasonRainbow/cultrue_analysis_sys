@@ -335,8 +335,11 @@ public class PolarityAnalysisController {
     @ApiOperation(value = "查询某月的极性情感分析结果")
     public Result getMonthAnalysisResult(@RequestParam(required = false) Integer workId,
                                          @RequestParam(required = false) String country,
-                                         @RequestParam String selectMonth) {
+                                         @RequestParam(required = false) String selectMonth) {
         PolarityDto polarityDto = polarityAnalysisMapper.selectPolarityByMonth(workId, country, selectMonth);
+        if (polarityDto == null) {
+            polarityDto = new PolarityDto();
+        }
         return Result.success(polarityDto);
     }
 

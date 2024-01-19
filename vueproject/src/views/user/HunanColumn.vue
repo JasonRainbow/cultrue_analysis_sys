@@ -90,6 +90,15 @@
                           <el-button class="btn btn2" size="small" @click="handleClick(item.work.id, item.work.name)">查看传播效果</el-button>
                         </div>
                       </div>
+                      <ViewTranslation
+                        class="btn"
+                        style="color: #05e1f3"
+                        :work-name="item.work.name"
+                        :translated-content="item.work.translatedContent"
+                        :content="item.work.content"
+                      >
+
+                      </ViewTranslation>
                       <span class="btn">
                         (来源:
                         <a :href="item.platform.platformUrl" class="sourceColor" target="_blank">
@@ -131,10 +140,20 @@
                       <span>{{item.work.subCategory}}</span>
                       <span style="margin-left: 15px">{{item.work.postTime}}</span>
                       <span style="float: right;">
-                        <a :href="item.work.citeUrl" target="_blank" style="color: #1c84c6">查看详情</a>
+                        <a :href="item.work.citeUrl" class="font-btn" target="_blank" style="color: #1c84c6">查看详情</a>
                         (来源: <a :href="item.platform.platformUrl" class="sourceColor" target="_blank">{{item.platform.platformName}}</a>)
                       </span>
-                      <span style="float: right; margin-right: 20px; color: #1c84c6; cursor: pointer" @click="handleClick(item.work.id, item.work.name)">查看传播效果</span>
+                      <span
+                        class="font-btn"
+                        style="float: right; margin-right: 20px; color: #1c84c6; cursor: pointer" @click="handleClick(item.work.id, item.work.name)">查看传播效果</span>
+                      <ViewTranslation
+                        style="color: #2569b0; float: right; margin-right: 20px"
+                        :work-name="item.work.name"
+                        :translated-content="item.work.translatedContent"
+                        :content="item.work.content"
+                      >
+
+                      </ViewTranslation>
                     </div>
                   </div>
                 </el-col>
@@ -159,11 +178,13 @@
 
 <script>
 import {getAllBookCategories, getAllOrigin, getAllVideoCategories, getHunanWorks} from "../../api/monitor_workAPI";
+import ViewTranslation from "../../components/user/common/ViewTranslation.vue";
 
 
 export default {
   name: "HuNanColumn",
   components: {
+    ViewTranslation
 
   },
   computed: {
@@ -808,6 +829,16 @@ img {
 
 .commentCnt_tick {
   color: #2ab2ed;
+}
+
+.font-btn {
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.font-btn:hover {
+  text-decoration: underline;
+  color: #c15128;
 }
 
 </style>

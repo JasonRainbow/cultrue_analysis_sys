@@ -246,7 +246,7 @@ export default {
       this.$router.back()
     },
     enterDetails(commentId){
-      console.log(commentId,"commentId")
+      // console.log(commentId,"commentId")
       this.$router.push({
         path: '/commentDetail',
         query: {
@@ -268,7 +268,7 @@ export default {
     getHighCommentByPlatform(this.params).then((res)=>{
       if(res.code==='0'){
         this.commentDetail=res.data
-        console.log(this.commentDetail,'comment')
+        // console.log(this.commentDetail,'comment')
       }
     })
     this.getWorkData()

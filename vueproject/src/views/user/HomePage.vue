@@ -39,35 +39,16 @@
                       <span>{{item.subCategory}}</span>
                       <span style="margin-left: 15px">{{item.postTime}}</span>
                     </div>
-                    <span style="float: right; margin-top: 0.5em" @click="clickDetails(item.id)">
-                      <el-popover
-                        placement="bottom"
-                        width="300"
-                        trigger="click">
-                        <div>
-                          <div class="popper-title">{{item.name}}</div>
-                          <el-tabs v-model="activeName">
-                            <el-tab-pane label="翻译后" name="translated">
-                              <vuescroll>
-                                <div class="popper-origin-content">{{ item.translatedContent }}</div>
-                              </vuescroll>
-                            </el-tab-pane>
-                            <el-tab-pane label="原文" name="origin">
-                              <vuescroll>
-                                <div class="popper-translated-content">{{ item.content }}</div>
-                              </vuescroll>
-                            </el-tab-pane>
+                    <span style="float: right; margin-top: 0.5em">
+                      <ViewTranslation
+                        style="color: #2569b0"
+                        :work-name="item.name"
+                        :translated-content="item.translatedContent"
+                        :content="item.content"
+                      >
 
-                          </el-tabs>
-
-                        </div>
-
-                        <span class="font-btn" slot="reference" @click="handleClick">
-                          查看翻译
-                        </span>
-
-                      </el-popover>
-                      <a class="font-btn" :href="item.citeUrl" target="_blank" >查看详情</a>
+                      </ViewTranslation>
+                      <a class="font-btn" :href="item.citeUrl" target="_blank" @click="clickDetails(item.id)">查看详情</a>
                       (来源: <a :href="item.platform.platformUrl" target="_blank">{{item.platform.platformName}}</a>)
                     </span>
                   </div>
@@ -104,11 +85,11 @@
             </el-select>
           </div>
           <div class="show-chart1">
-            <pie ref="pie_chart" :work-id="workId" width="540px" height="500px" :key="workId"></pie>
+            <pie ref="pie_chart" :work-id="workId" width="540px" height="500px" :key="'pie' + workId"></pie>
           </div>
           <div class="show-chart1" style="display: flex; justify-content: center; margin-top: 80px">
 <!--            引入子组件-->
-            <HomePageLineChart ref="line_chart" :work-id="workId" :key="workId"></HomePageLineChart>
+            <HomePageLineChart ref="line_chart" :work-id="workId" :key="'line' + workId"></HomePageLineChart>
           </div>
         </el-card>
       </el-col>
@@ -135,10 +116,12 @@ import {recordUserSelect} from "../../api/userAPI";
 import vuescroll from "vuescroll";
 import CategoryCapsuleChart from "../../components/user/charts/CategoryCapsuleChart.vue";
 import SubCategoryVolumeBar from "../../components/user/charts/SubCategoryVolumeBar.vue";
+import ViewTranslation from "../../components/user/common/ViewTranslation.vue";
 
 export default {
   name: "HomePage",
   components: {
+    ViewTranslation,
     SubCategoryVolumeBar,
     CategoryCapsuleChart,
     SlideShow,
@@ -149,7 +132,6 @@ export default {
   },
   data() {
     return {
-      activeName: "translated",
       searchParams: {
         searchName: null,
         searchCategory: null,
@@ -273,10 +255,6 @@ export default {
         }
       })
     },
-    handleClick() {
-      // 设置初始选中的标签
-      this.activeName = "translated"
-    }
   },
   async created() {
     this.getUserId()
@@ -411,18 +389,6 @@ a {
 .commentCnt_tick {
   float: right;
   color: #e88226;
-}
-
-.popper-title {
-  color: #c15128;
-  font-size: 1.3em;
-  margin-bottom: 0.6em;
-}
-
-.popper-origin-content, .popper-translated-content {
-  color: black;
-  text-indent: 2em;
-  height: 14em;
 }
 
 .font-btn {

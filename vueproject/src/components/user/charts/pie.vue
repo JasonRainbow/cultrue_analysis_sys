@@ -1,6 +1,6 @@
 <script>
-import {sentimentCountDaily} from "../../../api/sentimentAPI";
 import {getCountries} from "../../../api/commentAPI";
+import {getMonthAnalysisResult} from "../../../api/polarityAPI";
 
 export default {
   name: "pie",
@@ -26,11 +26,11 @@ export default {
   data() {
     return {
       selectCountry:'全球',
-      selectTime: '2023-07-01',
+      selectTime: '',
       searchParams: {
         workId: this.workId,
         country: '全球',  //this.selectCountry,
-        postTime:  '2023-07-01'       //this.data,
+        selectMonth:  ''       //this.data,
       },
       res_data: {},
       countryOptions:[
@@ -97,9 +97,9 @@ export default {
       },
     }
   },
-  async mounted() {
-    this.searchParams.postTime = this.selectTime = this.currentTime
-    await this.getAllCountries();
+  mounted() {
+    this.searchParams.selectMonth = this.selectTime
+    this.getAllCountries();
     this.createChart()
   },
   methods: {
@@ -117,13 +117,10 @@ export default {
       // console.log(this.searchParams)
       if (this.searchParams.country === "全球") {
         this.searchParams.country = ""
-      } else {
-        this.searchParams.country = this.selectCountry
       }
-      sentimentCountDaily(this.searchParams).then((res) => {
+      getMonthAnalysisResult(this.searchParams).then((res) => {
         if (res.code === "0") {
           this.res_data = res.data
-          // console.log(this.res_data)
           // 基于准备好的dom，初始化echarts实例
           this.chart = this.$echarts.getInstanceByDom(document.getElementById("pieChat"))
           if (this.chart == null || this.chart === "" || this.chart === undefined) {
@@ -169,12 +166,15 @@ export default {
                   show: false
                 },
                 data: [
-                  {value: this.res_data.happy, name: '开心'},
+                  /*{value: this.res_data.happy, name: '开心'},
                   {value: this.res_data.amazed, name: '惊讶'},
                   {value: this.res_data.neutrality, name: '中立'},
                   {value: this.res_data.sad, name: '伤心'},
                   {value: this.res_data.angry, name: '愤怒'},
-                  {value: this.res_data.fear, name: '恐惧'}
+                  {value: this.res_data.fear, name: '恐惧'}*/
+                  {value: this.res_data.positive, name: '积极'},
+                  {value: this.res_data.negative, name: '消极'},
+                  {value: this.res_data.neutrality, name: '中立'},
                 ]
               }
             ]
@@ -194,7 +194,7 @@ export default {
       //this.selectCountry=se
     },
     dateChanged(){
-      this.searchParams.postTime=this.selectTime;
+      this.searchParams.selectMonth = this.selectTime;
       this.createChart();
     },
   },
@@ -230,12 +230,12 @@ export default {
     <el-date-picker
       class="custom-select2"
       v-model="selectTime"
-      type="date"
-      placeholder="请选择日期"
+      type="month"
+      placeholder="请选择月份"
       :clearable="false"
       :picker-options="pickerOptions"
-      format="yyyy-MM-dd"
-      value-format="yyyy-MM-dd"
+      format="yyyy-MM"
+      value-format="yyyy-MM"
       clearable
       @change="dateChanged"
     >

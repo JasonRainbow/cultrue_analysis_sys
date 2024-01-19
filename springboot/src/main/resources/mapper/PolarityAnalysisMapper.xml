@@ -124,7 +124,10 @@
     <select id="selectPolarityByMonth" resultType="com.example.demo.entity.dto.PolarityDto">
         select sum(positive) as positive, sum(negative) as negative, sum(neutrality) as neutrality
         from polarity_analy
-        where DATE_FORMAT(time, '%Y-%m') = #{selectMonth}
+        where 1=1
+          <if test="selectMonth != null and selectMonth != ''">
+              and DATE_FORMAT(time, '%Y-%m') = #{selectMonth}
+          </if>
             <if test="workId != null and workId != ''">
                 and workId = #{workId}
             </if>

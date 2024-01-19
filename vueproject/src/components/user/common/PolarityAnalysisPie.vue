@@ -27,7 +27,6 @@
 </template>
 
 <script>
-import {getSubjectsByWorkId, subjectAnalysisByWorkId} from "../../../api/SubjectAnalysisAPI";
 import {getMonthAnalysisResult} from "../../../api/polarityAPI";
 export default {
   name:'PolarityAnalysisPie',
