@@ -3,9 +3,9 @@
     <el-row align="center" justify="center" style="display: flex; justify-content: center;">
       <el-col :span="14" :xs="24" :md="23" align="center">
         <el-card class="box-card grid-content" shadow="always">
-          <div style="text-align: left">
+          <div style="text-align: right">
             <router-link to="/effect">
-              <el-link type="warning" style="font-size: 18px;" @click="showMap">&lt;&lt;返回</el-link>
+              <el-link type="warning" style="font-size: 18px;" @click="showMap">返回>></el-link>
             </router-link>
           </div>
           <h2 style="text-align: center" >{{title}}</h2>
@@ -29,7 +29,7 @@
     },
     methods:{
       showMap(){
-        this.$bus.$emit('mapShow')
+        this.$store.commit('setMapStatus',true)
       },
     },
     beforeRouteEnter (to, from, next) {

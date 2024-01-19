@@ -116,7 +116,7 @@ export default {
     this.workName=this.$route.query.workName
     this.country=this.$route.query.country
     this.$bus.$emit('getCountry',this.country)
-    this.title=this.workName+' '+this.country+' '+"极性情感评论排名"
+    this.title=this.workName+' '+this.country+' '+"极性情感分布"
     // if(this.workId==='0' || this.workId===0){
     //   this.title=this.country+' '++"极性情感分布"
     // }else{
