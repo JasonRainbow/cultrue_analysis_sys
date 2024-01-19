@@ -154,6 +154,15 @@ export default {
       // console.log(this.$refs.parent.clientWidth,"width")
   },
     mounted() {
+      if (this.$route.query.workId) {
+        this.workId = this.$route.query.workId
+      }
+      if (this.$route.query.workName) {
+        this.workName = this.$route.query.workName
+      }
+      if (this.$route.query.country) {
+        this.country = this.$route.query.country
+      }
       this.isShow=this.$store.state.isShow
     this.$bus.$on("pushSentimentAssessment",(data,workName,commentNum)=>{
       if(data && commentNum !==0 && commentNum !=='0'){
@@ -233,6 +242,7 @@ export default {
     })
   },
   beforeDestroy(){
+    this.$store.commit('setMapStatus',true)
     this.$bus.$off('pushSentimentAssessment')
     // this.$bus.$off('mapShow')
     this.$bus.$off('getCountry')
@@ -313,7 +323,7 @@ export default {
       //     }
       // })
     }
-  }
+  },
 }
 </script>
 

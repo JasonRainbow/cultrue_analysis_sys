@@ -38,7 +38,7 @@ export default {
       workId:this.workID,
       inputSize: 'small',
       screenWidth: 1536,
-      worldMapChart: {},
+      worldMapChart: null,
       dataList: [
         {
           name: "澳大利亚",
@@ -1455,7 +1455,7 @@ export default {
         // this.worldMapChart.removeAttribute("_echarts_instance_");
       }
       this.getMapDataAndShowMap()
-    }
+    },
   },
     computed:{
         scrollerHeight: function() {
@@ -1791,8 +1791,16 @@ export default {
       //     this.worldMapChart = this.$echarts.init(document.getElementById("worldMapChart"));
       //     this.$echarts.registerMap('world', worldJson)
       // }
-      this.worldMapChart = this.$echarts.init(document.getElementById("worldMapChart"));
-      this.$echarts.registerMap('world', worldJson)
+      let chartDom = document.getElementById("worldMapChart")
+      if (!chartDom) {
+        return
+      }
+      if (this.worldMapChart) {
+        this.worldMapChart.clear()
+      } else {
+        this.worldMapChart = this.$echarts.init(chartDom);
+        this.$echarts.registerMap('world', worldJson)
+      }
       this.worldMapChart.setOption(this.option);
       this.worldMapChart.on('click', this.getMap);
     },
@@ -1807,6 +1815,7 @@ export default {
     },
     //更新图表
     updateChart(){
+      if (!this.worldMapChart) return
       this.countryCommentNum = {}
         // console.log(Object.keys(this.commentNum),"222")
       // let countryKeys = Object.keys(this.commentNum)//取出国家
@@ -1855,6 +1864,9 @@ export default {
       window.removeEventListener("resize", this.handleResize)
     }
   },
+  updated() {
+
+  }
 }
 </script>
 <style scoped>

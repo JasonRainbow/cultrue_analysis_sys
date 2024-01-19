@@ -16,6 +16,9 @@
         v-model="time"
         type="month"
         placeholder="选择月"
+        format="yyyy-MM"
+        value-format="yyyy-MM"
+        :picker-options="pickerOptions"
         @change="SelectChanged">
       </el-date-picker>
     </div>
@@ -45,6 +48,11 @@ export default {
       chart:null,
       // time:'2023-02',
       time:this.toDate(new Date),
+      pickerOptions: {
+        disabledDate(time) {
+          return time.getTime() > Date.now();
+        },
+      },
       params:{
         country:this.country,
         selectMonth:this.time
@@ -83,7 +91,6 @@ export default {
     // this.chart.resize()
   },
   mounted(){
-    console.log("挂载")
     this.divWidth = document.getElementById("container11").clientWidth
     if (this.divWidth < 600) {
       this.inputSize = "mini"
@@ -179,7 +186,8 @@ export default {
         this.params.workId=this.workId
       }
       // console.log(this.params,'params')
-      this.params.selectMonth=this.toDate(this.time)
+      this.params.selectMonth=this.time
+      // console.log(this.params)
       getMonthAnalysisResult(this.params).then((res)=>{
         // console.log(res,'res')
         if(res.code==='0'){
