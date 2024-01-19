@@ -161,6 +161,7 @@ interceptorconfig:
       - /api/loginAdmin
       - /api/comment/countries
       - /api/comment/getCommentNumByWorkIdAndCountry
+      - /api/comment/getAllCommentNumBySubCategory
       - /api/comment/platforms
       - /api/comment/byPage
       - /api/comment/byPage2

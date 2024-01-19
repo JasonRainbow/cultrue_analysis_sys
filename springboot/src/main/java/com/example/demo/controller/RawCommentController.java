@@ -297,7 +297,7 @@ public class RawCommentController {
     }
 
     @GetMapping("/getCommentNumBySubCategory")
-    @ApiOperation(value = "查询不同子类型作品的评论量")
+    @ApiOperation(value = "分页查询不同子类型作品的评论量")
     public Result getCommentNumBySubCategory(@RequestParam(required = false, defaultValue = "") String subCategory,
                                              @RequestParam(required = false, defaultValue = "1") Integer pageNum,
                                              @RequestParam(required = false, defaultValue = "10") Integer pageSize) {
@@ -305,8 +305,15 @@ public class RawCommentController {
         return Result.success(commentQueryService.querySubCategoryCommentNum(subCategory, pageNum, pageSize));
     }
 
+    @GetMapping("/getAllCommentNumBySubCategory")
+    @ApiOperation(value = "查询所有不同子类型作品的评论量")
+    public Result getAllCommentNumBySubCategory(@RequestParam(required = false, defaultValue = "") String subCategory) {
+
+        return Result.success(commentQueryService.querySubCategoryCommentNum(subCategory));
+    }
+
     @GetMapping("/getCommentNumByLanguage")
-    @ApiOperation(value = "查询不同语言评论量")
+    @ApiOperation(value = "分页查询不同语言评论量")
     public Result getCommentNumByLanguage(@RequestParam(required = false, defaultValue = "") String language,
                                           @RequestParam(required = false, defaultValue = "1") Integer pageNum,
                                           @RequestParam(required = false, defaultValue = "10") Integer pageSize) {
@@ -315,7 +322,7 @@ public class RawCommentController {
     }
 
     @GetMapping("/getCommentNumByPlatform")
-    @ApiOperation(value = "查询不同平台的评论量")
+    @ApiOperation(value = "分页查询不同平台的评论量")
     public Result getCommentNumByPlatform(@RequestParam(required = false, defaultValue = "") String platform,
                                           @RequestParam(required = false, defaultValue = "1") Integer pageNum,
                                           @RequestParam(required = false, defaultValue = "10") Integer pageSize) {

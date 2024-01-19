@@ -7,7 +7,7 @@
             <el-button  :disabled="isDisable1" type="warning" style="color: #222;font-weight: bold;margin-right: 10px" @click="changeStatus1">{{'切换极性情感占比图'}}</el-button>
             <el-button  :disabled="isDisable2" type="warning" style="color: #222;font-weight: bold;margin-right: 10px" @click="changeStatus2">{{'切换近一年极性情感变化趋势图'}}</el-button>
             <el-button  :disabled="isDisable3" type="warning" style="color: #222;font-weight: bold;margin-right: 10px" @click="changeStatus3">{{'切换评论数量变化趋势图'}}</el-button>
-            <el-button  :disabled="isDisable4" type="warning" style="color: #222;font-weight: bold;margin-right: 10%" @click="changeStatus4">{{'切换极性评论排名图'}}</el-button>
+            <el-button  :disabled="isDisable4" type="warning" style="color: #222;font-weight: bold;margin-right: 10%" @click="changeStatus4">{{'切换极性评论排名列表'}}</el-button>
             <router-link to="/effect">
               <el-link type="warning" style="font-size: 18px;" @click="showMap">返回>></el-link>
             </router-link>

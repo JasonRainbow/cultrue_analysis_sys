@@ -64,6 +64,13 @@ public interface RawCommentMapper extends BaseMapper<RawComment> {
     Page<Pair<String, Integer>> selectCommentSumBySubCategory(Page<CommentPlatformDto> page,
                                                               @Param("subCategory") String subCategory);
 
+    /**
+     * 查询不同子类型作品的评论数量 查询所有
+     * @param subCategory 作品子类型
+     * @return 作品子类型->评论数量 列表
+     */
+    List<Pair<String, Integer>> selectCommentSumBySubCategory(@Param("subCategory") String subCategory);
+
     List<String> selectPlatformByWorkId(@Param("workId") Integer workId);
 
     MonthCommentNum getCommentNumByWorkIdAndYear(@Param("workId") Integer workId, @Param("month") int i, @Param("country") String country);

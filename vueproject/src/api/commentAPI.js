@@ -75,6 +75,11 @@ export const getCommentNumBySubCategory = (params)=>{
   return req("get", "/comment/getCommentNumBySubCategory", params)
 }
 
+// 查询所有不同子类型作品的评论数量
+export const getAllCommentNumBySubCategory = (params)=>{
+  return req("get", "/comment/getAllCommentNumBySubCategory", params)
+}
+
 // 根据作品id查询不同平台的高影响力评论
 export const getHighCommentByPlatform = (params)=>{
   return req("get", "/comment/getHighCommentByPlatform", params)

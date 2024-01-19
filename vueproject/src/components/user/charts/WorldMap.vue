@@ -610,7 +610,7 @@ export default {
           axisLabel: {
             rotate: 30,
             color: '#dc5a15',
-            fontSize: 18,
+            fontSize: 15,
             fontWeight: 'bold',
             textBorderWidth: 1.5,
             textBorderColor: '#000'
@@ -626,9 +626,25 @@ export default {
           data: this.emotionEveryCountry.map(function (item) {
             return item.value;
           }),
+          barMaxWidth: 40, // 柱子的最大宽度
           universalTransition: true,
           itemStyle: {
-            color: '#c55b18'
+            borderRadius: 30,
+            color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [
+              { offset: 0, color: '#14c8d4' },
+              { offset: 1, color: '#43eec6' }
+            ])
+          },
+          label: {
+            show: true,
+            position: 'right',
+            valueAnimation: true,
+            color: '#26c6e1',
+            fontSize: 15,
+            fontWeight: 'bold',
+            textBorderWidth: 1.5,
+            textBorderColor: '#000',
+            formatter: '{c}%'
           }
         }
       };

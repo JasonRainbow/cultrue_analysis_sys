@@ -1,7 +1,11 @@
 <template>
   <div>
-    <el-row style="display: flex; justify-content: center; margin-top: 15px">
-      <el-col :span="17" :xs="24" align="center">
+    <el-row style="display: flex; margin-top: 15px">
+      <el-col style="display: flex" :xs="24" :md="9" :lg="8">
+        <SubCategoryVolumeBar></SubCategoryVolumeBar>
+      </el-col>
+
+      <el-col :xs="24" :md="15" :lg="16">
         <slide-show></slide-show>
       </el-col>
     </el-row>
@@ -129,10 +133,14 @@ import HomePageLineChart from "../../components/user/charts/HomePageLineChart";
 import HotComment from "../../components/user/common/HotComment";
 import {recordUserSelect} from "../../api/userAPI";
 import vuescroll from "vuescroll";
+import CategoryCapsuleChart from "../../components/user/charts/CategoryCapsuleChart.vue";
+import SubCategoryVolumeBar from "../../components/user/charts/SubCategoryVolumeBar.vue";
 
 export default {
   name: "HomePage",
   components: {
+    SubCategoryVolumeBar,
+    CategoryCapsuleChart,
     SlideShow,
     pie,
     HomePageLineChart,
@@ -161,6 +169,10 @@ export default {
           citeUrl: "",
           postTime: "",
           category: "",
+          platform: {
+            platformUrl: 'https://www.douban.com',
+            platformName: "豆瓣"
+          }
         }
       ],
       currentPage: 1,

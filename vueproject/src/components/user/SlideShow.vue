@@ -5,10 +5,10 @@
         <img alt="轮播图" :src="item.path" :style="{height: banner_height}" class="banner_img"/>
       </el-carousel-item>
     </el-carousel>
-    <div style="position: absolute; left: -30px; top: 100px;">
+    <div style="position: absolute; left: -30px; top: 60px;">
       <img style="height: 200px" alt="鹤" :src="require('../../assets/img/icon-bird.png')">
     </div>
-    <div style="position: absolute; right: -20px; top: 430px;">
+    <div style="position: absolute; z-index: 1; left: -20px; top: 410px;">
       <img style="height: 200px" alt="鹤" :src="require('../../assets/img/icon-bird.png')">
     </div>
   </div>

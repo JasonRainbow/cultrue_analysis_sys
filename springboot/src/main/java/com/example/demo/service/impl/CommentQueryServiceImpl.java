@@ -24,6 +24,11 @@ public class CommentQueryServiceImpl implements CommentQueryService {
     }
 
     @Override
+    public List<Pair<String, Integer>> querySubCategoryCommentNum(String subCategory) {
+        return rawCommentMapper.selectCommentSumBySubCategory(subCategory);
+    }
+
+    @Override
     public Page<Pair<String, Integer>> queryLanguageCommentNum(String language, Integer pageNum, Integer pageSize) {
 
 

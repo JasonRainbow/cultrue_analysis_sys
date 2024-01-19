@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.entity.dto.CommentPlatformDto;
 import org.springframework.data.util.Pair;
 
+import java.util.List;
+
 /**
  * @author hzx
  */
@@ -17,6 +19,13 @@ public interface CommentQueryService {
      * @return <作品子类型, 评论量> 列表
      */
     Page<Pair<String, Integer>> querySubCategoryCommentNum(String subCategory, Integer pageNum, Integer pageSize);
+
+    /**
+     * 查询所有子类型作品的评论量
+     * @param subCategory 作品子类型
+     * @return <作品子类型, 评论量> 列表
+     */
+    List<Pair<String, Integer>> querySubCategoryCommentNum(String subCategory);
 
     /**
      * 查询不同语言的评论量
