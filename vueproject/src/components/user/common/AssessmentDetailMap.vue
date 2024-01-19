@@ -108,7 +108,7 @@ export default {
     next()
   },
   mounted() {
-    console.log(this.$store.state.isShow,"isShow2")
+    // console.log(this.$store.state.isShow,"isShow2")
   },
   beforeMount() {
     this.$store.commit('setMapStatus',false)
