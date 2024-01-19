@@ -14,20 +14,23 @@
           返回>>
         </div>
         <div style="width: 95%;margin: 10px auto auto auto">
-          <el-row :gutter="25" style="margin: auto">
-            <el-col :span="6" :xs="24" :md="12" :lg="6">
+          <el-row :gutter="25" style="margin: auto; display: block">
+            <el-col v-show="commentDetail['豆瓣']" :xs="24" :md="12" :lg="8">
               <el-card class="box-card bg">
                 <div slot="header" class="clearfix">
                   <span class="title">豆瓣</span>
                 </div>
-                <div v-for="(item,id) in commentDetail['豆瓣']" v-show="commentDetail['豆瓣']" :key="id" class="text item">
-                  <div :style="{'padding-top': (id===0 ? (0+'px'):(5+'px'))}">
-                    {{id+1+'.'+(item.content.length>41 ? item.content.slice(0,41)+'...':item.content)}}
-                  </div>
-                  <div style="float: right">
-                    <img alt="" src="../../assets/img/zan.svg">
-                    <span>{{item.likes}}</span>
-                    <span @click="enterDetails(item.id)" class="details">查看详情</span>
+                <div class="comment-list">
+                  <div v-for="(item,id) in commentDetail['豆瓣']" v-show="commentDetail['豆瓣']" :key="id" class="text item">
+                    <div class="comment-body">
+                      <span class="comment-no">{{id+1+'.'}}</span>
+                      {{(item.content.length>41 ? item.content.slice(0,41)+'...':item.content)}}
+                    </div>
+                    <div style="float: right; margin-top: 10px;">
+                      <img alt="" src="../../assets/img/zan.svg">
+                      <span>{{item.likes}}</span>
+                      <span @click="enterDetails(item.id)" class="details">查看详情</span>
+                    </div>
                   </div>
                 </div>
                 <div v-show="!commentDetail['豆瓣']" style="min-height: 200px;text-align: center;margin-top: 10%">
@@ -35,19 +38,22 @@
                 </div>
               </el-card>
             </el-col>
-            <el-col :span="6" :xs="24" :md="12" :lg="6">
+            <el-col v-show="commentDetail.Youtube" :xs="24" :md="12" :lg="8">
               <el-card class="box-card bg">
                 <div slot="header" class="clearfix">
                   <span class="title">Youtube</span>
                 </div>
-                <div v-for="(item,id) in commentDetail.Youtube" v-show="commentDetail.Youtube" :key="id" class="text item">
-                  <div :style="{'padding-top': (id===0 ? (0+'px'):(5+'px'))}">
-                    {{id+1+'.'+(item.content.length>41 ? item.content.slice(0,41)+'...':item.content)}}
-                  </div>
-                  <div style="float: right">
-                    <img alt="" src="../../assets/img/zan.svg">
-                    <span>{{item.likes}}</span>
-                    <span @click="enterDetails(item.id)" class="details">查看详情</span>
+                <div class="comment-list">
+                  <div v-for="(item,id) in commentDetail.Youtube" v-show="commentDetail.Youtube" :key="id" class="text item">
+                    <div class="comment-body">
+                      <span class="comment-no">{{id+1+'.'}}</span>
+                      {{(item.content.length>41 ? item.content.slice(0,41)+'...':item.content)}}
+                    </div>
+                    <div style="float: right">
+                      <img alt="" src="../../assets/img/zan.svg">
+                      <span>{{item.likes}}</span>
+                      <span @click="enterDetails(item.id)" class="details">查看详情</span>
+                    </div>
                   </div>
                 </div>
                 <div v-show="!commentDetail.Youtube" style="min-height: 200px;text-align: center;margin-top: 10%">
@@ -55,19 +61,22 @@
                 </div>
               </el-card>
             </el-col>
-            <el-col :span="6" :xs="24" :md="12" :lg="6">
+            <el-col v-show="commentDetail.Twitter" :xs="24" :md="12" :lg="8">
               <el-card class="box-card bg" >
                 <div slot="header" class="clearfix">
                   <span class="title">Twitter</span>
                 </div>
-                <div v-for="(item,id) in commentDetail.Twitter" v-show="commentDetail.Twitter" :key="id" class="text item">
-                  <div :style="{'padding-top': (id===0 ? (0+'px'):(5+'px'))}">
-                    {{id+1+'.'+(item.content.length>41 ? item.content.slice(0,41)+'...':item.content)}}
-                  </div>
-                  <div style="float: right">
-                    <img alt="" src="../../assets/img/zan.svg">
-                    <span>{{item.likes}}</span>
-                    <span @click="enterDetails(item.id)" class="details">查看详情</span>
+                <div class="comment-list">
+                  <div v-for="(item,id) in commentDetail.Twitter" v-show="commentDetail.Twitter" :key="id" class="text item">
+                    <div class="comment-body">
+                      <span class="comment-no">{{id+1+'.'}}</span>
+                      {{(item.content.length>41 ? item.content.slice(0,41)+'...':item.content)}}
+                    </div>
+                    <div style="float: right">
+                      <img alt="" src="../../assets/img/zan.svg">
+                      <span>{{item.likes}}</span>
+                      <span @click="enterDetails(item.id)" class="details">查看详情</span>
+                    </div>
                   </div>
                 </div>
                 <div v-show="!commentDetail.Twitter" style="min-height: 200px;text-align: center;margin-top: 10%">
@@ -75,101 +84,121 @@
                 </div>
               </el-card>
             </el-col>
-            <el-col :span="6" :xs="24" :md="12" :lg="6">
+            <el-col v-show="commentDetail.IMDb" :xs="24" :md="12" :lg="8">
               <el-card class="box-card bg" >
                 <div slot="header" class="clearfix">
                   <span class="title">IMDb</span>
                 </div>
-                <div v-for="(item,id) in commentDetail.IMDb" v-show="commentDetail.IMDb" :key="id" class="text item">
-                  <div :style="{'padding-top': (id===0 ? (0+'px'):(5+'px'))}">
-                    {{id+1+'.'+(item.content.length>41 ? item.content.slice(0,41)+'...':item.content)}}
-                  </div>
-                  <div style="float: right">
-                    <img alt="" src="../../assets/img/zan.svg">
-                    <span>{{item.likes}}</span>
-                    <span @click="enterDetails(item.id)" class="details">查看详情</span>
+                <div class="comment-list">
+                  <div v-for="(item,id) in commentDetail.IMDb" v-show="commentDetail.IMDb" :key="id" class="text item">
+                    <div class="comment-body">
+                      <span class="comment-no">{{id+1+'.'}}</span>
+                      {{(item.content.length>41 ? item.content.slice(0,41)+'...':item.content)}}
+                    </div>
+                    <div style="float: right">
+                      <img alt="" src="../../assets/img/zan.svg">
+                      <span>{{item.likes}}</span>
+                      <span @click="enterDetails(item.id)" class="details">查看详情</span>
+                    </div>
                   </div>
                 </div>
+
                 <div v-show="!commentDetail.IMDb" style="min-height: 200px;text-align: center;margin-top: 10%">
                   暂无数据
                 </div>
               </el-card>
             </el-col>
-            <el-col :span="6" :xs="24" :md="12" :lg="6">
+            <el-col v-show="commentDetail['烂番茄']" :xs="24" :md="12" :lg="8">
               <el-card class="box-card bg">
                 <div slot="header" class="clearfix">
                   <span class="title">烂番茄</span>
                 </div>
-                <div v-for="(item,id) in commentDetail['烂番茄']" v-show="commentDetail['烂番茄']" :key="id" class="text item">
-                  <div :style="{'padding-top': (id===0 ? (0+'px'):(5+'px'))}">
-                    {{id+1+'.'+(item.content.length>41 ? item.content.slice(0,41)+'...':item.content)}}
-                  </div>
-                  <div style="float: right">
-                    <img alt="" src="../../assets/img/zan.svg">
-                    <span>{{item.likes}}</span>
-                    <span @click="enterDetails(item.id)" class="details">查看详情</span>
+                <div class="comment-list">
+                  <div v-for="(item,id) in commentDetail['烂番茄']" v-show="commentDetail['烂番茄']" :key="id" class="text item">
+                    <div class="comment-body">
+                      <span class="comment-no">{{id+1+'.'}}</span>
+                      {{(item.content.length>41 ? item.content.slice(0,41)+'...':item.content)}}
+                    </div>
+                    <div style="float: right">
+                      <img alt="" src="../../assets/img/zan.svg">
+                      <span>{{item.likes}}</span>
+                      <span @click="enterDetails(item.id)" class="details">查看详情</span>
+                    </div>
                   </div>
                 </div>
+
                 <div v-show="!commentDetail['烂番茄']" style="min-height: 200px;text-align: center;margin-top: 10%">
                   暂无数据
                 </div>
               </el-card>
             </el-col>
-            <el-col :span="6" :xs="24" :md="12" :lg="6">
+            <el-col v-show="commentDetail.Facebook" :xs="24" :md="12" :lg="8">
               <el-card class="box-card bg">
                 <div slot="header" class="clearfix">
                   <span class="title">Facebook</span>
                 </div>
-                <div v-for="(item,id) in commentDetail.Facebook" v-show="commentDetail.Facebook" :key="id" class="text item">
-                  <div :style="{'padding-top': (id===0 ? (0+'px'):(5+'px'))}">
-                    {{id+1+'.'+(item.content.length>41 ? item.content.slice(0,41)+'...':item.content)}}
-                  </div>
-                  <div style="float: right">
-                    <img alt="" src="../../assets/img/zan.svg">
-                    <span>{{item.likes}}</span>
-                    <span @click="enterDetails(item.id)" class="details">查看详情</span>
+                <div class="comment-list">
+                  <div v-for="(item,id) in commentDetail.Facebook" v-show="commentDetail.Facebook" :key="id" class="text item">
+                    <div class="comment-body">
+                      <span class="comment-no">{{id+1+'.'}}</span>
+                      {{(item.content.length>41 ? item.content.slice(0,41)+'...':item.content)}}
+                    </div>
+                    <div style="float: right">
+                      <img alt="" src="../../assets/img/zan.svg">
+                      <span>{{item.likes}}</span>
+                      <span @click="enterDetails(item.id)" class="details">查看详情</span>
+                    </div>
                   </div>
                 </div>
+
                 <div v-show="!commentDetail.Facebook" style="min-height: 200px;text-align: center;margin-top: 10%">
                   暂无数据
                 </div>
               </el-card>
             </el-col>
-            <el-col :span="6" :xs="24" :md="12" :lg="6">
+            <el-col v-show="commentDetail.Amazon" :xs="24" :md="12" :lg="8">
               <el-card class="box-card bg">
                 <div slot="header" class="clearfix">
                   <span class="title">Amazon</span>
                 </div>
-                <div v-for="(item,id) in commentDetail.Amazon" v-show="commentDetail.Amazon" class="text item">
-                  <div :style="{'padding-top': (id===0 ? (0+'px'):(5+'px'))}">
-                    {{id+1+'.'+(item.content.length>41 ? item.content.slice(0,41)+'...':item.content)}}
-                  </div>
-                  <div style="float: right">
-                    <img alt="" src="../../assets/img/zan.svg">
-                    <span>{{item.likes}}</span>
-                    <span @click="enterDetails(item.id)" class="details">查看详情</span>
+                <div class="comment-list">
+                  <div v-for="(item,id) in commentDetail.Amazon" v-show="commentDetail.Amazon" class="text item">
+                    <div class="comment-body">
+                      <span class="comment-no">{{id+1+'.'}}</span>
+                      {{(item.content.length>41 ? item.content.slice(0,41)+'...':item.content)}}
+                    </div>
+                    <div style="float: right">
+                      <img alt="" src="../../assets/img/zan.svg">
+                      <span>{{item.likes}}</span>
+                      <span @click="enterDetails(item.id)" class="details">查看详情</span>
+                    </div>
                   </div>
                 </div>
+
                 <div v-show="!commentDetail.Amazon" style="min-height: 200px;text-align: center;margin-top: 10%">
                   暂无数据
                 </div>
               </el-card>
             </el-col>
-            <el-col :span="6" :xs="24" :md="12" :lg="6">
+            <el-col v-show="commentDetail.GoodReads" :xs="24" :md="12" :lg="8">
               <el-card class="box-card bg">
                 <div slot="header" class="clearfix">
                   <span class="title">GoodReads</span>
                 </div>
-                <div v-for="(item,id) in commentDetail.GoodReads" v-show="commentDetail.GoodReads" class="text item">
-                  <div :style="{'padding-top': (id===0 ? (0+'px'):(5+'px'))}">
-                    {{id+1+'.'+(item.content.length>41 ? item.content.slice(0,41)+'...':item.content)}}
-                  </div>
-                  <div style="float: right">
-                    <img alt="" src="../../assets/img/zan.svg">
-                    <span>{{item.likes}}</span>
-                    <span @click="enterDetails(item.id)" class="details">查看详情</span>
+                <div class="comment-list">
+                  <div v-for="(item,id) in commentDetail.GoodReads" v-show="commentDetail.GoodReads" class="text item">
+                    <div class="comment-body">
+                      <span class="comment-no">{{id+1+'.'}}</span>
+                      {{(item.content.length>41 ? item.content.slice(0,41)+'...':item.content)}}
+                    </div>
+                    <div style="float: right">
+                      <img alt="" src="../../assets/img/zan.svg">
+                      <span>{{item.likes}}</span>
+                      <span @click="enterDetails(item.id)" class="details">查看详情</span>
+                    </div>
                   </div>
                 </div>
+
                 <div v-show="!commentDetail.GoodReads" style="min-height: 200px;text-align: center;margin-top: 10%">
                   暂无数据
                 </div>
@@ -201,7 +230,7 @@ export default {
   },
   data() {
     return {
-      commentDetail:{},
+      commentDetail: {},
       params:{
         workId:this.$route.query.workId,
         size:10
@@ -253,7 +282,11 @@ export default {
 }
 
 .item {
-  margin-bottom: 18px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 5px;
+  border-bottom: 2px dashed #9d9898;
 }
 
 .clearfix:before,
@@ -269,13 +302,29 @@ export default {
   width: 100%;
   border-radius: 10%;
   max-height: 400px;
-  overflow: auto;
   background: url("../../assets/img/detail_bg.svg"),
   linear-gradient(225deg, rgba(21,152,244,0.05) 0%, rgba(255,215,108,0.05) 100%);
 }
-.box-card::-webkit-scrollbar{
+
+.comment-list {
+  width: 100%;
+  max-height: 18em;
+  overflow: auto;
+}
+
+.comment-list::-webkit-scrollbar{
     display: none;
 }
+
+.comment-body {
+  width: 70%;
+}
+
+.comment-no {
+  color: #da681d;
+  font-weight: bold;
+}
+
 .box-card:hover {
     box-shadow: 0 16px 32px 0 rgba(48, 55, 66, 0.15);
     transform: translate(0,-5px);
@@ -323,6 +372,7 @@ export default {
 #main {
   background: white url("../../assets/img/detail_bg.svg") center center repeat;
   position: absolute;
+  width: 100%;
 }
 
 .workName-show {
