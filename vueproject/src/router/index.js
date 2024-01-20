@@ -293,7 +293,7 @@ const router = new Router({
               path: 'commentDetail1',
               component:CommentDetail,
               meta: {
-                requireAuth: true
+                requireAuth: false
               },
               props: (route)=>({
                 commentId : Number(route.query.commentId),
@@ -487,7 +487,7 @@ const router = new Router({
       path: '/commentDetail',
       component: CommentDetailPage,
       meta: {
-        requireAuth: true
+        requireAuth: false
       },
       props: (route)=>({
         commentId : Number(route.query.commentId),
