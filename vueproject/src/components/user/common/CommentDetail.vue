@@ -45,7 +45,7 @@
           </el-col>
           <el-col class="comment" :span="12" :xs="24" :md="24" :lg="12">
             <div class="comment-desc">翻译后的评论</div>
-            <div class="translated-comment">{{comment.translated}}</div>
+            <div class="translated-comment">{{comment.oppositeTranslated}}</div>
           </el-col>
         </el-row>
       </div>

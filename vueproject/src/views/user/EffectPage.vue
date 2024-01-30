@@ -61,7 +61,7 @@
           <el-scrollbar style="height:500px" id="el-scrollbar__wrap">
           <div v-for="(value,key,index) in categoryAndWorks['影视']" :key="index">
             <el-menu-item-group>
-                <span slot="title">{{key}}<span style="color: #7dbfff">{{' ('+value.length+')'}}</span></span>
+                <span slot="title">{{key}}<span style="color: #fb662f">{{' ('+value.length+')'}}</span></span>
               <div  v-for="(item, index1) in value" :key="index1">
                 <el-menu-item :index="item.id+'-'+item.name" >
                   <div>
