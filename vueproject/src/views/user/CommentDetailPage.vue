@@ -187,7 +187,7 @@ export default {
 
 .origin-comment {
   font-size: 18px;
-  font-family: "Lucida Calligraphy",serif;
+  font-family: "Lucida Calligraphy", sans-serif;
   text-align: left;
   text-indent: 2em;
 }

@@ -196,6 +196,7 @@ export default {
   font-size: 20px;
   color: #c7511c;
   font-family: 华文楷体,sans-serif;
+  font-weight: bold;
   text-align: left;
   text-indent: 2em;
 }
