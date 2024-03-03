@@ -11,7 +11,7 @@ spring:
     # 用户名
     username: root
     # 密码
-    password: 123456
+    password: song
     # 数据库连接池的类型
     type: com.alibaba.druid.pool.DruidDataSource
     hikari:
@@ -149,7 +149,7 @@ my:
 scrap_host: 426qb33844.goho.co
 remote_host1: 426qb33844.goho.co
 remote_host2: 426qb33844.goho.co
-remote_host3: 47.115.211.201:5000
+remote_host3: 139.196.127.25:8055
 
 # 都可以访问的接口
 interceptorconfig:
