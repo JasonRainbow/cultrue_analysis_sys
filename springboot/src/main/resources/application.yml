@@ -38,7 +38,7 @@ spring:
     # 端口
     port: 6379
     # redis密码
-    password:
+    password: ABCabc123
     # 数据库，默认是0
     database: 0
     # 超时时间
