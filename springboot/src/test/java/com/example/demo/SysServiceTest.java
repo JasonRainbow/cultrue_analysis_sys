@@ -2,6 +2,7 @@ package com.example.demo;
 
 import com.example.demo.service.SysRoleService;
 import com.example.demo.utils.JwtUtil;
+import io.jsonwebtoken.Claims;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,10 +44,17 @@ public class SysServiceTest {
         String token = JwtUtil.createJWT("hzx");
         System.out.println(token);
         char[] chars = token.toCharArray();
-        chars[0] = '1';
-        chars[3] = '3';
         System.out.println(JwtUtil.isVerifiedToken(token));
         System.out.println(JwtUtil.isVerifiedToken(new String(chars)));
+    }
+
+    @Test
+    public void testJwtUtil2() {
+        String token = JwtUtil.createJWT("hzx");
+        System.out.println(token);
+        Claims claims = JwtUtil.parseJWT(token);
+        System.out.println(claims.getId());
+        System.out.println(claims.getSubject());
     }
 
     @Test

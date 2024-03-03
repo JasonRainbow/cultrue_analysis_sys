@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import {userRegister} from "../../api/userAPI";
+import {registerSys} from "../../api/AuthAPI";
 
 export default {
   name: "UserRegister",
@@ -79,7 +79,7 @@ export default {
         phone: [ // 手机号校验
           { required: false, message: '请输入手机号', trigger: 'blur' },
           {
-            pattern: /^1(3\d|47|5((?!4)\d)|7(0|1|[6-8])|8\d)\d{8,8}$/,
+            pattern: /^1[3|4|5|6|7|8|9][0-9]\d{8}$/,
             required: true,
             message: '请输入正确的手机号',
             trigger: 'blur'
@@ -101,13 +101,12 @@ export default {
       //为表单绑定验证功能
       this.$refs [formName].validate((valid) => {
         if (valid) {
-          userRegister(this.form).then(res => {
+          registerSys(this.form).then(res => {
             if (res.code === '0') {
               this.$message({
                 type: "success",
                 message: "注册成功，请前往登录"
               })
-              console.log(res)
             } else {
               this.$message({
                 type: "error",

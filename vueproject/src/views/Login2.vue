@@ -41,9 +41,7 @@
 
 <script>
 import ValidCode from "../components/ValidCode";
-import {adminLogin} from "../api/adminAPI";
-import {updateAdminInfo} from "../utils/util";
-import store from "../vuex/store";
+import {loginSys} from "../api/AuthAPI";
 
 export default {
   name: "Login",
@@ -115,36 +113,22 @@ export default {
       this.$refs['form'].validate((valid) => {
         if (valid) {
           if (!this.form.validCode) {
-            this.$message.error("请填写验证码")
+            this.$notify.error("请填写验证码")
             return
           }
           if(this.form.validCode.toLowerCase() !== this.validCode.toLowerCase()) {
-            this.$message.error("验证码错误")
+            this.$notify.error("验证码错误")
             return
           }
-          adminLogin(this.form).then(res => {
-            if (res.code === '0') {
-              this.$message({
-                type: "success",
-                message: "登录成功"
-              })
-              /*localStorage.setItem("admin", JSON.stringify(res.data))  // 缓存用户信息
-              this.$store.state.admin = res.data*/
-              const admin = res.data;
-              this.$store.commit("admin_login", admin)  // 状态管理
-              console.log(admin)
-              // console.log(res);
-              // updateAdminInfo();
-              // 登录成功的时候更新当前路由
-              // activeRouter()
-              // this.$router.push("/")  //登录成功之后进行页面的跳转，跳转到主页
-              this.$router.push({ path: '/admin/home' })
-            } else {
-              this.$message({
-                type: "error",
-                message: res.msg
-              })
-            }
+          this.$store.dispatch("Login", {
+            userInfo: this.form,
+            adminLogin: true
+          }).then((res)=>{
+            this.$message({
+              type: "success",
+              message: "登录成功"
+            })
+            this.$router.push({ path: '/admin/home' }) // 跳转至后台管理系统的首页
           })
         }
       })

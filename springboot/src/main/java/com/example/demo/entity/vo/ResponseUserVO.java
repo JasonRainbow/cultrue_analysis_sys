@@ -17,7 +17,7 @@ public class ResponseUserVO {
 
     private String username; // 用户名
 
-    private String nickName; // 用户昵称
+    private String nickname; // 用户昵称
 
     private String avatar; // 用户头像
 
@@ -25,13 +25,16 @@ public class ResponseUserVO {
 
     private String phone; // 用户手机号
 
+    private String workUnit; // 用户的工作单位
+
     public ResponseUserVO(LoginUser loginUser) {
         this.id = loginUser.getUser().getId();
         this.username = loginUser.getUsername();
-        this.nickName = loginUser.getUser().getName();
+        this.nickname = loginUser.getUser().getName();
         this.avatar = loginUser.getUser().getAvatar();
         this.email = loginUser.getUser().getEmail();
         this.phone = loginUser.getUser().getPhone();
+        this.workUnit = loginUser.getUser().getWorkUnit();
         for (GrantedAuthority authority: loginUser.getAuthorities()) {
             if (authority.getAuthority().equals("ROLE_admin")) {
                 this.isAdmin = true;

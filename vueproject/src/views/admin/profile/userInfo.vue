@@ -2,8 +2,8 @@
   <el-form ref="form" :model="admin" :rules="rules" label-width="80px">
     <el-row>
       <el-col :span="15" :xs="24">
-        <el-form-item label="用户昵称" prop="name">
-          <el-input v-model="admin.name" maxlength="30" />
+        <el-form-item label="用户昵称" prop="nickname">
+          <el-input v-model="admin.nickname" maxlength="30" />
         </el-form-item>
       </el-col>
     </el-row>
@@ -35,9 +35,8 @@
 </template>
 
 <script>
-
-
-import {adminUpdate} from "../../../api/adminAPI";
+import {userUpdate} from "../../../api/userAPI";
+import {updateLocalUserInfo} from "../../../utils/util";
 
 export default {
   props: {
@@ -49,7 +48,7 @@ export default {
     return {
       // 表单校验
       rules: {
-        name: [
+        nickname: [
           { required: true, message: "用户昵称不能为空", trigger: "blur" }
         ],
         email: [
@@ -75,9 +74,17 @@ export default {
     submit() { // 提交管理员信息的修改
       this.$refs["form"].validate(valid => {
         if (valid) {
-          adminUpdate(this.admin).then(res => {
+          const updateInfo = {
+            id: this.admin.id,
+            name: this.admin.nickname,
+            phone: this.admin.phone,
+            email: this.admin.email,
+            workUnit: this.admin.workUnit
+          }
+          userUpdate(updateInfo).then(res => {
             if (res.code === "0") {
               this.$message.success("修改管理员个人信息成功");
+              updateLocalUserInfo()
             } else {
               this.$message.success("修改管理员个人信息失败");
             }

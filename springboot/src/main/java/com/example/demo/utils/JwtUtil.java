@@ -1,15 +1,20 @@
 package com.example.demo.utils;
 
 import cn.hutool.core.lang.UUID;
+import cn.hutool.core.util.IdUtil;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.example.demo.constant.GlobalConstants;
+import com.example.demo.entity.model.LoginUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -18,6 +23,7 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.util.Base64;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 /**
  * jwt工具类
@@ -30,6 +36,9 @@ public class JwtUtil {
     private static String SECRET_KEY;
 
     private static Long EXPIRATION_TIME;
+
+    @Autowired
+    private RedisCache redisCache;
 
 
     //对于静态变量，需要使用set方法才能使用设置好的字段值
@@ -45,6 +54,16 @@ public class JwtUtil {
 
     public static String getUUID() {
         return UUID.randomUUID().toString().replaceAll("-", "");
+    }
+
+    /**
+     * 生成JWT  并缓存到redis
+     */
+    public String createJWT(LoginUser loginUser) {
+        String UUID = getUUID(); // 生成UUID
+        loginUser.setUUID(UUID);
+        refreshToken(loginUser); // 刷新redis缓存中的用户信息
+        return getJwtBuilder(loginUser.getUsername(), null, UUID).compact();
     }
 
     /**
@@ -156,6 +175,52 @@ public class JwtUtil {
      */
     public static boolean verifyExpired(String jwtToken) throws Exception {
         return parseJWT(jwtToken).getExpiration().before(new Date());
+    }
+
+    /**
+     * 根据token获得登录的用户
+     * @param token 令牌
+     * @return 登录用户信息
+     */
+    public LoginUser getLoginUser(String token) {
+        LoginUser loginUser = null;
+        try {
+            Claims claims = parseJWT(token);
+            String UUID = claims.getId();
+            String tokenKey = genTokenKey(UUID);
+            loginUser = redisCache.getCacheObject(tokenKey);
+        } catch (Exception ignored) {
+
+        }
+        return loginUser;
+    }
+
+    /**
+     * 设置当前登录的用户
+     * @param loginUser 登录用户
+     */
+    public void setLoginUser(LoginUser loginUser) {
+        if (loginUser != null && StringUtils.isNoneEmpty(loginUser.getUUID())) {
+            refreshToken(loginUser);
+        }
+    }
+
+    /**
+     * 刷新redis中缓存的用户信息
+     * @param loginUser 登录用户
+     */
+    public void refreshToken(LoginUser loginUser) {
+        String key = genTokenKey(loginUser.getUUID());
+        redisCache.setCacheObject(key, loginUser, EXPIRATION_TIME, TimeUnit.MILLISECONDS);
+    }
+
+    /**
+     * 获取要存储在redis的key
+     * @param UUID 唯一的ID
+     * @return key
+     */
+    public static String genTokenKey(String UUID) {
+        return GlobalConstants.REDIS_USER_DETAILS_PREFIX + UUID;
     }
 
     /**

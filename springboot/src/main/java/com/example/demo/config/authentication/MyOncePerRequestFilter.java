@@ -40,6 +40,9 @@ public class MyOncePerRequestFilter extends OncePerRequestFilter {
     @Autowired
     private RedisCache redisCache;
 
+    @Autowired
+    private JwtUtil jwtUtil;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
@@ -48,16 +51,24 @@ public class MyOncePerRequestFilter extends OncePerRequestFilter {
         // header的值是在yml文件中定义的 “Authorization”
         String token = request.getHeader(header);
 //        System.out.println("MyOncePerRequestFilter-token = " + token);
-
-        if (!StrUtil.isEmpty(token)) {
+        LoginUser loginUser = jwtUtil.getLoginUser(token);
+        if (loginUser != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            UsernamePasswordAuthenticationToken authenticationToken =
+                    new UsernamePasswordAuthenticationToken(loginUser, loginUser.getPassword(), loginUser.getAuthorities());
+//                    System.out.println(authenticationToken);
+            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+        }
+        /*if (!StrUtil.isEmpty(token)) {
             String username = null;
+            LoginUser authUser = null;
             try {
                 Claims claims = JwtUtil.parseJWT(token); // 这里会检查token是否过期，过期会抛出异常
                 username = claims.getSubject();
+                authUser = redisCache.getCacheObject(GlobalConstants.REDIS_USER_DETAILS_PREFIX + username);
             } catch (Exception ignored) {
 
             }
-            if (username != null) { // 携带了token并且能够正常解析
+            if (username != null && authUser != null) { // 携带了token并且能够正常解析
                 String redisToken = redisCache.getCacheObject(GlobalConstants.REDIS_TOKEN_PREFIX + username);
 //            System.out.println("MyOncePerRequestFilter-redisToken = " + redisToken);
                 if (StrUtil.isEmpty(redisToken)) {
@@ -68,22 +79,18 @@ public class MyOncePerRequestFilter extends OncePerRequestFilter {
                 }
 
                 //对比前端发送请求携带的的token是否与redis中存储的一致
-                if (!Objects.isNull(redisToken) && redisToken.equals(token)) {
-                    LoginUser authUser = redisCache.getCacheObject(GlobalConstants.REDIS_USER_DETAILS_PREFIX + username);
+                if (redisToken.equals(token)) {
 //                System.out.println("MyOncePerRequestFilter-authUser = " + authUser);
-                    if (Objects.isNull(authUser)) {
-                        JsonUtil.writeJson(request,response, Result.error(ResponseStatusEnum.USER_NOT_LOGIN,
-                                ResponseStatusEnum.USER_NOT_LOGIN.getMsg()));
-                        return;
-                    }
                     checkTokenExpiration(redisToken, username);
                     UsernamePasswordAuthenticationToken authenticationToken =
                             new UsernamePasswordAuthenticationToken(authUser, null, authUser.getAuthorities());
-                    System.out.println(authenticationToken);
+//                    System.out.println(authenticationToken);
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                } else {
+
                 }
             }
-        }
+        }*/
         chain.doFilter(request, response);
     }
 

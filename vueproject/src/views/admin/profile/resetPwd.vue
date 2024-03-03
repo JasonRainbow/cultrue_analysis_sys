@@ -17,12 +17,12 @@
 </template>
 
 <script>
-import {updateAdminPwd} from "../../../api/adminAPI";
+import {updateUserPassword} from "../../../api/userAPI";
 
 export default {
   data() {
     const equalToPassword = (rule, value, callback) => {
-      console.log(value)
+      // console.log(value)
       if (this.admin.newPwd !== value) {
         callback(new Error("两次输入的密码不一致"));
       } else {
@@ -59,7 +59,7 @@ export default {
     submit() {
       this.$refs["form"].validate(valid => {
         if (valid) {
-          updateAdminPwd(this.admin).then(res => {
+          updateUserPassword(this.admin).then(res => {
             if (res.code === "0") {
               this.$message.success("修改成功");
               // 将密码输入框全设置为空

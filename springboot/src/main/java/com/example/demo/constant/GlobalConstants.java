@@ -48,4 +48,9 @@ public class GlobalConstants {
      * redis缓存用户对象键前缀
      */
     public static final String REDIS_USER_DETAILS_PREFIX = "UserDetails_";
+
+    /**
+     * 注册成功的提示信息
+     */
+    public static final String REGISTER_SUCCESS_MSG = "恭喜你，注册成功！";
 }

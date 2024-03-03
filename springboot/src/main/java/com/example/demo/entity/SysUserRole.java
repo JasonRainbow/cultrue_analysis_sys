@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -15,6 +16,7 @@ import lombok.NoArgsConstructor;
  */
 @TableName("sys_user_role")
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @ApiModel(value = "用户角色关联实体类", description = "用户角色关联实体类")

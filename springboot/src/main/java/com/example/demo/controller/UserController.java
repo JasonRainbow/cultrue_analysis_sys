@@ -11,7 +11,9 @@ import com.example.demo.common.Result;
 import com.example.demo.entity.*;
 import com.example.demo.entity.UserRecord;
 import com.example.demo.entity.model.LoginUser;
+import com.example.demo.entity.vo.ResponseUserVO;
 import com.example.demo.enums.PwdEnum;
+import com.example.demo.enums.ResponseStatusEnum;
 import com.example.demo.mapper.UserMapper;
 import com.example.demo.mapper.UserRecordMapper;
 import com.example.demo.service.DataAnalysisService;
@@ -23,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -51,6 +54,12 @@ public class UserController extends BaseController {
 
     @Autowired
     private DataAnalysisService dataAnalysisService;
+
+    @Autowired
+    UserDetailsService userDetailsService;
+
+    @Autowired
+    private JwtUtil jwtUtil;
 
     private int currentCnt = 0; // 记录所有用户的浏览作品次数
 
@@ -85,7 +94,7 @@ public class UserController extends BaseController {
     public Result register(@RequestBody User user) {
         User res = userMapper.selectOne(Wrappers.<User>lambdaQuery().eq(User::getUsername, user.getUsername()));
         if (res != null) {
-            return Result.error("-1", "用户名重复");
+            return Result.error("-1", "该用户名已存在");
         }
         String password = user.getPassword();
         if (password == null || "".equals(password.trim())) { // 用户输入的密码为空或者空字符串，设置为默认的密码
@@ -144,10 +153,19 @@ public class UserController extends BaseController {
         if (JwtUtil.matchPassword(map.get("newPwd").toString(), password)) {
             return Result.error("-1", "新密码不能与旧密码相同！");
         }
-        map.put("newPwd", (bCryptPasswordEncoder.encode(map.get("newPwd").toString())));
+        map.put("newPwd", bCryptPasswordEncoder.encode(map.get("newPwd").toString()));
         map.put("id", loginUser.getUser().getId());
-        userMapper.updatePass(map);
-        return Result.success();
+        int res = userMapper.updatePass(map);
+        if (res > 0) {
+            // 设置新的密码
+            loginUser.getUser().setPassword(map.get("newPwd").toString());
+            // 刷新redis缓存中的用户信息 密码
+            jwtUtil.setLoginUser(loginUser);
+            return Result.success();
+        } else {
+            return Result.error(ResponseStatusEnum.ERROR);
+        }
+
     }
 
     // 重置用户的密码
@@ -173,7 +191,10 @@ public class UserController extends BaseController {
         if (loginUser == null) {
             return Result.error("-1", "用户不存在");
         }
-        return Result.success(loginUser.getUser());
+        // 重新从数据库中查询
+        LoginUser newLoginUser = (LoginUser) userDetailsService.loadUserByUsername(loginUser.getUsername());
+        ResponseUserVO responseUserVO = new ResponseUserVO(newLoginUser);
+        return Result.success(responseUserVO);
     }
 
     @GetMapping("/id/{id}")

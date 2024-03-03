@@ -141,37 +141,21 @@ public class MonitorWorkController {
     public Result recommendByUserId(@RequestParam Integer userId) {
 //        System.out.println(userId);
         List<RecommendWorkVO> recommendWorkVOS = monitorWorkMapper.selectRecommendWorksByUserId(userId);
+
+        // 如果没有给用户推荐的作品，就使用给管理员推荐的作品
         if (recommendWorkVOS.size() == 0) {
-            List<RecommendWorkVO> recommendWorks = monitorWorkMapper.selectRecommendWorksByUserId(22);
-            for(int i=0;i<recommendWorks.size();i++){
-                QueryWrapper<MonitorRequest> query1 = new QueryWrapper<>();
-                query1.eq("userId", userId);
-                query1.eq("workId", recommendWorks.get(i).getWorkId());
-                List<MonitorRequest> monitorRequests = monitorRequestMapper.selectList(query1);
-                if(monitorRequests.size()==0){
-                    recommendWorks.get(i).setIsMonitor(false);
-                }
-                else{
-                    recommendWorks.get(i).setIsMonitor(true);
-                }
-            }
-            // 默认用户的推荐
-            return Result.success(recommendWorks);
-        } else {
-            for(int j=0;j<recommendWorkVOS.size();j++){
-                QueryWrapper<MonitorRequest> query1 = new QueryWrapper<>();
-                query1.eq("userId", userId);
-                query1.eq("workId", recommendWorkVOS.get(j).getWorkId());
-                List<MonitorRequest> monitorRequests = monitorRequestMapper.selectList(query1);
-                if(monitorRequests.size()==0){
-                    recommendWorkVOS.get(j).setIsMonitor(false);
-                }
-                else{
-                    recommendWorkVOS.get(j).setIsMonitor(true);
-                }
-            }
-            return Result.success(recommendWorkVOS);
+            recommendWorkVOS = monitorWorkMapper.selectRecommendWorksByUserId(1);
         }
+
+        for (RecommendWorkVO recommendWorkVO : recommendWorkVOS) {
+            QueryWrapper<MonitorRequest> query1 = new QueryWrapper<>();
+            query1.eq("userId", userId);
+            query1.eq("workId", recommendWorkVO.getWorkId());
+            List<MonitorRequest> monitorRequests = monitorRequestMapper.selectList(query1);
+            recommendWorkVO.setIsMonitor(monitorRequests.size() != 0);
+        }
+
+        return Result.success(recommendWorkVOS);
     }
 
 

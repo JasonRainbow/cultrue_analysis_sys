@@ -8,7 +8,7 @@
           </div>
           <div>
             <div class="text-center">
-              <userAvatar :user="user" />
+              <userAvatar />
             </div>
             <ul class="list-group list-group-striped">
               <li class="list-group-item">
@@ -17,7 +17,7 @@
               </li>
               <li class="list-group-item">
                 <i class="el-icon-postcard"></i>用户昵称
-                <div class="pull-right">{{ user.name }}</div>
+                <div class="pull-right">{{ user.nickname }}</div>
               </li>
               <li class="list-group-item">
                 <i class="el-icon-mobile"></i>手机号码
@@ -89,26 +89,20 @@ export default {
   },
   created() {
     this.getUser();
-
-    // console.log(this.$route.query.id)
-    // console.log(this.$route.query.name)
-    // console.log("test")
   },
   mounted() {
-    // console.log('aaa', this.user)
+
   },
   methods: {
     getUser() {
-      /*getUserProfile().then(res=>{
+      getUserProfile().then(res=>{
         if (res.code === "0") {
           this.user = res.data;
           // console.log(this.user)
         } else {
           console.log(res.msg)
         }
-      })*/
-      // this.user = JSON.parse(localStorage.getItem("user"))
-      this.user = this.$store.state.user
+      })
     },
     logout() {
       this.$confirm('退出登录, 是否继续?', '提示', {
@@ -118,12 +112,13 @@ export default {
       })
         .then(() => {
           setTimeout(() => { // 用户退出登录
-            this.$store.commit("user_logout"); // 用户退出登录
-            this.$message({
-              type: 'success',
-              message: '已退出登录!'
+            this.$store.dispatch("Logout").then((res)=>{
+              this.$message({
+                type: 'success',
+                message: '已退出登录!'
+              })
+              this.$router.push("/home")
             })
-            this.$router.push("/home")
             // location.reload()
           }, 1000)
         })
