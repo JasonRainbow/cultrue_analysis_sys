@@ -14,7 +14,10 @@
 	<name>springboot</name>
 	<description>中国语言文化传播效果分析系统</description>
 	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
+		<skipTests>true</skipTests><!--打包的时候跳过数据库连接检测 -->
 	</properties>
 	<dependencies>
 		<dependency>
