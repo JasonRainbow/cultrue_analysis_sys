@@ -41,6 +41,9 @@ Vue.prototype.randomNum = randomNum;
 import dataV from '@jiaminghi/data-view';
 Vue.use(dataV)
 
+import VueAnimateNumber from 'vue-animate-number';
+Vue.use(VueAnimateNumber);
+
 // 引入轮播列表
 import scroll from 'vue-seamless-scroll';
 Vue.use(scroll)
