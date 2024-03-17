@@ -1,267 +1,273 @@
 <template>
-  <div>
-  <header class="header left">
-    <div class="left nav">
-      <ul>
-<!--          <a href="" @click="selected()">数据概览</a>-->
-        <li :class='isActive === "数据概览" ? "nav_active":""'><i class="nav_1"></i><a href="javascript:void(0);" @click="selected($event)">数据概览</a> </li>
-<!--    index.html    -->
-        <li :class='isActive === "情感地图" ? "nav_active":""'>
-          <i class="nav_2"></i>
-<!--            情感地图-->
-            <router-link :to="{path: '/worldMap', query: {workId: workId, workName: getWorkName(workId)}}">
-              <a href="javascript:void(0);" @click="selected($event)" style="color: #FFFFFF">情感地图</a>
-            </router-link>
-        </li>
-<!--   carContrl.html     -->
-        <li :class='isActive === "作品画像" ? "nav_active":""'><i class="nav_3" ></i><a href="javascript:void(0);" @click="selected($event)">作品画像</a> </li>
-<!--     map.html   -->
+  <vuescroll>
+    <div>
+
+      <header class="header left">
+        <div class="left nav">
+          <ul>
+            <!--          <a href="" @click="selected()">数据概览</a>-->
+            <li :class='isActive === "数据概览" ? "nav_active":""'><i class="nav_1"></i><a href="javascript:void(0);" @click="selected($event)">数据概览</a> </li>
+            <!--    index.html    -->
+            <li :class='isActive === "情感地图" ? "nav_active":""'>
+              <i class="nav_2"></i>
+              <!--            情感地图-->
+              <router-link :to="{path: '/worldMap', query: {workId: workId, workName: getWorkName(workId)}}">
+                <a href="javascript:void(0);" @click="selected($event)" style="color: #FFFFFF">情感地图</a>
+              </router-link>
+            </li>
+            <!--   carContrl.html     -->
+            <li :class='isActive === "作品画像" ? "nav_active":""'><i class="nav_3" ></i><a href="javascript:void(0);" @click="selected($event)">作品画像</a> </li>
+            <!--     map.html   -->
 
 
 
-      </ul>
-    </div>
-    <div class="header_center left">
-      <h2><strong>传播效果智能分析</strong></h2>
-      <p class="color_font"><small>Intelligent analysis of communication effect</small></p>
-    </div>
-    <div class="right nav text_right">
-      <ul>
-          <li :class='isActive === "查询统计" ? "nav_active":""'><i class="nav_4"></i><a href="javascript:void(0);" @click="selected($event)">查询统计</a></li>
-<!--  static.html      -->
-        <li :class='isActive === "信息录入" ? "nav_active":""'><i class="nav_5" ></i><a href="javascript:void(0);" @click="selected($event)">信息录入</a> </li>
-<!--  message.html      -->
-        <li :class='isActive === "表格界面" ? "nav_active":""'><i class="nav_6"></i><a href="javascript:void(0);" @click="selected($event)">表格界面</a> </li>
-<!--        table1.html-->
-      </ul>
-    </div>
-  </header>
+          </ul>
+        </div>
+        <div class="header_center left">
+          <h2><strong>传播效果智能分析</strong></h2>
+          <p class="color_font"><small>Intelligent analysis of communication effect</small></p>
+        </div>
+        <div class="right nav text_right">
+          <ul>
+            <li :class='isActive === "查询统计" ? "nav_active":""'><i class="nav_4"></i><a href="javascript:void(0);" @click="selected($event)">查询统计</a></li>
+            <!--  static.html      -->
+            <li :class='isActive === "信息录入" ? "nav_active":""'><i class="nav_5" ></i><a href="javascript:void(0);" @click="selected($event)">信息录入</a> </li>
+            <!--  message.html      -->
+            <li :class='isActive === "表格界面" ? "nav_active":""'><i class="nav_6"></i><a href="javascript:void(0);" @click="selected($event)">表格界面</a> </li>
+            <!--        table1.html-->
+          </ul>
+        </div>
+      </header>
 
-    <div class="con left">
-      <!--选择时间-->
-      <el-row :gutter="20">
-        <el-col :span="8">
-          <div class="static_top left">
-            <i></i><span>总体概况</span>
-          </div>
-        </el-col>
-        <el-col :span="8" style="text-align: center">
+      <div class="con left">
+        <!--选择时间-->
+        <el-row>
+          <el-col :span="8">
+            <div class="static_top left">
+              <i></i><span>总体概况</span>
+            </div>
+          </el-col>
+          <el-col :span="8" style="text-align: center">
           <span
-                  :style="{
+            :style="{
                     'margin-right': '8px',
                     'height': '45%',
                     'font-size': screenWidth * 0.0118 + 'px',
                     'margin-left': '30px',
                     'color':'#ffffff'
                   }"
-                  class="font-bold border-font">
+            class="font-bold border-font">
                     监测作品切换：
                   </span>
             <el-select class="custom-select" v-model="workId" :size="inputSize" placeholder="请选择作品类型" style="height: 45%"  @change="selectChanged">
-                <el-option
-                        v-for="work in works"
-                        :key="work.id"
-                        :label="work.name"
-                        :value="work.id"
-                >
-                    &nbsp;&nbsp;{{work.name}} <span class="commentCnt_tick">{{work.commentCnt}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                </el-option>
+              <el-option
+                v-for="work in works"
+                :key="work.id"
+                :label="work.name"
+                :value="work.id"
+              >
+                &nbsp;&nbsp;{{work.name}} <span class="commentCnt_tick">{{work.commentCnt}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+              </el-option>
             </el-select>
-        </el-col>
-        <el-col :span="8">
-          <span class="localTime font-bold colorDeepskyblue" :style="{'cursor': 'pointer','float':'right','padding-right':'3%'}" @click="goBack">返回首页&gt;&gt;</span>
-        </el-col>
-      </el-row>
-      <!--数据总概-->
-      <div class="con_div">
+          </el-col>
+          <el-col :span="8">
+          <span class="localTime font-bold colorDeepskyblue"
+                :style="{'cursor': 'pointer','float':'right','margin-right':'10%'}"
+                @click="goBack">返回首页&gt;&gt;</span>
+          </el-col>
+        </el-row>
+        <!--数据总概-->
+        <div class="con_div">
           <el-row :gutter="25" style="height: 100%">
-              <el-col :span="8" style="height: 100%">
-                  <div class="con_div_text01 left">
-                      <img src="../../assets/DataAnalysisScreen/info_1.png" class="left text01_img">
-                      <div class="left text01_div">
-                          <p>爬取评论总数量</p>
-                          <p>{{allNum}}</p>
-<!--                        <animate-number :value="100" :duration="3000"></animate-number>-->
-                      </div>
-                  </div>
-                  <div class="con_div_text01 right">
-                      <img src="../../assets/DataAnalysisScreen/info_2.png" class="left text01_img">
-                      <div class="left text01_div">
-                          <p>今日爬取评论数量</p>
-                          <p>{{todayNum}}</p>
-                      </div>
-                  </div>
-              </el-col>
-              <el-col :span="8" style="height: 100%">
-                  <div class="con_div_text01 left">
-                      <img src="../../assets/DataAnalysisScreen/info_4.png" class="left text01_img">
-                      <div class="left text01_div">
-                          <p>分析国家总数量</p>
-                          <p class="sky">{{countryNum}}</p>
-                      </div>
-                  </div>
-                  <div class="con_div_text01 right">
-                      <img src="../../assets/DataAnalysisScreen/info_5.png" class="left text01_img">
-                      <div class="left text01_div">
-                          <p>分析平台总数量</p>
-                          <p class="sky">{{platformNum}}</p>
-                      </div>
-                  </div>
-              </el-col>
-              <el-col :span="8" style="height: 100%">
-                  <div class="con_div_text01 left">
-                      <img src="../../assets/DataAnalysisScreen/info_6.png" class="left text01_img">
-                      <div class="left text01_div">
-                          <p>评论涉及语种数量</p>
-                          <p class="org">{{languageNum}}</p>
-                      </div>
-                  </div>
-                  <div class="con_div_text01 right">
-                      <img src="../../assets/DataAnalysisScreen/info_7.png" class="left text01_img">
-                      <div class="left text01_div">
-                          <p>评论时间跨度(天)</p>
-                          <p class="org">{{daysBetween}}</p>
-                      </div>
-                  </div>
-              </el-col>
+            <el-col :span="8" style="height: 100%">
+              <div class="con_div_text01 left">
+                <img src="../../assets/DataAnalysisScreen/info_1.png" class="left text01_img">
+                <div class="left text01_div">
+                  <p>爬取评论总数量</p>
+                  <p>{{allNum}}</p>
+                  <!--                        <animate-number :value="100" :duration="3000"></animate-number>-->
+                </div>
+              </div>
+              <div class="con_div_text01 right">
+                <img src="../../assets/DataAnalysisScreen/info_2.png" class="left text01_img">
+                <div class="left text01_div">
+                  <p>今日爬取评论数量</p>
+                  <p>{{todayNum}}</p>
+                </div>
+              </div>
+            </el-col>
+            <el-col :span="8" style="height: 100%">
+              <div class="con_div_text01 left">
+                <img src="../../assets/DataAnalysisScreen/info_4.png" class="left text01_img">
+                <div class="left text01_div">
+                  <p>分析国家总数量</p>
+                  <p class="sky">{{countryNum}}</p>
+                </div>
+              </div>
+              <div class="con_div_text01 right">
+                <img src="../../assets/DataAnalysisScreen/info_5.png" class="left text01_img">
+                <div class="left text01_div">
+                  <p>分析平台总数量</p>
+                  <p class="sky">{{platformNum}}</p>
+                </div>
+              </div>
+            </el-col>
+            <el-col :span="8" style="height: 100%">
+              <div class="con_div_text01 left">
+                <img src="../../assets/DataAnalysisScreen/info_6.png" class="left text01_img">
+                <div class="left text01_div">
+                  <p>评论涉及语种数量</p>
+                  <p class="org">{{languageNum}}</p>
+                </div>
+              </div>
+              <div class="con_div_text01 right">
+                <img src="../../assets/DataAnalysisScreen/info_7.png" class="left text01_img">
+                <div class="left text01_div">
+                  <p>评论时间跨度(天)</p>
+                  <p class="org">{{daysBetween}}</p>
+                </div>
+              </div>
+            </el-col>
           </el-row>
-      </div>
-      <!--统计分析图-->
+        </div>
+        <!--统计分析图-->
 
-    <div class="div_any">
-        <el-row :gutter="20">
+        <div class="div_any">
+          <el-row :gutter="20">
             <el-col :span="7">
-                <div class="div_any_child">
-                    <div class="div_any_title"><img src="../../assets/DataAnalysisScreen/title_1.png">作品评分图</div>
-<!--                    <p id="char1" class="p_chart"></p>-->
-                    <Score :work-id="workId" :key="workId"></Score>
-                </div>
-                <div class="div_any_child">
-                    <div class="div_any_title"><img src="../../assets/DataAnalysisScreen/title_2.png">国际总体信息量变化趋势图</div>
-<!--                    <p id="char2" class="p_chart"></p>-->
-                    <MessageChart :work-id="workId" :key="workId"></MessageChart>
-                </div>
+              <div class="div_any_child">
+                <div class="div_any_title"><img src="../../assets/DataAnalysisScreen/title_1.png">作品评分图</div>
+                <!--                    <p id="char1" class="p_chart"></p>-->
+                <Score :work-id="workId" :key="workId"></Score>
+              </div>
+              <div class="div_any_child">
+                <div class="div_any_title"><img src="../../assets/DataAnalysisScreen/title_2.png">国际总体信息量变化趋势图</div>
+                <!--                    <p id="char2" class="p_chart"></p>-->
+                <MessageChart :work-id="workId" :key="workId"></MessageChart>
+              </div>
             </el-col>
             <el-col :span="10">
-                <div class="div_any_child div_height">
-                    <div class="div_any_title any_title_width"><img src="../../assets/DataAnalysisScreen/title_3.png">词云图</div>
-<!--                    <div id="map_div"></div>-->
-                    <WordCloud :work-id="workId" :key="workId" :height="'80%'"></WordCloud>
-                </div>
+              <div class="div_any_child div_height">
+                <div class="div_any_title any_title_width"><img src="../../assets/DataAnalysisScreen/title_3.png">词云图</div>
+                <!--                    <div id="map_div"></div>-->
+                <WordCloud :work-id="workId" :key="workId" :height="'80%'"></WordCloud>
+              </div>
             </el-col>
             <el-col :span="7">
-                <div class="div_any_child">
-                    <div class="div_any_title"><img src="../../assets/DataAnalysisScreen/title_4.png">主题情感分析</div>
-<!--                    <p id="char3" class="p_chart"></p>-->
-<!--                    <Subject :work-id="workId" :key="workId"></Subject>-->
-                    <SentimentScrollChart :work-id="workId" :key="workId"></SentimentScrollChart>
-                </div>
-                <div class="div_any_child">
-                    <div class="div_any_title"><img src="../../assets/DataAnalysisScreen/title_5.png">国家情感分布</div>
-<!--                    <p id="char4" class="p_chart"></p>-->
-                  <PolarityCapsuleChart :work-id="workId" :key="workId"></PolarityCapsuleChart>
-                </div>
+              <div class="div_any_child">
+                <div class="div_any_title"><img src="../../assets/DataAnalysisScreen/title_4.png">国家情感排名</div>
+                <!--                    <p id="char3" class="p_chart"></p>-->
+                <!--                    <Subject :work-id="workId" :key="workId"></Subject>-->
+                <SentimentScrollChart :work-id="workId" :key="workId"></SentimentScrollChart>
+              </div>
+              <div class="div_any_child">
+                <div class="div_any_title"><img src="../../assets/DataAnalysisScreen/title_5.png">国家情感分布</div>
+                <!--                    <p id="char4" class="p_chart"></p>-->
+                <PolarityCapsuleChart :work-id="workId" :key="workId"></PolarityCapsuleChart>
+              </div>
             </el-col>
-        </el-row>
-    </div>
-
-      <div class="div_table">
-          <el-row :gutter="30">
-              <el-col :span="8">
-                  <div class="div_any_child" style="height:480px">
-                      <div class="div_any_title"><img src="../../assets/DataAnalysisScreen/title_4.png">共现语义网络图</div>
-                      <div class="table_p">
-                        <RelationGraph :work-id="workId" :key="workId"></RelationGraph>
-<!--                          <table>-->
-<!--                              <thead><tr>-->
-<!--                                  <th>排名</th>-->
-<!--                                  <th>车牌号</th>-->
-<!--                                  <th>里程数（km）</th>-->
-<!--                              </tr>-->
-<!--                              </thead>-->
-<!--                              <tbody>-->
-<!--                              <tr><td>1</td><td>京A12345</td><td>134.2</td></tr>-->
-<!--                              <tr><td>1</td><td>京A12345</td><td>134.2</td></tr>-->
-<!--                              <tr><td>1</td><td>京A12345</td><td>134.2</td></tr>-->
-<!--                              <tr><td>1</td><td>京A12345</td><td>134.2</td></tr>-->
-<!--                              <tr><td>1</td><td>京A12345</td><td>134.2</td></tr>-->
-<!--                              </tbody>-->
-<!--                          </table>-->
-                      </div>
-                  </div>
-              </el-col>
-              <el-col :span="8">
-                  <div class="div_any_child" style="height:480px">
-                      <div class="div_any_title"><img src="../../assets/DataAnalysisScreen/title_4.png">数据来源占比图</div>
-                      <div class="table_p">
-                        <DataSourcePieChart :work-id="workId" :key="workId"></DataSourcePieChart>
-<!--                          <table>-->
-<!--                              <thead><tr>-->
-<!--                                  <th>排名</th>-->
-<!--                                  <th>车牌号</th>-->
-<!--                                  <th>次数（km）</th>-->
-<!--                              </tr>-->
-<!--                              </thead>-->
-<!--                              <tbody>-->
-<!--                              <tr><td>1</td><td>京A12345</td><td>134.2</td></tr>-->
-<!--                              <tr><td>1</td><td>京A12345</td><td>134.2</td></tr>-->
-<!--                              <tr><td>1</td><td>京A12345</td><td>134.2</td></tr>-->
-<!--                              <tr><td>1</td><td>京A12345</td><td>134.2</td></tr>-->
-<!--                              <tr><td>1</td><td>京A12345</td><td>134.2</td></tr>-->
-<!--                              </tbody>-->
-<!--                          </table>-->
-                      </div>
-                  </div>
-              </el-col>
-              <el-col :span="8">
-                  <div class="div_any_child" style="height: 480px">
-                      <div class="div_any_title"><img src="../../assets/DataAnalysisScreen/title_4.png">主题情感分析</div>
-                      <div class="table_p">
-                          <Subject :work-id="workId" :key="workId"></Subject>
-<!--                          <table>-->
-<!--                              <thead><tr>-->
-<!--                                  <th>排名</th>-->
-<!--                                  <th>车牌号</th>-->
-<!--                                  <th>时速（km）</th>-->
-<!--                              </tr>-->
-<!--                              </thead>-->
-<!--                              <tbody>-->
-<!--                              <tr><td>1</td><td>京A12345</td><td>134.2</td></tr>-->
-<!--                              <tr><td>1</td><td>京A12345</td><td>134.2</td></tr>-->
-<!--                              <tr><td>1</td><td>京A12345</td><td>134.2</td></tr>-->
-<!--                              <tr><td>1</td><td>京A12345</td><td>134.2</td></tr>-->
-<!--                              <tr><td>1</td><td>京A12345</td><td>134.2</td></tr>-->
-<!--                              </tbody>-->
-<!--                          </table>-->
-                      </div>
-                  </div>
-              </el-col>
-<!--              <el-col :span="6">-->
-<!--                  <div class="div_any_child">-->
-<!--                      <div class="div_any_title"><img src="../../assets/DataAnalysisScreen/title_4.png">行驶时长排名前5位 </div>-->
-<!--                      <div class="table_p">-->
-<!--                          <table>-->
-<!--                              <thead><tr>-->
-<!--                                  <th>排名</th>-->
-<!--                                  <th>车牌号</th>-->
-<!--                                  <th>时长（km）</th>-->
-<!--                              </tr>-->
-<!--                              </thead>-->
-<!--                              <tbody>-->
-<!--                              <tr><td>1</td><td>京A12345</td><td>134.2</td></tr>-->
-<!--                              <tr><td>1</td><td>京A12345</td><td>134.2</td></tr>-->
-<!--                              <tr><td>1</td><td>京A12345</td><td>134.2</td></tr>-->
-<!--                              <tr><td>1</td><td>京A12345</td><td>134.2</td></tr>-->
-<!--                              <tr><td>1</td><td>京A12345</td><td>134.2</td></tr>-->
-<!--                              </tbody>-->
-<!--                          </table>-->
-<!--                      </div>-->
-<!--                  </div>-->
-<!--              </el-col>-->
           </el-row>
+        </div>
+
+        <div class="div_table">
+          <el-row :gutter="30">
+            <el-col :span="8">
+              <div class="div_any_child" style="height:480px">
+                <div class="div_any_title"><img src="../../assets/DataAnalysisScreen/title_4.png">共现语义网络图</div>
+                <div class="table_p">
+                  <RelationGraph :work-id="workId" :key="workId"></RelationGraph>
+                  <!--                          <table>-->
+                  <!--                              <thead><tr>-->
+                  <!--                                  <th>排名</th>-->
+                  <!--                                  <th>车牌号</th>-->
+                  <!--                                  <th>里程数（km）</th>-->
+                  <!--                              </tr>-->
+                  <!--                              </thead>-->
+                  <!--                              <tbody>-->
+                  <!--                              <tr><td>1</td><td>京A12345</td><td>134.2</td></tr>-->
+                  <!--                              <tr><td>1</td><td>京A12345</td><td>134.2</td></tr>-->
+                  <!--                              <tr><td>1</td><td>京A12345</td><td>134.2</td></tr>-->
+                  <!--                              <tr><td>1</td><td>京A12345</td><td>134.2</td></tr>-->
+                  <!--                              <tr><td>1</td><td>京A12345</td><td>134.2</td></tr>-->
+                  <!--                              </tbody>-->
+                  <!--                          </table>-->
+                </div>
+              </div>
+            </el-col>
+            <el-col :span="8">
+              <div class="div_any_child" style="height:480px">
+                <div class="div_any_title"><img src="../../assets/DataAnalysisScreen/title_4.png">数据来源占比图</div>
+                <div class="table_p">
+                  <DataSourcePieChart :work-id="workId" :key="workId"></DataSourcePieChart>
+                  <!--                          <table>-->
+                  <!--                              <thead><tr>-->
+                  <!--                                  <th>排名</th>-->
+                  <!--                                  <th>车牌号</th>-->
+                  <!--                                  <th>次数（km）</th>-->
+                  <!--                              </tr>-->
+                  <!--                              </thead>-->
+                  <!--                              <tbody>-->
+                  <!--                              <tr><td>1</td><td>京A12345</td><td>134.2</td></tr>-->
+                  <!--                              <tr><td>1</td><td>京A12345</td><td>134.2</td></tr>-->
+                  <!--                              <tr><td>1</td><td>京A12345</td><td>134.2</td></tr>-->
+                  <!--                              <tr><td>1</td><td>京A12345</td><td>134.2</td></tr>-->
+                  <!--                              <tr><td>1</td><td>京A12345</td><td>134.2</td></tr>-->
+                  <!--                              </tbody>-->
+                  <!--                          </table>-->
+                </div>
+              </div>
+            </el-col>
+            <el-col :span="8">
+              <div class="div_any_child" style="height: 480px">
+                <div class="div_any_title"><img src="../../assets/DataAnalysisScreen/title_4.png">主题情感分析</div>
+                <div class="table_p">
+                  <Subject :work-id="workId" :key="workId"></Subject>
+                  <!--                          <table>-->
+                  <!--                              <thead><tr>-->
+                  <!--                                  <th>排名</th>-->
+                  <!--                                  <th>车牌号</th>-->
+                  <!--                                  <th>时速（km）</th>-->
+                  <!--                              </tr>-->
+                  <!--                              </thead>-->
+                  <!--                              <tbody>-->
+                  <!--                              <tr><td>1</td><td>京A12345</td><td>134.2</td></tr>-->
+                  <!--                              <tr><td>1</td><td>京A12345</td><td>134.2</td></tr>-->
+                  <!--                              <tr><td>1</td><td>京A12345</td><td>134.2</td></tr>-->
+                  <!--                              <tr><td>1</td><td>京A12345</td><td>134.2</td></tr>-->
+                  <!--                              <tr><td>1</td><td>京A12345</td><td>134.2</td></tr>-->
+                  <!--                              </tbody>-->
+                  <!--                          </table>-->
+                </div>
+              </div>
+            </el-col>
+            <!--              <el-col :span="6">-->
+            <!--                  <div class="div_any_child">-->
+            <!--                      <div class="div_any_title"><img src="../../assets/DataAnalysisScreen/title_4.png">行驶时长排名前5位 </div>-->
+            <!--                      <div class="table_p">-->
+            <!--                          <table>-->
+            <!--                              <thead><tr>-->
+            <!--                                  <th>排名</th>-->
+            <!--                                  <th>车牌号</th>-->
+            <!--                                  <th>时长（km）</th>-->
+            <!--                              </tr>-->
+            <!--                              </thead>-->
+            <!--                              <tbody>-->
+            <!--                              <tr><td>1</td><td>京A12345</td><td>134.2</td></tr>-->
+            <!--                              <tr><td>1</td><td>京A12345</td><td>134.2</td></tr>-->
+            <!--                              <tr><td>1</td><td>京A12345</td><td>134.2</td></tr>-->
+            <!--                              <tr><td>1</td><td>京A12345</td><td>134.2</td></tr>-->
+            <!--                              <tr><td>1</td><td>京A12345</td><td>134.2</td></tr>-->
+            <!--                              </tbody>-->
+            <!--                          </table>-->
+            <!--                      </div>-->
+            <!--                  </div>-->
+            <!--              </el-col>-->
+          </el-row>
+        </div>
       </div>
     </div>
-  </div>
+  </vuescroll>
+
 </template>
 <script>
 import {recordUserSelect} from "../../api/userAPI";
@@ -275,9 +281,11 @@ import RelationGraph from "./DataScreen/RelationGraph.vue";
 import PolarityCapsuleChart from "./DataScreen/PolarityCapsuleChart.vue";
 import SentimentScrollChart from "./DataScreen/SentimentScrollChart.vue";
 import {getCommentOverallMessage} from "../../api/commentAPI";
+import vuescroll from "vuescroll";
 export default {
   name:"DataAnalysisScreen",
   components: {
+    vuescroll,
       WordCloud,
       Score,
       MessageChart,
@@ -302,6 +310,7 @@ export default {
         countryNum:0,
         languageNum:0,
         daysBetween:0,
+        screenWidth: window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
         works: [
             {
                 id:2,
@@ -384,13 +393,33 @@ export default {
           }
         })
       },
+    // 字体大小根据宽度自适应
+    getScreenWidth(){
+      this.screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+      //console.log("hh-"+this.screenWidth+"-"+this.screenHeight);
+    },
+  },
+
+  watch: {
+    screenWidth: function (news, old) {
+      if (news <= 1200) {
+        this.$notify({
+          title: '浏览器高度提示',
+          dangerouslyUseHTMLString: true,
+          message: '<strong style= "color: teal">浏览器宽度<1200px将不再进行自适应</strong>',
+          type: 'warning',
+          position: 'bottom-right',
+          duration: 2000
+        });
+      }
+    },
   },
 
   beforeMount() {
 
   },
   mounted(){
-
+    window.addEventListener('resize',this.getScreenWidth, false);
   },
   created () {
     this.getUser()
@@ -696,7 +725,6 @@ h2{
   width: 98%;
   margin-left: 1%;
   margin-bottom: 25px;
-  height: 280px;
 }
 .div_table_box{
   width: 23%;
@@ -758,7 +786,6 @@ h2{
   box-shadow: -10px 0px 15px #034c6a inset,
   10px 0px 15px #034c6a inset;
 }
-/*
 .custom-select /deep/ .el-input__inner {
   line-height: 46px;
   height: 36px;
@@ -780,7 +807,6 @@ h2{
   font-weight: 1000;
   font-size: 20px;
 }
-*/
 .commentCnt_tick {
   float: right;
   color: #e88226;
