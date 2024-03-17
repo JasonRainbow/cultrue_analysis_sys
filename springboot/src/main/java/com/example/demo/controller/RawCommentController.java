@@ -5,6 +5,7 @@ import cn.hutool.core.io.IoUtil;
 import cn.hutool.poi.excel.ExcelUtil;
 import cn.hutool.poi.excel.ExcelWriter;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -27,6 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLEncoder;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -403,6 +405,56 @@ public class RawCommentController {
         List<RawComment> negativeCommentList = rawCommentMapper.selectList(lambdaQueryWrapper1);
         map.put("negative",negativeCommentList);
         return Result.success(map);
+    }
+
+    @ApiOperation(value = "根据作品id查询总体信息")
+    @GetMapping("/getCommentOverallMessage")
+    public Result getCommentOverallMessage(@RequestParam(required = true) Integer workId){
+        LambdaQueryWrapper<RawComment> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.eq(RawComment::getWorkId, workId);
+        int totalCommentNum = rawCommentMapper.selectCount(lambdaQueryWrapper);
+
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String todayDate = formatter.format(calendar.getTime());
+        lambdaQueryWrapper.eq(RawComment::getPostTime, todayDate);
+        int todayCommentNum = rawCommentMapper.selectCount(lambdaQueryWrapper);
+
+        QueryWrapper<RawComment> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("workId",workId);
+        queryWrapper.select("DISTINCT platform");
+        int platformNum = rawCommentMapper.selectCount(queryWrapper);
+
+        QueryWrapper<RawComment> queryWrapper1 = new QueryWrapper<>();
+        queryWrapper1.eq("workId",workId);
+        queryWrapper1.select("DISTINCT country");
+        int countryNum = rawCommentMapper.selectCount(queryWrapper1);
+
+        QueryWrapper<RawComment> queryWrapper2 = new QueryWrapper<>();
+        queryWrapper2.eq("workId",workId);
+        queryWrapper2.select("DISTINCT language");
+        int languageNum = rawCommentMapper.selectCount(queryWrapper2);
+
+        lambdaQueryWrapper.clear();
+        lambdaQueryWrapper.eq(RawComment::getWorkId, workId).orderByDesc(RawComment::getPostTime).last("limit 1");
+        RawComment farComment = rawCommentMapper.selectOne(lambdaQueryWrapper);
+        lambdaQueryWrapper.clear();
+        lambdaQueryWrapper.eq(RawComment::getWorkId, workId).orderByAsc(RawComment::getPostTime).last("limit 1");
+        RawComment nearComment = rawCommentMapper.selectOne(lambdaQueryWrapper);
+        long milliseconds1 = nearComment.getPostTime().getTime();
+        long milliseconds2 = farComment.getPostTime().getTime();
+        long diff = milliseconds2 - milliseconds1;
+        long daysBetween = diff / (24 * 60 * 60 * 1000);
+
+
+        Map<String,Object> messageMap = new HashMap<>();
+        messageMap.put("allNum",totalCommentNum);
+        messageMap.put("todayNum",todayCommentNum);
+        messageMap.put("platformNum",platformNum);
+        messageMap.put("countryNum",countryNum);
+        messageMap.put("languageNum",languageNum);
+        messageMap.put("daysBetween",daysBetween);
+        return Result.success(messageMap);
     }
 
 }

@@ -27,6 +27,7 @@ import WordFreqAdmin from "../views/admin/WordFreqAdmin";
 // 客户端界面
 import UserIndex from "../views/UserIndex";
 import BigScreen from "../components/user/BigScreen";
+import DataAnalysisScreen from "../components/user/DataAnalysisScreen.vue";
 import HomePage from "../views/user/HomePage";
 import UserLogin from "../views/user/UserLogin";
 import UserRegister from "../views/user/UserRegister";
@@ -221,7 +222,8 @@ const router = new Router({
     {
       path: "/big-screen",
       name: "大屏模式",
-      component: BigScreen,
+      // component: BigScreen,
+      component:DataAnalysisScreen,
       meta: {
         requireAuth: false
       }
