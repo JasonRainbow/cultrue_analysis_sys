@@ -589,10 +589,10 @@ export default {
   <div id="div1" style="text-align: center; width: 100%; height: 100%;">
     <div style="text-align: center;width:100%;height:100%">
       <div id="head_div">
-        <div :class="{'border-font': height === '258px'}"
-          :style="{'margin-bottom': '5px', 'font-size': this.divWidth * 0.038 + 'px'}">
-          {{selectCountry}}&nbsp;{{selectTime}} 共现语义网络图
-        </div>
+<!--        <div :class="{'border-font': height === '258px'}"-->
+<!--          :style="{'margin-bottom': '5px', 'font-size': this.divWidth * 0.038 + 'px'}">-->
+<!--          {{selectCountry}}&nbsp;{{selectTime}} 共现语义网络图-->
+<!--        </div>-->
         <el-select class="custom-select3" :size="inputSize" :style="{width: divWidth * 0.25 + 'px'}"
                    v-model="selectCountry"
                    placeholder="请选择国家"
@@ -630,14 +630,14 @@ export default {
   margin: auto;
 }
 #relationGraph{
-  margin:2% auto auto 0;
+  margin:0% auto auto 0;
   /*margin: auto;*/
-  height:84%;
+  height:85%;
   width:100%;
 }
 #head_div {
   width: 100%;
-  height: 14%;
+  height: 10%;
 }
 
 </style>

@@ -1,14 +1,14 @@
 <template>
-  <div id="main_container" style="text-align:center;height:100%">
-    <div style="margin-top: 2.5%;height:100%" >
-      <div class="border-font"
-        :style="{
-        'display': 'inline-block',
-        'float': 'left',
-        'font-size': divWidth * 0.034 + 'px'
-      }">
-        {{queryParam.selectEmotion}}情感分布
-      </div>
+  <div id="main_container" style="text-align:center;height:100%;margin-top: 25px">
+<!--    <div style="margin-top: 2.5%;height:100%" >-->
+<!--      <div class="border-font"-->
+<!--        :style="{-->
+<!--        'display': 'inline-block',-->
+<!--        'float': 'left',-->
+<!--        'font-size': divWidth * 0.034 + 'px'-->
+<!--      }">-->
+<!--        {{queryParam.selectEmotion}}情感分布-->
+<!--      </div>-->
       <el-select class="custom-select3" :size="inputSize" style="width: 30%"
                  v-model="queryParam.selectEmotion" placeholder="请选择情感"
                  @change="getPolarityData">
@@ -19,7 +19,7 @@
           :value="item.value">
         </el-option>
       </el-select>
-      <dv-capsule-chart :config="config" style="width:90%;height:80%;" />
+      <dv-capsule-chart :config="config" style="width:90%;height:80%;margin: auto" />
     </div>
   </div>
 </template>

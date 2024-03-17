@@ -1,5 +1,5 @@
 <template>
-  <div style="height:100%">
+  <div style="height:98%;margin-top: 12%">
 <!--    <div :class="{'border-font': height === '300px'}"-->
 <!--      :style="{-->
 <!--      'font-size': divWidth * 0.0327 + 'px'-->
@@ -156,7 +156,7 @@ export default {
 #platFormChart {
   height: 95%;
   width: 100%;
-  margin-top: 5%
+  margin-top: 8%
 }
 
 </style>

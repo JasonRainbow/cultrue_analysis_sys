@@ -1,5 +1,5 @@
 <template>
-  <div style="text-align: center;height:100%;margin-top: 6%">
+  <div style="text-align: center;height:100%;margin-top: 8%">
 <!--    <div-->
 <!--      class="border-font"-->
 <!--      :style="{-->
@@ -26,7 +26,7 @@
         :value="item.value">
       </el-option>
     </el-select>
-    <div id="container1"></div>
+    <div id="container1" style="height:80%"></div>
   </div>
 </template>
 
@@ -117,7 +117,7 @@ export default {
               formatter: '{b}:{c}({d}%)',
               textStyle : {
                 color: "#ffffff",
-                fontSize : this.divWidth * 0.024
+                fontSize : this.divWidth * 0.025
               }
             }
           },

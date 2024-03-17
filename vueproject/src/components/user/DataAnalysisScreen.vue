@@ -52,6 +52,7 @@
                     'height': '45%',
                     'font-size': screenWidth * 0.0118 + 'px',
                     'margin-left': '30px',
+                    'color':'#ffffff'
                   }"
                   class="font-bold border-font">
                     监测作品切换：
@@ -63,7 +64,7 @@
                         :label="work.name"
                         :value="work.id"
                 >
-                    {{work.name}} <span class="commentCnt_tick">{{work.commentCnt}}</span>
+                    &nbsp;&nbsp;{{work.name}} <span class="commentCnt_tick">{{work.commentCnt}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
                 </el-option>
             </el-select>
         </el-col>
@@ -79,7 +80,7 @@
                       <img src="../../assets/DataAnalysisScreen/info_1.png" class="left text01_img">
                       <div class="left text01_div">
                           <p>爬取评论总数量</p>
-                          <p>12356</p>
+                          <p>{{allNum}}</p>
 <!--                        <animate-number :value="100" :duration="3000"></animate-number>-->
                       </div>
                   </div>
@@ -87,7 +88,7 @@
                       <img src="../../assets/DataAnalysisScreen/info_2.png" class="left text01_img">
                       <div class="left text01_div">
                           <p>今日爬取评论数量</p>
-                          <p>12356</p>
+                          <p>{{todayNum}}</p>
                       </div>
                   </div>
               </el-col>
@@ -96,14 +97,14 @@
                       <img src="../../assets/DataAnalysisScreen/info_4.png" class="left text01_img">
                       <div class="left text01_div">
                           <p>分析国家总数量</p>
-                          <p class="sky">12356</p>
+                          <p class="sky">{{countryNum}}</p>
                       </div>
                   </div>
                   <div class="con_div_text01 right">
                       <img src="../../assets/DataAnalysisScreen/info_5.png" class="left text01_img">
                       <div class="left text01_div">
                           <p>分析平台总数量</p>
-                          <p class="sky">12356</p>
+                          <p class="sky">{{platformNum}}</p>
                       </div>
                   </div>
               </el-col>
@@ -112,14 +113,14 @@
                       <img src="../../assets/DataAnalysisScreen/info_6.png" class="left text01_img">
                       <div class="left text01_div">
                           <p>评论涉及语种数量</p>
-                          <p class="org">12356</p>
+                          <p class="org">{{languageNum}}</p>
                       </div>
                   </div>
                   <div class="con_div_text01 right">
                       <img src="../../assets/DataAnalysisScreen/info_7.png" class="left text01_img">
                       <div class="left text01_div">
-                          <p>评论时间跨度</p>
-                          <p class="org">12356</p>
+                          <p>评论时间跨度(天)</p>
+                          <p class="org">{{daysBetween}}</p>
                       </div>
                   </div>
               </el-col>
@@ -152,22 +153,23 @@
                 <div class="div_any_child">
                     <div class="div_any_title"><img src="../../assets/DataAnalysisScreen/title_4.png">主题情感分析</div>
 <!--                    <p id="char3" class="p_chart"></p>-->
-                    <Subject :work-id="workId" :key="workId"></Subject>
+<!--                    <Subject :work-id="workId" :key="workId"></Subject>-->
+                    <SentimentScrollChart :work-id="workId" :key="workId"></SentimentScrollChart>
                 </div>
                 <div class="div_any_child">
-                    <div class="div_any_title"><img src="../../assets/DataAnalysisScreen/title_5.png">数据来源占比图</div>
+                    <div class="div_any_title"><img src="../../assets/DataAnalysisScreen/title_5.png">国家情感分布</div>
 <!--                    <p id="char4" class="p_chart"></p>-->
-                    <DataSourcePieChart :work-id="workId" :key="workId"></DataSourcePieChart>
+                  <PolarityCapsuleChart :work-id="workId" :key="workId"></PolarityCapsuleChart>
                 </div>
             </el-col>
         </el-row>
     </div>
 
       <div class="div_table">
-          <el-row :gutter="20">
-              <el-col :span="6">
-                  <div class="div_any_child">
-                      <div class="div_any_title"><img src="../../assets/DataAnalysisScreen/title_4.png">行驶里程排名前5位 </div>
+          <el-row :gutter="30">
+              <el-col :span="8">
+                  <div class="div_any_child" style="height:480px">
+                      <div class="div_any_title"><img src="../../assets/DataAnalysisScreen/title_4.png">共现语义网络图</div>
                       <div class="table_p">
                         <RelationGraph :work-id="workId" :key="workId"></RelationGraph>
 <!--                          <table>-->
@@ -188,72 +190,74 @@
                       </div>
                   </div>
               </el-col>
-              <el-col :span="6">
-                  <div class="div_any_child">
-                      <div class="div_any_title"><img src="../../assets/DataAnalysisScreen/title_4.png">行驶次数车辆前5位 </div>
+              <el-col :span="8">
+                  <div class="div_any_child" style="height:480px">
+                      <div class="div_any_title"><img src="../../assets/DataAnalysisScreen/title_4.png">数据来源占比图</div>
                       <div class="table_p">
-                          <table>
-                              <thead><tr>
-                                  <th>排名</th>
-                                  <th>车牌号</th>
-                                  <th>次数（km）</th>
-                              </tr>
-                              </thead>
-                              <tbody>
-                              <tr><td>1</td><td>京A12345</td><td>134.2</td></tr>
-                              <tr><td>1</td><td>京A12345</td><td>134.2</td></tr>
-                              <tr><td>1</td><td>京A12345</td><td>134.2</td></tr>
-                              <tr><td>1</td><td>京A12345</td><td>134.2</td></tr>
-                              <tr><td>1</td><td>京A12345</td><td>134.2</td></tr>
-                              </tbody>
-                          </table>
+                        <DataSourcePieChart :work-id="workId" :key="workId"></DataSourcePieChart>
+<!--                          <table>-->
+<!--                              <thead><tr>-->
+<!--                                  <th>排名</th>-->
+<!--                                  <th>车牌号</th>-->
+<!--                                  <th>次数（km）</th>-->
+<!--                              </tr>-->
+<!--                              </thead>-->
+<!--                              <tbody>-->
+<!--                              <tr><td>1</td><td>京A12345</td><td>134.2</td></tr>-->
+<!--                              <tr><td>1</td><td>京A12345</td><td>134.2</td></tr>-->
+<!--                              <tr><td>1</td><td>京A12345</td><td>134.2</td></tr>-->
+<!--                              <tr><td>1</td><td>京A12345</td><td>134.2</td></tr>-->
+<!--                              <tr><td>1</td><td>京A12345</td><td>134.2</td></tr>-->
+<!--                              </tbody>-->
+<!--                          </table>-->
                       </div>
                   </div>
               </el-col>
-              <el-col :span="6">
-                  <div class="div_any_child">
-                      <div class="div_any_title"><img src="../../assets/DataAnalysisScreen/title_4.png">行驶最高时速前5位 </div>
+              <el-col :span="8">
+                  <div class="div_any_child" style="height: 480px">
+                      <div class="div_any_title"><img src="../../assets/DataAnalysisScreen/title_4.png">主题情感分析</div>
                       <div class="table_p">
-                          <table>
-                              <thead><tr>
-                                  <th>排名</th>
-                                  <th>车牌号</th>
-                                  <th>时速（km）</th>
-                              </tr>
-                              </thead>
-                              <tbody>
-                              <tr><td>1</td><td>京A12345</td><td>134.2</td></tr>
-                              <tr><td>1</td><td>京A12345</td><td>134.2</td></tr>
-                              <tr><td>1</td><td>京A12345</td><td>134.2</td></tr>
-                              <tr><td>1</td><td>京A12345</td><td>134.2</td></tr>
-                              <tr><td>1</td><td>京A12345</td><td>134.2</td></tr>
-                              </tbody>
-                          </table>
+                          <Subject :work-id="workId" :key="workId"></Subject>
+<!--                          <table>-->
+<!--                              <thead><tr>-->
+<!--                                  <th>排名</th>-->
+<!--                                  <th>车牌号</th>-->
+<!--                                  <th>时速（km）</th>-->
+<!--                              </tr>-->
+<!--                              </thead>-->
+<!--                              <tbody>-->
+<!--                              <tr><td>1</td><td>京A12345</td><td>134.2</td></tr>-->
+<!--                              <tr><td>1</td><td>京A12345</td><td>134.2</td></tr>-->
+<!--                              <tr><td>1</td><td>京A12345</td><td>134.2</td></tr>-->
+<!--                              <tr><td>1</td><td>京A12345</td><td>134.2</td></tr>-->
+<!--                              <tr><td>1</td><td>京A12345</td><td>134.2</td></tr>-->
+<!--                              </tbody>-->
+<!--                          </table>-->
                       </div>
                   </div>
               </el-col>
-              <el-col :span="6">
-                  <div class="div_any_child">
-                      <div class="div_any_title"><img src="../../assets/DataAnalysisScreen/title_4.png">行驶时长排名前5位 </div>
-                      <div class="table_p">
-                          <table>
-                              <thead><tr>
-                                  <th>排名</th>
-                                  <th>车牌号</th>
-                                  <th>时长（km）</th>
-                              </tr>
-                              </thead>
-                              <tbody>
-                              <tr><td>1</td><td>京A12345</td><td>134.2</td></tr>
-                              <tr><td>1</td><td>京A12345</td><td>134.2</td></tr>
-                              <tr><td>1</td><td>京A12345</td><td>134.2</td></tr>
-                              <tr><td>1</td><td>京A12345</td><td>134.2</td></tr>
-                              <tr><td>1</td><td>京A12345</td><td>134.2</td></tr>
-                              </tbody>
-                          </table>
-                      </div>
-                  </div>
-              </el-col>
+<!--              <el-col :span="6">-->
+<!--                  <div class="div_any_child">-->
+<!--                      <div class="div_any_title"><img src="../../assets/DataAnalysisScreen/title_4.png">行驶时长排名前5位 </div>-->
+<!--                      <div class="table_p">-->
+<!--                          <table>-->
+<!--                              <thead><tr>-->
+<!--                                  <th>排名</th>-->
+<!--                                  <th>车牌号</th>-->
+<!--                                  <th>时长（km）</th>-->
+<!--                              </tr>-->
+<!--                              </thead>-->
+<!--                              <tbody>-->
+<!--                              <tr><td>1</td><td>京A12345</td><td>134.2</td></tr>-->
+<!--                              <tr><td>1</td><td>京A12345</td><td>134.2</td></tr>-->
+<!--                              <tr><td>1</td><td>京A12345</td><td>134.2</td></tr>-->
+<!--                              <tr><td>1</td><td>京A12345</td><td>134.2</td></tr>-->
+<!--                              <tr><td>1</td><td>京A12345</td><td>134.2</td></tr>-->
+<!--                              </tbody>-->
+<!--                          </table>-->
+<!--                      </div>-->
+<!--                  </div>-->
+<!--              </el-col>-->
           </el-row>
       </div>
     </div>
@@ -269,6 +273,8 @@ import DataSourcePieChart from "./DataScreen/DataSourcePieChart.vue";
 import {getMonitorWorkByUserId} from "../../api/monitor_workAPI";
 import RelationGraph from "./DataScreen/RelationGraph.vue";
 import PolarityCapsuleChart from "./DataScreen/PolarityCapsuleChart.vue";
+import SentimentScrollChart from "./DataScreen/SentimentScrollChart.vue";
+import {getCommentOverallMessage} from "../../api/commentAPI";
 export default {
   name:"DataAnalysisScreen",
   components: {
@@ -278,7 +284,8 @@ export default {
       Subject,
       DataSourcePieChart,
       RelationGraph,
-      PolarityCapsuleChart
+      PolarityCapsuleChart,
+      SentimentScrollChart
   },
   data(){
     return {
@@ -289,6 +296,12 @@ export default {
         workId:2,
         inputSize: 'small',
         isActive:"数据概览",
+        allNum:0,
+        todayNum:0,
+        platformNum:0,
+        countryNum:0,
+        languageNum:0,
+        daysBetween:0,
         works: [
             {
                 id:2,
@@ -302,7 +315,20 @@ export default {
     }
   },
   methods:{
+       getWorkOverallMessage(){
+         getCommentOverallMessage({workId:this.workId}).then((res)=>{
+           if(res.code === '0'){
+             this.allNum = res.data.allNum
+             this.todayNum = res.data.todayNum
+             this.platformNum = res.data.platformNum
+             this.countryNum = res.data.countryNum
+             this.languageNum = res.data.languageNum
+             this.daysBetween = res.data.daysBetween
+           }
+         })
+       },
       selectChanged(){
+          this.getWorkOverallMessage()
           if (!this.userId) return // 用户没有登录，不记录浏览
           recordUserSelect({userId: this.userId, workId:this.workId}).then((res)=>{ // 获取监测作品
               if (res.code === "0") {
@@ -369,10 +395,11 @@ export default {
   created () {
     this.getUser()
     this.getWorkData()
+    this.getWorkOverallMessage()
   },
 }
 </script>
-<style scoped>
+<style lang="css" scoped>
 /*
 .custom-select /deep/ .el-input__inner {
     line-height: 46px;
@@ -397,7 +424,7 @@ body{
 }
 .header{
   width: 100%;
-  height: 80px;
+  height: 85px;
   background-color: #030829;
 
 }
@@ -496,10 +523,10 @@ body{
 /* 顶部标题样式*/
 .header_center{
   width: 30%;
-  margin: 0px auto;
+  //margin: 0px auto;
   color: #FFFFff;
   text-align: center;
-  height: 70px;
+  height: 75px;
   background-image: url("../../assets/DataAnalysisScreen/logoBg.png");
   background-size: 100% 100%;
   font-family: "微软雅黑"!important;
@@ -512,7 +539,7 @@ body{
 h2{
   margin-top: 10px;
   margin-bottom: 10px;;
-  font-size: 18px;
+  font-size: 25px;
 }
 /*
 .header_center h2{
@@ -730,5 +757,32 @@ h2{
   background-color: #072951;
   box-shadow: -10px 0px 15px #034c6a inset,
   10px 0px 15px #034c6a inset;
+}
+/*
+.custom-select /deep/ .el-input__inner {
+  line-height: 46px;
+  height: 36px;
+  color: #fdefd2;
+  font-size: 16px;
+  text-align: center;
+  opacity: 1;
+  border: none;
+  background: url("../../assets/img/nav2_bg.png") center center no-repeat;
+  font-weight: bold;
+}
+
+.custom-select /deep/ .el-input__inner {
+  padding-right: 10px;
+}
+
+.custom-select /deep/ .el-select__caret {
+  color: #f0ae4b;
+  font-weight: 1000;
+  font-size: 20px;
+}
+*/
+.commentCnt_tick {
+  float: right;
+  color: #e88226;
 }
 </style>
