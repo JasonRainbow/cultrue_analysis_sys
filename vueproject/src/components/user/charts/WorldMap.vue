@@ -590,6 +590,11 @@ export default {
           this.dataList[i].value=0
         }
       }
+      let len = this.emotionEveryCountry.length
+      if (len > 20) {
+        // 截断
+        this.emotionEveryCountry = this.emotionEveryCountry.slice(len - 20, len)
+      }
       this.initBarOption()
       if (this.label === "情感排名") {
         this.worldMapChart.setOption(this.option);
@@ -647,9 +652,9 @@ export default {
         yAxis: {
           type: 'category',
           axisLabel: {
-            rotate: 30,
+            rotate: 10, // 倾斜度
             color: '#dc5a15',
-            fontSize: 15,
+            fontSize: 14,
             fontWeight: 'bold',
             textBorderWidth: 1.5,
             textBorderColor: '#000'

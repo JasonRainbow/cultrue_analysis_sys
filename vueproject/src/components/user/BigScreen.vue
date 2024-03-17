@@ -85,7 +85,7 @@
           <!--          中间部分-->
           <el-col :span="9">
             <div :style="{ height: kHThree + 'px'}">
-              <dv-border-box-12 class="bg_mask" style="padding:12px;width:100%;height:100%">
+              <dv-border-box-13 class="bg_mask" style="padding:12px;width:100%;height:100%">
                 <div style="margin-bottom: 5px;height:100%">
                   <span
                     :style="{
@@ -127,18 +127,18 @@
 
                   </div>
                 </div>
-              </dv-border-box-12>
+              </dv-border-box-13>
             </div>
             <div :style="{ height: kHFour + 'px'}">
-              <dv-border-box-12 class="bg_mask" style="padding:5px;width: 100%;">
+              <dv-border-box-13 class="bg_mask" style="padding:5px;width: 100%;">
                 <Score :work-id="workId" :key="workId"></Score>
-              </dv-border-box-12>
+              </dv-border-box-13>
             </div>
             <div :style="{ height: kHNine + 'px'}">
-              <dv-border-box-12 class="bg_mask" style="padding-top:10px;width:100%">
+              <dv-border-box-13 class="bg_mask" style="padding-top:10px;width:100%">
                 <!--               <Story></Story>-->
                 <Subject :work-id="workId" :key="workId"></Subject>
-              </dv-border-box-12>
+              </dv-border-box-13>
             </div>
           </el-col>
 
