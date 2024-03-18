@@ -89,15 +89,17 @@
                 <img src="../../assets/DataAnalysisScreen/info_1.png" class="left text01_img">
                 <div class="left text01_div">
                   <p>爬取评论总数量</p>
-                  <p>{{allNum}}</p>
-                  <!--                        <animate-number :value="100" :duration="3000"></animate-number>-->
+<!--                  <p>{{allNum}}</p>-->
+<!--                  <p><countTo :startVal='startVal' :endVal='endVal' :duration='3000' autoplay="true"></countTo></p>-->
+                  <p><animate-number :to="allNum" :from="0" :duration="2000" :key="allNum"></animate-number></p>
+
                 </div>
               </div>
               <div class="con_div_text01 right">
                 <img src="../../assets/DataAnalysisScreen/info_2.png" class="left text01_img">
                 <div class="left text01_div">
                   <p>今日爬取评论数量</p>
-                  <p>{{todayNum}}</p>
+                  <p><animate-number :to="todayNum" :from="0" :duration="2000" :key="todayNum"></animate-number></p>
                 </div>
               </div>
             </el-col>
@@ -106,14 +108,14 @@
                 <img src="../../assets/DataAnalysisScreen/info_4.png" class="left text01_img">
                 <div class="left text01_div">
                   <p>分析国家总数量</p>
-                  <p class="sky">{{countryNum}}</p>
+                  <p class="sky"><animate-number :to="countryNum" :from="0" :duration="2000" :key="countryNum"></animate-number></p>
                 </div>
               </div>
               <div class="con_div_text01 right">
                 <img src="../../assets/DataAnalysisScreen/info_5.png" class="left text01_img">
                 <div class="left text01_div">
                   <p>分析平台总数量</p>
-                  <p class="sky">{{platformNum}}</p>
+                  <p class="sky"><animate-number :to="platformNum" :from="0" :duration="500" :key="platformNum"></animate-number></p>
                 </div>
               </div>
             </el-col>
@@ -122,14 +124,14 @@
                 <img src="../../assets/DataAnalysisScreen/info_6.png" class="left text01_img">
                 <div class="left text01_div">
                   <p>评论涉及语种数量</p>
-                  <p class="org">{{languageNum}}</p>
+                  <p class="org"><animate-number :to="languageNum" :from="0" :duration="500" :key="languageNum"></animate-number></p>
                 </div>
               </div>
               <div class="con_div_text01 right">
                 <img src="../../assets/DataAnalysisScreen/info_7.png" class="left text01_img">
                 <div class="left text01_div">
                   <p>评论时间跨度(天)</p>
-                  <p class="org">{{daysBetween}}</p>
+                  <p class="org"><animate-number :to="daysBetween" :from="0" :duration="2000" :key="daysBetween"></animate-number></p>
                 </div>
               </div>
             </el-col>
@@ -287,9 +289,11 @@ import PolarityCapsuleChart from "./DataScreen/PolarityCapsuleChart.vue";
 import SentimentScrollChart from "./DataScreen/SentimentScrollChart.vue";
 import {getCommentOverallMessage} from "../../api/commentAPI";
 import vuescroll from "vuescroll";
+import countTo from 'vue-count-to';
 export default {
   name:"DataAnalysisScreen",
   components: {
+    countTo,
     vuescroll,
       WordCloud,
       Score,
@@ -302,6 +306,8 @@ export default {
   },
   data(){
     return {
+        startVal:0,
+        endVal:this.allNum,
         userId:'',
         workName:null,
         country:null,
@@ -348,23 +354,23 @@ export default {
               if (res.code === "0") {
                   console.log("记录成功")
               } else {
-                  console.log(res.msg)
+                  // console.log(res.msg)
               }
           })
       },
       // 导航条添加样式
       selected(event) {
-          console.log(event)
+          // console.log(event)
           this.isActive = event.target.innerText
       },
       test(){
 
       },
       sentimentMap() {
-        console.log("世界情感分布图")
+        // console.log("世界情感分布图")
       },
       goBack() {
-        console.log("返回")
+        // console.log("返回")
         this.$router.push({path: "/home"})
       },
       getUser() {
@@ -394,7 +400,7 @@ export default {
             })
             this.workId = this.works[0].id // 默认选中第一个作品
           } else {
-            console.log(res.msg)
+            // console.log(res.msg)
           }
         })
       },
