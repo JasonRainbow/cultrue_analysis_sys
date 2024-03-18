@@ -207,3 +207,4 @@ interceptorconfig:
       - /api/comment/getCommentNumByLanguage
       - /api/comment/getCommentNumByPlatform
       - /api/comment/getCommentOverallMessage
+      - /api/monitor-work/getSameCategoryWork

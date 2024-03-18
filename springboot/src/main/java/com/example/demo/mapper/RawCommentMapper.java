@@ -79,4 +79,6 @@ public interface RawCommentMapper extends BaseMapper<RawComment> {
 
     Integer selectCommentCountBySubCategoryAndOrigin(String subCategory, String origin, Boolean hunanOnly);
 
+    Integer getWorkCommentLikesNumByWorkId(@Param("workId") Integer workId);
+
 }

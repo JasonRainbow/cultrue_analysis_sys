@@ -18,6 +18,7 @@ import com.example.demo.entity.dto.RequestHunanWorkDto;
 import com.example.demo.entity.vo.RecommendWorkVO;
 import com.example.demo.mapper.MonitorRequestMapper;
 import com.example.demo.mapper.MonitorWorkMapper;
+import com.example.demo.mapper.PlatformMapper;
 import com.example.demo.mapper.RawCommentMapper;
 import com.example.demo.service.MonitorWorkService;
 import io.swagger.annotations.Api;
@@ -47,6 +48,9 @@ public class MonitorWorkController {
     private RawCommentMapper rawCommentMapper;
 
     @Autowired
+    private PlatformMapper platformMapper;
+
+    @Autowired
     private MonitorRequestMapper monitorRequestMapper;
 
     @Autowired
@@ -65,6 +69,14 @@ public class MonitorWorkController {
     @ApiOperation(value = "根据ID查询指定文化作品信息")
     public Result findById(@PathVariable Long id) {
         MonitorWork monitorWork = monitorWorkMapper.selectById(id);
+        //设置作品所属平台信息
+        monitorWork.setPlatform(platformMapper.selectById(monitorWork.getSourcePlatform()));
+        //设置作品评论总数
+        QueryWrapper<RawComment> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("workId", monitorWork.getId());
+        monitorWork.setCommentCnt(rawCommentMapper.selectCount(queryWrapper));
+        //设置作品评论点赞总数
+        monitorWork.setCommentLikesCnt(rawCommentMapper.getWorkCommentLikesNumByWorkId(monitorWork.getId()));
         return Result.success(monitorWork);
     }
 
@@ -91,6 +103,14 @@ public class MonitorWorkController {
                            @RequestParam(required = false, defaultValue = "10") Integer pageSize) {
 
         return Result.success(monitorWorkService.queryWorksbyPage(pageNum, pageSize, searchName, searchCategory));
+    }
+    // 分页 根据作品id查询同类型其他作品传播效果得分
+    @GetMapping("/getSameCategoryWork")
+    @ApiOperation(value = "分页查询同类型作品传播效果得分")
+    public Result getSameCategoryByPageAndWorkId(@RequestParam Integer workId,
+                                                 @RequestParam(required = false, defaultValue = "1") Integer pageNum,
+                                                 @RequestParam(required = false, defaultValue = "10") Integer pageSize){
+        return Result.success(monitorWorkService.querySameCategoryWork(workId, pageNum, pageSize));
     }
 
     // 根据id删除指定监测作品

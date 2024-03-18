@@ -90,6 +90,12 @@ public class MonitorWorkServiceImpl implements MonitorWorkService {
     }
 
     @Override
+    public Page<MonitorWork> querySameCategoryWork(Integer workId, Integer pageNum, Integer pageSize) {
+        Page<MonitorWork> sameCategoryPage = monitorWorkMapper.selectSameCategoryWork(new Page<>(pageNum, pageSize),workId);
+        return sameCategoryPage;
+    }
+
+    @Override
     public List<WorkNumAndCommentNumVO> queryAllBookCategories() {
 
         List<WorkNumAndCommentNumVO> workNumAndCommentNumVOS =

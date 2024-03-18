@@ -51,4 +51,5 @@ public interface PolarityAnalysisMapper extends BaseMapper<PolarityAnalysis> {
 
     List<PolarityAnalysis> selectCountriesPolarityByYear(@Param("workId") Integer workId,
                                                    @Param("selectYear") String selectYear);
+
 }

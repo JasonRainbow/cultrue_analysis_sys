@@ -77,4 +77,8 @@ export const getAllSubcategory = (params)=>{
 export const getWorkAndCommentNumByCategory = (params)=>{
   return req("get", "/monitor-work/getWorkAndCommentNumByCategory", null, null)
 }
+// 通过作品id获取同类型其它作品
+export const getSameCategoryByWorkId = (params)=>{
+  return req("get", "/monitor-work/getSameCategoryWork", params, null)
+}
 

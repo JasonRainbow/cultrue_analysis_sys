@@ -41,6 +41,14 @@ public interface MonitorWorkService {
     Page<HotWork> queryHotWorks(Integer pageNum, Integer pageSize,
                                 String searchName, String searchCategory);
 
+    /**
+     * 分页查询同类型作品
+     * @param workId 作品id
+     * @param pageNum 页号
+     * @param pageSize 页大小
+     * @return 监测文化作品
+     */
+    Page<MonitorWork> querySameCategoryWork(Integer workId, Integer pageNum, Integer pageSize);
 
     /**
      * 查询所有的文学作品子类型，及子类型的作品数和总评论量
@@ -66,4 +74,5 @@ public interface MonitorWorkService {
      * @return 监测作品列表
      */
     List<MonitorWork> queryWorksByUserId(Integer userId);
+
 }

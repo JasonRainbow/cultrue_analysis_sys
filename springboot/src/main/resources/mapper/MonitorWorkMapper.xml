@@ -90,5 +90,15 @@
         where monitor_work.subCategory=#{subCategory}
         GROUP By monitor_work.id,monitor_work.name
     </select>
+    <select id="selectSameCategoryWork" resultType="com.example.demo.entity.MonitorWork">
+        SELECT m1.*
+        FROM monitor_work m1
+        WHERE m1.subCategory = (
+            SELECT subCategory
+            FROM monitor_work
+            WHERE id = #{workId}
+        )
+        ORDER BY m1.effectScore desc
+    </select>
 
 </mapper>

@@ -3,9 +3,8 @@
     <div id="main">
       <div class="bg">
         <div class="workName-show">
-          <i></i>
           <div style="font-size: 20px; color: #e2652f">
-            湖湘文化作品({{work.subCategory}})：
+            语言文化作品({{work.subCategory}})：
             <span style="color: #ef0000">{{work.name}} ({{work.englishName}})</span>
             <span style="margin-left: 40px;">热点评论</span>
           </div>
