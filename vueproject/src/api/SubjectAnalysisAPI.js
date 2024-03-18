@@ -15,3 +15,7 @@ export const getAllByWorkId = params=>{
   return req("get", "/subject-analysis/getAllByWorkId", params, null)
 }
 
+export const getCommentSubjectsByWorkId = params=>{
+  return req("get", "/subject-analysis/getCommentSubjectsByWorkId", params, null)
+}
+

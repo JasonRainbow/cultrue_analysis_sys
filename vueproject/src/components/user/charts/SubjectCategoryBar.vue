@@ -1,7 +1,7 @@
 <template>
   <div style="text-align: center">
     <h2 style="font-weight: bold; margin-bottom: 10px">主题类别统计</h2>
-    <div id="subjectCategoryChart" style="width:100%;height:500px"></div>
+    <div id="subjectCategoryChart" style="width:100%;height:550px"></div>
   </div>
 </template>
 
