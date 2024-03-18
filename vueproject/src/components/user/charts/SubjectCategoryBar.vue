@@ -1,7 +1,7 @@
 <template>
   <div style="text-align: center">
-    <h2 style="font-weight: bold">主题类别统计</h2>
-    <div id="subjectCategoryChart" style="width:100%;height:350px"></div>
+    <h2 style="font-weight: bold; margin-bottom: 10px">主题类别统计</h2>
+    <div id="subjectCategoryChart" style="width:100%;height:500px"></div>
   </div>
 </template>
 
@@ -12,50 +12,90 @@ export default {
     return {
       subjectCategoryChart: null,
       option: {
-        tooltip: {
-          trigger: 'axis',
-          axisPointer: {
-            type: 'shadow'
-          }
+        color: ['#31fdd6', '#EA0C31', '#FBFF00', '#FF917C'],
+        legend: {
+          data: ['积极', '消极', "中立"]
         },
-        grid: {
-          left: '3%',
-          right: '3%',
-          bottom: '1%',
-          containLabel: true
-        },
-        xAxis: {
-          type: 'category',
-          data: ['翻译质量', '影视特效', '演员演技', '价值观念', '故事情节', '人物塑造'],
-          axisTick: {
-            alignWithLabel: true
-          },
-          axisLabel:{
+        radar: {
+          // shape: 'circle',
+          indicator: [
+            { name: '翻译质量', max: 6500 },
+            { name: '影视特效', max: 16000 },
+            { name: '演员演技', max: 30000 },
+            { name: '价值观念', max: 40000 },
+            { name: '故事情节', max: 50000 },
+            { name: '人物塑造', max: 25000 },
+          ],
+          center: ["50%", "53%"],
+          axisName: {
             color: '#ef8407',
-            fontWeight: 'bolder',
-            textBorderWidth: 1.5,
-            textBorderColor: '#000'
-          }
-        },
-        yAxis: {
-          type: 'value',
-          name: '数量'
+            fontSize: 16,
+            fontWeight: "bolder",
+            borderRadius: 3,
+            padding: [3, 5]
+          },
+          splitArea: {
+            areaStyle: {
+              color: ['#77EADF', '#26C3BE', '#64AFE9', '#428BD4'],
+              shadowColor: 'rgba(0, 0, 0, 0.2)',
+              shadowBlur: 10
+            }
+          },
+          axisLine: {
+            lineStyle: {
+              color: 'rgba(211, 253, 250, 0.8)'
+            }
+          },
+          splitLine: {
+            lineStyle: {
+              color: 'rgba(211, 253, 250, 0.8)'
+            }
+          },
+          startAngle: 90,
+          splitNumber: 4,
         },
         series: [
           {
-            data: [20, 60, 50, 30, 20, 15],
-            type: 'bar',
-            barWidth: '45%',
-            barMaxWidth: 50, // 柱子的最大宽度
-            showBackground: true,
-            backgroundStyle: {
-              color: 'rgba(180, 180, 180, 0.2)'
+            name: 'Budget vs spending',
+            type: 'radar',
+            symbol: "roundRect",
+            emphasis: {
+              lineStyle: {
+                width: 5
+              }
             },
-            // 设置柱条颜色
-            colorBy: 'series',
-            itemStyle: {
-              color: 'rgba(158,43,45, 0.8)'
-            }
+            data: [
+              {
+                value: [4200, 3000, 20000, 35000, 50000, 18000],
+                name: '积极',
+                label: {
+                  show: true,
+                  formatter: function (params) {
+                    return params.value;
+                  }
+                }
+              },
+              {
+                value: [5000, 14000, 28000, 26000, 42000, 21000],
+                name: '消极',
+                label: {
+                  show: true,
+                  formatter: function (params) {
+                    return params.value;
+                  }
+                }
+              },
+              {
+                value: [2000, 5000, 28000, 26000, 42000, 21000],
+                name: '中立',
+                label: {
+                  show: true,
+                  formatter: function (params) {
+                    return params.value;
+                  }
+                }
+              }
+            ]
           }
         ]
       }
