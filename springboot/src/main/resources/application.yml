@@ -11,7 +11,7 @@ spring:
     # 用户名
     username: root
     # 密码
-    password: 291927
+    password: 123456
     # 数据库连接池的类型
     type: com.alibaba.druid.pool.DruidDataSource
     hikari:
@@ -206,4 +206,5 @@ interceptorconfig:
       - /api/comment/getCommentNumBySubCategory
       - /api/comment/getCommentNumByLanguage
       - /api/comment/getCommentNumByPlatform
+      - /api/comment/getCommentOverallMessage
       - /api/monitor-work/getSameCategoryWork

@@ -41,6 +41,9 @@ Vue.prototype.randomNum = randomNum;
 import dataV from '@jiaminghi/data-view';
 Vue.use(dataV)
 
+import VueAnimateNumber from 'vue-animate-number';
+Vue.use(VueAnimateNumber);
+
 // 引入轮播列表
 import scroll from 'vue-seamless-scroll';
 Vue.use(scroll)
@@ -62,7 +65,7 @@ Object.keys(custom).forEach(key => {
 // 配置滚动条组件
 Vue.prototype.$vuescrollConfig = {
   bar: {
-    background: 'rgba(23,4,90,0.47)'
+    background: 'rgba(199,103,8,0.47)'
   }
 }
 

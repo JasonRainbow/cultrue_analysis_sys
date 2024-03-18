@@ -99,3 +99,7 @@ export const getPlatformByWorkIdAndCountry = (params)=>{
 export const getPolarityComment = (params)=>{
   return req("get", "/comment/getPolarityComment", params)
 }
+
+export const getCommentOverallMessage = (params)=>{
+  return req("get", "/comment/getCommentOverallMessage", params)
+}
