@@ -16,7 +16,12 @@
               </router-link>
             </li>
             <!--   carContrl.html     -->
-            <li :class='isActive === "作品画像" ? "nav_active":""'><i class="nav_3" ></i><a href="javascript:void(0);" @click="selected($event)">作品画像</a> </li>
+            <li :class='isActive === "作品画像" ? "nav_active":""'>
+              <i class="nav_3" ></i>
+              <router-link :to="{path: '/WorkPortraitPage', query: {workId: workId}}">
+                <a href="javascript:void(0);" @click="selected($event)" style="color: #FFFFFF">作品画像</a>
+              </router-link>
+            </li>
             <!--     map.html   -->
 
 

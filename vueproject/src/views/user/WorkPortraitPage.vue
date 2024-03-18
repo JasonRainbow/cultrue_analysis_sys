@@ -3,6 +3,7 @@
     <div class="container">
       <div class="content">
         <div class="main-column">
+          <div class="back-btn" @click="goBack">返回>></div>
           <el-card class="workInfo-card">
             <div style="display: flex;align-items: center;">
               <img class="work-img" :src="work.imgUrl" alt="作品图片">
@@ -106,25 +107,25 @@ export default {
     WorkPositiveHighFreqTable, WorkNegativeHighFreqTable, PolarityDynamicRingChart, ViewTranslation, vuescroll},
   data() {
     return {
-      // workId: this.$route.query.workId,
-      workId: 2,
+      workId: this.$route.query.workId,
+      // workId: 2,
       value: 3.6, // 作品评分
       work: {
-        id: 2,
-        name: '流浪地球1 (2019)',
-        englishName: 'The Wandering Earth',
-        category: '影视',
-        subCategory: '电影',
-        author: '',
-        postTime: '2019-02-05',
-        commentCnt: 1607,
-        commentLikesCnt: 510316,
-        effectScore: 88,
-        citeUrl: 'https://www.imdb.com/title/tt7605074/?ref_=fn_al_tt_1',
-        imgUrl: 'https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2545472803.webp',
-        content: "As the sun is dying out, people all around the world build giant planet thrusters to move Earth out of its orbit and sail Earth to a new star system. Yet the 2500-year journey comes with unexpected dangers, and in order to save humanity, a group of young people in this age of a wandering Earth fight hard for the survival of humankind.",
-        translatedContent: "随着太阳逐渐消亡，世界各地的人们都在建造巨大的行星推进器，将地球移出其轨道，并将地球航行到一个新的恒星系统。然而，2500年的旅程伴随着意想不到的危险，为了拯救人类，一群年轻人在这个流浪地球的时代为人类的生存而努力奋斗。",
-        popularityCause: "战斗场景制作精良，特技效果逼真；结合了中国特色的元素，创造了具有中国风味的电影体验；主演演技深厚，表现出色",
+        // id: 2,
+        // name: '流浪地球1 (2019)',
+        // englishName: 'The Wandering Earth',
+        // category: '影视',
+        // subCategory: '电影',
+        // author: '',
+        // postTime: '2019-02-05',
+        // commentCnt: 1607,
+        // commentLikesCnt: 510316,
+        // effectScore: 88,
+        // citeUrl: 'https://www.imdb.com/title/tt7605074/?ref_=fn_al_tt_1',
+        // imgUrl: 'https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2545472803.webp',
+        // content: "As the sun is dying out, people all around the world build giant planet thrusters to move Earth out of its orbit and sail Earth to a new star system. Yet the 2500-year journey comes with unexpected dangers, and in order to save humanity, a group of young people in this age of a wandering Earth fight hard for the survival of humankind.",
+        // translatedContent: "随着太阳逐渐消亡，世界各地的人们都在建造巨大的行星推进器，将地球移出其轨道，并将地球航行到一个新的恒星系统。然而，2500年的旅程伴随着意想不到的危险，为了拯救人类，一群年轻人在这个流浪地球的时代为人类的生存而努力奋斗。",
+        // popularityCause: "战斗场景制作精良，特技效果逼真；结合了中国特色的元素，创造了具有中国风味的电影体验；主演演技深厚，表现出色",
       },
       platform: {
         platformUrl: 'https://www.imdb.com/',
@@ -133,7 +134,7 @@ export default {
       scoreLevel: '高',
     }
   },
-  mounted() {
+  created() {
     this.getData()
   },
   methods: {
@@ -155,6 +156,9 @@ export default {
           })
         }
       })
+    },
+    goBack() {
+      this.$router.back()
     },
     enterComment(){
       this.$router.push(
@@ -246,5 +250,15 @@ export default {
   margin-top: 30px;
   font-size: 18px;
   font-weight: bold;
+}
+.back-btn {
+  font-size: 20px;
+  color: red;
+  font-weight: bold;
+  cursor: pointer;
+  width: 75px;
+  position: absolute;
+  right: 10px;
+  top: 10px;
 }
 </style>
