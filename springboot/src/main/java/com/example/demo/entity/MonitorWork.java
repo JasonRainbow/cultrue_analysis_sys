@@ -175,8 +175,26 @@ public class MonitorWork {
     private Integer commentCnt;
 
     /**
+     * 作品评论点赞总数  该属性不在数据表中
+     */
+    @TableField(exist = false)
+    private Integer commentLikesCnt;
+
+    /**
      * 附属信息
      */
     @ApiModelProperty(value = "附属信息")
     private String attachInfo;
+
+    /**
+     * 作品受欢迎原因
+     */
+    @ApiModelProperty(value = "作品受欢迎原因")
+    private String popularityCause;
+
+    /**
+     * 作品所属平台  该属性不在数据表中
+     */
+    @TableField(exist = false)
+    private Platform platform;
 }
