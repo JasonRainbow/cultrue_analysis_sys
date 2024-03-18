@@ -108,7 +108,7 @@
                 <img src="../../assets/DataAnalysisScreen/info_4.png" class="left text01_img">
                 <div class="left text01_div">
                   <p>分析国家总数量</p>
-                  <p class="sky"><animate-number :to="countryNum" :from="0" :duration="2000" :key="countryNum"></animate-number></p>
+                  <p class="sky"><animate-number :to="countryNum" :from="0" :duration="1000" :key="countryNum"></animate-number></p>
                 </div>
               </div>
               <div class="con_div_text01 right">
