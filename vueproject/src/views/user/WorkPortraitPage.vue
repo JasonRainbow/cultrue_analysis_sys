@@ -49,7 +49,16 @@
               </el-row>
               <el-row :gutter="100">
                 <el-col :span="12"><span class="label-span">传播效果得分：</span><span>{{this.work.effectScore}}</span></el-col>
-                <el-col :span="12"><span class="label-span">得分等级：</span><span>{{this.scoreLevel}}</span></el-col>
+                <el-col :span="12">
+                  <span class="label-span">得分等级：</span>
+                  <span>{{this.scoreLevel}}</span>
+                  <div style="display: inline">
+                    <el-tooltip effect="dark" placement="top-start">
+                      <div slot="content" v-html="toolTip"></div>
+                      <i class="el-icon-question"></i>
+                    </el-tooltip>
+                  </div>
+                </el-col>
               </el-row>
               <el-row :gutter="100">
                 <el-col :span="24"><span class="label-span">受欢迎原因：</span><span>{{this.work.popularityCause}}</span></el-col>
@@ -108,8 +117,9 @@ export default {
   data() {
     return {
       workId: this.$route.query.workId,
-      // workId: 2,
       value: 3.6, // 作品评分
+      toolTip:"传播效果得分<br/>低于60&nbsp;&nbsp;不及格<br/>60-69&nbsp;&nbsp;&nbsp;&nbsp;及格<br/>" +
+        "70-79&nbsp;&nbsp;&nbsp;&nbsp;中等<br/>80-89&nbsp;&nbsp;&nbsp;&nbsp;良好<br/>90-100&nbsp;&nbsp;优秀<br/>",
       work: {
         // id: 2,
         // name: '流浪地球1 (2019)',
@@ -131,13 +141,10 @@ export default {
         platformUrl: 'https://www.imdb.com/',
         platformName: "IMDb"
       },
-      scoreLevel: '高',
+      scoreLevel: '',
     }
   },
-  // created() {
-  //   this.getData()
-  // },
-  mounted() {
+  created() {
     this.getData()
   },
   methods: {
@@ -147,6 +154,7 @@ export default {
         if(res.code === "0") {
           this.work = res.data
           this.platform = res.data.platform
+          this.rateScoreLevel(res.data.effectScore)
         }
       })
       // 获取作品评分(平均得分)
@@ -159,6 +167,20 @@ export default {
           })
         }
       })
+    },
+    // 评定得分等级
+    rateScoreLevel(effectScore) {
+      if(effectScore<60) {
+        this.scoreLevel = '不及格'
+      }else if(effectScore>=60&&effectScore<70) {
+        this.scoreLevel = '及格'
+      }else if(effectScore>=70&&effectScore<80) {
+        this.scoreLevel = '中等'
+      }else if(effectScore>=80&&effectScore<90) {
+        this.scoreLevel = '良好'
+      }else if(effectScore>=90&&effectScore<=100) {
+        this.scoreLevel = '优秀'
+      }
     },
     goBack() {
       this.$router.back()
