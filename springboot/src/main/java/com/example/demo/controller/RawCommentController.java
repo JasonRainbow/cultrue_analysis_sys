@@ -445,6 +445,8 @@ public class RawCommentController {
         long milliseconds2 = farComment.getPostTime().getTime();
         long diff = milliseconds2 - milliseconds1;
         long daysBetween = diff / (24 * 60 * 60 * 1000);
+        String firstCommentDate = formatter.format(milliseconds1);
+        String lastCommentDate = formatter.format(milliseconds2);
 
 
         Map<String,Object> messageMap = new HashMap<>();
@@ -453,7 +455,10 @@ public class RawCommentController {
         messageMap.put("platformNum",platformNum);
         messageMap.put("countryNum",countryNum);
         messageMap.put("languageNum",languageNum);
+        messageMap.put("firstCommentDate",firstCommentDate);
+        messageMap.put("lastCommentDate",lastCommentDate);
         messageMap.put("daysBetween",daysBetween);
+
         return Result.success(messageMap);
     }
 

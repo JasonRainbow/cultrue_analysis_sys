@@ -134,7 +134,10 @@ export default {
       scoreLevel: '高',
     }
   },
-  created() {
+  // created() {
+  //   this.getData()
+  // },
+  mounted() {
     this.getData()
   },
   methods: {

@@ -38,7 +38,7 @@ export default {
       config2: {
         data: [],
         colors: ['#e062ae', '#fb7293', '#e690d1', '#32c5e9', '#96bfff'],
-        unit: '数量',
+        unit: '分数',
         showValue: true
       },
       pageParam: {
