@@ -123,7 +123,10 @@ export default {
             emphasis: {
               focus: 'series'
             },
-            data: [20, 15, 25, 14, 34, 25, 10, 7, 5, 25, 14, 34]
+            data: [20, 15, 25, 14, 34, 25, 10, 7, 5, 25, 14, 34],
+            lineStyle: {
+              type: "dashed"
+            }
           }
         ]
       },

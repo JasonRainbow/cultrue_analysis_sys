@@ -208,3 +208,4 @@ interceptorconfig:
       - /api/comment/getCommentNumByPlatform
       - /api/comment/getCommentOverallMessage
       - /api/monitor-work/getSameCategoryWork
+      - /api/subject-analysis/getAllByWorkId

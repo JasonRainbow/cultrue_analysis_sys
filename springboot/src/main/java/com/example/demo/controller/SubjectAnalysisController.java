@@ -52,4 +52,17 @@ public class SubjectAnalysisController {
         List<String> subjects = subjectAnalysisMapper.selectSubjectsByWorkId(workId);
         return Result.success(subjects);
     }
+
+    @GetMapping("/getAllByWorkId")
+    @ApiOperation(value = "查询作品的评论主题分布")
+    public Result getAllByWorkId(@RequestParam Integer workId) {
+        List<String> subjects = subjectAnalysisMapper.selectSubjectsByWorkId(workId);
+        List<SubjectAnalysis> res = new ArrayList<>();
+
+        for (String subject: subjects) {
+            res.add(subjectAnalysisMapper.selectByWorkIdAndSubject(workId, subject));
+        }
+
+        return Result.success(res);
+    }
 }

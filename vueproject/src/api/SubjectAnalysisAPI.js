@@ -11,3 +11,7 @@ export const getSubjectsByWorkId = params=>{
   return req("get", "/subject-analysis/getSubjectsByWorkId", params, null)
 }
 
+export const getAllByWorkId = params=>{
+  return req("get", "/subject-analysis/getAllByWorkId", params, null)
+}
+

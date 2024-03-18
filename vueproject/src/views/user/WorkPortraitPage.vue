@@ -66,7 +66,7 @@
           <el-card class="subject-card">
             <el-row :gutter="20">
               <el-col :span="9"><SubjectPropertyTable></SubjectPropertyTable></el-col>
-              <el-col :span="15"><SubjectCategoryBar></SubjectCategoryBar></el-col>
+              <el-col :span="15"><SubjectCategoryBar :work-id="workId"></SubjectCategoryBar></el-col>
             </el-row>
           </el-card>
         </div>

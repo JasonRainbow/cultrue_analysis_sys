@@ -6,8 +6,16 @@
 </template>
 
 <script>
+import {getAllByWorkId} from "../../../api/SubjectAnalysisAPI";
+
 export default {
   name: "SubjectCategoryBar",
+  props: {
+    workId: {
+      required: true,
+      type: Number
+    }
+  },
   data() {
     return {
       subjectCategoryChart: null,
@@ -62,6 +70,10 @@ export default {
             emphasis: {
               lineStyle: {
                 width: 5
+              },
+              focus: "self",
+              label: {
+                show: true
               }
             },
             data: [
@@ -69,7 +81,7 @@ export default {
                 value: [4200, 3000, 20000, 35000, 50000, 18000],
                 name: '积极',
                 label: {
-                  show: true,
+                  // show: true,
                   formatter: function (params) {
                     return params.value;
                   }
@@ -79,7 +91,7 @@ export default {
                 value: [5000, 14000, 28000, 26000, 42000, 21000],
                 name: '消极',
                 label: {
-                  show: true,
+                  // show: true,
                   formatter: function (params) {
                     return params.value;
                   }
@@ -89,7 +101,7 @@ export default {
                 value: [2000, 5000, 28000, 26000, 42000, 21000],
                 name: '中立',
                 label: {
-                  show: true,
+                  // show: true,
                   formatter: function (params) {
                     return params.value;
                   }
@@ -101,14 +113,37 @@ export default {
       }
     }
   },
+  created() {
+    getAllByWorkId({workId: this.workId}).then(res=>{
+      if (res.code === "0") {
+        this.option.radar.indicator = res.data.map(item => {
+          return {name: item.subject, value: this.max(item.positive, item.neutrality, item.negative)}
+        })
+        this.option.series[0].data[0].value = res.data.map(item=>{
+          return item.positive
+        })
+        this.option.series[0].data[1].value = res.data.map(item=>{
+          return item.negative
+        })
+        this.option.series[0].data[2].value = res.data.map(item=>{
+          return item.neutrality
+        })
+        this.subjectCategoryChart.setOption(this.option);
+      }
+    })
+  },
   mounted() {
     this.initSubjectCategoryChart()
   },
   methods: {
     initSubjectCategoryChart() {
       this.subjectCategoryChart = this.$echarts.init(document.getElementById('subjectCategoryChart'));
-      console.log(this.subjectCategoryChart)
+      // console.log(this.subjectCategoryChart)
       this.subjectCategoryChart.setOption(this.option);
+    },
+    max(x, y ,z) {
+      let tmp = x > y? x: y
+      return tmp > z? tmp: z
     }
   }
 }
