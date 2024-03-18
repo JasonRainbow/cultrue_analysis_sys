@@ -141,6 +141,11 @@
         </if>
             )
     </select>
+    <select id="getWorkCommentLikesNumByWorkId" resultType="java.lang.Integer">
+        select sum(likes) as likesCnt
+        from raw_comment
+        where workId=#{workId}
+    </select>
 
 
 </mapper>

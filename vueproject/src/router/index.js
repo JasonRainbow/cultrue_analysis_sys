@@ -59,6 +59,7 @@ import CommentTablePage from "../components/user/common/CommentTablePage.vue";
 import CommentDetailPage from "../views/user/CommentDetailPage.vue";
 import HighImpactComment from "../views/user/HighImpactComment.vue";
 import CommentDetail from "../components/user/common/CommentDetail.vue";
+import WorkPortraitPage from "../views/user/WorkPortraitPage";
 
 // 启用路由
 Vue.use(Router);
@@ -372,6 +373,11 @@ const router = new Router({
       path: "/HighImpactComment",
       name: "高影响力评论",
       component: HighImpactComment,
+    },
+    {
+      path: "/WorkPortraitPage",
+      name: "作品画像",
+      component: WorkPortraitPage,
     },
     {
       path: "/HunanWorkEffect",
