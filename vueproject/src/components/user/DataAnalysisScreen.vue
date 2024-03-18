@@ -125,11 +125,12 @@
                   <p class="org">{{languageNum}}</p>
                 </div>
               </div>
-              <div class="con_div_text01 right">
+              <div class="con_div_text01 right" style="">
                 <img src="../../assets/DataAnalysisScreen/info_7.png" class="left text01_img">
                 <div class="left text01_div">
                   <p>评论时间跨度(天)</p>
                   <p class="org">{{daysBetween}}</p>
+                  <div style="font-size: 10px;color: #ff4e4e !important;">({{firstCommentDate}}至{{lastCommentDate}})</div>
                 </div>
               </div>
             </el-col>
@@ -315,6 +316,8 @@ export default {
         countryNum:0,
         languageNum:0,
         daysBetween:0,
+        firstCommentDate: '',
+        lastCommentDate: '',
         screenWidth: window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
         works: [
             {
@@ -338,6 +341,8 @@ export default {
              this.countryNum = res.data.countryNum
              this.languageNum = res.data.languageNum
              this.daysBetween = res.data.daysBetween
+             this.firstCommentDate = res.data.firstCommentDate
+             this.lastCommentDate = res.data.lastCommentDate
            }
          })
        },
