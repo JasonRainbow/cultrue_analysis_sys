@@ -1,9 +1,9 @@
 <template>
   <vuescroll>
-    <div id="main">
+    <div id="main" v-cloak>
       <div class="bg">
         <div class="workName-show">
-          <div style="font-size: 20px; color: #e2652f">
+          <div style="font-size: 20px; color: #e2652f" v-show="work.name">
             语言文化作品({{work.subCategory}})：
             <span style="color: #ef0000">{{work.name}} ({{work.englishName}})</span>
             <span style="margin-left: 40px;">热点评论</span>
@@ -235,7 +235,7 @@ export default {
         size:10
       },
       work: {
-        workName: "",
+        name: "",
         englishName: ""
       }
     }
@@ -264,13 +264,16 @@ export default {
     }
   },
   created() {
-    getHighCommentByPlatform(this.params).then((res)=>{
-      if(res.code==='0'){
-        this.commentDetail=res.data
-        // console.log(this.commentDetail,'comment')
-      }
+    this.$nextTick(()=>{
+      getHighCommentByPlatform(this.params).then((res)=>{
+        if(res.code==='0'){
+          this.commentDetail=res.data
+          // console.log(this.commentDetail,'comment')
+        }
+      })
+      this.getWorkData()
     })
-    this.getWorkData()
+
   },
 }
 </script>
@@ -388,6 +391,10 @@ export default {
   display: inline-block;
   float: left;
   background: url("../../assets/img/hunanLogo.png") center center;
+}
+
+[v-cloak] {
+  display: none;
 }
 
 </style>

@@ -16,7 +16,6 @@
       @current-change="handleCurrentChange"
       :current-page.sync="pageParam.pageNum"
       :page-size="pageParam.pageSize"
-      :pager-count="4"
       layout="prev, pager, next"
       :total="total">
     </el-pagination>
@@ -63,11 +62,11 @@ export default {
         pageNum: this.pageParam.pageNum,
         pageSize: this.pageParam.pageSize
       }).then((res) => {
-        if (res.code == "0") {
+        if (res.code === "0") {
           res.data.records.forEach(item => {
             sameWorkArr.push({name: item.name, value: item.effectScore})
           })
-          console.log(res.data.records)
+          // console.log(res.data.records)
           this.pageParam.pageNum = res.data.current
           this.pageParam.pageSize = res.data.size
           this.total = res.data.total
