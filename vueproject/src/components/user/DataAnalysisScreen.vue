@@ -72,7 +72,7 @@
               class="font-bold border-font">
                       监测作品切换：
                     </span>
-              <el-select class="custom-select" v-model="workId" :size="inputSize" placeholder="请选择作品类型" style="height: 45%"  @change="selectChanged">
+              <el-select class="custom-select" v-model="workId" :size="inputSize" placeholder="请选择作品类型" :style="{'height': screenHeight * 0.03862 + 'px'}"  @change="selectChanged">
                 <el-option
                   v-for="work in works"
                   :key="work.id"

@@ -9,7 +9,7 @@
     </div>
     <el-table
       :data="coreUserData"
-      :cell-style="cellStyle"
+
       stripe
       style="width: 100%;margin-top: 20px">
       <el-table-column
