@@ -34,10 +34,10 @@
           </div>
           <div class="right nav text_right" :style="{'height':this.screenHeight * 0.0697+'px'}">
             <ul>
-              <li :class='isActive === "作品预测" ? "nav_active":""' :style="{'margin-top':screenHeight * 0.01609 + 'px'}">
+              <li :class='isActive === "传播效果预测" ? "nav_active":""' :style="{'margin-top':screenHeight * 0.01609 + 'px'}">
                 <i class="nav_4"></i>
                 <router-link :to="{path: '/WorkEffectPredict', query: {workId: workId}}">
-                  <a :style="{'font-size':this.screenHeight * 0.01502+'px'}" href="javascript:void(0);" @click="selected($event)" style="color: #FFFFFF">作品预测</a>
+                  <a :style="{'font-size':this.screenHeight * 0.01502+'px'}" href="javascript:void(0);" @click="selected($event)" style="color: #FFFFFF">传播效果预测</a>
                 </router-link>
               </li>
               <!--  static.html      -->

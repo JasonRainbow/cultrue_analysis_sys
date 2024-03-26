@@ -17,7 +17,7 @@ export default {
   },
   data() {
     return {
-      workId: this.$route.query.workId
+      workId: Number(this.$route.query.workId)
     }
   },
   methods: {
