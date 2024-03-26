@@ -389,7 +389,7 @@ export default {
       })
     },
     createGraph() {
-      console.log(this.workId,this.selectCountry,this.selectTime)
+      // console.log(this.workId,this.selectCountry,this.selectTime)
       //这里写发送请求， selectCountry绑定的国家，selectTime绑定的日期，workId绑定的作品id
       get_gram_net({
         workId: this.workId,
@@ -398,9 +398,8 @@ export default {
       }).then(res => {
         if (res.data.code === "0") {
           this.data2 = res.data
-          console.log(this.data2)
+          // console.log(this.data2)
            //将获取到的data直接赋值给data2即可
-          this.chart  = this.$echarts.init(document.getElementById("relationGraph"));
           let option = {
             /*title: {
               text:'共现语义网络图',
@@ -544,6 +543,9 @@ export default {
           option.series.forEach(item=>{
             item.links=this.link1
           })
+          let chartDiv = document.getElementById("relationGraph");
+          if (!chartDiv) return
+          this.chart  = this.$echarts.init(chartDiv);
           // 特殊处理
           if (this.chart) {
             this.chart.clear()

@@ -50,7 +50,7 @@ export default {
           this.dataObjectArr.push({name: '中立', value: res.data.neutrality})
           this.config2.data = this.dataObjectArr
           this.config2 = {...this.config2}
-          console.log(this.config2.data)
+          // console.log(this.config2.data)
         }
       })
     }

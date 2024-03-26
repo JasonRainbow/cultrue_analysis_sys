@@ -135,7 +135,7 @@ export default {
     vuescroll},
   data() {
     return {
-      workId: this.$route.query.workId,
+      workId: Number(this.$route.query.workId),
       value: 3.6, // 作品评分
       toolTip:"传播效果得分<br/>低于60&nbsp;&nbsp;不及格<br/>60-69&nbsp;&nbsp;&nbsp;&nbsp;及格<br/>" +
         "70-79&nbsp;&nbsp;&nbsp;&nbsp;中等<br/>80-89&nbsp;&nbsp;&nbsp;&nbsp;良好<br/>90-100&nbsp;&nbsp;优秀<br/>",

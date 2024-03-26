@@ -42,7 +42,6 @@
       @current-change="handleCurrentChange"
       :current-page.sync="pageParam.pageNum"
       :page-size="pageParam.pageSize"
-      :pager-count="5"
       layout="prev, pager, next"
       :total="total">
     </el-pagination>
