@@ -34,12 +34,16 @@
           </div>
           <div class="right nav text_right" :style="{'height':this.screenHeight * 0.0697+'px'}">
             <ul>
-              <li :class='isActive === "作品预测" ? "nav_active":""' :style="{'margin-top':screenHeight * 0.01609 + 'px'}"><i class="nav_4"></i><a :style="{'font-size':this.screenHeight * 0.01502+'px'}" href="javascript:void(0);" @click="selected($event)">查询统计</a></li>
-              <!--  static.html      -->
-              <li :class='isActive === "信息录入" ? "nav_active":""' :style="{'margin-top':screenHeight * 0.01609 + 'px'}"><i class="nav_5" ></i>
+              <li :class='isActive === "作品预测" ? "nav_active":""' :style="{'margin-top':screenHeight * 0.01609 + 'px'}">
+                <i class="nav_4"></i>
                 <router-link :to="{path: '/WorkEffectPredict', query: {workId: workId}}">
                   <a :style="{'font-size':this.screenHeight * 0.01502+'px'}" href="javascript:void(0);" @click="selected($event)" style="color: #FFFFFF">作品预测</a>
                 </router-link>
+              </li>
+              <!--  static.html      -->
+              <li :class='isActive === "信息录入" ? "nav_active":""' :style="{'margin-top':screenHeight * 0.01609 + 'px'}"><i class="nav_5" ></i>
+                <a :style="{'font-size':this.screenHeight * 0.01502+'px'}" href="javascript:void(0);" @click="selected($event)">信息录入
+                </a>
               </li>
               <!--  message.html      -->
               <li :class='isActive === "表格界面" ? "nav_active":""' :style="{'margin-top':screenHeight * 0.01609 + 'px'}"><i class="nav_6"></i><a :style="{'font-size':this.screenHeight * 0.01502+'px'}" href="javascript:void(0);" @click="selected($event)">表格界面</a> </li>
