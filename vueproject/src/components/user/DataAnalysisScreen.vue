@@ -34,7 +34,12 @@
         </div>
         <div class="right nav text_right">
           <ul>
-            <li :class='isActive === "查询统计" ? "nav_active":""'><i class="nav_4"></i><a href="javascript:void(0);" @click="selected($event)">查询统计</a></li>
+            <li :class='isActive === "作品预测" ? "nav_active":""'>
+              <i class="nav_4"></i>
+              <router-link :to="{path: '/WorkEffectPredict', query: {workId: workId}}">
+                <a href="javascript:void(0);" @click="selected($event)" style="color: #FFFFFF">作品预测</a>
+              </router-link>
+            </li>
             <!--  static.html      -->
             <li :class='isActive === "信息录入" ? "nav_active":""'><i class="nav_5" ></i><a href="javascript:void(0);" @click="selected($event)">信息录入</a> </li>
             <!--  message.html      -->
