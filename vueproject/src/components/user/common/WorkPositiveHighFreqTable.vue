@@ -4,7 +4,7 @@
     <el-table
       :data="posTableData"
       :cell-style="cellStyle"
-      height="300"
+      height="430"
       stripe
       style="width: 100%;margin-top: 20px">
       <el-table-column

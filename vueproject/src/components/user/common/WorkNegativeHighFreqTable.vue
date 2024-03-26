@@ -1,10 +1,10 @@
 <template>
-  <div style="text-align: center;width:300px">
+  <div style="text-align: center;width:300px;">
     <h2 style="font-weight: bold"><span style="color: #EE6363">负面</span>评论高频词</h2>
     <el-table
       :data="negTableData"
       :cell-style="cellStyle"
-      height="300"
+      height="430"
       stripe
       style="width: 100%;margin-top: 20px">
       <el-table-column
