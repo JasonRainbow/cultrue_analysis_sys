@@ -54,7 +54,7 @@
 
         <div class="con left" :style="{'height':this.screenHeight * 0.9345+'px'}">
           <!--选择时间-->
-          <el-row :gutter="40" :style="{'height':this.screenHeight * 0.0645+'px'}">
+          <el-row :style="{'height':this.screenHeight * 0.0645+'px'}">
             <el-col :span="8" style="height: 100%">
               <div class="static_top left" style="height: 59%" :style="{'line-height':screenHeight * 0.03862 + 'px'}">
                 <i></i><span :style="{'font-size':this.screenHeight * 0.01716+'px'}">总体概况</span>

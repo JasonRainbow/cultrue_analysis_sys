@@ -55,7 +55,7 @@ export default{
         borderColor: 'deepskyblue',
         textStyle: {
           color: 'white', //设置文字颜色
-          fontSize: this.divWidth * 0.02,
+          fontSize: this.divWidth * 0.03,
         }
       },
       grid: {
