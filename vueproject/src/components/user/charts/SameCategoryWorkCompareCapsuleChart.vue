@@ -7,7 +7,6 @@
             <i class="el-icon-question"></i>
           </el-tooltip>
         </div>
-
     </div>
     <dv-capsule-chart :config="config2" class="capsule_item" style="font-size: 10px;margin-top: 10px" />
     <el-pagination

@@ -10,25 +10,29 @@
         align="center"
         prop="propertyWord"
         label="属性词"
-        width="100">
+        width="auto"
+        min-width="25%">
       </el-table-column>
       <el-table-column
         align="center"
         prop="opinionWord"
         label="观点词"
-        width="150">
+        width="auto"
+        min-width="25%">
       </el-table-column>
       <el-table-column
         align="center"
         prop="sentiment"
         label="情感倾向"
-        width="100">
+        width="auto"
+        min-width="10%">
       </el-table-column>
         <el-table-column
           align="center"
           prop="subjects"
           label="所属类别"
-          width="100">
+          width="auto"
+          min-width="40%">
       </el-table-column>
     </el-table>
     <el-pagination

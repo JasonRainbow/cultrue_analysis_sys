@@ -1,7 +1,10 @@
 <template>
   <div>
     <div style="text-align: center;width:300px;"><h2 style="font-weight: bold">极性情感占比</h2></div>
-    <dv-active-ring-chart  class="ring-item" :config="config2" style="width:300px;height:300px" />
+    <div class="ring-field">
+      <dv-active-ring-chart :config="config2" style="width:300px;height:300px" />
+    </div>
+
   </div>
 
 </template>
@@ -57,6 +60,11 @@ export default {
 </script>
 
 <style scoped>
+.ring-field {
+  margin-top: 50px;
+}
+/deep/ .dv-active-ring-chart .active-ring-info {
+}
 /deep/ .dv-active-ring-chart .active-ring-name { /*更改图表文字颜色*/
   color: #000;
   font-size: 18px;

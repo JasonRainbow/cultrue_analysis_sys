@@ -13,7 +13,10 @@
         placeholder="选择年">
       </el-date-picker>
     </div>
-    <div id="effectPredictChart" style="width:100%;height:350px;margin-top: 15px"></div>
+    <div class="chart-centerAlign">
+      <div id="effectPredictChart" style="width:800px;height:500px;margin-top: 15px"></div>
+    </div>
+
   </div>
 </template>
 
@@ -115,7 +118,7 @@ export default {
             emphasis: {
               focus: 'series'
             },
-            data: [30, 40, 35, 30, 50, 20, 15, 16, 30, 40, 35, 30]
+            data: [90.4, 88.1, 87.5, 78.9, 82.5, 84.3, 86.7, 86.5, 85.2, 83.3, 85.6, 86]
           },
           {
             name: '预测值',
@@ -123,7 +126,7 @@ export default {
             emphasis: {
               focus: 'series'
             },
-            data: [20, 15, 25, 14, 34, 25, 10, 7, 5, 25, 14, 34],
+            data: [89, 88.4, 86.2, 83.1, 80.3, 85.3, 87.5, 85.2, 84.9, 83, 84, 87],
             lineStyle: {
               type: "dashed"
             }
@@ -153,5 +156,8 @@ export default {
 
 <style scoped>
 @import "../../../assets/styles/mystyle.css";
-
+.chart-centerAlign {
+  display: flex;
+  justify-content: center;
+}
 </style>
