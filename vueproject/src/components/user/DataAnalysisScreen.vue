@@ -6,20 +6,20 @@
           <div class="left nav" :style="{'height':this.screenHeight * 0.0697+'px'}">
             <ul>
               <!--          <a href="" @click="selected()">数据概览</a>-->
-              <li :class='isActive === "数据概览" ? "nav_active":""' :style="{'margin-top':screenHeight * 0.01609 + 'px'}"><i class="nav_1"></i><a :style="{'font-size':this.screenHeight * 0.01502+'px'}" href="javascript:void(0);" @click="selected($event)">数据概览</a> </li>
+              <li :class='isActive === "数据概览" ? "nav_active":""' :style="{'margin-top':screenHeight * 0.01609 + 'px'}"><i class="nav_1"></i><a :style="{'font-size':this.screenHeight * 0.01602+'px'}" href="javascript:void(0);" @click="selected($event)">数据概览</a> </li>
               <!--    index.html    -->
               <li :class='isActive === "情感地图" ? "nav_active":""' :style="{'margin-top':screenHeight * 0.01609 + 'px'}">
                 <i class="nav_2"></i>
                 <!--            情感地图-->
                 <router-link :to="{path: '/worldMap', query: {workId: workId, workName: getWorkName(workId)}}">
-                  <a :style="{'font-size':this.screenHeight * 0.01502+'px'}" href="javascript:void(0);" @click="selected($event)" style="color: #FFFFFF">情感地图</a>
+                  <a :style="{'font-size':this.screenHeight * 0.01602+'px'}" href="javascript:void(0);" @click="selected($event)" style="color: #FFFFFF">情感地图</a>
                 </router-link>
               </li>
               <!--   carContrl.html     -->
               <li :class='isActive === "作品画像" ? "nav_active":""' :style="{'margin-top':screenHeight * 0.01609 + 'px'}">
                 <i class="nav_3" ></i>
                 <router-link :to="{path: '/WorkPortraitPage', query: {workId: workId}}">
-                  <a :style="{'font-size':this.screenHeight * 0.01502+'px'}" href="javascript:void(0);" @click="selected($event)" style="color: #FFFFFF">作品画像</a>
+                  <a :style="{'font-size':this.screenHeight * 0.01602+'px'}" href="javascript:void(0);" @click="selected($event)" style="color: #FFFFFF">作品画像</a>
                 </router-link>
               </li>
               <!--     map.html   -->
@@ -37,16 +37,16 @@
               <li :class='isActive === "传播效果预测" ? "nav_active":""' :style="{'margin-top':screenHeight * 0.01609 + 'px'}">
                 <i class="nav_4"></i>
                 <router-link :to="{path: '/WorkEffectPredict', query: {workId: workId}}">
-                  <a :style="{'font-size':this.screenHeight * 0.01502+'px'}" href="javascript:void(0);" @click="selected($event)" style="color: #FFFFFF">传播效果预测</a>
+                  <a :style="{'font-size':this.screenHeight * 0.01602+'px'}" href="javascript:void(0);" @click="selected($event)" style="color: #FFFFFF">传播效果预测</a>
                 </router-link>
               </li>
               <!--  static.html      -->
               <li :class='isActive === "信息录入" ? "nav_active":""' :style="{'margin-top':screenHeight * 0.01609 + 'px'}"><i class="nav_5" ></i>
-                <a :style="{'font-size':this.screenHeight * 0.01502+'px'}" href="javascript:void(0);" @click="selected($event)">信息录入
+                <a :style="{'font-size':this.screenHeight * 0.01602+'px'}" href="javascript:void(0);" @click="selected($event)">信息录入
                 </a>
               </li>
               <!--  message.html      -->
-              <li :class='isActive === "表格界面" ? "nav_active":""' :style="{'margin-top':screenHeight * 0.01609 + 'px'}"><i class="nav_6"></i><a :style="{'font-size':this.screenHeight * 0.01502+'px'}" href="javascript:void(0);" @click="selected($event)">表格界面</a> </li>
+              <li :class='isActive === "表格界面" ? "nav_active":""' :style="{'margin-top':screenHeight * 0.01609 + 'px'}"><i class="nav_6"></i><a :style="{'font-size':this.screenHeight * 0.01602+'px'}" href="javascript:void(0);" @click="selected($event)">表格界面</a> </li>
               <!--        table1.html-->
             </ul>
           </div>

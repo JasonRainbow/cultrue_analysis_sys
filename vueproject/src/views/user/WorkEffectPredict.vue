@@ -2,6 +2,9 @@
   <div class="box-container">
     <div class="box-content">
       <div class="back-btn" @click="goBack">返回>></div>
+      <div style="font-size: 20px; color: #e2652f; margin: 10px auto 20px 20px; font-weight: bold">
+        语言文化作品({{work.subCategory}})：<span style="color: #ef0000; ">{{work.name}} ({{work.englishName}})</span>
+      </div>
       <EffectPredictLineChart :work-id="workId"></EffectPredictLineChart>
     </div>
   </div>
@@ -9,6 +12,7 @@
 
 <script>
 import EffectPredictLineChart from "../../components/user/charts/EffectPredictLineChart";
+import {getMonitorWorkById} from "../../api/monitor_workAPI";
 
 export default {
   name: "WorkEffectPredict",
@@ -17,13 +21,33 @@ export default {
   },
   data() {
     return {
-      workId: Number(this.$route.query.workId)
+      workId: Number(this.$route.query.workId),
+      work: {
+        id: 1,
+        name: '边城',
+        englishName: 'The Border Town',
+        imgUrl: '',
+        subCategory: '小说',
+        attachInfo: ""
+      }
     }
   },
   methods: {
     goBack() {
       this.$router.back()
+    },
+    getWorkData() {
+      getMonitorWorkById(this.workId).then((res)=>{
+        if (res.code === "0") {
+          // console.log(res)
+          this.work = res.data
+          // console.log(this.work)
+        }
+      })
     }
+  },
+  created() {
+    this.getWorkData()
   }
 }
 </script>
