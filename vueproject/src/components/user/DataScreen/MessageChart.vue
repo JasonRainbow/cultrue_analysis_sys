@@ -42,7 +42,8 @@ export default{
         },
       },
       legend: {
-        bottom: '-4px',
+        top: '10px',
+        right: '10px',
         textStyle: {
           color: "darkturquoise",
           fontSize: this.divWidth * 0.029

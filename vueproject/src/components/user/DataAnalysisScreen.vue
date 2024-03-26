@@ -30,7 +30,7 @@
           </div>
           <div class="header_center left" :style="{'height':this.screenHeight * 0.0804+'px','margin-top':screenHeight * 0.01072 + 'px'}">
             <h2 :style="{'height':this.screenHeight * 0.0295+'px','margin-top':screenHeight * 0.009 + 'px'}"><strong :style="{'font-size':this.screenHeight * 0.02682+'px'}">传播效果智能分析</strong></h2>
-            <p class="color_font" :style="{'height':this.screenHeight * 0.01931+'px'}"><small :style="{'font-size':this.screenHeight * 0.01073+'px'}">Intelligent analysis of communication effect</small></p>
+            <p class="color_font" :style="{'height':this.screenHeight * 0.021+'px'}"><small :style="{'font-size':this.screenHeight * 0.012+'px'}">Intelligent analysis of communication effect</small></p>
           </div>
           <div class="right nav text_right" :style="{'height':this.screenHeight * 0.0697+'px'}">
             <ul>
