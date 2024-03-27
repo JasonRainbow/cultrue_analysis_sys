@@ -12,6 +12,7 @@ spring:
     username: root
     # 密码
     password: 123456
+#    password: song
     # 数据库连接池的类型
     type: com.alibaba.druid.pool.DruidDataSource
     hikari:
@@ -39,6 +40,7 @@ spring:
     port: 6379
     # redis密码
     password:
+#    password: ABCabc123
     # 数据库，默认是0
     database: 0
     # 超时时间
