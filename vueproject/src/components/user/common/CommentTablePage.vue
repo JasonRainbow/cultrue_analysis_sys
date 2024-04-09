@@ -94,6 +94,41 @@
         </template>
       </el-table-column>
     </el-table>
+    <el-dialog :title="title" :visible.sync="editFormVisible" width="40%" @click="closeDialog">
+      <el-form label-width="130px" :model="search_data" :rules="rules" ref="editForm">
+        <el-form-item label="作品名" prop="workName">
+          <el-input size="small" v-model="search_data.searchWorkName" auto-complete="off"
+                    placeholder="请输入作品名"></el-input>
+        </el-form-item>
+        <el-form-item label="所属国家" prop="country">
+          <el-input size="small" v-model="search_data.searchCountry" auto-complete="off"
+                    placeholder="请输入所属国家"></el-input>
+        </el-form-item>
+        <el-form-item label="所属平台" prop="platform">
+          <el-input size="small" v-model="search_data.searchPlatform" auto-complete="off"
+                    placeholder="请输入所属平台"></el-input>
+        </el-form-item>
+        <el-form-item label="评论发布日期" prop="postTime">
+          <el-date-picker
+            v-model="search_data.searchTime"
+            align="right"
+            type="date"
+            placeholder="请选择评论发布的日期"
+            value-format="yyyy-MM-dd"
+            :picker-options="pickerOptions">
+          </el-date-picker>
+        </el-form-item>
+        <el-form-item label="评论内容" prop="content">
+          <el-input size="small" v-model="search_data.searchContent" auto-complete="off"
+                    placeholder="请输入评论的内容"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button size="small" @click="closeDialog">取消</el-button>
+        <el-button size="small" type="primary" :loading="loading" class="title" @click="submitForm('editForm')">导出
+        </el-button>
+      </div>
+    </el-dialog>
     <!-- 分页组件 -->
     <Pagination v-bind:child-msg="pageparm" @callFather="callFather"></Pagination>
   </div>
@@ -117,7 +152,7 @@ export default {
       single: true,
       // 非多个禁用
       multiple: true,
-      title: '添加',
+      title: '导出数据',
       pickerOptions: { // 带快捷项的日期选择器的处理方法
         disabledDate(time) {
           return time.getTime() > Date.now();
@@ -143,19 +178,6 @@ export default {
           }
         }]
       },
-      // 数据导入参数
-      upload: {
-        // 是否显示弹出层（数据导入）
-        open: false,
-        // 弹出层标题（数据导入）
-        title: "",
-        // 是否禁用上传
-        isUploading: false,
-        // 是否更新已经存在的用户数据
-        updateSupport: 0,
-        // 上传的地址
-        url: "http://localhost:9090" + "/api/comment/import"
-      },
       search_data: {
         searchWorkName: "",
         searchContent: "",
@@ -164,6 +186,10 @@ export default {
         searchTime: "",
         pageNum: 1,
         pageSize: 10  // 默认分页
+      },
+      // rules表单验证
+      rules: {
+
       },
       list_data: [
         {
@@ -203,13 +229,8 @@ export default {
       })
     },
     handleExport() { // 处理数据导出
-      this.$confirm("您确定要导出数据吗？", "确认是否导出", {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'info'
-      }).then(()=>{
-        this.download('/comment/export', {}, `作品评论信息表${new Date().getTime()}.xlsx`, {timeout: 240000})
-      })
+      this.editFormVisible = true
+
     },
     // 分页插件事件
     callFather(parm) {
@@ -227,6 +248,26 @@ export default {
         path: '/commentDetail',
         query: {
           commentId: row.id
+        }
+      })
+    },
+    // 关闭编辑、增加弹出框
+    closeDialog() {
+      this.editFormVisible = false
+    },
+    submitForm(editData) {
+      this.$refs[editData].validate(valid => {
+        if (valid) {
+          this.$confirm("您确定要导出数据吗？", "确认是否导出", {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'info'
+          }).then(()=>{
+            this.download('/comment/export', this.search_data, `作品评论信息表${new Date().getTime()}.xlsx`, {timeout: 240000})
+            this.editFormVisible = false
+          })
+        } else {
+          return false
         }
       })
     }
@@ -255,6 +296,10 @@ export default {
   font-size: 14px;
   height: 38px;
   line-height: 38px;
+}
+
+/deep/ .el-input__inner {
+
 }
 
 </style>

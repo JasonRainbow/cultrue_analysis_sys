@@ -194,8 +194,11 @@ export function tansParams(params) {
 // 通用下载方法
 export function download(url, params, filename, config) {
   downloadLoadingInstance = Loading.service({ text: "正在下载数据，请稍候", spinner: "el-icon-loading", background: "rgba(0, 0, 0, 0.7)", })
-  return request.post(url, params, {
-    transformRequest: [(params) => { return tansParams(params) }],
+  return request({
+    url: url,
+    method: "post",
+    params: params,
+    /*transformRequest: [(params) => { return tansParams(params) }],*/
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     responseType: 'blob',
     ...config

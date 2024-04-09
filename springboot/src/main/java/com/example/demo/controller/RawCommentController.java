@@ -10,6 +10,7 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.common.Result;
+import com.example.demo.entity.MonitorWork;
 import com.example.demo.entity.RawComment;
 import com.example.demo.entity.vo.CountryCommentNum;
 import com.example.demo.entity.vo.MonthCommentNum;
@@ -32,6 +33,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 // 监测文化作品信息
 @RequestMapping("/api/comment")
@@ -179,23 +181,50 @@ public class RawCommentController {
      */
     @RequestMapping(value = "/export", method = {RequestMethod.GET, RequestMethod.POST})
     @ApiOperation(value = "导出所有评论信息")
-    public void export(HttpServletResponse response) throws IOException {
-
+    public void export(@RequestParam(required = false, defaultValue = "") String searchWorkName,
+                       @RequestParam(required = false, defaultValue = "") String searchContent,
+                       @RequestParam(required = false, defaultValue = "") String searchCountry,
+                       @RequestParam(required = false, defaultValue = "") String searchPlatform,
+                       @RequestParam(required = false, defaultValue = "") String searchTime,
+                       HttpServletResponse response) throws IOException {
         List<Map<String, Object>> list = CollUtil.newArrayList();
 
-        List<RawComment> all = rawCommentMapper.selectList(null);
+        LambdaQueryWrapper<RawComment> queryWrapper2 = new LambdaQueryWrapper<>();
+        if (StringUtils.isNotBlank(searchWorkName)) {
+            LambdaQueryWrapper<MonitorWork> queryWrapper1 = new LambdaQueryWrapper<>();
+            queryWrapper1.like(MonitorWork::getName, searchWorkName);
+            List<Integer> workIds = monitorWorkMapper.selectList(queryWrapper1).stream().map(MonitorWork::getId)
+                    .collect(Collectors.toList());
+
+            queryWrapper2.in(RawComment::getWorkId, workIds);
+        }
+        if (StringUtils.isNotBlank(searchCountry)) {
+            queryWrapper2.eq(RawComment::getCountry, searchCountry);
+        }
+        if (StringUtils.isNotBlank(searchPlatform)) {
+            queryWrapper2.eq(RawComment::getPlatform, searchPlatform);
+        }
+        if (StringUtils.isNotBlank(searchTime)) {
+            queryWrapper2.eq(RawComment::getPostTime, searchTime);
+        }
+
+        queryWrapper2.like(RawComment::getContent, searchContent);
+
+        List<RawComment> all = rawCommentMapper.selectList(queryWrapper2);
+
         for (RawComment rawComment : all) {
             Map<String, Object> row = new LinkedHashMap<>();
             row.put("评论ID", rawComment.getId());
             row.put("所属作品ID", rawComment.getWorkId());
             row.put("评论内容", rawComment.getContent());
-            row.put("翻译后的评论内容", rawComment.getTranslated());
+            row.put("翻译成中文后的评论内容", rawComment.getTranslated());
             row.put("原始评论的语言", rawComment.getLanguage());
             row.put("评论点赞数", rawComment.getLikes());
             row.put("评论的情感倾向", rawComment.getSentiment());
             row.put("评论所属国家", rawComment.getCountry());
             row.put("评论所属平台", rawComment.getPlatform());
             row.put("评论发布的时间", rawComment.getPostTime());
+            row.put("评论的相反翻译", rawComment.getOppositeTranslated());
             list.add(row);
         }
 

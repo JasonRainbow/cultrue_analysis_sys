@@ -224,7 +224,8 @@ export default {
 .box-card2 {
   width: 95%;
   margin: 10px auto auto auto;
-  height: 210px
+  height: 210px;
+  background-color: #f2f2f2;
 }
 
 .report-content {

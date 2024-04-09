@@ -143,7 +143,12 @@
                 <address style="font-size: 18px">
                   Hunan Normal University<br>
                   <a class="footer__btn" href="mailto://1966752024@qq.com">Email Us</a>
+
                 </address>
+                <router-link to="/admin">
+                  <div style="color: white; cursor: pointer; font-size: 18px">后台管理&gt;&gt;</div>
+                </router-link>
+
               </div>
             </el-col>
             <el-col style="text-align: center" :xs="24" :sm="12" :md="16" :lg="20" :xl="20">
@@ -177,6 +182,7 @@
                   <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="4">
                     <a class="image" href="" target="_blank"><i style="font-size: 24px" class="iconfont icon-global-fill"></i></a>
                     <p>&copy; 2023 ASLCCICE. All rights reserved.</p>
+
                   </el-col>
 
                 </el-row>
@@ -381,7 +387,7 @@ export default {
 }*/
 .footer .content > div .image {
   align-self: center;
-  margin-top: 30px;
+  margin-top: 15px;
   margin-bottom: 30px;
   background-size: cover;
   background-position: center;

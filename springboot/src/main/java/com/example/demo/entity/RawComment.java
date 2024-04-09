@@ -58,5 +58,5 @@ public class RawComment {
     private Date postTime; // 评论发布的时间  精确到天
 
     @ApiModelProperty(value = "与原评论语言相反的语言(即中文翻译成英文,英文翻译成中文)")
-    private String oppositeTranslated; // 评论所属的平台
+    private String oppositeTranslated; // 与原评论语言相反的语言
 }
