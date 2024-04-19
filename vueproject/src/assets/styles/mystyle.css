@@ -45,7 +45,19 @@
   font-weight: bold;
 }
 
-.el-input__inner::-webkit-input-placeholder {
+.custom-select3 /deep/ .el-input__inner::-webkit-input-placeholder {
+  color: #ffd190;
+  font-weight: normal;
+}
+.custom-select /deep/ .el-input__inner::-webkit-input-placeholder {
+  color: #ffd190;
+  font-weight: normal;
+}
+.custom-select2 /deep/ .el-input__inner::-webkit-input-placeholder {
+  color: #ffd190;
+  font-weight: normal;
+}
+.custom-input  /deep/ .el-input__inner::-webkit-input-placeholder {
   color: #ffd190;
   font-weight: normal;
 }

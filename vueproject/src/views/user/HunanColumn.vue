@@ -92,7 +92,7 @@
                       </div>
                       <ViewTranslation
                         class="btn"
-                        style="color: #05e1f3"
+                        style="color: #fdefd2"
                         :work-name="item.work.name"
                         :translated-content="item.work.translatedContent"
                         :content="item.work.content"
