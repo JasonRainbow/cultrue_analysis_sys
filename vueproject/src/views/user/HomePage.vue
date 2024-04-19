@@ -96,7 +96,7 @@
     </el-row>
     <el-row :gutter="40" type="flex" justify="center">
       <el-col :span="18" :xs="24" :sm="24" :lg="18" style="margin-top: 20px">
-        <el-card class="box-card grid-content" shadow="always">
+        <el-card class="box-card grid-content" shadow="always" >
           <div class="card-title">热点评论<span class="english-label">Hot Comments</span></div>
           <HotComment></HotComment>
         </el-card>

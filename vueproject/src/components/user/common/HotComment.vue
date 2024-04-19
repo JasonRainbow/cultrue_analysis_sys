@@ -111,10 +111,10 @@ import {getHotCommentsByPage} from "../../../api/commentAPI";
 </script>
 
 <template>
-  <div class="div1">
+  <div class="div1" style="width:100%">
 <!--    <el-page-header @back="goBack" content="详情页面" style="margin: auto">
     </el-page-header>-->
-    <div style="margin-bottom: 10px">
+    <div style="margin-bottom: 10px;width: 100%">
       <el-form :inline="true" style="margin: 20px">
         <el-form-item label="搜索：">
           <el-input
@@ -184,6 +184,12 @@ import {getHotCommentsByPage} from "../../../api/commentAPI";
           <!--            <el-button style="float: right; padding: 3px 0" type="text" @click="Delete">删除</el-button>-->
         </div>
         <div class="text item">
+          <div style="height:40px;width:53px;display: inline-block;vertical-align: top">
+            <img src="../../../assets/img/avatar.jpeg" alt="头像"
+            style="border-radius: 50%;height: 100%;width:40px;">
+          </div>
+          <div style="display: inline-block;width: 93%;">
+          <span style="line-height: 40px" class="user-name">天天向上</span>
           <div class="div2">
             {{c.content}}
           </div>
@@ -201,6 +207,7 @@ import {getHotCommentsByPage} from "../../../api/commentAPI";
           </div>
           <div class="div3">
             <span class="sub-title">发布时间：</span>{{c.postTime}}
+          </div>
           </div>
         </div>
       </el-card>
@@ -261,5 +268,13 @@ import {getHotCommentsByPage} from "../../../api/commentAPI";
 
   .sub-title {
     color: #214ce7;
+  }
+
+  .user-name{
+    //font-family: PingFang SC, HarmonyOS_Medium, Helvetica Neue, Microsoft YaHei, sans-serif;
+    font-family: "微软雅黑","宋体";
+    font-weight: 500;
+    margin-right: 5px;
+    cursor: pointer;
   }
 </style>
