@@ -317,7 +317,7 @@ export default {
           if (!this.userId) return // 用户没有登录，不记录浏览
           recordUserSelect({userId: this.userId, workId:this.workId}).then((res)=>{ // 获取监测作品
               if (res.code === "0") {
-                  console.log("记录成功")
+                  // console.log("记录成功")
               } else {
                   // console.log(res.msg)
               }

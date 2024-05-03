@@ -33,9 +33,80 @@ public class WorkEffectScoreController {
         lambdaQueryWrapper.eq(WorkInformation::getPlatform, platform);
         WorkInformation workInformation = workInformationMapper.selectOne(lambdaQueryWrapper);
 
+        if(workInformation == null){
+            return Result.success(null);
+        }
+
         LambdaQueryWrapper<WorkInformationWeight> lambdaQueryWrapper1 = new LambdaQueryWrapper<>();
         lambdaQueryWrapper1.eq(WorkInformationWeight::getPlatform, platform);
         WorkInformationWeight workInformationWeight = workInformationWeightMapper.selectOne(lambdaQueryWrapper1);
+
+        if(workInformationWeight == null){
+            return Result.success(null);
+        }
+
+        double effectScore = 0.0;
+
+        if(platform.equals("豆瓣")){
+            DoubanData doubanData = workInformationMapper.getDoubanData(platform);
+
+            doubanData.setNormalizeScore((workInformation.getScore()-doubanData.getMinScore())/(doubanData.getMaxScore()-doubanData.getMinScore())*100);
+
+            double preProcessCommentNum = Math.log10(workInformation.getCommentNum());
+            double preProcessMaxCommentNum = Math.log10(doubanData.getMaxCommentNum());
+            double preProcessMinCommentNum = Math.log10(doubanData.getMinCommentNum());
+
+            doubanData.setNormalizeCommentNum((preProcessCommentNum - preProcessMinCommentNum)/(preProcessMaxCommentNum - preProcessMinCommentNum)*100);
+
+            effectScore =doubanData.getNormalizeScore() * workInformationWeight.getScoreWeight() + doubanData.getNormalizeCommentNum() * workInformationWeight.getCommentNumWeight();
+        }else if(platform.equals("IMDb")){
+            IMDbData imDbData = workInformationWeightMapper.getIMDbData(platform);
+
+            double data = (workInformation.getScore()-imDbData.getMinScore())/(imDbData.getMaxScore()-imDbData.getMinScore())*100;
+            imDbData.setNormalizeScore(data);
+
+            double preProcessCommentNum = Math.log10(workInformation.getCommentNum());
+            double preProcessMaxCommentNum = Math.log10(imDbData.getMaxCommentNum());
+            double preProcessMinCommentNum = Math.log10(imDbData.getMinCommentNum());
+            double preProcessCollection = Math.log10(workInformation.getCollection());
+            double preProcessMaxCollection = Math.log10(imDbData.getMaxCollection());
+            double preProcessMinCollection = Math.log10(imDbData.getMinCollection());
+
+            imDbData.setNormalizeCommentNum((preProcessCommentNum - preProcessMinCommentNum)/(preProcessMaxCommentNum - preProcessMinCommentNum)*100);
+            imDbData.setNormalizeCollection((preProcessCollection - preProcessMinCollection)/(preProcessMaxCollection - preProcessMinCollection)*100);
+
+            effectScore =imDbData.getNormalizeScore() * workInformationWeight.getScoreWeight()
+                    + imDbData.getNormalizeCommentNum() * workInformationWeight.getCommentNumWeight()
+                    +imDbData.getNormalizeCollection() * workInformationWeight.getCollectionWeight();
+        }else{
+            return Result.success(null);
+        }
+        Map<String,Object> map = new HashMap<>();
+        map.put("workId", workInformation.getWorkId());
+        map.put("workName", workInformation.getWorkName());
+        map.put("platform", workInformation.getPlatform());
+        map.put("effectScore", effectScore);
+        return Result.success(map);
+    }
+
+   //获取某个作品在某个平台上的传播效果得分
+    private Double getEffectScore(Integer workId, String platform){
+        LambdaQueryWrapper<WorkInformation> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.eq(WorkInformation::getWorkId, workId);
+        lambdaQueryWrapper.eq(WorkInformation::getPlatform, platform);
+        WorkInformation workInformation = workInformationMapper.selectOne(lambdaQueryWrapper);
+
+        if(workInformation == null){
+            return null;
+        }
+
+        LambdaQueryWrapper<WorkInformationWeight> lambdaQueryWrapper1 = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper1.eq(WorkInformationWeight::getPlatform, platform);
+        WorkInformationWeight workInformationWeight = workInformationWeightMapper.selectOne(lambdaQueryWrapper1);
+
+        if(workInformationWeight == null){
+            return null;
+        }
 
         if(platform.equals("豆瓣")){
             DoubanData doubanData = workInformationMapper.getDoubanData(platform);
@@ -49,13 +120,7 @@ public class WorkEffectScoreController {
             doubanData.setNormalizeCommentNum((preProcessCommentNum - preProcessMinCommentNum)/(preProcessMaxCommentNum - preProcessMinCommentNum)*100);
 
             Double effectScore =doubanData.getNormalizeScore() * workInformationWeight.getScoreWeight() + doubanData.getNormalizeCommentNum() * workInformationWeight.getCommentNumWeight();
-
-            Map<String,Object> map = new HashMap<>();
-            map.put("workId", workInformation.getWorkId());
-            map.put("workName", workInformation.getWorkName());
-            map.put("platform", workInformation.getPlatform());
-            map.put("effectScore", effectScore);
-            return Result.success(map);
+            return effectScore;
 
         }else if(platform.equals("IMDb")){
             IMDbData imDbData = workInformationWeightMapper.getIMDbData(platform);
@@ -77,14 +142,9 @@ public class WorkEffectScoreController {
                     + imDbData.getNormalizeCommentNum() * workInformationWeight.getCommentNumWeight()
                     +imDbData.getNormalizeCollection() * workInformationWeight.getCollectionWeight();
 
-            Map<String,Object> map = new HashMap<>();
-            map.put("workId", workInformation.getWorkId());
-            map.put("workName", workInformation.getWorkName());
-            map.put("platform", workInformation.getPlatform());
-            map.put("effectScore", effectScore);
-            return Result.success(map);
+            return effectScore;
         }else{
-            return Result.error("-1","暂无数据");
+            return null;
         }
     }
 }
