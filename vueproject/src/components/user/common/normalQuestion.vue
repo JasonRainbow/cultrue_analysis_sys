@@ -15,7 +15,7 @@ export default {
     <el-col :span="16">
       <el-card class="box-card animate__animated animate__swing">
         <h1>《中国语言文化作品国际传播大数据智能评测系统》常见问题及解答</h1>
-        <h1>Big Data Intelligent Evaluation System for International Communication of Chinese Language and Culture Works FAQ</h1>
+        <h1>Big Data Intelligent Evaluation and Prediction System for International Communication of Chinese Language and Culture Works FAQ</h1>
         <p class="p1">为了响应国家增强国际传播能力建设、促进中国形象的对外传播、提高中国文化的对外传播效果以及中国的国际话语权和影响力的要求，中国语言文化作品国际传播大数据智能评测系统结合大数据、人工智能等成熟技术对中国的各种文化作品在国际上的传播效果进行精准分析以及可视化显示，作为本系统的开发人员，我们本着科学、认真、负责任的态度对这个系统的相关问题进行解答。</p>
         <h2>1、系统的数据来源是否可靠？</h2>
         <p class="p2">本系统的数据是借助web自动化测试框架selenium以及scrapy框架和Google开发者所提供的接口从全球各大主流社交媒体平台、影视平台、购物平台等如Twitter、Facebook、Amazon、IMDB、GoodReads等上爬取获得的，并利用基于python开发的Flask框架将各爬虫程序封装成api，实现在后台动态爬取实时数据以保证数据的真实性、有效性、准确性。同时获取到的数据在后台根据发布时间、发布平台、发布地区以及所属的文化作品进行区分，以增强系统的实用价值并满足不同用户的不同需求。</p>
