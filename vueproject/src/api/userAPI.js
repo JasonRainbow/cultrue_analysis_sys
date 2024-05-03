@@ -56,3 +56,7 @@ export const recordUserSelect = (params)=>{
 export const findAllRecordByUserId = (params)=>{
   return req("get", "/user/selectAllRecordByUserId", params, null);
 }
+
+export const getCoreUserByWorkId = (params)=>{
+  return req("get", "/user/getCoreUserByWorkId", params, null);
+}

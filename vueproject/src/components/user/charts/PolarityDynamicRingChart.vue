@@ -38,7 +38,6 @@ export default {
     }
   },
   created() {
-    console.log("workId: "+this.workId)
     this.getData()
   },
   methods: {
