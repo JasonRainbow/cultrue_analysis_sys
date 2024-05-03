@@ -120,7 +120,7 @@ import SameCategoryWorkCompareChart from "../../components/user/charts/SameCateg
 import CoreUserAnalysis from "../../components/user/common/CoreUserAnalysis";
 import {getMonitorWorkById} from "../../api/monitor_workAPI";
 import {workScoreByWorkId} from "../../api/WorkScoreAPI";
-import {getWorkEffectScore} from "../../api/WorkEffectScoreAPI";
+import {findWorkEffectScore, getWorkEffectScore} from "../../api/WorkEffectScoreAPI";
 
 export default {
   name: "WorkPortraitPage",
@@ -172,7 +172,7 @@ export default {
           })
         }
       })
-      getWorkEffectScore({workId:this.workId,platform:this.platform.platformName}).then((res)=>{
+      findWorkEffectScore({workId:this.workId}).then((res)=>{
         if(res.code === '0'){
           if(res.data === null){
             this.effectScore = "暂无数据"

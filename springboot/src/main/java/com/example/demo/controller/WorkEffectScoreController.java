@@ -89,6 +89,49 @@ public class WorkEffectScoreController {
         return Result.success(map);
     }
 
+    @GetMapping("/getByWorkId")
+    private Result getWorkEffectScore(@RequestParam(required = true) Integer workId){
+        Double doubanEffectScore = getEffectScore(workId, "豆瓣");
+        Double IMDbEffectScore = getEffectScore(workId, "IMDb");
+        double effectScore = 0.0;
+        Map<String,Object> map = new HashMap<>();
+        map.put("workId", workId);
+
+        if(doubanEffectScore != null && IMDbEffectScore != null){
+            LambdaQueryWrapper<WorkInformation> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+            lambdaQueryWrapper.eq(WorkInformation::getWorkId, workId);
+            lambdaQueryWrapper.eq(WorkInformation::getPlatform, "豆瓣");
+            WorkInformation workInformation1 = workInformationMapper.selectOne(lambdaQueryWrapper);
+
+            lambdaQueryWrapper.clear();
+            lambdaQueryWrapper.eq(WorkInformation::getWorkId, workId);
+            lambdaQueryWrapper.eq(WorkInformation::getPlatform, "IMDb");
+            WorkInformation workInformation2 = workInformationMapper.selectOne(lambdaQueryWrapper);
+
+            map.put("workName", workInformation1.getWorkName());
+            effectScore = doubanEffectScore * ((double) workInformation1.getCommentNum() /(workInformation1.getCommentNum() + workInformation2.getCommentNum()))
+                    + IMDbEffectScore * ((double) workInformation2.getCommentNum() /(workInformation1.getCommentNum() + workInformation2.getCommentNum()));
+        }else if(doubanEffectScore != null){
+            LambdaQueryWrapper<WorkInformation> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+            lambdaQueryWrapper.eq(WorkInformation::getWorkId, workId);
+            lambdaQueryWrapper.eq(WorkInformation::getPlatform, "豆瓣");
+            WorkInformation workInformation1 = workInformationMapper.selectOne(lambdaQueryWrapper);
+            map.put("workName", workInformation1.getWorkName());
+            effectScore = doubanEffectScore;
+        }else if(IMDbEffectScore != null){
+            LambdaQueryWrapper<WorkInformation> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+            lambdaQueryWrapper.eq(WorkInformation::getWorkId, workId);
+            lambdaQueryWrapper.eq(WorkInformation::getPlatform, "IMDb");
+            WorkInformation workInformation1 = workInformationMapper.selectOne(lambdaQueryWrapper);
+            map.put("workName", workInformation1.getWorkName());
+            effectScore = IMDbEffectScore;
+        }else{
+            return Result.success(null);
+        }
+        map.put("effectScore", effectScore);
+        return Result.success(map);
+    }
+
    //获取某个作品在某个平台上的传播效果得分
     private Double getEffectScore(Integer workId, String platform){
         LambdaQueryWrapper<WorkInformation> lambdaQueryWrapper = new LambdaQueryWrapper<>();

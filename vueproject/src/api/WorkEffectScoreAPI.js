@@ -4,3 +4,8 @@ import {req} from '../utils/request'
 export const getWorkEffectScore = params=>{
   return req("get", "/workEffectScore/findByWorkIdAndPlatform", params, null)
 }
+
+// 查询作品的综合传播效果得分
+export const findWorkEffectScore = params=>{
+  return req("get", "/workEffectScore/getByWorkId", params, null)
+}
