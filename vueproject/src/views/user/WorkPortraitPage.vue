@@ -120,7 +120,8 @@ import SameCategoryWorkCompareChart from "../../components/user/charts/SameCateg
 import CoreUserAnalysis from "../../components/user/common/CoreUserAnalysis";
 import {getMonitorWorkById} from "../../api/monitor_workAPI";
 import {workScoreByWorkId} from "../../api/WorkScoreAPI";
-import {findWorkEffectScore, getWorkEffectScore} from "../../api/WorkEffectScoreAPI";
+import {findWorkEffectScore, getSameCategoryEffectScore, getWorkEffectScore} from "../../api/WorkEffectScoreAPI";
+import {getCoreUserByWorkId} from "../../api/userAPI";
 
 export default {
   name: "WorkPortraitPage",
@@ -146,7 +147,9 @@ export default {
         platformName: "IMDb"
       },
       scoreLevel: '',
-      effectScore:0
+      effectScore:0,
+      coreUser:[],
+      sameWorkList:[]
     }
   },
   created() {
@@ -180,6 +183,20 @@ export default {
             this.effectScore = res.data.effectScore.toFixed(2)
             this.rateScoreLevel(this.effectScore)
           }
+        }else{
+          alert("后台出现错误，请联系管理员")
+        }
+      })
+      getCoreUserByWorkId({workId:this.workId}).then((res)=>{
+        if(res.code === '0'){
+          this.coreUser = res.data.coreUserList
+        }else{
+          alert("后台出现错误，请联系管理员")
+        }
+      })
+      getSameCategoryEffectScore({workId:this.workId}).then((res)=>{
+        if(res.code === '0'){
+          this.sameWorkList = res.data.WorkEffectScoreList
         }else{
           alert("后台出现错误，请联系管理员")
         }

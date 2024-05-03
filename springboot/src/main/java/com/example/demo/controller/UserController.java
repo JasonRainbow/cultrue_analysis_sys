@@ -4,6 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.poi.excel.ExcelUtil;
 import cn.hutool.poi.excel.ExcelWriter;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -14,6 +15,7 @@ import com.example.demo.entity.model.LoginUser;
 import com.example.demo.entity.vo.ResponseUserVO;
 import com.example.demo.enums.PwdEnum;
 import com.example.demo.enums.ResponseStatusEnum;
+import com.example.demo.mapper.CoreUserMapper;
 import com.example.demo.mapper.UserMapper;
 import com.example.demo.mapper.UserRecordMapper;
 import com.example.demo.service.DataAnalysisService;
@@ -45,6 +47,9 @@ public class UserController extends BaseController {
 
     @Resource
     UserMapper userMapper;
+
+    @Autowired
+    CoreUserMapper coreUserMapper;
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder; //注入bcrypt加密
@@ -379,4 +384,20 @@ public class UserController extends BaseController {
 //        System.out.println(userRecordMapper.selectRecordByUserIdPaging(new Page<>(pageNum,pageSize),userId));
         return Result.success(userRecordMapper.selectRecentRecordByUserIdPaging(new Page<>(pageNum,pageSize),userId));
     }
+
+    @ApiOperation(value = "查询文化作品的核心用户")
+    @GetMapping(value = "/getCoreUserByWorkId")
+    public Result getCoreUserByUserId(@RequestParam(required = true) Integer workId){
+        LambdaQueryWrapper<CoreUser> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.eq(CoreUser::getWorkId, workId)
+                .orderByDesc(CoreUser::getEffectIndex)
+                .last("limit 5");
+        List<CoreUser> list = coreUserMapper.selectList(lambdaQueryWrapper);
+        Map<String,Object> map = new HashMap<>();
+        map.put("workId", workId);
+        map.put("coreUserList", list);
+        return Result.success(map);
+    }
+
+
 }
