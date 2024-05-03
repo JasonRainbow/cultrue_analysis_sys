@@ -387,15 +387,16 @@ public class UserController extends BaseController {
 
     @ApiOperation(value = "查询文化作品的核心用户")
     @GetMapping(value = "/getCoreUserByWorkId")
-    public Result getCoreUserByUserId(@RequestParam(required = true) Integer workId){
+    public Result getCoreUserByUserId(@RequestParam(required = true) Integer workId,
+                                      @RequestParam(required = false, defaultValue = "1") Integer pageNum,
+                                      @RequestParam(required = false, defaultValue = "5") Integer pageSize){
         LambdaQueryWrapper<CoreUser> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         lambdaQueryWrapper.eq(CoreUser::getWorkId, workId)
-                .orderByDesc(CoreUser::getEffectIndex)
-                .last("limit 5");
-        List<CoreUser> list = coreUserMapper.selectList(lambdaQueryWrapper);
+                .orderByDesc(CoreUser::getEffectIndex);
+        Page<CoreUser> result= coreUserMapper.selectPage(new Page<CoreUser>(pageNum, pageSize),lambdaQueryWrapper);
         Map<String,Object> map = new HashMap<>();
         map.put("workId", workId);
-        map.put("coreUserList", list);
+        map.put("coreUserDetails", result);
         return Result.success(map);
     }
 

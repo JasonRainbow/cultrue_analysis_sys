@@ -189,7 +189,8 @@ export default {
       })
       getCoreUserByWorkId({workId:this.workId}).then((res)=>{
         if(res.code === '0'){
-          this.coreUser = res.data.coreUserList
+          // this.coreUser = res.data.coreUserDetails.records
+          console.log(res.data)
         }else{
           alert("后台出现错误，请联系管理员")
         }
