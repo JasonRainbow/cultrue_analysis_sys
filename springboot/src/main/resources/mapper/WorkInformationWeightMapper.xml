@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.mapper.WorkInformationWeightMapper">
+
+    <select id="getIMDbData" resultType="com.example.demo.entity.vo.IMDbData">
+        select MAX(score) maxScore, MIN(score) minScore, MAX(commentNum) maxCommentNum,
+        MIN(commentNum) minCommentNum, MAX(collection) maxCollection, MIN(collection) minCollection
+        from work_information where platform = #{platform}
+    </select>
+</mapper>
