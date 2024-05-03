@@ -50,7 +50,7 @@
                     <el-col :span="12"><span class="label-span">评论点赞总数：</span><span>{{this.work.commentLikesCnt}}</span></el-col>
                   </el-row>
                   <el-row :gutter="100">
-                    <el-col :span="12"><span class="label-span">传播效果得分：</span><span>{{this.work.effectScore}}</span></el-col>
+                    <el-col :span="12"><span class="label-span">传播效果得分：</span><span>{{this.effectScore}}</span></el-col>
                     <el-col :span="12">
                       <span class="label-span">得分等级：</span>
                       <span>{{this.scoreLevel}}</span>
@@ -120,6 +120,7 @@ import SameCategoryWorkCompareChart from "../../components/user/charts/SameCateg
 import CoreUserAnalysis from "../../components/user/common/CoreUserAnalysis";
 import {getMonitorWorkById} from "../../api/monitor_workAPI";
 import {workScoreByWorkId} from "../../api/WorkScoreAPI";
+import {findWorkEffectScore, getWorkEffectScore} from "../../api/WorkEffectScoreAPI";
 
 export default {
   name: "WorkPortraitPage",
@@ -145,6 +146,7 @@ export default {
         platformName: "IMDb"
       },
       scoreLevel: '',
+      effectScore:0
     }
   },
   created() {
@@ -157,7 +159,7 @@ export default {
         if(res.code === "0") {
           this.work = res.data
           this.platform = res.data.platform
-          this.rateScoreLevel(res.data.effectScore)
+          // this.rateScoreLevel(res.data.effectScore)
         }
       })
       // 获取作品评分(平均得分)
@@ -168,6 +170,18 @@ export default {
               this.value = item.score
             }
           })
+        }
+      })
+      findWorkEffectScore({workId:this.workId}).then((res)=>{
+        if(res.code === '0'){
+          if(res.data === null){
+            this.effectScore = "暂无数据"
+          }else{
+            this.effectScore = res.data.effectScore.toFixed(2)
+            this.rateScoreLevel(this.effectScore)
+          }
+        }else{
+          alert("后台出现错误，请联系管理员")
         }
       })
     },
