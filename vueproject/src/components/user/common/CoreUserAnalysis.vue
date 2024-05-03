@@ -69,7 +69,7 @@ export default {
   },
   data() {
     return {
-      toolTip:"核心用户是指用户影响力指数偏大的用户，下方为用户影响力指数排名前20的用户列表。</br>用户影响力指数是根据平台国际影响力、用户等级、用户粉丝量来综合计算，并归一化至0-100的指数。",
+      toolTip:"核心用户是指用户影响力指数偏大的用户，下方为用户影响力指数排名前5的用户列表。</br>用户影响力指数是根据平台国际影响力、用户等级、用户粉丝量来综合计算，并归一化至0-100的指数。",
       coreUserData: [
         {
           avatar:"https://m.media-amazon.com/images/M/MV5BMTc5ODkzNzg3M15BMl5BanBnXkFtZTgwOTY3NTQyMjE@._V1_SY100_SX100_.jpg",
@@ -106,7 +106,7 @@ export default {
         pageNum: 1,
         pageSize: 5,
       },
-      total: 20,
+      total: 5,
     }
   },
   methods:{
