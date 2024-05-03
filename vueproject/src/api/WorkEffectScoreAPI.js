@@ -9,3 +9,9 @@ export const getWorkEffectScore = params=>{
 export const findWorkEffectScore = params=>{
   return req("get", "/workEffectScore/getByWorkId", params, null)
 }
+
+// 查询作品的综合传播效果得分
+export const getSameCategoryEffectScore = params=>{
+  return req("get", "/workEffectScore/getSameCategoryEffectScoreByWorkId", params, null)
+}
+

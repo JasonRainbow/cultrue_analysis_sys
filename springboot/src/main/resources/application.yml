@@ -214,3 +214,5 @@ interceptorconfig:
       - /api/subject-analysis/getCommentSubjectsByWorkId
       - /api/workEffectScore/findByWorkIdAndPlatform
       - /api/workEffectScore/getByWorkId
+      - /api/workEffectScore/getSameCategoryEffectScoreByWorkId
+      - /api/user/getCoreUserByWorkId
