@@ -247,7 +247,7 @@ public class WorkEffectScoreController {
         }
         LambdaQueryWrapper<MonitorWork> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         lambdaQueryWrapper.eq(MonitorWork::getSubCategory, work.getSubCategory());
-        lambdaQueryWrapper.ne(MonitorWork::getId, workId);
+//        lambdaQueryWrapper.ne(MonitorWork::getId, workId);
         List<MonitorWork> list = monitorWorkMapper.selectList(lambdaQueryWrapper);
         Map<String,Object> map = new HashMap<>();
         map.put("workId", workId);
