@@ -181,13 +181,13 @@ export default {
             this.effectScore = res.data.effectScore.toFixed(2)
             this.rateScoreLevel(this.effectScore)
           }
-        } else {
-          //alert("后台出现错误，请联系管理员")
+        }else{
+          alert("后台出现错误，请联系管理员")
         }
       })
     },
     // 评定得分等级
-    rateScoreLevel(effectScore){
+    rateScoreLevel(effectScore) {
       if(effectScore<60) {
         this.scoreLevel = '不及格'
       }else if(effectScore>=60&&effectScore<70) {

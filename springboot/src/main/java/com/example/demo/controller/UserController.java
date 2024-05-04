@@ -4,7 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.poi.excel.ExcelUtil;
 import cn.hutool.poi.excel.ExcelWriter;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -387,15 +387,13 @@ public class UserController extends BaseController {
 
     @ApiOperation(value = "查询文化作品的核心用户")
     @GetMapping(value = "/getCoreUserByWorkId")
-    public Result getCoreUserByUserId(@RequestParam(required = true) Integer workId){
-        LambdaQueryWrapper<CoreUser> lambdaQueryWrapper = new LambdaQueryWrapper<>();
-        lambdaQueryWrapper.eq(CoreUser::getWorkId, workId)
-                .orderByDesc(CoreUser::getEffectIndex)
-                .last("limit 5");
-        List<CoreUser> list = coreUserMapper.selectList(lambdaQueryWrapper);
+    public Result getCoreUserByUserId(@RequestParam(required = true) Integer workId,
+                                      @RequestParam(required = false, defaultValue = "1") Integer pageNum,
+                                      @RequestParam(required = false, defaultValue = "5") Integer pageSize){
+        IPage<CoreUser> result= coreUserMapper.selectCoreUserByPage(new Page<CoreUser>(pageNum, pageSize),workId);
         Map<String,Object> map = new HashMap<>();
         map.put("workId", workId);
-        map.put("coreUserList", list);
+        map.put("coreUserDetails", result);
         return Result.success(map);
     }
 
