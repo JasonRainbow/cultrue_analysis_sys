@@ -29,7 +29,7 @@ export default {
         imgUrl: '',
         subCategory: '小说',
         attachInfo: ""
-      }
+      },
     }
   },
   methods: {
@@ -44,7 +44,7 @@ export default {
           // console.log(this.work)
         }
       })
-    }
+    },
   },
   created() {
     this.getWorkData()

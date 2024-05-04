@@ -2,11 +2,19 @@
   <div style="text-align: center">
     <h2 style="font-weight: bold">传播效果预测</h2>
     <div style="margin-top: 15px; width: 100%;" >
+      <el-select v-model="selectMetric" class="custom-select" placeholder="请选择预测指标" @change="changeMetric">
+        <el-option
+          v-for="item in metricOptions"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value">
+        </el-option>
+      </el-select>
       <el-date-picker
         class="custom-select2"
         v-model="selectYear"
         type="year"
-        :clearable="false"
+        :clearable="true"
         value-format="yyyy"
         @change="this.getData"
         :picker-options="pickerOptions"
@@ -21,6 +29,8 @@
 </template>
 
 <script>
+import {getEffectPredictionByWorkIdAndYear} from "../../../api/effectPredictAPI";
+
 export default {
   name: "EffectPredictLineChart",
   props: {
@@ -38,6 +48,25 @@ export default {
       },
       selectYear: '2023',
       myChart: {},
+      selectMetric: "传播效果得分",
+      metricOptions: [
+        {
+          value: '传播效果得分',
+          label: '传播效果得分',
+        },
+        {
+          value: '积极情感占比',
+          label: '积极情感占比',
+        },
+        {
+          value: '消极情感占比',
+          label: '消极情感占比',
+        },
+        {
+          value: '中立情感占比',
+          label: '中立情感占比',
+        },
+      ],
       option: {
         tooltip: {
           trigger: 'axis',
@@ -67,7 +96,7 @@ export default {
             name: '月份',
             boundaryGap: false,
             axisLabel: {
-              interval: 0,
+              // interval: 2,
               fontWeight: "bold",
               fontSize: 14,
               fontFamily: 'Times New Roman',
@@ -103,7 +132,7 @@ export default {
             type: 'value',
             min: 0,
             max: 100,
-            name: '传播效果得分',
+            name: '指标值',
             nameTextStyle: {
               fontWeight: 600,
               fontSize: 15,
@@ -133,17 +162,57 @@ export default {
           }
         ]
       },
+      prediction_data: {
+
+      }
     }
   },
   created() {
     this.getData()
   },
   mounted() {
-    this.initChart()
+    // this.initChart()
   },
   methods: {
+    updateInfo(key1, key2) {
+      this.option.series[0].data = this.prediction_data.map((item)=>{
+        return Math.round(item[key1]*10000) / 100
+      })
+      this.option.series[1].data = this.prediction_data.map((item)=>{
+        return Math.round(item[key2]*10000) / 100
+      })
+      this.option.xAxis[0].data = this.prediction_data.map((item)=>{
+        return item["date"]
+      })
+      this.initChart()
+    },
+    changeMetric() {
+      switch (this.selectMetric) {
+        case "传播效果得分": {
+          this.updateInfo("trueScore", "predScore")
+          break
+        }
+        case "积极情感占比": {
+          this.updateInfo("truePosProportion", "predPosProportion")
+          break
+        }
+        case "消极情感占比": {
+          this.updateInfo("trueNegProportion", "predNegProportion")
+          break
+        }
+        case "中立情感占比": {
+          this.updateInfo("trueNeuProportion", "predNeuProportion")
+          break
+        }
+      }
+    },
     getData() {
-
+      getEffectPredictionByWorkIdAndYear({workId: this.workId, year: this.selectYear}).then((res)=>{
+        if (res.code === "0") {
+          this.prediction_data = res.data
+          this.changeMetric()
+        }
+      })
     },
     initChart() {
       this.myChart = this.$echarts.init(document.getElementById('effectPredictChart'))
