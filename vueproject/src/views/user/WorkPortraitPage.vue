@@ -13,7 +13,7 @@
                     <div><span class="label-span">作品名称：</span><span style="color: #c15128;">{{this.work.name}} ({{this.work.englishName}})</span></div>
                     <div><span class="label-span">作者/导演：</span><span>{{this.work.author}}</span></div>
                     <div><span class="label-span">发行时间：</span><span>{{this.work.postTime}}</span></div>
-                    <div><span class="label-span">作品评分：</span>
+                    <div><span class="label-span">作品评分(均分)：</span>
                       <el-rate
                         class="rate-field"
                         v-model="value"
@@ -34,7 +34,7 @@
                     >
                     </ViewTranslation>
                     <a class="view-btn" :href="this.work.citeUrl" target="_blank">查看详情</a>
-                    <span class="label-span">(来源: <a class="platform-a" :href="this.platform.platformUrl" target="_blank">{{this.platform.platformName}}</a>)</span>
+                    <span class="label-span">(信息来源: <a class="platform-a" :href="this.platform.platformUrl" target="_blank">{{this.platform.platformName}}</a>)</span>
                     <span class="view-btn" @click="enterComment">查看热点评论</span>
                   </span>
                     </div>
@@ -47,10 +47,10 @@
                   </el-row>
                   <el-row :gutter="100">
                     <el-col :span="12"><span class="label-span">已采集评论数：</span><span>{{this.work.commentCnt}}</span></el-col>
-                    <el-col :span="12"><span class="label-span">评论点赞总数：</span><span>{{this.work.commentLikesCnt}}</span></el-col>
+                    <el-col :span="12"><span class="label-span">已采集评论的点赞总数：</span><span>{{this.work.commentLikesCnt}}</span></el-col>
                   </el-row>
                   <el-row :gutter="100">
-                    <el-col :span="12"><span class="label-span">传播效果得分：</span><span>{{this.effectScore}}</span></el-col>
+                    <el-col :span="12"><span class="label-span">传播效果综合得分：</span><span>{{this.effectScore}}</span></el-col>
                     <el-col :span="12">
                       <span class="label-span">得分等级：</span>
                       <span>{{this.scoreLevel}}</span>
@@ -147,9 +147,7 @@ export default {
         platformName: "IMDb"
       },
       scoreLevel: '',
-      effectScore:0,
-      coreUser:[],
-      sameWorkList:[]
+      effectScore:0
     }
   },
   created() {
@@ -158,52 +156,38 @@ export default {
   methods: {
     getData() {
       // 获取作品的相关介绍
-      getMonitorWorkById(this.workId).then((res)=>{
-        if(res.code === "0") {
+      getMonitorWorkById(this.workId).then((res) => {
+        if (res.code === "0") {
           this.work = res.data
           this.platform = res.data.platform
           // this.rateScoreLevel(res.data.effectScore)
         }
       })
       // 获取作品评分(平均得分)
-      workScoreByWorkId({workId: this.workId}).then((res)=>{
-        if(res.code === "0") {
-          res.data.forEach(item=>{
-            if(item.platform === "平均"){
+      workScoreByWorkId({workId: this.workId}).then((res) => {
+        if (res.code === "0") {
+          res.data.forEach(item => {
+            if (item.platform === "平均") {
               this.value = item.score
             }
           })
         }
       })
-      findWorkEffectScore({workId:this.workId}).then((res)=>{
-        if(res.code === '0'){
-          if(res.data === null){
+      findWorkEffectScore({workId: this.workId}).then((res) => {
+        if (res.code === '0') {
+          if (res.data === null) {
             this.effectScore = "暂无数据"
-          }else{
+          } else {
             this.effectScore = res.data.effectScore.toFixed(2)
             this.rateScoreLevel(this.effectScore)
           }
-        }else{
-          alert("后台出现错误，请联系管理员")
-        }
-      })
-      getCoreUserByWorkId({workId:this.workId}).then((res)=>{
-        if(res.code === '0'){
-          this.coreUser = res.data.coreUserList
-        }else{
-          alert("后台出现错误，请联系管理员")
-        }
-      })
-      getSameCategoryEffectScore({workId:this.workId}).then((res)=>{
-        if(res.code === '0'){
-          this.sameWorkList = res.data.WorkEffectScoreList
-        }else{
-          alert("后台出现错误，请联系管理员")
+        } else {
+          //alert("后台出现错误，请联系管理员")
         }
       })
     },
     // 评定得分等级
-    rateScoreLevel(effectScore) {
+    rateScoreLevel(effectScore){
       if(effectScore<60) {
         this.scoreLevel = '不及格'
       }else if(effectScore>=60&&effectScore<70) {
