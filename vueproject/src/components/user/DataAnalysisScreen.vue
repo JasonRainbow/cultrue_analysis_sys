@@ -152,32 +152,32 @@
             <el-row :gutter="20" style="height: 100%">
               <el-col :span="7" style="height: 100%">
                 <div class="div_any_child" :style="{'height': '45.9%','margin-top':screenHeight * 0.02682 + 'px'}">
-                  <div class="div_any_title" :style="{'height': '12.5%','font-size':screenHeight * 0.01716 + 'px'}"><img src="../../assets/DataAnalysisScreen/score_icon.png">作品评分图</div>
+                  <div class="div_any_title" :style="{'height': '12.5%','font-size':screenHeight * 0.01716 + 'px'}"><img style="margin-right: 3px" src="../../assets/DataAnalysisScreen/score_icon.png"><span>作品评分图</span></div>
                   <!--                    <p id="char1" class="p_chart"></p>-->
                   <Score :work-id="workId" :key="workId"></Score>
                 </div>
                 <div class="div_any_child" :style="{'height': '45.9%','margin-top':screenHeight * 0.02682 + 'px'}">
-                  <div class="div_any_title" :style="{'height': '12.5%','font-size':screenHeight * 0.01716 + 'px'}"><img src="../../assets/DataAnalysisScreen/title_2.png">国际总体信息量变化趋势图</div>
+                  <div class="div_any_title" :style="{'height': '12.5%','font-size':screenHeight * 0.01716 + 'px'}"><img style="margin-right: 3px" src="../../assets/DataAnalysisScreen/title_2.png">国际总体信息量变化趋势图</div>
                   <!--                    <p id="char2" class="p_chart"></p>-->
                   <MessageChart :work-id="workId" :key="workId"></MessageChart>
                 </div>
               </el-col>
               <el-col :span="10" style="height: 100%">
                 <div class="div_any_child div_height" :style="{'height': '95.9%','margin-top':screenHeight * 0.02682 + 'px'}">
-                  <div class="div_any_title any_title_width" :style="{'height': '5.982%','font-size':screenHeight * 0.01716 + 'px'}"><img src="../../assets/DataAnalysisScreen/wordcloud_icon.png">词云图</div>
+                  <div class="div_any_title any_title_width" :style="{'height': '5.982%','font-size':screenHeight * 0.01716 + 'px'}"><img style="margin-right: 3px" src="../../assets/DataAnalysisScreen/wordcloud_icon.png">词云图</div>
                   <!--                    <div id="map_div"></div>-->
                   <WordCloud :work-id="workId" :key="workId" :height="'80%'"></WordCloud>
                 </div>
               </el-col>
               <el-col :span="7" style="height: 100%">
                 <div class="div_any_child" :style="{'height': '45.9%','margin-top':screenHeight * 0.02682 + 'px'}">
-                  <div class="div_any_title" :style="{'height': '12.5%','font-size':screenHeight * 0.01716 + 'px'}"><img src="../../assets/DataAnalysisScreen/rank_icon.png">国家情感排名</div>
+                  <div class="div_any_title" :style="{'height': '12.5%','font-size':screenHeight * 0.01716 + 'px'}"><img style="margin-right: 3px" src="../../assets/DataAnalysisScreen/rank_icon.png">国家情感排名</div>
                   <!--                    <p id="char3" class="p_chart"></p>-->
                   <!--                    <Subject :work-id="workId" :key="workId"></Subject>-->
                   <SentimentScrollChart :work-id="workId" :key="workId"></SentimentScrollChart>
                 </div>
                 <div class="div_any_child" :style="{'height': '45.9%','margin-top':screenHeight * 0.02682 + 'px'}">
-                  <div class="div_any_title" :style="{'height': '12.5%','font-size':screenHeight * 0.01716 + 'px'}"><img src="../../assets/DataAnalysisScreen/emotion_icon.png">国家情感分布</div>
+                  <div class="div_any_title" :style="{'height': '12.5%','font-size':screenHeight * 0.01716 + 'px'}"><img style="margin-right: 3px" src="../../assets/DataAnalysisScreen/emotion_icon.png">国家情感分布</div>
                   <!--                    <p id="char4" class="p_chart"></p>-->
                   <PolarityCapsuleChart :work-id="workId" :key="workId"></PolarityCapsuleChart>
                 </div>
@@ -192,7 +192,7 @@
             <el-col :span="8">
 <!--                480px-->
               <div class="div_any_child" :style="{'height':this.screenHeight * 0.515+'px'}">
-                <div class="div_any_title" :style="{'height': '7.291%','font-size':screenHeight * 0.01716 + 'px'}"><img src="../../assets/DataAnalysisScreen/wordvector_icon.png">共现语义网络图</div>
+                <div class="div_any_title" :style="{'height': '7.291%','font-size':screenHeight * 0.01716 + 'px'}"><img style="margin-right: 3px" src="../../assets/DataAnalysisScreen/wordvector_icon.png">共现语义网络图</div>
                 <div class="table_p">
                   <RelationGraph :work-id="workId" :key="workId"></RelationGraph>
                 </div>
@@ -200,7 +200,7 @@
             </el-col>
             <el-col :span="8">
               <div class="div_any_child" :style="{'height':this.screenHeight * 0.515+'px'}">
-                <div class="div_any_title" :style="{'height': '7.291%','font-size':screenHeight * 0.01716 + 'px'}"><img src="../../assets/DataAnalysisScreen/title_4.png">数据来源占比图</div>
+                <div class="div_any_title" :style="{'height': '7.291%','font-size':screenHeight * 0.01716 + 'px'}"><img style="margin-right: 3px" src="../../assets/DataAnalysisScreen/title_4.png">数据来源占比图</div>
                 <div class="table_p">
                   <DataSourcePieChart :work-id="workId" :key="workId"></DataSourcePieChart>
                 </div>
@@ -208,7 +208,7 @@
             </el-col>
             <el-col :span="8">
               <div class="div_any_child" :style="{'height':this.screenHeight * 0.515+'px'}">
-                <div class="div_any_title" :style="{'height': '7.291%','font-size':screenHeight * 0.01716 + 'px'}"><img src="../../assets/DataAnalysisScreen/title_4.png">主题情感分析</div>
+                <div class="div_any_title" :style="{'height': '7.291%','font-size':screenHeight * 0.01716 + 'px'}"><img style="margin-right: 3px" src="../../assets/DataAnalysisScreen/title_4.png">主题情感分析</div>
                 <div class="table_p">
                   <Subject :work-id="workId" :key="workId"></Subject>
                   <!--                          <table>-->
