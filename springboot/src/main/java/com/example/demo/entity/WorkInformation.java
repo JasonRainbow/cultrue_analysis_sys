@@ -43,6 +43,9 @@ public class WorkInformation {
     @ApiModelProperty(value = "作品流行度")
     private Double popularity;
 
+    @ApiModelProperty(value = "作品播放量")
+    private Double viewNum;
+
     @ApiModelProperty(value = "作品信息更新时间")
     private Date updateTime;
 

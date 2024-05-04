@@ -37,6 +37,9 @@ public class WorkInformationWeight {
     @ApiModelProperty(value = "作品流行度权重")
     private Double popularityWeight;
 
+    @ApiModelProperty(value = "作品观看数权重")
+    private Double viewNumWeight;
+
     @ApiModelProperty(value = "作品指标权重更新时间")
     private Date updateTime;
 }

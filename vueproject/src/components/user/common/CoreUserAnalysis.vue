@@ -118,7 +118,7 @@ export default {
   },
   methods:{
     handleCurrentChange(val) {
-      console.log(val)
+      // console.log(val)
       this.pageParam.pageNum = val
       this.getData()
     },
@@ -130,7 +130,7 @@ export default {
              coreUser.push({avatar: item.avatar != null ? item.avatar : this.defaultImgUrl, nickname: item.nickName, platform: item.platformName, impactIndex: item.effectIndex.toFixed(2)})
            })
           this.coreUserData = coreUser
-          console.log(this.coreUserData)
+          // console.log(this.coreUserData)
         }else{
            alert("后台出现错误，请联系管理员")
         }

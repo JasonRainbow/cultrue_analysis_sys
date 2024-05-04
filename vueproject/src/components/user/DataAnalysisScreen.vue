@@ -373,7 +373,7 @@ export default {
     getScreenSize(){
       this.screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
       this.screenHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
-      console.log(this.screenWidth,'*',this.screenHeight)
+      // console.log(this.screenWidth,'*',this.screenHeight)
     },
   },
 

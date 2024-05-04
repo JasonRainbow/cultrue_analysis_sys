@@ -9,6 +9,7 @@ import com.example.demo.entity.WorkInformationWeight;
 import com.example.demo.entity.vo.DoubanData;
 import com.example.demo.entity.vo.IMDbData;
 import com.example.demo.entity.vo.WorkEffectScoreVo;
+import com.example.demo.entity.vo.YoutubeData;
 import com.example.demo.mapper.MonitorWorkMapper;
 import com.example.demo.mapper.WorkInformationMapper;
 import com.example.demo.mapper.WorkInformationWeightMapper;
@@ -69,7 +70,7 @@ public class WorkEffectScoreController {
 
             effectScore =doubanData.getNormalizeScore() * workInformationWeight.getScoreWeight() + doubanData.getNormalizeCommentNum() * workInformationWeight.getCommentNumWeight();
         }else if(platform.equals("IMDb")){
-            IMDbData imDbData = workInformationWeightMapper.getIMDbData(platform);
+            IMDbData imDbData = workInformationMapper.getIMDbData(platform);
 
             double data = (workInformation.getScore()-imDbData.getMinScore())/(imDbData.getMaxScore()-imDbData.getMinScore())*100;
             imDbData.setNormalizeScore(data);
@@ -87,7 +88,9 @@ public class WorkEffectScoreController {
             effectScore =imDbData.getNormalizeScore() * workInformationWeight.getScoreWeight()
                     + imDbData.getNormalizeCommentNum() * workInformationWeight.getCommentNumWeight()
                     +imDbData.getNormalizeCollection() * workInformationWeight.getCollectionWeight();
-        }else{
+        }else if(platform.equals("Youtube")){
+            effectScore = getEffectScore(workId, platform);
+        } else{
             return Result.success(null);
         }
         Map<String,Object> map = new HashMap<>();
@@ -98,59 +101,80 @@ public class WorkEffectScoreController {
         return Result.success(map);
     }
 
-    @ApiOperation(value = "根据ID查询文化作品的综合传播效果")
-    @GetMapping("/getByWorkId")
-    private Result getWorkEffectScore(@RequestParam(required = true) Integer workId){
-        Double doubanEffectScore = getEffectScore(workId, "豆瓣");
-        Double IMDbEffectScore = getEffectScore(workId, "IMDb");
+    //根据文化作品id查询它的综合评分
+    public double getComprehensiveEffectScore(Integer workId){
+        double doubanEffectScore = getEffectScore(workId, "豆瓣");
+        double IMDbEffectScore = getEffectScore(workId, "IMDb");
+        double youtubeEffectScore = getEffectScore(workId, "Youtube");
+        if(doubanEffectScore == 0 && IMDbEffectScore == 0 && youtubeEffectScore == 0){
+            return 0;
+        }
+        Integer doubanCommentNum = 0;
+        Integer IMDbCommentNum = 0;
+        Integer youtubeCommentNum = 0;
         double effectScore = 0.0;
-        Map<String,Object> map = new HashMap<>();
-        map.put("workId", workId);
 
-        if(doubanEffectScore != null && IMDbEffectScore != null){
-            LambdaQueryWrapper<WorkInformation> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        LambdaQueryWrapper<WorkInformation> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        WorkInformation workInformation;
+        if(doubanEffectScore == 0){
+            doubanCommentNum = 0;
+        }else{
             lambdaQueryWrapper.eq(WorkInformation::getWorkId, workId);
             lambdaQueryWrapper.eq(WorkInformation::getPlatform, "豆瓣");
-            WorkInformation workInformation1 = workInformationMapper.selectOne(lambdaQueryWrapper);
+            workInformation = workInformationMapper.selectOne(lambdaQueryWrapper);
+            doubanCommentNum = workInformation.getCommentNum();
+        }
 
+        if(IMDbEffectScore == 0){
+            IMDbCommentNum = 0;
+        }else{
             lambdaQueryWrapper.clear();
             lambdaQueryWrapper.eq(WorkInformation::getWorkId, workId);
             lambdaQueryWrapper.eq(WorkInformation::getPlatform, "IMDb");
-            WorkInformation workInformation2 = workInformationMapper.selectOne(lambdaQueryWrapper);
+            workInformation = workInformationMapper.selectOne(lambdaQueryWrapper);
+            IMDbCommentNum = workInformation.getCommentNum();
+        }
 
-            map.put("workName", workInformation1.getWorkName());
-            effectScore = doubanEffectScore * ((double) workInformation1.getCommentNum() /(workInformation1.getCommentNum() + workInformation2.getCommentNum()))
-                    + IMDbEffectScore * ((double) workInformation2.getCommentNum() /(workInformation1.getCommentNum() + workInformation2.getCommentNum()));
-        }else if(doubanEffectScore != null){
-            LambdaQueryWrapper<WorkInformation> lambdaQueryWrapper = new LambdaQueryWrapper<>();
-            lambdaQueryWrapper.eq(WorkInformation::getWorkId, workId);
-            lambdaQueryWrapper.eq(WorkInformation::getPlatform, "豆瓣");
-            WorkInformation workInformation1 = workInformationMapper.selectOne(lambdaQueryWrapper);
-            map.put("workName", workInformation1.getWorkName());
-            effectScore = doubanEffectScore;
-        }else if(IMDbEffectScore != null){
-            LambdaQueryWrapper<WorkInformation> lambdaQueryWrapper = new LambdaQueryWrapper<>();
-            lambdaQueryWrapper.eq(WorkInformation::getWorkId, workId);
-            lambdaQueryWrapper.eq(WorkInformation::getPlatform, "IMDb");
-            WorkInformation workInformation1 = workInformationMapper.selectOne(lambdaQueryWrapper);
-            map.put("workName", workInformation1.getWorkName());
-            effectScore = IMDbEffectScore;
+        if(youtubeEffectScore == 0){
+            youtubeCommentNum = 0;
         }else{
+            lambdaQueryWrapper.clear();
+            lambdaQueryWrapper.eq(WorkInformation::getWorkId, workId);
+            lambdaQueryWrapper.eq(WorkInformation::getPlatform, "Youtube");
+            workInformation = workInformationMapper.selectOne(lambdaQueryWrapper);
+            youtubeCommentNum = workInformation.getCommentNum();
+        }
+
+        Integer totalCommentNum = doubanCommentNum + IMDbCommentNum + youtubeCommentNum;
+
+        effectScore = doubanEffectScore * ((double)doubanCommentNum/totalCommentNum) +IMDbEffectScore * ((double)IMDbCommentNum/totalCommentNum)
+                + youtubeEffectScore * ((double)youtubeCommentNum/totalCommentNum);
+
+        return effectScore;
+    }
+
+    @ApiOperation(value = "根据ID查询文化作品的综合传播效果")
+    @GetMapping("/getByWorkId")
+    private Result getWorkEffectScore(@RequestParam(required = true) Integer workId){
+        double effectScore = getComprehensiveEffectScore(workId);
+        if(effectScore == 0){
             return Result.success(null);
         }
+        Map<String,Object> map = new HashMap<>();
+        map.put("workId", workId);
         map.put("effectScore", effectScore);
         return Result.success(map);
     }
 
    //获取某个作品在某个平台上的传播效果得分
-    private Double getEffectScore(Integer workId, String platform){
+    private double getEffectScore(Integer workId, String platform){
         LambdaQueryWrapper<WorkInformation> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         lambdaQueryWrapper.eq(WorkInformation::getWorkId, workId);
         lambdaQueryWrapper.eq(WorkInformation::getPlatform, platform);
         WorkInformation workInformation = workInformationMapper.selectOne(lambdaQueryWrapper);
 
         if(workInformation == null){
-            return null;
+            return 0;
         }
 
         LambdaQueryWrapper<WorkInformationWeight> lambdaQueryWrapper1 = new LambdaQueryWrapper<>();
@@ -158,7 +182,7 @@ public class WorkEffectScoreController {
         WorkInformationWeight workInformationWeight = workInformationWeightMapper.selectOne(lambdaQueryWrapper1);
 
         if(workInformationWeight == null){
-            return null;
+            return 0;
         }
 
         if(platform.equals("豆瓣")){
@@ -172,11 +196,11 @@ public class WorkEffectScoreController {
 
             doubanData.setNormalizeCommentNum((preProcessCommentNum - preProcessMinCommentNum)/(preProcessMaxCommentNum - preProcessMinCommentNum)*100);
 
-            Double effectScore =doubanData.getNormalizeScore() * workInformationWeight.getScoreWeight() + doubanData.getNormalizeCommentNum() * workInformationWeight.getCommentNumWeight();
+            double effectScore =doubanData.getNormalizeScore() * workInformationWeight.getScoreWeight() + doubanData.getNormalizeCommentNum() * workInformationWeight.getCommentNumWeight();
             return effectScore;
 
         }else if(platform.equals("IMDb")){
-            IMDbData imDbData = workInformationWeightMapper.getIMDbData(platform);
+            IMDbData imDbData = workInformationMapper.getIMDbData(platform);
 
             double data = (workInformation.getScore()-imDbData.getMinScore())/(imDbData.getMaxScore()-imDbData.getMinScore())*100;
             imDbData.setNormalizeScore(data);
@@ -191,51 +215,35 @@ public class WorkEffectScoreController {
             imDbData.setNormalizeCommentNum((preProcessCommentNum - preProcessMinCommentNum)/(preProcessMaxCommentNum - preProcessMinCommentNum)*100);
             imDbData.setNormalizeCollection((preProcessCollection - preProcessMinCollection)/(preProcessMaxCollection - preProcessMinCollection)*100);
 
-            Double effectScore =imDbData.getNormalizeScore() * workInformationWeight.getScoreWeight()
+            double effectScore =imDbData.getNormalizeScore() * workInformationWeight.getScoreWeight()
                     + imDbData.getNormalizeCommentNum() * workInformationWeight.getCommentNumWeight()
                     +imDbData.getNormalizeCollection() * workInformationWeight.getCollectionWeight();
 
             return effectScore;
+        }else if(platform.equals("Youtube")){
+            YoutubeData youtubeData = workInformationMapper.getYoutubeData(platform);
+
+            double preProcessZanNum = Math.log10(workInformation.getZanNum());
+            double preProcessMaxZanNum = Math.log10(youtubeData.getMaxZanNum());
+            double preProcessMinZanNum = Math.log10(youtubeData.getMinZanNum());
+            double preProcessCommentNum = Math.log10(workInformation.getCommentNum());
+            double preProcessMaxCommentNum = Math.log10(youtubeData.getMaxCommentNum());
+            double preProcessMinCommentNum = Math.log10(youtubeData.getMinCommentNum());
+            double preProcessViewNum = Math.log10(workInformation.getViewNum());
+            double preProcessMaxViewNum = Math.log10(youtubeData.getMaxViewNum());
+            double preProcessMinViewNum = Math.log10(youtubeData.getMinViewNum());
+
+            youtubeData.setNormalizeZanNum((preProcessZanNum - preProcessMinZanNum)/(preProcessMaxZanNum - preProcessMinZanNum)*100);
+            youtubeData.setNormalizeCommentNum((preProcessCommentNum - preProcessMinCommentNum)/(preProcessMaxCommentNum-preProcessMinCommentNum)*100);
+            youtubeData.setNormalizeViewNum((preProcessViewNum - preProcessMinViewNum)/(preProcessMaxViewNum-preProcessMinViewNum)*100);
+
+            double effectScore = youtubeData.getNormalizeZanNum() * workInformationWeight.getZanNumWeight() +
+                    youtubeData.getNormalizeCommentNum() * workInformationWeight.getCommentNumWeight() +
+                    youtubeData.getNormalizeViewNum() * workInformationWeight.getViewNumWeight();
+            return effectScore;
         }else{
-            return null;
+            return 0;
         }
-    }
-
-    //根据文化作品id查询它的综合传播效果得分，要是返回值为null，则无数据
-    private Double getComprehensiveEffectScore(Integer workId){
-        Double doubanEffectScore = getEffectScore(workId, "豆瓣");
-        Double IMDbEffectScore = getEffectScore(workId, "IMDb");
-        double effectScore = 0.0;
-
-        if(doubanEffectScore != null && IMDbEffectScore != null){
-            LambdaQueryWrapper<WorkInformation> lambdaQueryWrapper = new LambdaQueryWrapper<>();
-            lambdaQueryWrapper.eq(WorkInformation::getWorkId, workId);
-            lambdaQueryWrapper.eq(WorkInformation::getPlatform, "豆瓣");
-            WorkInformation workInformation1 = workInformationMapper.selectOne(lambdaQueryWrapper);
-
-            lambdaQueryWrapper.clear();
-            lambdaQueryWrapper.eq(WorkInformation::getWorkId, workId);
-            lambdaQueryWrapper.eq(WorkInformation::getPlatform, "IMDb");
-            WorkInformation workInformation2 = workInformationMapper.selectOne(lambdaQueryWrapper);
-
-            effectScore = doubanEffectScore * ((double) workInformation1.getCommentNum() /(workInformation1.getCommentNum() + workInformation2.getCommentNum()))
-                    + IMDbEffectScore * ((double) workInformation2.getCommentNum() /(workInformation1.getCommentNum() + workInformation2.getCommentNum()));
-        }else if(doubanEffectScore != null){
-            LambdaQueryWrapper<WorkInformation> lambdaQueryWrapper = new LambdaQueryWrapper<>();
-            lambdaQueryWrapper.eq(WorkInformation::getWorkId, workId);
-            lambdaQueryWrapper.eq(WorkInformation::getPlatform, "豆瓣");
-            WorkInformation workInformation1 = workInformationMapper.selectOne(lambdaQueryWrapper);
-            effectScore = doubanEffectScore;
-        }else if(IMDbEffectScore != null){
-            LambdaQueryWrapper<WorkInformation> lambdaQueryWrapper = new LambdaQueryWrapper<>();
-            lambdaQueryWrapper.eq(WorkInformation::getWorkId, workId);
-            lambdaQueryWrapper.eq(WorkInformation::getPlatform, "IMDb");
-            WorkInformation workInformation1 = workInformationMapper.selectOne(lambdaQueryWrapper);
-            effectScore = IMDbEffectScore;
-        }else{
-            return null;
-        }
-        return effectScore;
     }
 
     @ApiOperation(value = "根据ID查询同类别的文化作品的综合传播效果")
@@ -253,8 +261,8 @@ public class WorkEffectScoreController {
         map.put("workId", workId);
         List<WorkEffectScoreVo> sameList = new ArrayList<>();
         for(MonitorWork monitorWork : list){
-            Double effectScore = getComprehensiveEffectScore(monitorWork.getId());
-            if(effectScore != null){
+            double effectScore = getComprehensiveEffectScore(monitorWork.getId());
+            if(effectScore != 0){
                 WorkEffectScoreVo workEffectScoreVo = new WorkEffectScoreVo(monitorWork.getName(), effectScore);
                 sameList.add(workEffectScoreVo);
             }
