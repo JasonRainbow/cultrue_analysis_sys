@@ -5,7 +5,7 @@ import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 @Data
-@ApiModel(value = "", description = "IMDb上部分指标信息")
+@ApiModel(value = "", description = "IMDb上辅助指标信息")
 public class IMDbData {
     private Double maxScore;
 

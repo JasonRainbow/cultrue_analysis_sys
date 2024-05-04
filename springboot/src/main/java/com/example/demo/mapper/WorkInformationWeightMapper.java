@@ -7,5 +7,4 @@ import org.apache.ibatis.annotations.Param;
 
 public interface WorkInformationWeightMapper extends BaseMapper<WorkInformationWeight> {
 
-    public IMDbData getIMDbData(@Param(value="platform") String platform);
 }

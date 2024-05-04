@@ -175,8 +175,8 @@ export default {
   beforeMount() {
     this.workName = this.$route.query.workName
     this.workId = this.$route.query.workId
-    console.log(this.workId)
-    console.log(this.workName)
+    // console.log(this.workId)
+    // console.log(this.workName)
   }
 }
 </script>
