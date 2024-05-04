@@ -36,7 +36,7 @@ public class EffectPrediction {
     /**
      * 预测值对应的时间
      */
-    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM", timezone = "GMT+8")
     @ApiModelProperty(value = "预测值对应的时间")
     private Date date;
 
