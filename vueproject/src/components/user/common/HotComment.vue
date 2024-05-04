@@ -8,6 +8,16 @@ import {getHotCommentsByPage} from "../../../api/commentAPI";
     },
     data(){
       return{
+        logoMap: {
+          "豆瓣": require("../../../assets/platform_logo/douban.png"),
+          "Youtube": require("../../../assets/platform_logo/youtube.png"),
+          "IMDb": require("../../../assets/platform_logo/IMDb.png"),
+          "Twitter": require("../../../assets/platform_logo/twitter.png"),
+          "GoodReads": require("../../../assets/platform_logo/goodreads.jpg"),
+          "烂番茄": require("../../../assets/platform_logo/rottentomoto.png"),
+          "Facebook": require("../../../assets/platform_logo/facebook.png"),
+          "Amazon": require("../../../assets/platform_logo/amazon.png"),
+        },
         works:{
           records:{
 
@@ -74,6 +84,7 @@ import {getHotCommentsByPage} from "../../../api/commentAPI";
           // console.log(res.data);
           if(res.code==="0"){
             this.works=res.data;
+            // console.log(this.works)
           }
         })
       },
@@ -88,6 +99,7 @@ import {getHotCommentsByPage} from "../../../api/commentAPI";
           // console.log(res.data);
           if(res.code==="0"){
             this.works=res.data;
+            // console.log(this.works)
           }
         })
       },
@@ -185,11 +197,17 @@ import {getHotCommentsByPage} from "../../../api/commentAPI";
         </div>
         <div class="text item">
           <div style="height:40px;width:53px;display: inline-block;vertical-align: top">
-            <img src="../../../assets/img/avatar.jpeg" alt="头像"
-            style="border-radius: 50%;height: 100%;width:40px;">
+            <a :href="c.homeUrl" target="_blank">
+              <img :src="c.avatar || logoMap[c.platform]" alt="头像"
+                   :class="{'radius-avatar': c.avatar != null}"
+                   style="height: 100%;width:40px;">
+            </a>
           </div>
           <div style="display: inline-block;width: 93%;">
-          <span style="line-height: 40px" class="user-name">天天向上</span>
+            <a :href="c.homeUrl" target="_blank">
+              <span style="line-height: 40px" class="user-name">{{c.reviewer||"未知用户"}}</span>
+            </a>
+
           <div class="div2">
             {{c.content}}
           </div>
@@ -274,7 +292,12 @@ import {getHotCommentsByPage} from "../../../api/commentAPI";
     //font-family: PingFang SC, HarmonyOS_Medium, Helvetica Neue, Microsoft YaHei, sans-serif;
     font-family: "微软雅黑","宋体";
     font-weight: 500;
+    font-size: 16px;
     margin-right: 5px;
     cursor: pointer;
+    color: #37a;
+  }
+  .radius-avatar {
+    border-radius: 50%;
   }
 </style>

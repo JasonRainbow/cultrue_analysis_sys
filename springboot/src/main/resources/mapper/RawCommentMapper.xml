@@ -6,11 +6,16 @@
         <id column="id" property="id" />
         <result property="workId" column="workId" />
         <result property="sentiment" column="sentiment" />
+        <result property="reviewer" column="reviewer" />
+        <result property="homeUrl" column="homeUrl" />
+        <result property="avatar" column="avatar" />
+        <result property="followers" column="followers" />
         <result property="country" column="country" />
         <result property="platform" column="platform" />
         <result property="postTime" column="postTime" />
         <result property="likes" column="likes" />
         <result property="content" column="content" />
+        <result property="language" column="language" />
         <result property="translated" column="translated" />
         <association property="monitorWork"
                      javaType="com.example.demo.entity.MonitorWork">
