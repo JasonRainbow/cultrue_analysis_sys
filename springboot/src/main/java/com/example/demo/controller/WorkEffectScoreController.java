@@ -242,10 +242,12 @@ public class WorkEffectScoreController {
     @GetMapping("/getSameCategoryEffectScoreByWorkId")
     public Result getSameCategoryEffectScore(@RequestParam(required = true) Integer workId){
         MonitorWork work = monitorWorkMapper.selectById(workId);
-
+        if(work == null){
+            return Result.error("-1", "出错了，请联系管理员");
+        }
         LambdaQueryWrapper<MonitorWork> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         lambdaQueryWrapper.eq(MonitorWork::getSubCategory, work.getSubCategory());
-        lambdaQueryWrapper.ne(MonitorWork::getId, workId);
+//        lambdaQueryWrapper.ne(MonitorWork::getId, workId);
         List<MonitorWork> list = monitorWorkMapper.selectList(lambdaQueryWrapper);
         Map<String,Object> map = new HashMap<>();
         map.put("workId", workId);

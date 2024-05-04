@@ -9,7 +9,6 @@
     </div>
     <el-table
       :data="coreUserData"
-
       stripe
       style="width: 100%;margin-top: 20px">
       <el-table-column
@@ -17,9 +16,9 @@
         prop="avatar"
         label="头像"
         width="auto"
-        min-width="20%">
+        min-width="16%">
         <template slot-scope="scope">
-          <img :src="scope.row.avatar" :min-width="48" :height="48"/>
+          <img :src="scope.row.avatar" :min-width="48" :height="48" alt="加载失败"/>
         </template>
       </el-table-column>
       <el-table-column
@@ -27,21 +26,23 @@
         prop="nickname"
         label="昵称"
         width="auto"
-        min-width="42%">
+        min-width="42%"
+        :cell-style="{ 'font-size': '8px' }">
       </el-table-column>
       <el-table-column
         align="center"
         prop="platform"
         label="平台"
         width="auto"
-        min-width="20%">
+        min-width="26%"
+        :cell-style="{ 'font-size': '10px' }">
       </el-table-column>
       <el-table-column
         align="center"
         prop="impactIndex"
         label="影响力指数"
         width="auto"
-        min-width="18%">
+        min-width="16%">
       </el-table-column>
     </el-table>
     <el-pagination
@@ -59,6 +60,8 @@
 </template>
 
 <script>
+import {getCoreUserByWorkId} from "../../../api/userAPI";
+
 export default {
   name: "CoreUserAnalysis",
   props: {
@@ -69,7 +72,8 @@ export default {
   },
   data() {
     return {
-      toolTip:"核心用户是指用户影响力指数偏大的用户，下方为用户影响力指数排名前20的用户列表。</br>用户影响力指数是根据平台国际影响力、用户等级、用户粉丝量来综合计算，并归一化至0-100的指数。",
+      toolTip:"核心用户是指用户影响力指数偏大的用户，下方为用户影响力指数排名前5的用户列表。</br>用户影响力指数是根据平台国际影响力、用户等级、用户粉丝量来综合计算，并归一化至0-100的指数。",
+      defaultImgUrl: "https://images.fandango.com/cms/assets/5b6ff500-1663-11ec-ae31-05a670d2d590--rtactordefault.png",
       coreUserData: [
         {
           avatar:"https://m.media-amazon.com/images/M/MV5BMTc5ODkzNzg3M15BMl5BanBnXkFtZTgwOTY3NTQyMjE@._V1_SY100_SX100_.jpg",
@@ -106,19 +110,43 @@ export default {
         pageNum: 1,
         pageSize: 5,
       },
-      total: 20,
+      total: 5,
     }
+  },
+  created() {
+    this.getData()
   },
   methods:{
     handleCurrentChange(val) {
       console.log(val)
       this.pageParam.pageNum = val
       this.getData()
+    },
+    getData() {
+      let coreUser = []
+      getCoreUserByWorkId({workId:this.workId, pageNum:this.pageParam.pageNum, pageSize:this.pageParam.pageSize}).then((res)=>{
+        if(res.code === '0'){
+           res.data.coreUserDetails.records.forEach(item => {
+             coreUser.push({avatar: item.avatar != null ? item.avatar : this.defaultImgUrl, nickname: item.nickName, platform: item.platformName, impactIndex: item.effectIndex.toFixed(2)})
+           })
+          this.coreUserData = coreUser
+          console.log(this.coreUserData)
+        }else{
+           alert("后台出现错误，请联系管理员")
+        }
+      })
     }
   }
 }
 </script>
 
 <style scoped>
-
+/* 直接对第二列进行字体大小设置 */
+.el-table .el-table__body td:nth-child(2) {
+  font-size: 8px;
+}
+/* 直接对第三列进行字体大小设置 */
+.el-table .el-table__body td:nth-child(3) {
+  font-size: 8px;
+}
 </style>
