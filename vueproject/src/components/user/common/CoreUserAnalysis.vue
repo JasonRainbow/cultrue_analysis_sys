@@ -9,7 +9,6 @@
     </div>
     <el-table
       :data="coreUserData"
-
       stripe
       style="width: 100%;margin-top: 20px">
       <el-table-column
@@ -17,9 +16,9 @@
         prop="avatar"
         label="头像"
         width="auto"
-        min-width="20%">
+        min-width="16%">
         <template slot-scope="scope">
-          <img :src="scope.row.avatar" :min-width="48" :height="48" alt="头像"/>
+          <img :src="scope.row.avatar" :min-width="48" :height="48" alt="加载失败"/>
         </template>
       </el-table-column>
       <el-table-column
@@ -27,34 +26,36 @@
         prop="nickname"
         label="昵称"
         width="auto"
-        min-width="42%">
+        min-width="42%"
+        :cell-style="{ 'font-size': '8px' }">
       </el-table-column>
       <el-table-column
         align="center"
         prop="platform"
         label="平台"
         width="auto"
-        min-width="20%">
+        min-width="26%"
+        :cell-style="{ 'font-size': '10px' }">
       </el-table-column>
       <el-table-column
         align="center"
         prop="impactIndex"
         label="影响力指数"
         width="auto"
-        min-width="18%">
+        min-width="16%">
       </el-table-column>
     </el-table>
-<!--    <el-pagination-->
-<!--      class="pagination"-->
-<!--      background-->
-<!--      style="text-align: center"-->
-<!--      @current-change="handleCurrentChange"-->
-<!--      :current-page.sync="pageParam.pageNum"-->
-<!--      :page-size="pageParam.pageSize"-->
-<!--      :pager-count="5"-->
-<!--      layout="prev, pager, next"-->
-<!--      :total="total">-->
-<!--    </el-pagination>-->
+    <el-pagination
+      class="pagination"
+      background
+      style="text-align: center"
+      @current-change="handleCurrentChange"
+      :current-page.sync="pageParam.pageNum"
+      :page-size="pageParam.pageSize"
+      :pager-count="5"
+      layout="prev, pager, next"
+      :total="total">
+    </el-pagination>
   </div>
 </template>
 
@@ -116,17 +117,17 @@ export default {
     this.getData()
   },
   methods:{
-    // handleCurrentChange(val) {
-    //   console.log(val)
-    //   this.pageParam.pageNum = val
-    //   this.getData()
-    // },
+    handleCurrentChange(val) {
+      console.log(val)
+      this.pageParam.pageNum = val
+      this.getData()
+    },
     getData() {
       let coreUser = []
-      getCoreUserByWorkId({workId:this.workId}).then((res)=>{
+      getCoreUserByWorkId({workId:this.workId, pageNum:this.pageParam.pageNum, pageSize:this.pageParam.pageSize}).then((res)=>{
         if(res.code === '0'){
-           res.data.coreUserList.forEach(item => {
-             coreUser.push({avatar: item.avatar != null ? item.avatar : this.defaultImgUrl, nickname: item.nickName, platform: item.platformId, impactIndex: item.effectIndex.toFixed(2)})
+           res.data.coreUserDetails.records.forEach(item => {
+             coreUser.push({avatar: item.avatar != null ? item.avatar : this.defaultImgUrl, nickname: item.nickName, platform: item.platformName, impactIndex: item.effectIndex.toFixed(2)})
            })
           this.coreUserData = coreUser
           console.log(this.coreUserData)
@@ -140,5 +141,12 @@ export default {
 </script>
 
 <style scoped>
-
+/* 直接对第二列进行字体大小设置 */
+.el-table .el-table__body td:nth-child(2) {
+  font-size: 8px;
+}
+/* 直接对第三列进行字体大小设置 */
+.el-table .el-table__body td:nth-child(3) {
+  font-size: 8px;
+}
 </style>

@@ -22,7 +22,6 @@
 </template>
 
 <script>
-import {getSameCategoryByWorkId} from "../../../api/monitor_workAPI"
 import {getSameCategoryEffectScore} from "../../../api/WorkEffectScoreAPI";
 export default {
   name: "SameCategoryWorkCompareChart",
@@ -65,7 +64,7 @@ export default {
           this.config2.data = sameWorkArr
           this.config2 = {...this.config2}
         }else{
-         // alert("后台出现错误，请联系管理员")
+         alert("后台出现错误，请联系管理员")
         }
       })
     },

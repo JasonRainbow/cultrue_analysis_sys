@@ -120,8 +120,7 @@ import SameCategoryWorkCompareChart from "../../components/user/charts/SameCateg
 import CoreUserAnalysis from "../../components/user/common/CoreUserAnalysis";
 import {getMonitorWorkById} from "../../api/monitor_workAPI";
 import {workScoreByWorkId} from "../../api/WorkScoreAPI";
-import {findWorkEffectScore, getSameCategoryEffectScore, getWorkEffectScore} from "../../api/WorkEffectScoreAPI";
-import {getCoreUserByWorkId} from "../../api/userAPI";
+import {findWorkEffectScore} from "../../api/WorkEffectScoreAPI";
 
 export default {
   name: "WorkPortraitPage",
@@ -160,7 +159,6 @@ export default {
         if (res.code === "0") {
           this.work = res.data
           this.platform = res.data.platform
-          // this.rateScoreLevel(res.data.effectScore)
         }
       })
       // 获取作品评分(平均得分)
