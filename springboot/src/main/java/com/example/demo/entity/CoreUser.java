@@ -26,4 +26,6 @@ public class CoreUser {
     private String platformId;
     @ApiModelProperty(value = "主影响力指数")
     private double effectIndex;
+    @ApiModelProperty(value = "用户所在的平台")
+    private String platformName;
 }

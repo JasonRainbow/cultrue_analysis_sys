@@ -4,7 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.poi.excel.ExcelUtil;
 import cn.hutool.poi.excel.ExcelWriter;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -390,10 +390,7 @@ public class UserController extends BaseController {
     public Result getCoreUserByUserId(@RequestParam(required = true) Integer workId,
                                       @RequestParam(required = false, defaultValue = "1") Integer pageNum,
                                       @RequestParam(required = false, defaultValue = "5") Integer pageSize){
-        LambdaQueryWrapper<CoreUser> lambdaQueryWrapper = new LambdaQueryWrapper<>();
-        lambdaQueryWrapper.eq(CoreUser::getWorkId, workId)
-                .orderByDesc(CoreUser::getEffectIndex);
-        Page<CoreUser> result= coreUserMapper.selectPage(new Page<CoreUser>(pageNum, pageSize),lambdaQueryWrapper);
+        IPage<CoreUser> result= coreUserMapper.selectCoreUserByPage(new Page<CoreUser>(pageNum, pageSize),workId);
         Map<String,Object> map = new HashMap<>();
         map.put("workId", workId);
         map.put("coreUserDetails", result);
