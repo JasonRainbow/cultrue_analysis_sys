@@ -181,7 +181,7 @@
 
                   <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="4">
                     <a class="image" href="" target="_blank"><i style="font-size: 24px" class="iconfont icon-global-fill"></i></a>
-                    <p>&copy; 2023 ASLCCICE. All rights reserved.</p>
+                    <p>&copy; 2023 ICCLCWEPS. All rights reserved.</p>
 
                   </el-col>
 

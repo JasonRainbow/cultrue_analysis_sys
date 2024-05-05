@@ -38,11 +38,11 @@
       </div>
       <div class="icon-chart-sixEmotion" @click="changeChartType(3)">
         <i></i>
-        <div>细腻情感分布图</div>
+        <div>情感占比图</div>
       </div>
       <div class="icon-chart-threeEmotion" @click="changeChartType(4)">
         <i></i>
-        <div>极性情感趋势图</div>
+        <div>情感变化趋势图</div>
       </div>
       <div class="icon-chart-dataSource" @click="changeChartType(5)">
         <i></i>
