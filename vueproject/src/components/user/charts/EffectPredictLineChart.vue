@@ -176,10 +176,10 @@ export default {
   methods: {
     updateInfo(key1, key2) {
       this.option.series[0].data = this.prediction_data.map((item)=>{
-        return Math.round(item[key1]*10000) / 100
+        return item[key1] === null?null:Math.round(item[key1]*10000) / 100
       })
       this.option.series[1].data = this.prediction_data.map((item)=>{
-        return Math.round(item[key2]*10000) / 100
+        return item[key2] === null?null:Math.round(item[key2]*10000) / 100
       })
       this.option.xAxis[0].data = this.prediction_data.map((item)=>{
         return item["date"]
