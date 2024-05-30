@@ -132,6 +132,20 @@ public class SentimentAnalysisController {
         return Result.success(sentimentDto);
     }
 
+    // 按月统计不同情感倾向的评论数
+    @GetMapping("/countMonthly")
+    @ApiOperation(value = "统计不同情感倾向的评论数")
+    public Result countMonthly(@RequestParam Integer workId,
+                             @RequestParam(required = false, defaultValue = "") String country,
+                             @RequestParam(required = false, defaultValue = "") String selectMonth
+    ) {
+        SentimentDto sentimentDto = sentimentAnalysisMapper.selectSentimentByMonth(workId, country, selectMonth);
+        if (sentimentDto == null) {
+            sentimentDto = new SentimentDto();
+        }
+        return Result.success(sentimentDto);
+    }
+
     // 根据id删除指定情感分析结果
     @DeleteMapping("/delete/{ids}")
     @ApiOperation(value = "根据ID删除指定情感分析结果")

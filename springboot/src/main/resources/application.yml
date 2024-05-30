@@ -217,3 +217,4 @@ interceptorconfig:
       - /api/workEffectScore/getSameCategoryEffectScoreByWorkId
       - /api/user/getCoreUserByWorkId
       - /api/effect-prediction/findByWorkIdAndYear
+      - /api/sentiment/countMonthly

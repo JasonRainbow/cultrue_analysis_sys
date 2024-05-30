@@ -1,6 +1,8 @@
 <script>
 import {getCountries} from "../../../api/commentAPI";
 import {getMonthAnalysisResult} from "../../../api/polarityAPI";
+import {getMonthlySentiment} from "../../../api/sentimentAPI";
+
 
 export default {
   name: "pie",
@@ -98,9 +100,10 @@ export default {
       if (this.searchParams.country === "全球") {
         this.searchParams.country = ""
       }
-      getMonthAnalysisResult(this.searchParams).then((res) => {
+      getMonthlySentiment(this.searchParams).then((res) => {
         if (res.code === "0") {
           this.res_data = res.data
+          // console.log(res.data)
           // 基于准备好的dom，初始化echarts实例
           this.chart = this.$echarts.getInstanceByDom(document.getElementById("pieChat"))
           if (this.chart == null || this.chart === "" || this.chart === undefined) {
@@ -146,15 +149,15 @@ export default {
                   show: false
                 },
                 data: [
-                  /*{value: this.res_data.happy, name: '开心'},
+                  {value: this.res_data.happy, name: '开心'},
                   {value: this.res_data.amazed, name: '惊讶'},
                   {value: this.res_data.neutrality, name: '中立'},
                   {value: this.res_data.sad, name: '伤心'},
                   {value: this.res_data.angry, name: '愤怒'},
-                  {value: this.res_data.fear, name: '恐惧'}*/
-                  {value: this.res_data.positive, name: '积极'},
-                  {value: this.res_data.negative, name: '消极'},
-                  {value: this.res_data.neutrality, name: '中立'},
+                  {value: this.res_data.fear, name: '恐惧'}
+                  // {value: this.res_data.positive, name: '积极'},
+                  // {value: this.res_data.negative, name: '消极'},
+                  // {value: this.res_data.neutrality, name: '中立'},
                 ]
               }
             ]
