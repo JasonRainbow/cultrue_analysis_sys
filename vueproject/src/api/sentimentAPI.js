@@ -1,7 +1,9 @@
 import {req} from '../utils/request'
 
 // 细腻情感分析接口
-
+export const getMonthlySentiment = (params)=>{
+  return req("get", "/sentiment/countMonthly", params, null);
+}
 // 查询所有的情感分析结果
 export const getAllSentiment = ()=>{
   return req("get", "/sentiment/all", null, null);
