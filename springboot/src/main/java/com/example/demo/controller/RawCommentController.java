@@ -17,6 +17,7 @@ import com.example.demo.entity.vo.MonthCommentNum;
 import com.example.demo.mapper.MonitorWorkMapper;
 import com.example.demo.mapper.RawCommentMapper;
 import com.example.demo.service.CommentQueryService;
+import com.example.demo.utils.FanyiV3Util;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -60,8 +61,20 @@ public class RawCommentController {
     // 根据评论id查询评论信息
     @GetMapping("/id/{id}")
     @ApiOperation(value = "根据评论ID查询评论信息")
-    public Result findById(@PathVariable Long id) {
+    public Result findById(@PathVariable Long id) throws IOException {
         RawComment rawComment = rawCommentMapper.selectById(id);
+        if(rawComment.getOppositeTranslated() == null || rawComment.getOppositeTranslated().isEmpty()){
+            String trResult = null;
+            if(Objects.equals(rawComment.getLanguage(), "汉语")){
+                trResult = FanyiV3Util.getTranslationResult(rawComment.getContent() ,"auto", "en");
+            }else if(Objects.equals(rawComment.getLanguage(), "英语")) {
+                trResult = FanyiV3Util.getTranslationResult(rawComment.getContent() ,"auto", "zh-CHS");
+            }
+            rawComment.setOppositeTranslated(trResult);
+            LambdaQueryWrapper<RawComment> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+            lambdaQueryWrapper.eq(RawComment::getId, rawComment.getId());
+            rawCommentMapper.update(rawComment, lambdaQueryWrapper);
+        }
         if (rawComment != null) {
             rawComment.setMonitorWork(monitorWorkMapper.selectById(rawComment.getWorkId()));
         }
