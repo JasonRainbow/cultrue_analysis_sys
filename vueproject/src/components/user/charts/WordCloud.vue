@@ -224,9 +224,9 @@ export default {
         this.countryOptions = this.countryOptions.concat(res.data.map((item)=>{
           return {label: item, value: item}
         }))
-        if (this.countryOptions.length > 1) {
-          this.selectCountry = this.countryOptions[1].value;
-        }
+        // if (this.countryOptions.length > 1) {
+        //   this.selectCountry = this.countryOptions[1].value;
+        // }
       })
     },
     initWordCloud() {
