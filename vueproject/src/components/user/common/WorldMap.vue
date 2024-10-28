@@ -15,7 +15,7 @@
   </div>
 </template>
 <script>
-import worldJson from '../../../assets/map/world.json'
+import worldJson from '../../../assets/map/world_test.json'
 import {getCountryCommentsNumByWorkId} from "../../../api/commentAPI";
 export default {
   name: "WorldMap",
@@ -46,6 +46,13 @@ export default {
           cityName: "(大洋洲)澳大利亚",
           proportion: "5%",
           accountNum: "20",
+        },
+        {
+          name: "法属圭亚那",
+          value: 0,
+          cityName: "(南美洲)法属圭亚那",
+          proportion: "0",
+          accountNum: "0",
         },
         {
           name: "英国",
@@ -1574,14 +1581,14 @@ export default {
             "Liberia": "利比里亚",
             "Netherlands": "荷兰",
             "Jamaica": "牙买加",
-            "Solomon Is.": "所罗门群岛",
+            "Solomon Islands": "所罗门群岛",
             "Oman": "阿曼",
             "Tanzania": "坦桑尼亚",
             "Costa Rica": "哥斯达黎加",
             "Isle of Man": "曼岛",
             "Gabon": "加蓬",
             "Niue": "纽埃",
-            "Bahamas": "巴哈马",
+            "The Bahamas": "巴哈马",
             "New Zealand": "新西兰",
             "Yemen": "也门",
             "Jersey": "泽西岛",
@@ -1602,7 +1609,7 @@ export default {
             "Afghanistan": "阿富汗",
             "Bangladesh": "孟加拉国",
             "Mauritania": "毛里塔尼亚",
-            "Dem. Rep. Korea": "朝鲜",
+            "South Korea": "朝鲜",
             "Saint Lucia": "圣卢西亚",
             "Br. Indian Ocean Ter.": "英属印度洋领地",
             "Mongolia": "蒙古",
@@ -1618,7 +1625,7 @@ export default {
             "Malawi": "马拉维",
             "Benin": "贝宁",
             "St. Vin. and Gren.": "圣文森特和格林纳丁斯",
-            "Korea": "韩国",
+            "North Korea": "韩国",
             "Singapore": "新加坡",
             "Montenegro": "黑山共和国",
             "Cayman Is.": "开曼群岛",
@@ -1632,7 +1639,7 @@ export default {
             "Tonga": "汤加",
             "Finland": "芬兰",
             "Libya": "利比亚",
-            "Dominican Rep.": "多米尼加",
+            "Dominican Republic": "多米尼加",
             "Indonesia": "印度尼西亚",
             "Mauritius": "毛里求斯",
             "Eq. Guinea": "赤道几内亚",
@@ -1658,6 +1665,7 @@ export default {
             "Kuwait": "科威特",
             "Panama": "巴拿马",
             "Guyana": "圭亚那",
+            "French Guiana": "法属圭亚那",
             "Madagascar": "马达加斯加",
             "Luxembourg": "卢森堡",
             "American Samoa": "美属萨摩亚",
