@@ -104,7 +104,7 @@ public class EmailUtil {
     public boolean sendEmails(String code, Integer workId, String message) {
         boolean success = false;
         if ("0".equals(code)) {
-            List<User> emailList = userMapper.selectEmailsByWorkId(workId);
+            /*List<User> emailList = userMapper.selectEmailsByWorkId(workId);
             for (User user: emailList) {
                 if (StringUtils.isNotBlank(user.getEmail())) {
                     try {
@@ -114,7 +114,7 @@ public class EmailUtil {
                         System.out.println("发送邮件失败");
                     }
                 }
-            }
+            }*/
             success = true;
         }
         return success;

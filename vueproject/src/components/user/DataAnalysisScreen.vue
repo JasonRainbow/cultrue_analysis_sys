@@ -11,9 +11,10 @@
               <li :class='isActive === "情感地图" ? "nav_active":""' :style="{'margin-top':screenHeight * 0.01609 + 'px'}">
                 <i class="nav_2"></i>
                 <!--            情感地图-->
-                <router-link :to="{path: '/worldMap', query: {workId: workId, workName: getWorkName(workId)}}">
+<!--                <router-link :to="{path: '/worldMap', query: {workId: workId, workName: getWorkName(workId)}}">
                   <a :style="{'font-size':this.screenHeight * 0.01602+'px'}" href="javascript:void(0);" @click="selected($event)" style="color: #FFFFFF">情感地图</a>
-                </router-link>
+                </router-link>-->
+                <a :style="{'font-size':this.screenHeight * 0.01602+'px'}" href="javascript:void(0);" @click="selected($event)" style="color: #FFFFFF">情感地图</a>
               </li>
               <!--   carContrl.html     -->
               <li :class='isActive === "作品画像" ? "nav_active":""' :style="{'margin-top':screenHeight * 0.01609 + 'px'}">
