@@ -1,5 +1,5 @@
 <template>
-  <div style="width: 100%;height: 100%">
+  <div style="width: 100%;height: 100%;margin-left: 2%">
     <el-row align="center" justify="center" style="display: flex; justify-content: center;">
       <el-col :span="14" :xs="24" :md="23" align="center">
         <el-card class="box-card grid-content" shadow="always">
