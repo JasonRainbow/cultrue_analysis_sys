@@ -9,8 +9,8 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
-	<artifactId>springboot</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<artifactId>culture_analysis_sys_backend</artifactId>
+	<version>0.0.2-SNAPSHOT</version>
 	<name>springboot</name>
 	<description>中国语言文化传播效果分析系统</description>
 	<properties>

@@ -152,7 +152,7 @@ my:
 scrap_host: 127.0.0.1:5050
 remote_host1: 127.0.0.1:5050
 remote_host2: 127.0.0.1:5050
-remote_host3: 139.196.127.25:8055
+remote_host3: 8.148.26.99:8055
 
 # 都可以访问的接口
 interceptorconfig:
