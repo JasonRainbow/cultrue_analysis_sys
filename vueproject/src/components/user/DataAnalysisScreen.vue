@@ -365,6 +365,7 @@ export default {
               return {id: item.id, name: item.name, commentCnt: item.commentCnt}
             })
             this.workId = this.works[0].id // 默认选中第一个作品
+            this.getWorkOverallMessage()
           } else {
             // console.log(res.msg)
           }
@@ -407,7 +408,7 @@ export default {
   created () {
     this.getUser()
     this.getWorkData()
-    this.getWorkOverallMessage()
+    // this.getWorkOverallMessage()
   },
   beforeDestroy() {
     window.removeEventListener('resize',this.getScreenSize)

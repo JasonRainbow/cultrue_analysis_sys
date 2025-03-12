@@ -79,6 +79,7 @@ public class MonitorWorkServiceImpl implements MonitorWorkService {
                 .eq(HotWork::getIsHotWork,1)
                 .like(HotWork::getName, searchName)
                 .like(HotWork::getCategory, searchCategory)
+                .orderByDesc(HotWork::getEffectScore)
                 .orderByAsc(HotWork::getId);
         Page<HotWork> hotWorkPage = hotWorkMapper.selectPage(new Page<>(pageNum, pageSize), queryWrapper);
 

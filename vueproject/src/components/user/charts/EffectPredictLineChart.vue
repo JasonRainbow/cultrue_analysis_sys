@@ -46,7 +46,7 @@ export default {
           return time.getTime() > Date.now()
         }
       },
-      selectYear: '2023',
+      selectYear: '2025',
       myChart: {},
       selectMetric: "传播效果得分",
       metricOptions: [

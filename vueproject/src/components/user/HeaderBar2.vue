@@ -5,7 +5,7 @@
       <div style="margin-left: 250px">
         <div style="text-align: left">
           <span id="header-title">精华传播智库</span>
-          <span id="sub-title">————中国语言文化作品国际传播大数据智能评测系统</span>
+          <span id="sub-title">————语言文化作品国际传播大数据智能评测系统</span>
         </div>
 
         <div style="margin-bottom: 5px;font-family: Times New Roman, sans-serif; font-size: 18px; color: white; text-align: left">

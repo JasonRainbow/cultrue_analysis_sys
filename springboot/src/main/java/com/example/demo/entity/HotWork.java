@@ -62,4 +62,6 @@ public class HotWork {
 
     @TableField(exist = false)
     private Platform platform;
+
+    private Float effectScore;
 }
