@@ -96,11 +96,13 @@ import {getAllSubcategory} from "../../api/monitor_workAPI";
 import WorldMap from "../../components/user/common/WorldMap.vue";
 import {getCommentNumByWorkIdAndCountry} from "../../api/commentAPI";
 import {getWorkAndCommentNumByCategory} from "../../api/monitor_workAPI";
+import NationCommentNum from "../../components/user/common/NationCommentNum.vue";
 
 export default {
   name: "EffectPage",
   components: {
-      WorldMap
+      WorldMap,
+      NationCommentNum
   },
   data() {
     return {
@@ -348,7 +350,7 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
   height:100%;
-  margin-bottom: 50%;
+  margin-bottom: 60%;
   margin-right: 1%;
   background-color: red;
 }

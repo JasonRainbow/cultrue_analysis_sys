@@ -7,24 +7,22 @@
             <i class="el-icon-question"></i>
           </el-tooltip>
         </div>
-
     </div>
     <dv-capsule-chart :config="config2" class="capsule_item" style="font-size: 10px;margin-top: 10px" />
-    <el-pagination
-      background
-      style="text-align: center"
-      @current-change="handleCurrentChange"
-      :current-page.sync="pageParam.pageNum"
-      :page-size="pageParam.pageSize"
-      :pager-count="4"
-      layout="prev, pager, next"
-      :total="total">
-    </el-pagination>
+<!--    <el-pagination-->
+<!--      background-->
+<!--      style="text-align: center"-->
+<!--      @current-change="handleCurrentChange"-->
+<!--      :current-page.sync="pageParam.pageNum"-->
+<!--      :page-size="pageParam.pageSize"-->
+<!--      layout="prev, pager, next"-->
+<!--      :total="total">-->
+<!--    </el-pagination>-->
   </div>
 </template>
 
 <script>
-import {getSameCategoryByWorkId} from "../../../api/monitor_workAPI"
+import {getSameCategoryEffectScore} from "../../../api/WorkEffectScoreAPI";
 export default {
   name: "SameCategoryWorkCompareChart",
   props: {
@@ -38,7 +36,7 @@ export default {
       config2: {
         data: [],
         colors: ['#e062ae', '#fb7293', '#e690d1', '#32c5e9', '#96bfff'],
-        unit: '数量',
+        unit: '分数',
         showValue: true
       },
       pageParam: {
@@ -52,30 +50,24 @@ export default {
     this.getData()
   },
   methods: {
-    handleCurrentChange(val) {
-      this.pageParam.pageNum = val
-      this.getData()
-    },
+    // handleCurrentChange(val) {
+    //   this.pageParam.pageNum = val
+    //   this.getData()
+    // },
     getData() {
       let sameWorkArr = []
-      getSameCategoryByWorkId({
-        workId: this.workId,
-        pageNum: this.pageParam.pageNum,
-        pageSize: this.pageParam.pageSize
-      }).then((res) => {
-        if (res.code == "0") {
-          res.data.records.forEach(item => {
-            sameWorkArr.push({name: item.name, value: item.effectScore})
+      getSameCategoryEffectScore({workId:this.workId}).then((res)=>{
+        if(res.code === '0'){
+          res.data.WorkEffectScoreList.forEach(item => {
+            sameWorkArr.push({name: item.workName, value: item.effectScore.toFixed(2)})
           })
-          console.log(res.data.records)
-          this.pageParam.pageNum = res.data.current
-          this.pageParam.pageSize = res.data.size
-          this.total = res.data.total
           this.config2.data = sameWorkArr
           this.config2 = {...this.config2}
+        }else{
+         alert("后台出现错误，请联系管理员")
         }
       })
-    }
+    },
   }
 }
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <div style="margin: auto; margin-top: 85px; font-size: 27px; text-align: center">中国语言文化作品国际传播效果分析系统</div>
+    <div style="margin: auto; margin-top: 85px; font-size: 27px; text-align: center">语言文化作品国际传播大数据智能评测系统</div>
     <el-form :model="form" :rules="rules" label width=" 80px" class="login-box" status-icon style="background-color: #fff;border-radius: 10px;position: relative;top:15px; width: 38%" ref="loginForm">
       <h3 class="login-title">欢迎登录</h3>
       <el-form-item label="用户名" prop="username">

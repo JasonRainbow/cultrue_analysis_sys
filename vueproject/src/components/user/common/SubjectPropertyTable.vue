@@ -10,25 +10,29 @@
         align="center"
         prop="propertyWord"
         label="属性词"
-        width="100">
+        width="auto"
+        min-width="25%">
       </el-table-column>
       <el-table-column
         align="center"
         prop="opinionWord"
         label="观点词"
-        width="150">
+        width="auto"
+        min-width="25%">
       </el-table-column>
       <el-table-column
         align="center"
-        prop="sentimentTendency"
+        prop="sentiment"
         label="情感倾向"
-        width="100">
+        width="auto"
+        min-width="10%">
       </el-table-column>
         <el-table-column
           align="center"
-          prop="subjectCategory"
+          prop="subjects"
           label="所属类别"
-          width="100">
+          width="auto"
+          min-width="40%">
       </el-table-column>
     </el-table>
     <el-pagination
@@ -38,7 +42,6 @@
       @current-change="handleCurrentChange"
       :current-page.sync="pageParam.pageNum"
       :page-size="pageParam.pageSize"
-      :pager-count="5"
       layout="prev, pager, next"
       :total="total">
     </el-pagination>
@@ -46,23 +49,34 @@
 </template>
 
 <script>
+import {getCommentSubjectsByWorkId} from "../../../api/SubjectAnalysisAPI";
+
 export default {
   name: "SubjectPropertyTable",
+  props: {
+    workId: {
+      required: true,
+      type: Number
+    }
+  },
   data() {
     return {
       subjectTableData:[
         {propertyWord:'解说',
           opinionWord:['精彩','震撼'],
-          sentimentTendency:'积极',
-          subjectCategory: '翻译质量'
+          sentiment:'积极',
+          subjects: '翻译质量'
         }
       ],
       pageParam: {
         pageNum: 1,
-        pageSize: 10,
+        pageSize: 8,
       },
       total: 80,
     }
+  },
+  created() {
+    this.getData()
   },
   methods: {
     cellStyle ({ row, column, rowIndex, columnIndex }) {
@@ -76,8 +90,21 @@ export default {
       }
     },
     handleCurrentChange(val) {
+      console.log(val)
       this.pageParam.pageNum = val
+      this.getData()
     },
+    getData() {
+      getCommentSubjectsByWorkId({workId: this.workId,
+        pageNum: this.pageParam.pageNum,
+      pageSize: this.pageParam.pageSize}).then(res=>{
+        if (res.code === "0") {
+          this.subjectTableData = res.data.records
+          this.pageParam.pageNum = res.data.current
+          this.total = res.data.total
+        }
+      })
+    }
   }
 }
 </script>

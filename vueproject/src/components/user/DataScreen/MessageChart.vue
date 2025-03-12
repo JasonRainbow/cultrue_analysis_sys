@@ -42,7 +42,8 @@ export default{
         },
       },
       legend: {
-        bottom: '-4px',
+        top: '10px',
+        right: '10px',
         textStyle: {
           color: "darkturquoise",
           fontSize: this.divWidth * 0.029
@@ -54,7 +55,7 @@ export default{
         borderColor: 'deepskyblue',
         textStyle: {
           color: 'white', //设置文字颜色
-          fontSize: this.divWidth * 0.02,
+          fontSize: this.divWidth * 0.03,
         }
       },
       grid: {

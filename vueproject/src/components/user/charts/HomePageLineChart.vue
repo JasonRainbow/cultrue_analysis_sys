@@ -198,12 +198,12 @@ export default {
       ],
       selectCountry: '全球',
       // selectMonth: '2023-07',
-      selectYear: '2023',
+      selectYear: '2025',
       countryEmo2: {},
       queryPolarityParams: {
         workId: this.workId,
         country: "全球",
-        year: "2023",
+        year: "2025",
       },
     }
   },

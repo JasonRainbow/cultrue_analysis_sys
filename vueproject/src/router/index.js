@@ -61,6 +61,8 @@ import CommentDetailPage from "../views/user/CommentDetailPage.vue";
 import HighImpactComment from "../views/user/HighImpactComment.vue";
 import CommentDetail from "../components/user/common/CommentDetail.vue";
 import WorkPortraitPage from "../views/user/WorkPortraitPage";
+import WorkEffectPredict from "../views/user/WorkEffectPredict";
+import EffectPage1 from "../views/user/EffectPage1.vue";
 
 // 启用路由
 Vue.use(Router);
@@ -257,7 +259,7 @@ const router = new Router({
         {
           path: "/effect",
           name: "传播效果分析",
-          component: EffectPage,
+          component: EffectPage1,
           meta: {
             requireAuth: false
           },
@@ -380,6 +382,11 @@ const router = new Router({
       path: "/WorkPortraitPage",
       name: "作品画像",
       component: WorkPortraitPage,
+    },
+    {
+      path: "/WorkEffectPredict",
+      name: "作品预测",
+      component: WorkEffectPredict,
     },
     {
       path: "/HunanWorkEffect",

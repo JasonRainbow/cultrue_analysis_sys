@@ -14,7 +14,8 @@
     <span
       :style="{
       'margin-right': '4px',
-      'font-size': divWidth * 0.0280 + 'px'
+      'font-size': divWidth * 0.0280 + 'px',
+      'color': 'white'
     }" class="border-font">
       指标切换：
     </span>

@@ -1,7 +1,11 @@
 package com.example.demo.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.common.Result;
+import com.example.demo.entity.CommentSubject;
 import com.example.demo.entity.SubjectAnalysis;
+import com.example.demo.mapper.CommentSubjectMapper;
 import com.example.demo.mapper.SubjectAnalysisMapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -22,6 +26,9 @@ import java.util.Map;
 public class SubjectAnalysisController {
     @Autowired
     private SubjectAnalysisMapper subjectAnalysisMapper;
+
+    @Autowired
+    private CommentSubjectMapper commentSubjectMapper;
 
     @GetMapping("/polarityByWorkIdAndSubject")
     @ApiOperation(value = "查询作品的指定主题情感倾向")
@@ -51,5 +58,29 @@ public class SubjectAnalysisController {
     public Result getSubjects(@RequestParam Integer workId) {
         List<String> subjects = subjectAnalysisMapper.selectSubjectsByWorkId(workId);
         return Result.success(subjects);
+    }
+
+    @GetMapping("/getAllByWorkId")
+    @ApiOperation(value = "查询作品的评论主题分布")
+    public Result getAllByWorkId(@RequestParam Integer workId) {
+        List<String> subjects = subjectAnalysisMapper.selectSubjectsByWorkId(workId);
+        List<SubjectAnalysis> res = new ArrayList<>();
+
+        for (String subject: subjects) {
+            res.add(subjectAnalysisMapper.selectByWorkIdAndSubject(workId, subject));
+        }
+
+        return Result.success(res);
+    }
+
+    @GetMapping("/getCommentSubjectsByWorkId")
+    @ApiOperation(value = "查询作品的评论主题属性")
+    public Result getCommentSubjects(@RequestParam Integer workId,
+                                     @RequestParam(defaultValue = "1", required = false) Integer pageNum,
+                                     @RequestParam(defaultValue = "10", required = false) Integer pageSize) {
+        LambdaQueryWrapper<CommentSubject> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(CommentSubject::getWorkId, workId);
+
+        return Result.success(commentSubjectMapper.selectPage(new Page<>(pageNum, pageSize), queryWrapper));
     }
 }

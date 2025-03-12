@@ -7,7 +7,7 @@
             <img alt="" src="../../assets/img/bg1.jpg" class="image">
             <div style="padding: 14px;text-align: center">
               <div style="color: #67C23A; font-size: 1.6em">欢迎进入</div>
-              <div style="color: #409EFF; font-size: 1.5em">中国语言文化作品国际传播效果分析系统</div>
+              <div style="color: #409EFF; font-size: 1.4em">中国语言文化作品国际传播大数据智能评测系统</div>
               <div style="color: #F56C6C; font-size: 1.6em">后台管理系统</div>
               <div class="bottom clearfix">
                 <time class="time">{{ currentDate }}</time>
@@ -22,7 +22,7 @@
             <div style="padding: 14px;">
               <div style="color: #000000; font-weight: bold; font-size: large;margin-bottom: 20px">关于项目</div>
               <div style="color: #a0a3b4; font-size: small; margin-bottom: 15px">基于Vue2 + ElementUI + SpringBoot、爬虫技术、
-                情感分析的中国语言文化作品国际传播效果分析系统，如果喜欢就点个星星支持一下。</div>
+                情感分析的中国语言文化作品国际传播大数据智能评测系统，如果喜欢就点个星星支持一下。</div>
               <div style="cursor: pointer"><a href="https://github.com/HZXhuang/cultrue_analysis_sys" target="_blank"><i class="el-icon-star-off"></i></a></div>
             </div>
           </el-card>

@@ -57,7 +57,7 @@ public class DataAnalysisService {
         param.put("workId", workId.toString());
         new Thread(()->{
             try {
-                String res = httpUtils.get_https(address1 + "/words_freq_sta", param);
+                String res = httpUtils.get(address1 + "/words_freq_sta", param);
                 JsonParser jsonParser = JsonParserFactory.getJsonParser();
                 Map<String, Object> objectMap = jsonParser.parseMap(res);
                 String code = objectMap.get("code").toString(); // 返回响应码
@@ -81,7 +81,7 @@ public class DataAnalysisService {
         param.put("workId", workId.toString());
         new Thread(()->{
             try {
-                String res = httpUtils.get_https(address2 + "/analyze_polarity", param);
+                String res = httpUtils.get(address2 + "/analyze_polarity", param);
                 JsonParser jsonParser = JsonParserFactory.getJsonParser();
                 Map<String, Object> objectMap = jsonParser.parseMap(res);
                 String code = objectMap.get("code").toString(); // 返回响应码
@@ -105,7 +105,7 @@ public class DataAnalysisService {
         param.put("workId", workId.toString());
         new Thread(()->{
             try {
-                String res = httpUtils.get_https(address2 + "/analyze_sentiment", param);
+                String res = httpUtils.get(address2 + "/analyze_sentiment", param);
                 JsonParser jsonParser = JsonParserFactory.getJsonParser();
                 Map<String, Object> objectMap = jsonParser.parseMap(res);
                 String code = objectMap.get("code").toString(); // 返回响应码
@@ -144,7 +144,7 @@ public class DataAnalysisService {
         param.put("workId", workId.toString());
         new Thread(()->{
             try {
-                String res = httpUtils.get_https(address2 + "/subject_analysis", param);
+                String res = httpUtils.get(address2 + "/subject_analysis", param);
                 JsonParser jsonParser = JsonParserFactory.getJsonParser();
                 Map<String, Object> objectMap = jsonParser.parseMap(res);
                 String code = objectMap.get("code").toString(); // 返回响应码

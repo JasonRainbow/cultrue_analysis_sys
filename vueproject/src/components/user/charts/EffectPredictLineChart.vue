@@ -2,22 +2,35 @@
   <div style="text-align: center">
     <h2 style="font-weight: bold">传播效果预测</h2>
     <div style="margin-top: 15px; width: 100%;" >
+      <el-select v-model="selectMetric" class="custom-select" placeholder="请选择预测指标" @change="changeMetric">
+        <el-option
+          v-for="item in metricOptions"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value">
+        </el-option>
+      </el-select>
       <el-date-picker
         class="custom-select2"
         v-model="selectYear"
         type="year"
-        :clearable="false"
+        :clearable="true"
         value-format="yyyy"
         @change="this.getData"
         :picker-options="pickerOptions"
         placeholder="选择年">
       </el-date-picker>
     </div>
-    <div id="effectPredictChart" style="width:100%;height:350px;margin-top: 15px"></div>
+    <div class="chart-centerAlign">
+      <div id="effectPredictChart" style="width:800px;height:500px;margin-top: 15px"></div>
+    </div>
+
   </div>
 </template>
 
 <script>
+import {getEffectPredictionByWorkIdAndYear} from "../../../api/effectPredictAPI";
+
 export default {
   name: "EffectPredictLineChart",
   props: {
@@ -33,8 +46,27 @@ export default {
           return time.getTime() > Date.now()
         }
       },
-      selectYear: '2023',
+      selectYear: '2025',
       myChart: {},
+      selectMetric: "传播效果得分",
+      metricOptions: [
+        {
+          value: '传播效果得分',
+          label: '传播效果得分',
+        },
+        {
+          value: '积极情感占比',
+          label: '积极情感占比',
+        },
+        {
+          value: '消极情感占比',
+          label: '消极情感占比',
+        },
+        {
+          value: '中立情感占比',
+          label: '中立情感占比',
+        },
+      ],
       option: {
         tooltip: {
           trigger: 'axis',
@@ -64,7 +96,7 @@ export default {
             name: '月份',
             boundaryGap: false,
             axisLabel: {
-              interval: 0,
+              // interval: 2,
               fontWeight: "bold",
               fontSize: 14,
               fontFamily: 'Times New Roman',
@@ -100,7 +132,7 @@ export default {
             type: 'value',
             min: 0,
             max: 100,
-            name: '传播效果得分',
+            name: '指标值',
             nameTextStyle: {
               fontWeight: 600,
               fontSize: 15,
@@ -115,7 +147,7 @@ export default {
             emphasis: {
               focus: 'series'
             },
-            data: [30, 40, 35, 30, 50, 20, 15, 16, 30, 40, 35, 30]
+            data: [90.4, 88.1, 87.5, 78.9, 82.5, 84.3, 86.7, 86.5, 85.2, 83.3, 85.6, 86]
           },
           {
             name: '预测值',
@@ -123,21 +155,64 @@ export default {
             emphasis: {
               focus: 'series'
             },
-            data: [20, 15, 25, 14, 34, 25, 10, 7, 5, 25, 14, 34]
+            data: [89, 88.4, 86.2, 83.1, 80.3, 85.3, 87.5, 85.2, 84.9, 83, 84, 87],
+            lineStyle: {
+              type: "dashed"
+            }
           }
         ]
       },
+      prediction_data: {
+
+      }
     }
   },
   created() {
     this.getData()
   },
   mounted() {
-    this.initChart()
+    // this.initChart()
   },
   methods: {
+    updateInfo(key1, key2) {
+      this.option.series[0].data = this.prediction_data.map((item)=>{
+        return item[key1] === null?null:Math.round(item[key1]*10000) / 100
+      })
+      this.option.series[1].data = this.prediction_data.map((item)=>{
+        return item[key2] === null?null:Math.round(item[key2]*10000) / 100
+      })
+      this.option.xAxis[0].data = this.prediction_data.map((item)=>{
+        return item["date"]
+      })
+      this.initChart()
+    },
+    changeMetric() {
+      switch (this.selectMetric) {
+        case "传播效果得分": {
+          this.updateInfo("trueScore", "predScore")
+          break
+        }
+        case "积极情感占比": {
+          this.updateInfo("truePosProportion", "predPosProportion")
+          break
+        }
+        case "消极情感占比": {
+          this.updateInfo("trueNegProportion", "predNegProportion")
+          break
+        }
+        case "中立情感占比": {
+          this.updateInfo("trueNeuProportion", "predNeuProportion")
+          break
+        }
+      }
+    },
     getData() {
-
+      getEffectPredictionByWorkIdAndYear({workId: this.workId, year: this.selectYear}).then((res)=>{
+        if (res.code === "0") {
+          this.prediction_data = res.data
+          this.changeMetric()
+        }
+      })
     },
     initChart() {
       this.myChart = this.$echarts.init(document.getElementById('effectPredictChart'))
@@ -150,5 +225,8 @@ export default {
 
 <style scoped>
 @import "../../../assets/styles/mystyle.css";
-
+.chart-centerAlign {
+  display: flex;
+  justify-content: center;
+}
 </style>

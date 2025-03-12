@@ -25,6 +25,18 @@ public class RawComment {
     @ApiModelProperty(value = "主键")
     private Integer id; // 自增主键
 
+    @ApiModelProperty(value = "评论者")
+    private String reviewer;
+
+    @ApiModelProperty(value = "评论者个人主页URL")
+    private String homeUrl;
+
+    @ApiModelProperty(value = "评论者头像链接")
+    private String avatar;
+
+    @ApiModelProperty(value = "评论者粉丝数")
+    private Integer followers;
+
     @ApiModelProperty(value = "评论内容")
     private String content; // 评论的具体内容
 
@@ -58,5 +70,5 @@ public class RawComment {
     private Date postTime; // 评论发布的时间  精确到天
 
     @ApiModelProperty(value = "与原评论语言相反的语言(即中文翻译成英文,英文翻译成中文)")
-    private String oppositeTranslated; // 评论所属的平台
+    private String oppositeTranslated; // 与原评论语言相反的语言
 }

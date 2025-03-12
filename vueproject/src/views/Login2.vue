@@ -4,7 +4,7 @@
       <div :style="fixStyle" class="filter">
         <el-card class="box-card" shadow="hover">
           <div style="width: 400px; margin: 60px auto">
-            <div style="font-size: 30px; text-align: center; padding: 30px 0; color: #333">中国语言文化作品国际传播分析后台管理系统</div>
+            <div style="font-size: 30px; text-align: center; padding: 30px 0; color: #333">语言文化作品国际传播大数据智能评测系统</div>
             <el-form ref="form" :model="form" size="normal" :rules="rules">
               <el-form-item prop="username">
                 <el-input prefix-icon="el-icon-user-solid" v-model="form.username" placeholder="请输入账号"></el-input>

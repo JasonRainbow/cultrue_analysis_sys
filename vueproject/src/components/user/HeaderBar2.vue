@@ -2,21 +2,30 @@
   <div id="main">
     <div>
       <div class="dashboard" @click="gotoDashboard">Dashboard</div>
-      <div id="header-title">
-        中国语言文化作品国际传播效果智能评测系统<br>
-      </div>
-      <div style="margin-bottom: 5px;font-family: Times New Roman, sans-serif; font-size: 20px; color: white; text-align: center">
-        Intelligent Evaluation System for the International Communication Effect of Chinese Language and Culture Works
+      <div style="margin-left: 250px">
+        <div style="text-align: left">
+          <span id="header-title">精华传播智库</span>
+          <span id="sub-title">————语言文化作品国际传播大数据智能评测系统</span>
+        </div>
+
+        <div style="margin-bottom: 5px;font-family: Times New Roman, sans-serif; font-size: 18px; color: white; text-align: left">
+          Big Data Intelligent Evaluation and Prediction System for International Communication of Chinese Language and Culture Works
+        </div>
       </div>
     </div>
 
     <div id="show-login-div">
       <div id="user-info" v-if="loginFlag"> <!--显示登录用户-->
-        <el-avatar :size="45" icon="el-icon-user-solid" :src="avatar" id="inner-user-avatar"></el-avatar>
         <div id="inner-user-nick">{{ nickname }}</div>
+        <el-avatar style="float: right" :size="45" icon="el-icon-user-solid" :src="avatar" id="inner-user-avatar"></el-avatar>
       </div>
       <div v-else>  <!--未登录可前往登录-->
-        <router-link to="/login" style="color: #6dcdcd; font-weight: bold">前往登录>></router-link>
+        <div style="text-align: right; margin-bottom: 8px; margin-top: -4px; font-family: Times New Roman, sans-serif;">
+          <router-link to="/login" style="color: #6dcdcd; font-weight: bold">前往登录(Sign In)>></router-link>
+        </div>
+        <div style="text-align: right; font-family: Times New Roman, sans-serif;">
+          <router-link to="/register" style="color: #6dcdcd; font-weight: bold">前往注册(Sign Up)>></router-link>
+        </div>
       </div>
     </div>
     <div id="nav-tab" ref="navtab">
@@ -250,22 +259,32 @@ body {
 
 #header-title {
   /*height: 50px;*/
-  text-align: center;
+  text-align: left;
   padding-top: 10px;
   /*color: #C03639;
   font-size: 35px;
   font-family: 华文楷体;*/
   /*text-shadow: 1px 1px #ac0d2a;*/
   /*font-family: '华光淡古印_CNKI';*/
-  font-family: 华文琥珀;
   font-size:41px;
-  background-image: -webkit-linear-gradient(left, #ff0000, #e0c723 10%, #ff6a00 20%, #04dce3 30%, #CCCCFF 40%, #00FFFF 50%, #CCCCFF 60%, #CC00CC 70%, #CC00FF 80%, #66FFFF 90%, #ffff00 100%);
+  color: rgb(244, 161, 59);
+  font-family: "微软雅黑", sans-serif;
+  font-weight: bolder;
+  /*font-family: 华文琥珀;*/
+  /*background-image: -webkit-linear-gradient(left, #ff0000, #e0c723 10%, #ff6a00 20%, #04dce3 30%, #CCCCFF 40%, #00FFFF 50%, #CCCCFF 60%, #CC00CC 70%, #CC00FF 80%, #66FFFF 90%, #ffff00 100%);
   -webkit-text-fill-color: transparent;
-  /* 将字体设置成透明色 */
+  !* 将字体设置成透明色 *!
   -webkit-background-clip: text;
-  /* 裁剪背景图，使文字作为裁剪区域向外裁剪 */
+  !* 裁剪背景图，使文字作为裁剪区域向外裁剪 *!
   -webkit-background-size: 200% 100%;
-  -webkit-animation: masked-animation 4s linear infinite;
+  -webkit-animation: masked-animation 4s linear infinite;*/
+}
+
+#sub-title {
+  color: white;
+  font-size: 24px;
+  margin-left: 15px;
+  font-weight: bolder;
 }
 
 #show-login-div{
@@ -276,6 +295,9 @@ body {
   top: 25px;
   right: 40px;
 }
+#user-info {
+  text-align: right;
+}
 /*#inner-user-avatar{
   height: 50px;
   width:  50px;
@@ -283,7 +305,7 @@ body {
 }*/
 #inner-user-nick{
   height: 20px;
-  width: 140px;
+  //width: 140px;
   font-family: 华光中圆_CNKI;
   margin-top: 12px;
   margin-left: 10px;

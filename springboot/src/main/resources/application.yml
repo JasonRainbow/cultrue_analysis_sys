@@ -12,6 +12,7 @@ spring:
     username: root
     # 密码
     password: 123456
+#    password: song
     # 数据库连接池的类型
     type: com.alibaba.druid.pool.DruidDataSource
     hikari:
@@ -39,6 +40,8 @@ spring:
     port: 6379
     # redis密码
     password:
+#    password:
+
     # 数据库，默认是0
     database: 0
     # 超时时间
@@ -146,10 +149,10 @@ my:
       version: 0.1
       basePackage: com.example.demo.controller
 
-scrap_host: 426qb33844.goho.co
-remote_host1: 426qb33844.goho.co
-remote_host2: 426qb33844.goho.co
-remote_host3: 139.196.127.25:8055
+scrap_host: 127.0.0.1:5050
+remote_host1: 127.0.0.1:5050
+remote_host2: 127.0.0.1:5050
+remote_host3: 8.148.26.99:8055
 
 # 都可以访问的接口
 interceptorconfig:
@@ -208,3 +211,11 @@ interceptorconfig:
       - /api/comment/getCommentNumByPlatform
       - /api/comment/getCommentOverallMessage
       - /api/monitor-work/getSameCategoryWork
+      - /api/subject-analysis/getAllByWorkId
+      - /api/subject-analysis/getCommentSubjectsByWorkId
+      - /api/workEffectScore/findByWorkIdAndPlatform
+      - /api/workEffectScore/getByWorkId
+      - /api/workEffectScore/getSameCategoryEffectScoreByWorkId
+      - /api/user/getCoreUserByWorkId
+      - /api/effect-prediction/findByWorkIdAndYear
+      - /api/sentiment/countMonthly

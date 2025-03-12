@@ -224,9 +224,10 @@ export default {
         this.countryOptions = this.countryOptions.concat(res.data.map((item)=>{
           return {label: item, value: item}
         }))
-        if (this.countryOptions.length > 1) {
-          this.selectCountry = this.countryOptions[1].value;
-        }
+        // if (this.countryOptions.length > 1) {
+        //   this.selectCountry = this.countryOptions[1].value;
+        // }
+        this.getWordData()
       })
     },
     initWordCloud() {
@@ -273,7 +274,7 @@ export default {
       this.inputSize = "medium"
     }
     await this.getAllCountries()
-    this.getWordData()
+
     this.initWordCloud()
     this.handleResize = ()=>{
       this.divWidth = document.getElementById("main_div").clientWidth

@@ -21,7 +21,7 @@
                 inner join user us on (mr.userId = us.id)
             where us.username = 'root' or us.id = #{userId}
             )
-        order by id
+        order by effectScore desc,id asc
     </select>
 
     <select id="findWorkName" resultType="string">

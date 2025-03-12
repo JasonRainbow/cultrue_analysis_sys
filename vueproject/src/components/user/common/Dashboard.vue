@@ -23,7 +23,7 @@
         <div>{{stat.text}}</div>
       </div>
     </div>
-    <DataDistributeMap></DataDistributeMap>
+<!--    <DataDistributeMap></DataDistributeMap>-->
     <div>
       <el-row :gutter="20">
         <el-col :sm="24" :md="12" :span="12">

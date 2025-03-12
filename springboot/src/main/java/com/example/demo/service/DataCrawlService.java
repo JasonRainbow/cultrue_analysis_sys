@@ -38,7 +38,7 @@ public class DataCrawlService {
         // 开启一个线程用于发送请求
         new Thread(() -> {
             try {
-                String res = httpUtils.get_https(uri, param);
+                String res = httpUtils.get(uri, param);
                 JsonParser jsonParser = JsonParserFactory.getJsonParser();
                 Map<String, Object> objectMap = jsonParser.parseMap(res);
                 String code = objectMap.get("code").toString(); // 返回响应码
@@ -64,7 +64,7 @@ public class DataCrawlService {
         // 开启一个线程用于发送请求
         new Thread(() -> {
             try {
-                String res = httpUtils.get_https(uri, param);
+                String res = httpUtils.get(uri, param);
                 JsonParser jsonParser = JsonParserFactory.getJsonParser();
                 Map<String, Object> objectMap = jsonParser.parseMap(res);
                 String code = objectMap.get("code").toString(); // 返回响应码

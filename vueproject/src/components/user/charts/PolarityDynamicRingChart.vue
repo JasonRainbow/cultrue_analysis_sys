@@ -1,7 +1,10 @@
 <template>
   <div>
     <div style="text-align: center;width:300px;"><h2 style="font-weight: bold">极性情感占比</h2></div>
-    <dv-active-ring-chart  class="ring-item" :config="config2" style="width:300px;height:300px" />
+    <div class="ring-field">
+      <dv-active-ring-chart id="ring-chart" :config="config2" style="width:300px;height:300px" />
+    </div>
+
   </div>
 
 </template>
@@ -35,7 +38,6 @@ export default {
     }
   },
   created() {
-    console.log("workId: "+this.workId)
     this.getData()
   },
   methods: {
@@ -47,7 +49,7 @@ export default {
           this.dataObjectArr.push({name: '中立', value: res.data.neutrality})
           this.config2.data = this.dataObjectArr
           this.config2 = {...this.config2}
-          console.log(this.config2.data)
+          // console.log(this.config2.data)
         }
       })
     }
@@ -57,7 +59,12 @@ export default {
 </script>
 
 <style scoped>
-/deep/ .dv-active-ring-chart .active-ring-name { /*更改图表文字颜色*/
+.ring-field {
+  margin-top: 50px;
+}
+/deep/ .dv-active-ring-chart .active-ring-info {
+}
+/deep/ #ring-chart .active-ring-name { /*更改图表文字颜色*/
   color: #000;
   font-size: 18px;
   font-weight: bold;

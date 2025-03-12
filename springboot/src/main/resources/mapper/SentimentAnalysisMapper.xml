@@ -58,4 +58,22 @@
         </if>
         group by country
     </select>
+
+    <select id="selectSentimentByMonth" resultType="com.example.demo.entity.dto.SentimentDto">
+        select sum(happy) as happy, sum(amazed) as amazed, sum(neutrality) as neutrality,
+        sum(sad) as sad, sum(angry) as angry,
+        sum(fear) as fear
+        from sentiment_analy
+        where 1=1
+        <if test="selectMonth != null and selectMonth != ''">
+            and DATE_FORMAT(time, '%Y-%m') = #{selectMonth}
+        </if>
+        <if test="workId != null and workId != ''">
+            and workId = #{workId}
+        </if>
+        <if test="country != null and country != ''">
+            and country =  #{country}
+        </if>
+
+    </select>
 </mapper>
