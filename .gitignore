@@ -3,7 +3,6 @@ node_modules
 dist
 target
 project
-./files
 
 # local env files
 .env.local
@@ -24,7 +23,6 @@ pnpm-debug.log*
 *.sln
 *.sw?
 *.iml
-/files/
 
 .scannerwork
 /vueproject/.scannerwork/.sonar_lock
