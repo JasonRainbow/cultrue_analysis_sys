@@ -74,6 +74,28 @@
             </div>
           </el-scrollbar>
         </el-submenu>
+
+        <el-submenu index="1-3">
+          <template slot="title">
+            <i class="el-icon-location game"></i>
+            <span slot="title">游戏作品</span>
+          </template>
+          <el-scrollbar style="height:500px" id="el-scrollbar__wrap">
+            <div v-for="(value,key,index) in categoryAndWorks['游戏']" :key="index">
+              <el-menu-item-group>
+                <span slot="title">{{key}}<span style="color: #fb662f">{{' ('+value.length+')'}}</span></span>
+                <div  v-for="(item, index1) in value" :key="index1">
+                  <el-menu-item :index="item.id+'-'+item.name" >
+                    <div>
+                      <span>{{item.name}}</span>
+                      <span style="color: #7dbfff">{{'('+item.count+')'}}</span>
+                    </div>
+                  </el-menu-item>
+                </div>
+              </el-menu-item-group>
+            </div>
+          </el-scrollbar>
+        </el-submenu>
       </el-menu>
     </div>
     <div id="box_center" style="width:87%;float:right;margin-top:0px;height:100%;display: inline-block;" ref="parent">

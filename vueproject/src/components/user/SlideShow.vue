@@ -25,6 +25,10 @@ export default {
           path: require('../../assets/img/banner_img8.jpg')
         },
         {
+          id: 10,
+          path: require('../../assets/img/banner_img10.jpeg')
+        },
+        {
           id: 2,
           path: require('../../assets/img/banner_img9.jpg')
         },
